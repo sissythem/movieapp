@@ -7,4 +7,6 @@ public interface OnTheAirShowDao {
 	void updateOnTheAirShow(DataProviderHolder dataProviderHolder, OnTheAirShow onTheAirShow);
 	void deleteOnTheAirShow(DataProviderHolder dataProviderHolder, OnTheAirShow onTheAirShow);
 	OnTheAirShow findOnTheAirShowById(DataProviderHolder dataProviderHolder, Integer id);
+	OnTheAirShow findOnTheAirShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
+	OnTheAirShow findOnTheAirShowByMovieId(DataProviderHolder dataProviderHolder, Integer showId);
 }

@@ -1,12 +1,15 @@
 package com.gnt.movies.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Query;
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
 import com.gnt.movies.entities.ShowFavorite;
-
+import com.gnt.movies.utilities.Utils;
+@JpaDao
+@Dependent
+@Named("ShowFavoriteDaoImpl")
 public class ShowFavoriteDaoImpl extends AbstractDao implements ShowFavoriteDao {
 
 	@Override
@@ -26,29 +29,17 @@ public class ShowFavoriteDaoImpl extends AbstractDao implements ShowFavoriteDao 
 
 	@Override
 	public ShowFavorite findShowFavoriteById(DataProviderHolder dataProviderHolder, Integer id) {
-		ShowFavorite showFavorite = new ShowFavorite();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery("ShowFavorite.findById");
-		query.setParameter("id", id);
-		showFavorite = (ShowFavorite)query.getSingleResult();
-		return showFavorite;
+		return (ShowFavorite)getSingleResult(dataProviderHolder.getEntityManager(),Utils.SHOW_FAVORITE_FIND_BY_ID, id);
 	}
 	
 	@Override
-	public List<ShowFavorite> findByUserId(DataProviderHolder dataProviderHolder, Integer userId){
-		List<ShowFavorite> showFavorites = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery("ShowFavorite.findByUserId");
-		query.setParameter("userId", userId);
-		showFavorites = query.getResultList();
-		return showFavorites;
+	public List<Object> findByUserId(DataProviderHolder dataProviderHolder, Integer userId){
+		return (List<Object>)findListEntities(dataProviderHolder, "userId", userId.toString(), Utils.SHOW_FAVORITE_FIND_BY_USER_ID);
 	}
 	
 	@Override
-	public List<ShowFavorite> findByShowId(DataProviderHolder dataProviderHolder, Integer showId){
-		List<ShowFavorite> showFavorites = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery("ShowFavorite.findByShowId");
-		query.setParameter("showId", showId);
-		showFavorites = query.getResultList();
-		return showFavorites;
+	public List<Object> findByShowId(DataProviderHolder dataProviderHolder, Integer showId){
+		return (List<Object>)findListEntities(dataProviderHolder, "showId", showId.toString(), Utils.SHOW_FAVORITE_FIND_BY_SHOW_ID);
 	}
 
 }

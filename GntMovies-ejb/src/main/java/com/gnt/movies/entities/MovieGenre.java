@@ -13,8 +13,8 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name="MovieGenre.findAll", query="SELECT m FROM MovieGenre m"),
         @NamedQuery(name="MovieGenre.findById", query="SELECT m FROM MovieGenre m WHERE m.id = :id"),
-        @NamedQuery(name="MovieGenre.findByGenreId", query="SELECT m FROM MovieGenre m WHERE m.genre.id = :id"),
-        @NamedQuery(name="MovieGenre.findByMovieId", query="SELECT m FROM MovieGenre m WHERE m.movie.id = :id")
+        @NamedQuery(name="MovieGenre.findByGenreId", query="SELECT m FROM MovieGenre m WHERE m.genre.id = :genreId"),
+        @NamedQuery(name="MovieGenre.findByMovieId", query="SELECT m FROM MovieGenre m WHERE m.movie.id = :movieId")
 })
 
 public class MovieGenre implements Serializable {

@@ -14,7 +14,7 @@ import javax.persistence.*;
         @NamedQuery(name="UpcomingMovie.findAll", query="SELECT u FROM UpcomingMovie u"),
         @NamedQuery(name = "UpcomingMovie.findById", query = "SELECT u FROM UpcomingMovie u WHERE u.id = :id"),
         @NamedQuery(name = "UpcomingMovie.findByIdTmdb", query = "SELECT u FROM UpcomingMovie u WHERE u.idTmdb = :idTmdb"),
-        @NamedQuery(name="UpcomingMovie.findByMovieId", query = "SELECT u FROM UpcomingMovie u WHERE u.movie.id = :id")
+        @NamedQuery(name="UpcomingMovie.findByMovieId", query = "SELECT u FROM UpcomingMovie u WHERE u.movie.id = :movieId")
 })
 
 public class UpcomingMovie implements Serializable {

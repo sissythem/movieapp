@@ -1,5 +1,8 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gnt.movies.entities.UpcomingMovie;
 
 public interface UpcomingMovieDao {
@@ -9,4 +12,6 @@ public interface UpcomingMovieDao {
 	UpcomingMovie findUpcomingMovieById(DataProviderHolder dataProviderHolder, Integer id);
 	UpcomingMovie findByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
 	UpcomingMovie findByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
+	List<UpcomingMovie> findAll(DataProviderHolder dataProviderHolder);
+	ArrayList<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder);
 }

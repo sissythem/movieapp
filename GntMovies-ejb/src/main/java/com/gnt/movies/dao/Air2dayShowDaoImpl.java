@@ -1,7 +1,14 @@
 package com.gnt.movies.dao;
 
-import com.gnt.movies.entities.Air2dayShow;
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
+import com.gnt.movies.entities.Air2dayShow;
+import com.gnt.movies.utilities.Utils;
+
+@JpaDao
+@Dependent
+@Named("Air2dayShowDaoImpl")
 public class Air2dayShowDaoImpl extends AbstractDao implements Air2dayShowDao {
 
 	@Override
@@ -21,8 +28,17 @@ public class Air2dayShowDaoImpl extends AbstractDao implements Air2dayShowDao {
 
 	@Override
 	public Air2dayShow findAir2dayShowById(DataProviderHolder dataProviderHolder, Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (Air2dayShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.AIR2DAY_SHOW_FIND_BY_ID, id);
+	}
+
+	@Override
+	public Air2dayShow findByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
+		return (Air2dayShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.AIR2DAY_SHOW_FIND_BY_IDTMDB_ID, idTmdb);
+	}
+
+	@Override
+	public Air2dayShow findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
+		return (Air2dayShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.AIR2DAY_SHOW_FIND_BY_SHOW_ID, showId);
 	}
 
 }

@@ -15,7 +15,7 @@ import javax.persistence.*;
         @NamedQuery(name = "ShowReview.findById", query = "SELECT s FROM ShowReview s WHERE s.id = :id"),
         @NamedQuery(name = "ShowReview.findByRating", query = "SELECT s FROM ShowReview s WHERE s.rating = :rating"),
         @NamedQuery(name = "ShowReview.findByUserId", query = "SELECT s FROM ShowReview s WHERE s.user.id = :id"),
-        @NamedQuery(name = "ShowReview.findByShowId", query = "SELECT s FROM ShowReview s WHERE s.show.id = :id")
+        @NamedQuery(name = "ShowReview.findByShowId", query = "SELECT s FROM ShowReview s WHERE s.show.id = :showId")
 })
 public class ShowReview implements Serializable {
     private static final long serialVersionUID = 1L;

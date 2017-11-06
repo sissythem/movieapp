@@ -13,7 +13,8 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "NowPlayingMovie.findAll", query = "SELECT n FROM NowPlayingMovie n"),
         @NamedQuery(name = "NowPlayingMovie.findById", query = "SELECT n FROM NowPlayingMovie n WHERE n.id = :id"),
-        @NamedQuery(name = "NowPlayingMovie.findByIdTmdb", query = "SELECT n FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb")
+        @NamedQuery(name = "NowPlayingMovie.findByIdTmdb", query = "SELECT n FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb"),
+        @NamedQuery(name = "NowPlayingMovie.findByMovieId", query = "SELECT n FROM NowPlayingMovie n WHERE n.movie.id = :movieId")
 })
 public class NowPlayingMovie implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -24,7 +25,6 @@ public class NowPlayingMovie implements Serializable {
 
     private int idTmdb;
 
-    //bi-directional one-to-one association to Movie
     @OneToOne(mappedBy="nowPlayingMovie")
     private Movie movie;
 

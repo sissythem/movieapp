@@ -1,13 +1,16 @@
 package com.gnt.movies.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Query;
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
 import com.gnt.movies.entities.ShowGenre;
-import com.gnt.movies.entities.ShowReview;
+import com.gnt.movies.utilities.Utils;
 
+@JpaDao
+@Dependent
+@Named("ShowGenreDaoImpl")
 public class ShowGenreDaoImpl extends AbstractDao implements ShowGenreDao {
 
 	@Override
@@ -27,28 +30,17 @@ public class ShowGenreDaoImpl extends AbstractDao implements ShowGenreDao {
 
 	@Override
 	public ShowGenre findShowGenreById(DataProviderHolder dataProviderHolder, Integer id) {
-		ShowGenre showGenre = new ShowGenre();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery("ShowGenre.findById");
-		query.setParameter("id", id);
-		showGenre = (ShowGenre)query.getSingleResult();
-		return showGenre;
+		return (ShowGenre)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_GENRE_FIND_BY_ID, id);
 	}
 	
 	@Override
-	public List<ShowGenre> findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
-		List<ShowGenre> showGenres = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery("ShowGenre.findByShowId");
-		query.setParameter("showId", showId);
-		showGenres = query.getResultList();
-		return showGenres;
+	public List<Object> findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
+		return (List<Object>)findListEntities(dataProviderHolder, "showId", showId.toString(), Utils.SHOW_GENRE_FIND_BY_SHOW_ID);
 	}
+	
 	@Override
-	public List<ShowGenre> findByGenreId(DataProviderHolder dataProviderHolder, Integer genreId) {
-		List<ShowGenre> showGenres = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery("ShowGenre.findByGenreId");
-		query.setParameter("genreId", genreId);
-		showGenres = query.getResultList();
-		return showGenres;
+	public List<Object> findByGenreId(DataProviderHolder dataProviderHolder, Integer genreId) {
+		return (List<Object>)findListEntities(dataProviderHolder, "genreId", genreId.toString(), Utils.SHOW_GENRE_FIND_BY_GENRE_ID);
 	}
 
 }

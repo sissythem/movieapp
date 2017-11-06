@@ -7,4 +7,6 @@ public interface ShowDao {
 	void updateShow(DataProviderHolder dataProviderHolder, Show show);
 	void deleteShow(DataProviderHolder dataProviderHolder, Show show);
 	Show findShowById(DataProviderHolder dataProviderHolder, Integer id);
+	Show findShowByName(DataProviderHolder dataProviderHolder, String name);
+	Show findShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
 }

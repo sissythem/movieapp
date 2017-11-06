@@ -13,7 +13,9 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "MovieReview.findAll", query = "SELECT m FROM MovieReview m"),
         @NamedQuery(name = "MovieReview.findById", query = "SELECT m FROM MovieReview m WHERE m.id = :id"),
-        @NamedQuery(name = "MovieReview.findByRating", query = "SELECT m FROM MovieReview m WHERE m.rating = :rating")
+        @NamedQuery(name = "MovieReview.findByRating", query = "SELECT m FROM MovieReview m WHERE m.rating = :rating"),
+        @NamedQuery(name = "MovieReview.findByUserId", query = "SELECT m FROM MovieReview m WHERE m.user.id = :userId"),
+        @NamedQuery(name = "MovieReview.findByMovieId", query = "SELECT m FROM MovieReview m WHERE m.movie.id = :movieId")
 })
 public class MovieReview implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -27,12 +29,10 @@ public class MovieReview implements Serializable {
 
     private int rating;
 
-    //bi-directional many-to-one association to Movie
     @ManyToOne
     @JoinColumn(name="movieId")
     private Movie movie;
 
-    //bi-directional many-to-one association to User
     @ManyToOne
     @JoinColumn(name="userId")
     private User user;

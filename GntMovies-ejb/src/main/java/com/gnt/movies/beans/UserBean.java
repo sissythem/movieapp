@@ -12,7 +12,6 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.UserDao;
 import com.gnt.movies.entities.User;
 
-
 @Stateless
 @LocalBean
 public class UserBean implements DataProviderHolder {
@@ -30,13 +29,34 @@ public class UserBean implements DataProviderHolder {
     }
     
     public boolean registerUser(User user) {
-    	userDao.createUser(this, user);
-    	return true;
+    	if(userDao.findUserByUsername(this, user.getUsername()) == null || 
+    			userDao.findUserByEmail(this, user.getEmail()) == null)
+    	{
+    		try {
+    			userDao.createUser(this, user);
+        		return true;
+    		}catch(Exception e) {
+    			e.printStackTrace();
+    			return false;
+    		}
+    		
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
+    public boolean loginUser(String username, String password) {
+    	if(userDao.findUserByUsername(this, username)!=null && userDao.findUserByPassword(this, password) !=null) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
     }
 
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
 	}
-
 }

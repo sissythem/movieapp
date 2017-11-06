@@ -7,4 +7,5 @@ public interface GenreDao {
 	void updateGenre(DataProviderHolder dataProviderHolder, Genre genre);
 	void deleteGenre(DataProviderHolder dataProviderHolder, Genre genre);
 	Genre findGenreById(DataProviderHolder dataProviderHolder, Integer id);
+	Genre findGenreByName(DataProviderHolder dataProviderHolder, String name);
 }

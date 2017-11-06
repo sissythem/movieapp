@@ -22,7 +22,18 @@ public class ShowDaoImpl extends AbstractDao implements ShowDao {
 
 	@Override
 	public Show findShowById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (Show)Utils.findSingleEntity(dataProviderHolder, "id", id.toString(), Utils.SHOW_FIND_BY_ID);
+		return (Show)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_FIND_BY_ID, id);
 	}
+
+	@Override
+	public Show findShowByName(DataProviderHolder dataProviderHolder, String name) {
+		return (Show)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_FIND_BY_NAME, name);
+	}
+
+	@Override
+	public Show findShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
+		return (Show)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_FIND_BY_IDTMDB, idTmdb);
+	}
+	
 
 }

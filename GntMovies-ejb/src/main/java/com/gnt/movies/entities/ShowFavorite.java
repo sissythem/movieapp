@@ -13,8 +13,8 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "ShowFavorite.findAll", query = "SELECT s FROM ShowFavorite s"),
         @NamedQuery(name = "ShowFavorite.findById", query = "SELECT s FROM ShowFavorite s WHERE s.id = :id"),
-        @NamedQuery(name="ShowFavorite.findByUserId", query="SELECT s FROM ShowFavorite s WHERE s.user.id = :id"),
-        @NamedQuery(name="ShowFavorite.findByShowId", query="SELECT s FROM ShowFavorite s WHERE s.show.id = :id")
+        @NamedQuery(name="ShowFavorite.findByUserId", query="SELECT s FROM ShowFavorite s WHERE s.user.id = :userId"),
+        @NamedQuery(name="ShowFavorite.findByShowId", query="SELECT s FROM ShowFavorite s WHERE s.show.id = :showId")
 })
 public class ShowFavorite implements Serializable {
     private static final long serialVersionUID = 1L;

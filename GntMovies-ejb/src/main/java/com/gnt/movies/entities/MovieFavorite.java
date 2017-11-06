@@ -12,7 +12,9 @@ import javax.persistence.*;
 @Table(name="movie_favorites")
 @NamedQueries({
         @NamedQuery(name = "MovieFavorite.findAll", query = "SELECT m FROM MovieFavorite m"),
-        @NamedQuery(name = "MovieFavorite.findById", query = "SELECT m FROM MovieFavorite m WHERE m.id = :id")
+        @NamedQuery(name = "MovieFavorite.findById", query = "SELECT m FROM MovieFavorite m WHERE m.id = :id"),
+        @NamedQuery(name = "MovieFavorite.findByUserId", query = "SELECT m FROM MovieFavorite m WHERE m.user.id = :userId"),
+        @NamedQuery(name = "MovieFavorite.findByMovieId", query = "SELECT m FROM MovieFavorite m WHERE m.movie.id = :movieId")
 })
 public class MovieFavorite implements Serializable {
     private static final long serialVersionUID = 1L;

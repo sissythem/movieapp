@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.List;
+
 import com.gnt.movies.entities.User;
 
 public interface UserDao {
@@ -10,5 +12,6 @@ public interface UserDao {
 	User findUserByUsername(DataProviderHolder dataProviderHolder, String username);
 	User findUserByEmail(DataProviderHolder dataProviderHolder, String email);
 	User findUserByPassword(DataProviderHolder dataProviderHolder, String password);
+	List<Object> findByAge(DataProviderHolder dataProviderHolder, int age);
 }
 

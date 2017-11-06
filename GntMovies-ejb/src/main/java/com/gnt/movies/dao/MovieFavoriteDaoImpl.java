@@ -1,7 +1,16 @@
 package com.gnt.movies.dao;
 
-import com.gnt.movies.entities.MovieFavorite;
+import java.util.List;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
+
+import com.gnt.movies.entities.MovieFavorite;
+import com.gnt.movies.utilities.Utils;
+
+@JpaDao
+@Dependent
+@Named("MovieFavoriteDaoImpl")
 public class MovieFavoriteDaoImpl extends AbstractDao implements MovieFavoriteDao {
 
 	@Override
@@ -21,8 +30,17 @@ public class MovieFavoriteDaoImpl extends AbstractDao implements MovieFavoriteDa
 
 	@Override
 	public MovieFavorite findMovieFavoriteById(DataProviderHolder dataProviderHolder, Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (MovieFavorite)getSingleResult(dataProviderHolder.getEntityManager(), Utils.MOVIE_FAVORITE_FIND_BY_ID, id);
+	}
+
+	@Override
+	public List<Object> findMovieFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
+		return findListEntities(dataProviderHolder, "userId", userId.toString(), Utils.MOVIE_FAVORITE_FIND_BY_USER_ID);
+	}
+
+	@Override
+	public List<Object> findMovieFavoriteByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
+		return findListEntities(dataProviderHolder, "movieId", movieId.toString(), Utils.MOVIE_FAVORITE_FIND_BY_MOVIE_ID);
 	}
 
 }

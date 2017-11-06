@@ -13,8 +13,8 @@ import javax.persistence.*;
 @NamedQueries({
 	@NamedQuery(name="ShowGenre.findAll", query="SELECT s FROM ShowGenre s"),
 	@NamedQuery(name="ShowGenre.findById", query="SELECT s FROM ShowGenre s WHERE s.id = :id"),
-	@NamedQuery(name="ShowGenre.findByGenreId", query="SELECT s FROM ShowGenre s WHERE s.genre.id = :id"),
-	@NamedQuery(name="ShowGenre.findByShowId", query="SELECT s FROM ShowGenre s WHERE s.show.id = :id")
+	@NamedQuery(name="ShowGenre.findByGenreId", query="SELECT s FROM ShowGenre s WHERE s.genre.id = :genreId"),
+	@NamedQuery(name="ShowGenre.findByShowId", query="SELECT s FROM ShowGenre s WHERE s.show.id = :showId")
 })
 public class ShowGenre implements Serializable {
     private static final long serialVersionUID = 1L;

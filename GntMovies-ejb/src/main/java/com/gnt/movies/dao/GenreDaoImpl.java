@@ -1,7 +1,14 @@
 package com.gnt.movies.dao;
 
-import com.gnt.movies.entities.Genre;
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
+import com.gnt.movies.entities.Genre;
+import com.gnt.movies.utilities.Utils;
+
+@JpaDao
+@Dependent
+@Named("GenreDaoImpl")
 public class GenreDaoImpl extends AbstractDao implements GenreDao {
 
 	@Override
@@ -21,8 +28,12 @@ public class GenreDaoImpl extends AbstractDao implements GenreDao {
 
 	@Override
 	public Genre findGenreById(DataProviderHolder dataProviderHolder, Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (Genre)getSingleResult(dataProviderHolder.getEntityManager(), Utils.GENRE_FIND_BY_ID, id);
+	}
+
+	@Override
+	public Genre findGenreByName(DataProviderHolder dataProviderHolder, String name) {
+		return (Genre)getSingleResult(dataProviderHolder.getEntityManager(), Utils.GENRE_FIND_BY_NAME, name);
 	}
 
 }

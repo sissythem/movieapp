@@ -1,7 +1,14 @@
 package com.gnt.movies.dao;
 
-import com.gnt.movies.entities.OnTheAirShow;
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
+import com.gnt.movies.entities.OnTheAirShow;
+import com.gnt.movies.utilities.Utils;
+
+@JpaDao
+@Dependent
+@Named("OnTheAirShowDaoImpl")
 public class OnTheAirShowDaoImpl extends AbstractDao implements OnTheAirShowDao {
 
 	@Override
@@ -21,8 +28,17 @@ public class OnTheAirShowDaoImpl extends AbstractDao implements OnTheAirShowDao 
 
 	@Override
 	public OnTheAirShow findOnTheAirShowById(DataProviderHolder dataProviderHolder, Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return(OnTheAirShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_ID, id);
+	}
+
+	@Override
+	public OnTheAirShow findOnTheAirShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
+		return(OnTheAirShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_IDTMDB, idTmdb);
+	}
+
+	@Override
+	public OnTheAirShow findOnTheAirShowByMovieId(DataProviderHolder dataProviderHolder, Integer showId) {
+		return(OnTheAirShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_SHOW_ID, showId);
 	}
 
 }
