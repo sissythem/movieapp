@@ -2,7 +2,7 @@ package com.gnt.movies.theMovieDB;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UpcomingMovie {
+public class UpcomingMovieAPI {
 	 @SerializedName("vote_count")
 	 private int voteCount;
 	 private int id;
@@ -12,7 +12,7 @@ public class UpcomingMovie {
 	 private String poster_path;
 	 private String originalLanguage;
 	 private String originalTitle;
-	 private boolean adult;
+	 private byte adult;
 	 private String overview;
 	 private String releaseDate;
 	 
@@ -64,10 +64,10 @@ public class UpcomingMovie {
 	public void setOriginalTitle(String originalTitle) {
 		this.originalTitle = originalTitle;
 	}
-	public boolean isAdult() {
+	public byte isAdult() {
 		return adult;
 	}
-	public void setAdult(boolean adult) {
+	public void setAdult(byte adult) {
 		this.adult = adult;
 	}
 	public String getOverview() {

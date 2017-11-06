@@ -32,6 +32,9 @@ public class UpcomingMovie implements Serializable {
     public UpcomingMovie() {
     }
     
+    public UpcomingMovie(int idTmdb) {
+    	this.idTmdb=idTmdb;
+    }
     public UpcomingMovie(int idTmdb, Movie movie) {
     	this.idTmdb=idTmdb;
     	this.movie=movie;

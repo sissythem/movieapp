@@ -68,4 +68,8 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		}
 	}
 	
+	public UpcomingMovie findMovie(Integer id) {
+		return upcomingMovieDao.findUpcomingMovieById(this, id);
+	}
+	
 }

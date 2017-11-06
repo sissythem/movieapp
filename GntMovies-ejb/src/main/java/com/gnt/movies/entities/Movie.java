@@ -102,28 +102,15 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
-    public Movie(byte adult, double budget, String cast, String creator, String crew, String homepage, int idTmdb,
-			String imdbId, String originalLanguage, String originalTitle, String overview, String posterPath,
-			String productionCountries, LocalDate releaseDate, double revenue, int runtime, String status, String title,
-			double voteAverage, int voteCount) {
+    public Movie(byte adult, int idTmdb, String releaseDate, String originalLanguage, String originalTitle, String overview, String title, double voteAverage, 
+    		int voteCount) {
 		super();
 		this.adult = adult;
-		this.budget = budget;
-		this.cast = cast;
-		this.creator = creator;
-		this.crew = crew;
-		this.homepage = homepage;
 		this.idTmdb = idTmdb;
-		this.imdbId = imdbId;
 		this.originalLanguage = originalLanguage;
 		this.originalTitle = originalTitle;
 		this.overview = overview;
-		this.posterPath = posterPath;
-		this.productionCountries = productionCountries;
-		this.releaseDate = releaseDate;
-		this.revenue = revenue;
-		this.runtime = runtime;
-		this.status = status;
+		this.releaseDate = LocalDate.parse(releaseDate);
 		this.title = title;
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
