@@ -13,8 +13,10 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.UpcomingMovie;
+import com.gnt.movies.theMovieDB.CastCrewResultsAPI;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.NewShowsAPI;
+import com.gnt.movies.theMovieDB.ShowResultsAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieResultsAPI;
 import com.gnt.movies.utilities.APIClient;
@@ -52,6 +54,8 @@ public class SchedulerBean implements DataProviderHolder {
 	public EntityManager getEntityManager() {
 		return em;
 	}
+    
+    //TODO set timer
     
     public void checkUpcomingMoviesToBeStored() {
     	ArrayList<UpcomingNowPlayingMovieAPI> upcomingMoviesAPI = getUpcomingMoviesFromAPI();
@@ -120,25 +124,51 @@ public class SchedulerBean implements DataProviderHolder {
     
     public ArrayList<UpcomingNowPlayingMovieAPI> getNowPlayingMoviesFromAPI(){
     	ArrayList<UpcomingNowPlayingMovieAPI> newNowPlayingMovies = new ArrayList<>();
-    	//TODO get results and set timer
+    	String nowPlayingMoviesURL = Utils.NOW_PLAYING_MOVIES_URL + Utils.API_KEY + Utils.LANGUAGE_FOR_URL + Utils.NUMBER_PAGE_FOR_URL +"1";
+    	String json = APIClient.getResultFromTMDB(nowPlayingMoviesURL);
+    	UpcomingNowPlayingMovieResultsAPI resultNowPlaying = new Gson().fromJson(json, UpcomingNowPlayingMovieResultsAPI.class);
+    	newNowPlayingMovies.addAll(resultNowPlaying.getResults());
+    	int pages = resultNowPlaying.getTotalPages();
+    	for(int i=2; i<=pages;i++) {
+    		nowPlayingMoviesURL = Utils.NOW_PLAYING_MOVIES_URL + Utils.API_KEY + Utils.LANGUAGE_FOR_URL + Utils.NUMBER_PAGE_FOR_URL + Integer.toString(i);
+    		json = APIClient.getResultFromTMDB(nowPlayingMoviesURL);
+    		resultNowPlaying = new Gson().fromJson(json, UpcomingNowPlayingMovieResultsAPI.class);
+    		newNowPlayingMovies.addAll(resultNowPlaying.getResults());
+    	}
     	return newNowPlayingMovies;
     }
     
     public ArrayList<NewShowsAPI> getAir2dayShowsFromAPI(){
     	ArrayList<NewShowsAPI> air2dayShows = new ArrayList<>();
-    	//TODO get results and set timer
+    	//TODO get results
     	return air2dayShows;
     }
     
     public ArrayList<NewShowsAPI> getOnTheAirShowsFromAPI(){
     	ArrayList<NewShowsAPI> onTheAirShows = new ArrayList<>();
-    	//TODO get results and set timer
+    	String onTheAirShowsURL = Utils.ON_THE_AIR_SHOWS_URL + Utils.API_KEY + Utils.LANGUAGE_FOR_URL + Utils.NUMBER_PAGE_FOR_URL + "1";
+    	String json = APIClient.getResultFromTMDB(onTheAirShowsURL);
+    	ShowResultsAPI showResultsAPI = new Gson().fromJson(json, ShowResultsAPI.class);
+    	onTheAirShows.addAll(showResultsAPI.getResults());
+    	int pages = showResultsAPI.getTotalPages();
+    	for(int i=2; i<=pages;i++) {
+    		onTheAirShowsURL = Utils.ON_THE_AIR_SHOWS_URL + Utils.API_KEY + Utils.LANGUAGE_FOR_URL + Utils.NUMBER_PAGE_FOR_URL + Integer.toString(i);
+    		json = APIClient.getResultFromTMDB(onTheAirShowsURL);
+    		showResultsAPI = new Gson().fromJson(json, ShowResultsAPI.class);
+    		onTheAirShows.addAll(showResultsAPI.getResults());
+    	}
     	return onTheAirShows;
     }
     
     public MovieDetailsAPI getMovieDetailsFromAPI(int id) {
-    	MovieDetailsAPI movieDetails = new MovieDetailsAPI();
-    	//TODO call from API movie details and crew/cast
+    	String movieDetailsURL = Utils.GENERAL_MOVIE_URL + Integer.toString(id) + Utils.API_KEY;
+    	String json = APIClient.getResultFromTMDB(movieDetailsURL);
+    	MovieDetailsAPI movieDetails = new Gson().fromJson(json, MovieDetailsAPI.class);
+    	String castCrewURL = Utils.GENERAL_MOVIE_URL + Integer.toString(id) + Utils.CREW_CAST_MOVIES_URL + Utils.API_KEY;
+    	json = APIClient.getResultFromTMDB(castCrewURL);
+    	CastCrewResultsAPI castCrewResults = new Gson().fromJson(json, CastCrewResultsAPI.class);
+    	movieDetails.setCast(castCrewResults.getCastResults());
+    	movieDetails.setCrew(castCrewResults.getCrewResults());
     	return movieDetails;
     }
     

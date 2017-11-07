@@ -14,7 +14,6 @@ public class Air2dayShowBean {
      * Default constructor. 
      */
     public Air2dayShowBean() {
-        // TODO Auto-generated constructor stub
     }
 
 }
