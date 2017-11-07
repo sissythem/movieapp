@@ -9,6 +9,6 @@ public interface MovieGenreDao {
 	void updateMovieGenre(DataProviderHolder dataProviderHolder, MovieGenre movieGenre);
 	void deleteMovieGenre(DataProviderHolder dataProviderHolder, MovieGenre movieGenre);
 	MovieGenre findMovieGenreById(DataProviderHolder dataProviderHolder, Integer id);
-	List<Object>findMovieGenreByGenreId(DataProviderHolder dataProviderHolder, Integer genreId);
-	List<Object>findMovieGenreByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
+	List<MovieGenre>findMovieGenreByGenreId(DataProviderHolder dataProviderHolder, Integer genreId);
+	List<MovieGenre>findMovieGenreByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
 }

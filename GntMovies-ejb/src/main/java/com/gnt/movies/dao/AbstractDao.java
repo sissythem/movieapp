@@ -1,7 +1,5 @@
 package com.gnt.movies.dao;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -25,18 +23,11 @@ public abstract class AbstractDao {
 		em.remove(object);		
 	}
 	
-//	public static Object findSingleEntity(DataProviderHolder dataProviderHolder, String param, String valueParam, String namedQuery) {
-//		Query query = dataProviderHolder.getEntityManager().createNamedQuery(namedQuery);
-//		query.setParameter(param, valueParam);
-//		return query.getSingleResult(); 
-//	}
-//	
-	public List<Object> findListEntities(DataProviderHolder dataProviderHolder, String param, String valueParam, String namedQuery){
+	public static Object findSingleEntity(DataProviderHolder dataProviderHolder, String param, String valueParam, String namedQuery) {
 		Query query = dataProviderHolder.getEntityManager().createNamedQuery(namedQuery);
 		query.setParameter(param, valueParam);
-		return query.getResultList();
+		return query.getSingleResult(); 
 	}
-	
 	
 //	public DbEntity createEntityAndReturn(EntityManager em, DbEntity dbEntity) {
 //		em.persist(dbEntity);
