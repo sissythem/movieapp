@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
-import com.gnt.movies.theMovieDB.UpcomingMovieAPI;
+import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 
 
 @Stateless
@@ -45,8 +45,8 @@ public class SchedulerBean implements DataProviderHolder {
 	}
     
     public void checkUpcomingMoviesToBeStored() {
-    	ArrayList<UpcomingMovieAPI> upcomingMovies = getUpcomingMoviesFromAPI();
-    	for(UpcomingMovieAPI upcomingMovie : upcomingMovies) {
+    	ArrayList<UpcomingNowPlayingMovieAPI> upcomingMovies = getUpcomingMoviesFromAPI();
+    	for(UpcomingNowPlayingMovieAPI upcomingMovie : upcomingMovies) {
     		UpcomingMovie existingMovie = upcomingMovieBean.findMovie(upcomingMovie.getId());
     		if(existingMovie == null) {
     			existingMovie = upcomingMoviesAPIBean.createUpcomingMovieFromAPI(upcomingMovie);
@@ -56,8 +56,8 @@ public class SchedulerBean implements DataProviderHolder {
     	}
     }
     
-    public ArrayList<UpcomingMovieAPI> getUpcomingMoviesFromAPI(){
-    	ArrayList<UpcomingMovieAPI> newUpcomingMovies = new ArrayList<>();
+    public ArrayList<UpcomingNowPlayingMovieAPI> getUpcomingMoviesFromAPI(){
+    	ArrayList<UpcomingNowPlayingMovieAPI> newUpcomingMovies = new ArrayList<>();
     	//TODO get results and set timer
     	return newUpcomingMovies;
     }

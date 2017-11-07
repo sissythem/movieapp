@@ -2,7 +2,7 @@ package com.gnt.movies.theMovieDB;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UpcomingMovieAPI {
+public class UpcomingNowPlayingMovieAPI {
 	 @SerializedName("vote_count")
 	 private int voteCount;
 	 @SerializedName("id")

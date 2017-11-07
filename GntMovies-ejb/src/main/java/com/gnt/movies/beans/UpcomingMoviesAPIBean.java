@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
-import com.gnt.movies.theMovieDB.UpcomingMovieAPI;
+import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 
 /**
  * Session Bean implementation class UpcomingMoviesAPIBean
@@ -20,7 +20,7 @@ public class UpcomingMoviesAPIBean {
         
     }
 
-    public Movie createMovieFromAPI(UpcomingMovieAPI upcomingMovie) 
+    public Movie createMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) 
     {
     	byte adult;
     	//TODO when true adult=1 or 0???
@@ -32,7 +32,7 @@ public class UpcomingMoviesAPIBean {
 				upcomingMovie.getOverview(), upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount());
 	}
 
-    public UpcomingMovie createUpcomingMovieFromAPI(UpcomingMovieAPI upcomingMovie) {
+    public UpcomingMovie createUpcomingMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) {
     	return new UpcomingMovie(upcomingMovie.getId());
 	}
 }
