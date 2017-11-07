@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,6 +16,10 @@ import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.NewShowsAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
+import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieResultsAPI;
+import com.gnt.movies.utilities.APIClient;
+import com.gnt.movies.utilities.Utils;
+import com.google.gson.Gson;
 
 
 @Stateless
@@ -88,7 +93,28 @@ public class SchedulerBean implements DataProviderHolder {
     /** Get new Movies and Shows from API **/
     public ArrayList<UpcomingNowPlayingMovieAPI> getUpcomingMoviesFromAPI(){
     	ArrayList<UpcomingNowPlayingMovieAPI> newUpcomingMovies = new ArrayList<>();
-    	//TODO get results and set timer
+    	
+    	StringBuilder url = new StringBuilder(Utils.UPCOMING_MOVIES_URL)
+    			.append(Utils.API_KEY)
+    			.append(Utils.LANGUAGE_FOR_URL)
+    			.append(Utils.NUMBER_PAGE_FOR_URL)
+    			.append("1");
+    	
+    	String result = APIClient.getResultFromTMDB(url.toString());
+    	
+    	UpcomingNowPlayingMovieResultsAPI upcomingNowPlayingMovieResultsApi = new Gson().fromJson(result, UpcomingNowPlayingMovieResultsAPI.class);
+    	
+    	newUpcomingMovies.addAll(upcomingNowPlayingMovieResultsApi.getResults());
+    	
+    	for (int page = 2; page <= upcomingNowPlayingMovieResultsApi.getTotalPages(); page++) {
+    			url.replace(url.length()-1, url.length(), Integer.toString(page));
+    			
+    			result = APIClient.getResultFromTMDB(url.toString());
+    			upcomingNowPlayingMovieResultsApi = new Gson().fromJson(result, UpcomingNowPlayingMovieResultsAPI.class);
+    			
+    			newUpcomingMovies.addAll(upcomingNowPlayingMovieResultsApi.getResults());
+    	}
+    	
     	return newUpcomingMovies;
     }
     

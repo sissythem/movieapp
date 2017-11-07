@@ -59,4 +59,8 @@ public class UserBean implements DataProviderHolder {
 	public EntityManager getEntityManager() {
 		return em;
 	}
+
+	public User findUserByUsername(String username) {
+		return (User)userDao.findUserByUsername(this, username);
+	}
 }

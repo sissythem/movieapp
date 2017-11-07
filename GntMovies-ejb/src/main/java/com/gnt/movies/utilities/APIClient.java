@@ -8,7 +8,7 @@ import okhttp3.Response;
 
 public class APIClient {
 
-	public String getResultFromTMDB(String url) 
+	public static String getResultFromTMDB(String url) 
 	{
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder()
