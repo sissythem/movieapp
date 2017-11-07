@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
+import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.NewShowsAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 
@@ -51,9 +52,15 @@ public class SchedulerBean implements DataProviderHolder {
     		if(upcomingMovieBean.findMovie(upcomingMovieAPI.getId()) == null) {
     			UpcomingMovie newUpcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(upcomingMovieAPI);
     			Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
+    			updateMovieWithDetailsFromAPI(newMovie);
     			upcomingMovieBean.addUpcomingMovie(newMovie, newUpcomingMovie);
     		}
     	}
+    }
+    
+    public void updateMovieWithDetailsFromAPI(Movie movie) {
+    	MovieDetailsAPI movieDetails = getMovieDetailsFromAPI(movie.getIdTmdb());
+    	movieBean.updateMovieWithDetails(movie, movieDetails);
     }
     
     /** Get new Movies and Shows from API **/
@@ -80,4 +87,11 @@ public class SchedulerBean implements DataProviderHolder {
     	//TODO get results and set timer
     	return onTheAirShows;
     }
+    
+    public MovieDetailsAPI getMovieDetailsFromAPI(int id) {
+    	MovieDetailsAPI movieDetails = new MovieDetailsAPI();
+    	//TODO call from API movie details and crew/cast
+    	return movieDetails;
+    }
+    
 }

@@ -11,6 +11,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.MovieDao;
 import com.gnt.movies.entities.Movie;
+import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 
 @Stateless
@@ -46,7 +47,22 @@ public class MovieBean implements DataProviderHolder{
 				upcomingMovie.getOverview(), upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount());
 	}
 	
+	public void updateMovieWithDetails(Movie movie, MovieDetailsAPI movieDetails) {
+		movie.setBudget(movieDetails.getBudget());
+		movie.setHomepage(movieDetails.getHomepage());
+		movie.setProductionCountries(movieDetails.getProductionCountriesAPI().toString());
+		movie.setRevenue(movieDetails.getRevenue());
+		movie.setRuntime(movieDetails.getRuntime());
+		movie.setStatus(movieDetails.getStatus());
+		movie.setTitle(movieDetails.getTitle());
+		movie.setImdbId(movieDetails.getImdbId());
+	}
+	
 	public void addMovie(Movie movie) {
 		movieDao.createMovie(this, movie);
+	}
+	
+	public void updateMovieInDataBase(Movie movie) {
+		movieDao.updateMovie(this, movie);
 	}
 }

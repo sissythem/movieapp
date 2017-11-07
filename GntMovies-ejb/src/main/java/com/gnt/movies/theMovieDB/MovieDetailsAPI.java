@@ -9,7 +9,7 @@ public class MovieDetailsAPI {
 	@SerializedName("adult")
 	private boolean adult;
 	@SerializedName("budget")
-	private String budget;
+	private double budget;
 	@SerializedName("genres")
 	private ArrayList<GenresAPI> genresAPI;
 	@SerializedName("homepage")
@@ -44,6 +44,9 @@ public class MovieDetailsAPI {
 	private double voteAverage;
 	@SerializedName("vote_count")
 	private int voteCount;
+	
+	private ArrayList<CastCrewAPI> cast;
+	private ArrayList<CastCrewAPI> crew;
 
 	public boolean getAdult() {
 		return adult;
@@ -53,11 +56,11 @@ public class MovieDetailsAPI {
 		this.adult = adult;
 	}
 
-	public String getBudget() {
+	public double getBudget() {
 		return budget;
 	}
 
-	public void setBudget(String budget) {
+	public void setBudget(double budget) {
 		this.budget = budget;
 	}
 
@@ -197,4 +200,27 @@ public class MovieDetailsAPI {
 		this.voteCount = voteCount;
 	}
 
+	public ArrayList<GenresAPI> getGenresAPI() {
+		return genresAPI;
+	}
+
+	public void setGenresAPI(ArrayList<GenresAPI> genresAPI) {
+		this.genresAPI = genresAPI;
+	}
+
+	public ArrayList<CastCrewAPI> getCast() {
+		return cast;
+	}
+
+	public void setCast(ArrayList<CastCrewAPI> cast) {
+		this.cast = cast;
+	}
+
+	public ArrayList<CastCrewAPI> getCrew() {
+		return crew;
+	}
+
+	public void setCrew(ArrayList<CastCrewAPI> crew) {
+		this.crew = crew;
+	}
 }

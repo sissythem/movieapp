@@ -8,8 +8,10 @@ public class Utils
 	
 	/** URL example for getting movie details: https://api.themoviedb.org/3/movie/120?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US **/
 	/** URL example for getting show details: https://api.themoviedb.org/3/movie/120?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US **/
+	/** URL example for getting cast and crew for movies: https://api.themoviedb.org/3/movie/120/credits?api_key=eaf5fc7d22157774a158a75a3ed6fe9c **/
 	public static String GENERAL_MOVIE_URL = "https://api.themoviedb.org/3/movie/";
 	public static String GENERAL_SHOW_URL = "https://api.themoviedb.org/3/tv/";
+	
 	/** URL example for upcoming movies: https://api.themoviedb.org/3/movie/upcoming?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US&page=1**/
 	public static String UPCOMING_MOVIES_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
 	/** URL example for now playing movies: https://api.themoviedb.org/3/movie/now_playing?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US&page=1**/
