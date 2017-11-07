@@ -5,7 +5,22 @@ public class Utils
 	public static String API_KEY = "eaf5fc7d22157774a158a75a3ed6fe9c";
 	
 	/** URLs for TheMovieDB**/
-	public static String UPCOMING_MOVIES_URL = "https://api.themoviedb.org/3/movie/upcoming?page=1&language=en-US&api_key=";
+	
+	/** URL example for getting movie details: https://api.themoviedb.org/3/movie/120?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US **/
+	/** URL example for getting show details: https://api.themoviedb.org/3/movie/120?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US **/
+	public static String GENERAL_MOVIE_URL = "https://api.themoviedb.org/3/movie/";
+	public static String GENERAL_SHOW_URL = "https://api.themoviedb.org/3/tv/";
+	/** URL example for upcoming movies: https://api.themoviedb.org/3/movie/upcoming?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US&page=1**/
+	public static String UPCOMING_MOVIES_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
+	/** URL example for now playing movies: https://api.themoviedb.org/3/movie/now_playing?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US&page=1**/
+	public static String NOW_PLAYING_MOVIES_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
+	/** URL example for air2day shows: https://api.themoviedb.org/3/tv/airing_today?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US&page=1**/
+	public static String AIR2DAY_SHOWS_URL = "https://api.themoviedb.org/3/tv/airing_today?api_key=";
+	/** URL example for on the air shows: https://api.themoviedb.org/3/tv/airing_today?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US&page=1**/
+	public static String ON_THE_AIR_SHOWS_URL = "https://api.themoviedb.org/3/tv/on_the_air?api_key=";
+	
+	public static String LANGUAGE_FOR_URL = "&language=en-US1";
+	public static String NUMBER_PAGE_FOR_URL = "&page=";
 	
 	/** User named queries**/
 	public static String USER_FIND_BY_ID = "User.findById";
