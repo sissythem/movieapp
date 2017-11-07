@@ -24,6 +24,7 @@ public class NewShowsAPI {
     private double voteAverage;
 	@SerializedName("overview")
     private String overview;
+	
 	public String getOriginalName() {
 		return originalName;
 	}

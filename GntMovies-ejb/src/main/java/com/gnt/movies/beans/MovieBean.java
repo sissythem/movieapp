@@ -38,7 +38,6 @@ public class MovieBean implements DataProviderHolder{
 	public Movie createMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) 
     {
     	byte adult;
-    	//TODO when true adult=1 or 0???
     	if(upcomingMovie.isAdult())
     		adult=1;
     	else

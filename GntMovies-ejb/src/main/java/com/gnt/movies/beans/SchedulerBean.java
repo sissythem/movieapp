@@ -11,16 +11,12 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.NowPlayingMovie;
+import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.UpcomingMovie;
-import com.gnt.movies.theMovieDB.CastCrewResultsAPI;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
-import com.gnt.movies.theMovieDB.NewShowsAPI;
-import com.gnt.movies.theMovieDB.ShowResultsAPI;
+import com.gnt.movies.theMovieDB.ShowDetailsAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
-import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieResultsAPI;
 import com.gnt.movies.utilities.APIClient;
-import com.gnt.movies.utilities.Utils;
-import com.google.gson.Gson;
 
 
 @Stateless
@@ -44,6 +40,9 @@ public class SchedulerBean implements DataProviderHolder {
 	
 	@EJB
 	MovieBean movieBean;
+	
+	@EJB
+	ShowBean showBean;
 	
     public SchedulerBean() {
         
@@ -100,7 +99,14 @@ public class SchedulerBean implements DataProviderHolder {
     public void updateMovieWithDetailsFromAPI(Movie movie) {
     	
     	MovieDetailsAPI movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
+    	//TODO genres movie
     	movieBean.updateMovieWithDetails(movie, movieDetails);
+    }
+    
+    public void updateShowWithDetailsFromAPI(Show show) {
+    	ShowDetailsAPI showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
+    	//TODO genres show
+    	showBean.updateShowWithDetails(show, showDetails);
     }
     
     

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.gnt.movies.theMovieDB.CastCrewResultsAPI;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.NewShowsAPI;
+import com.gnt.movies.theMovieDB.ShowDetailsAPI;
 import com.gnt.movies.theMovieDB.ShowResultsAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieResultsAPI;
@@ -119,6 +120,18 @@ public class APIClient {
     	movieDetails.setCrew(castCrewResults.getCrewResults());
     	
     	return movieDetails;
+    }
+    
+    public static ShowDetailsAPI getShowDetailsFromAPI(int id) {
+    	StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL)
+    			.append(Integer.toString(id))
+    			.append(Utils.API_KEY);
+    	
+    	String json = getResultFromTMDB(url.toString());
+    	
+    	ShowDetailsAPI showDetails = new Gson().fromJson(json, ShowDetailsAPI.class);
+    	
+    	return showDetails;
     }
     
     public static UpcomingNowPlayingMovieResultsAPI getUpcomingMoviePage(int page) {    	
