@@ -117,7 +117,7 @@ public class Show implements Serializable {
     private List<ShowReview> showReviews;
 
     @OneToOne
-    @JoinColumn(name="id", referencedColumnName="showId")
+    @PrimaryKeyJoinColumn(name="id", referencedColumnName="showId")
     private Air2dayShow air2dayShow;
 
     public Show() {

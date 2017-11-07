@@ -1,10 +1,19 @@
 package com.gnt.movies.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 /**
@@ -44,7 +53,7 @@ public class User implements Serializable {
 
     private String photo;
 
-    private Timestamp registrationDate;
+    private LocalDateTime registrationDate;
 
     private String username;
 
@@ -62,8 +71,43 @@ public class User implements Serializable {
 
     public User() {
     }
+    
+    
 
-    public int getId() {
+    public User(int age, LocalDate birthdate, String email, String firstname, String lastname, String password,
+			String photo, LocalDate registrationDate, String username, List<MovieFavorite> movieFavorites,
+			List<MovieReview> movieReviews, List<ShowFavorite> showFavorites, List<ShowReview> showReviews) {
+		super();
+		this.age = age;
+		this.birthdate = birthdate;
+		this.email = email;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.password = password;
+		this.photo = photo;
+		this.registrationDate = LocalDateTime.now();
+		this.username = username;
+		this.movieFavorites = null;
+		this.movieReviews = null;
+		this.showFavorites = null;
+		this.showReviews = null;
+	}
+
+
+
+	public User(int age, String email, String firstname, String lastname, String password, String username) {
+		super();
+		this.age = age;
+		this.email = email;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.password = password;
+		this.username = username;
+	}
+
+
+
+	public int getId() {
         return this.id;
     }
 
@@ -127,11 +171,11 @@ public class User implements Serializable {
         this.photo = photo;
     }
 
-    public Timestamp getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return this.registrationDate;
     }
 
-    public void setRegistrationDate(Timestamp registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 

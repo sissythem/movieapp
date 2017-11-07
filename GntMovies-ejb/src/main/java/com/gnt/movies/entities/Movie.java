@@ -92,11 +92,11 @@ public class Movie implements Serializable {
     private List<MovieReview> movieReviews;
 
     @OneToOne
-    @JoinColumn(name="id", referencedColumnName="movieId")
+    @PrimaryKeyJoinColumn (name="id", referencedColumnName="movieId")
     private NowPlayingMovie nowPlayingMovie;
 
     @OneToOne
-    @JoinColumn(name="id", referencedColumnName="movieId")
+    @PrimaryKeyJoinColumn (name="id", referencedColumnName="movieId")
     private UpcomingMovie upcomingMovie;
 
     public Movie() {
