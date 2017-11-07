@@ -1,11 +1,14 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
+import javax.persistence.Query;
 
 import com.gnt.movies.entities.MovieFavorite;
+import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.utilities.Utils;
 
 @JpaDao
@@ -34,13 +37,21 @@ public class MovieFavoriteDaoImpl extends AbstractDao implements MovieFavoriteDa
 	}
 
 	@Override
-	public List<Object> findMovieFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
-		return findListEntities(dataProviderHolder, "userId", userId.toString(), Utils.MOVIE_FAVORITE_FIND_BY_USER_ID);
+	public List<MovieFavorite> findMovieFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
+		List<MovieFavorite> movieFavorites = new ArrayList<>();
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_BY_USER_ID);
+		query.setParameter(userId, userId);
+		movieFavorites = query.getResultList();
+		return movieFavorites;
 	}
 
 	@Override
-	public List<Object> findMovieFavoriteByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		return findListEntities(dataProviderHolder, "movieId", movieId.toString(), Utils.MOVIE_FAVORITE_FIND_BY_MOVIE_ID);
+	public List<MovieFavorite> findMovieFavoriteByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
+		List<MovieFavorite> movieFavorites = new ArrayList<>();
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_BY_MOVIE_ID);
+		query.setParameter(movieId, movieId);
+		movieFavorites = query.getResultList();
+		return movieFavorites;
 	}
 
 }

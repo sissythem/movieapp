@@ -25,12 +25,12 @@ public abstract class AbstractDao {
 		em.remove(object);		
 	}
 	
-//	public static Object findSingleEntity(DataProviderHolder dataProviderHolder, String param, String valueParam, String namedQuery) {
-//		Query query = dataProviderHolder.getEntityManager().createNamedQuery(namedQuery);
-//		query.setParameter(param, valueParam);
-//		return query.getSingleResult(); 
-//	}
-//	
+	public static Object findSingleEntity(DataProviderHolder dataProviderHolder, String param, String valueParam, String namedQuery) {
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(namedQuery);
+		query.setParameter(param, valueParam);
+		return query.getSingleResult(); 
+	}
+
 	public List<Object> findListEntities(DataProviderHolder dataProviderHolder, String param, String valueParam, String namedQuery){
 		Query query = dataProviderHolder.getEntityManager().createNamedQuery(namedQuery);
 		query.setParameter(param, valueParam);
