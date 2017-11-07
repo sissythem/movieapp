@@ -14,7 +14,6 @@ public class OnTheAirShowBean {
      * Default constructor. 
      */
     public OnTheAirShowBean() {
-        // TODO Auto-generated constructor stub
     }
 
 }

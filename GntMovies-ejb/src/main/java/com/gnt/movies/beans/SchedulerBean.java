@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Movie;
+import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.NewShowsAPI;
@@ -19,6 +20,7 @@ import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 @Stateless
 @LocalBean
 public class SchedulerBean implements DataProviderHolder {
+	
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -49,11 +51,31 @@ public class SchedulerBean implements DataProviderHolder {
     public void checkUpcomingMoviesToBeStored() {
     	ArrayList<UpcomingNowPlayingMovieAPI> upcomingMoviesAPI = getUpcomingMoviesFromAPI();
     	for(UpcomingNowPlayingMovieAPI upcomingMovieAPI : upcomingMoviesAPI) {
-    		if(upcomingMovieBean.findMovie(upcomingMovieAPI.getId()) == null) {
+    		if(upcomingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
     			UpcomingMovie newUpcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(upcomingMovieAPI);
     			Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
     			updateMovieWithDetailsFromAPI(newMovie);
     			upcomingMovieBean.addUpcomingMovie(newMovie, newUpcomingMovie);
+    		}
+    	}
+    }
+    
+    public void checkNowPlayingMoviesToBeStored() {
+    	ArrayList<UpcomingNowPlayingMovieAPI> nowPlayingMoviesAPI = getNowPlayingMoviesFromAPI();
+    	for(UpcomingNowPlayingMovieAPI upcomingMovieAPI : nowPlayingMoviesAPI) {
+    		if(nowPlayingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    			NowPlayingMovie newNowPlayingMovie = nowPlayingMovieBean.createNowPlayingMovieFromAPI(upcomingMovieAPI);
+    			if(movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    				Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
+    				updateMovieWithDetailsFromAPI(newMovie);
+    				movieBean.addMovie(newMovie);
+    				nowPlayingMovieBean.addNowPlayingMovie(newNowPlayingMovie);
+    			}
+    			else {
+    				Movie movie = movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId());
+    				newNowPlayingMovie.setMovie(movie);
+    				nowPlayingMovieBean.addNowPlayingMovie(newNowPlayingMovie);
+    			}
     		}
     	}
     }
