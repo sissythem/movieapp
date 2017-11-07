@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -58,11 +57,15 @@ public class SchedulerBean implements DataProviderHolder {
     //TODO set timer
     
     public void checkUpcomingMoviesToBeStored() {
+    	
     	ArrayList<UpcomingNowPlayingMovieAPI> upcomingMoviesAPI = getUpcomingMoviesFromAPI();
-    	for(UpcomingNowPlayingMovieAPI upcomingMovieAPI : upcomingMoviesAPI) {
-    		if(upcomingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    	
+    	for (UpcomingNowPlayingMovieAPI upcomingMovieAPI : upcomingMoviesAPI) {
+    		if (upcomingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    			
     			UpcomingMovie newUpcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(upcomingMovieAPI);
     			Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
+    			
     			updateMovieWithDetailsFromAPI(newMovie);
     			upcomingMovieBean.addUpcomingMovie(newMovie, newUpcomingMovie);
     		}
@@ -70,13 +73,18 @@ public class SchedulerBean implements DataProviderHolder {
     }
     
     public void checkNowPlayingMoviesToBeStored() {
+    	
     	ArrayList<UpcomingNowPlayingMovieAPI> nowPlayingMoviesAPI = getNowPlayingMoviesFromAPI();
-    	for(UpcomingNowPlayingMovieAPI upcomingMovieAPI : nowPlayingMoviesAPI) {
-    		if(nowPlayingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    	
+    	for (UpcomingNowPlayingMovieAPI upcomingMovieAPI : nowPlayingMoviesAPI) {
+    		if (nowPlayingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    			
     			NowPlayingMovie newNowPlayingMovie = nowPlayingMovieBean.createNowPlayingMovieFromAPI(upcomingMovieAPI);
-    			if(movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    			if (movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    				
     				Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
     				updateMovieWithDetailsFromAPI(newMovie);
+    				
     				movieBean.addMovie(newMovie);
     				nowPlayingMovieBean.addNowPlayingMovie(newNowPlayingMovie);
     			}
@@ -90,12 +98,14 @@ public class SchedulerBean implements DataProviderHolder {
     }
     
     public void updateMovieWithDetailsFromAPI(Movie movie) {
+    	
     	MovieDetailsAPI movieDetails = getMovieDetailsFromAPI(movie.getIdTmdb());
     	movieBean.updateMovieWithDetails(movie, movieDetails);
     }
     
     /** Get new Movies and Shows from API **/
     public ArrayList<UpcomingNowPlayingMovieAPI> getUpcomingMoviesFromAPI(){
+    	
     	ArrayList<UpcomingNowPlayingMovieAPI> newUpcomingMovies = new ArrayList<>();
     	
     	StringBuilder url = new StringBuilder(Utils.UPCOMING_MOVIES_URL)
@@ -104,71 +114,122 @@ public class SchedulerBean implements DataProviderHolder {
     			.append(Utils.NUMBER_PAGE_FOR_URL)
     			.append("1");
     	
-    	String result = APIClient.getResultFromTMDB(url.toString());
+    	String resultJson = APIClient.getResultFromTMDB(url.toString());
     	
-    	UpcomingNowPlayingMovieResultsAPI upcomingNowPlayingMovieResultsApi = new Gson().fromJson(result, UpcomingNowPlayingMovieResultsAPI.class);
+    	UpcomingNowPlayingMovieResultsAPI upcomingNowPlayingMovieResults = new Gson()
+    			.fromJson(resultJson, UpcomingNowPlayingMovieResultsAPI.class);
+    	newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
     	
-    	newUpcomingMovies.addAll(upcomingNowPlayingMovieResultsApi.getResults());
-    	
-    	for (int page = 2; page <= upcomingNowPlayingMovieResultsApi.getTotalPages(); page++) {
-    			url.replace(url.length()-1, url.length(), Integer.toString(page));
+    	for (int page = 2; page <= upcomingNowPlayingMovieResults.getTotalPages(); page++) {
+   			url.replace(url.length()-1, url.length(), Integer.toString(page));
+   			
+   			resultJson = APIClient.getResultFromTMDB(url.toString());
+   			upcomingNowPlayingMovieResults = new Gson().fromJson(resultJson, UpcomingNowPlayingMovieResultsAPI.class);
     			
-    			result = APIClient.getResultFromTMDB(url.toString());
-    			upcomingNowPlayingMovieResultsApi = new Gson().fromJson(result, UpcomingNowPlayingMovieResultsAPI.class);
-    			
-    			newUpcomingMovies.addAll(upcomingNowPlayingMovieResultsApi.getResults());
+   			newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
     	}
     	
     	return newUpcomingMovies;
     }
     
     public ArrayList<UpcomingNowPlayingMovieAPI> getNowPlayingMoviesFromAPI(){
+    	
     	ArrayList<UpcomingNowPlayingMovieAPI> newNowPlayingMovies = new ArrayList<>();
-    	String nowPlayingMoviesURL = Utils.NOW_PLAYING_MOVIES_URL + Utils.API_KEY + Utils.LANGUAGE_FOR_URL + Utils.NUMBER_PAGE_FOR_URL +"1";
-    	String json = APIClient.getResultFromTMDB(nowPlayingMoviesURL);
-    	UpcomingNowPlayingMovieResultsAPI resultNowPlaying = new Gson().fromJson(json, UpcomingNowPlayingMovieResultsAPI.class);
+    	
+    	StringBuilder url = new StringBuilder(Utils.NOW_PLAYING_MOVIES_URL)
+    			.append(Utils.API_KEY)
+    			.append(Utils.LANGUAGE_FOR_URL)
+    			.append(Utils.NUMBER_PAGE_FOR_URL)
+    			.append("1");
+    	
+    	String resultJson = APIClient.getResultFromTMDB(url.toString());
+    	
+    	UpcomingNowPlayingMovieResultsAPI resultNowPlaying = new Gson()
+    			.fromJson(resultJson, UpcomingNowPlayingMovieResultsAPI.class);
     	newNowPlayingMovies.addAll(resultNowPlaying.getResults());
-    	int pages = resultNowPlaying.getTotalPages();
-    	for(int i=2; i<=pages;i++) {
-    		nowPlayingMoviesURL = Utils.NOW_PLAYING_MOVIES_URL + Utils.API_KEY + Utils.LANGUAGE_FOR_URL + Utils.NUMBER_PAGE_FOR_URL + Integer.toString(i);
-    		json = APIClient.getResultFromTMDB(nowPlayingMoviesURL);
-    		resultNowPlaying = new Gson().fromJson(json, UpcomingNowPlayingMovieResultsAPI.class);
+    	
+    	for (int page = 2; page <= resultNowPlaying.getTotalPages(); page++) {
+    		url.replace(url.length()-1, url.length(), Integer.toString(page));
+    		
+    		resultJson = APIClient.getResultFromTMDB(url.toString());
+    		resultNowPlaying = new Gson().fromJson(resultJson, UpcomingNowPlayingMovieResultsAPI.class);
+    		
     		newNowPlayingMovies.addAll(resultNowPlaying.getResults());
     	}
+    	
     	return newNowPlayingMovies;
     }
     
     public ArrayList<NewShowsAPI> getAir2dayShowsFromAPI(){
     	ArrayList<NewShowsAPI> air2dayShows = new ArrayList<>();
-    	//TODO get results
+    	
+    	StringBuilder url = new StringBuilder(Utils.AIR2DAY_SHOWS_URL)
+    			.append(Utils.API_KEY)
+    			.append(Utils.LANGUAGE_FOR_URL)
+    			.append(Utils.NUMBER_PAGE_FOR_URL)
+    			.append("1");
+
+    	String resultJson = APIClient.getResultFromTMDB(url.toString());
+    	
+    	ShowResultsAPI showResults = new Gson()
+    			.fromJson(resultJson, ShowResultsAPI.class);
+    	air2dayShows.addAll(showResults.getResults());
+    	
+    	for (int page = 2; page <= showResults.getTotalPages(); page++) {
+    		url.replace(url.length()-1, url.length(), Integer.toString(page));
+    		
+    		resultJson = APIClient.getResultFromTMDB(url.toString());
+    		showResults = new Gson().fromJson(resultJson, ShowResultsAPI.class);
+    		
+    		air2dayShows.addAll(showResults.getResults());
+    	}
+
     	return air2dayShows;
     }
     
     public ArrayList<NewShowsAPI> getOnTheAirShowsFromAPI(){
     	ArrayList<NewShowsAPI> onTheAirShows = new ArrayList<>();
-    	String onTheAirShowsURL = Utils.ON_THE_AIR_SHOWS_URL + Utils.API_KEY + Utils.LANGUAGE_FOR_URL + Utils.NUMBER_PAGE_FOR_URL + "1";
-    	String json = APIClient.getResultFromTMDB(onTheAirShowsURL);
-    	ShowResultsAPI showResultsAPI = new Gson().fromJson(json, ShowResultsAPI.class);
+    	
+    	StringBuilder url = new StringBuilder(Utils.ON_THE_AIR_SHOWS_URL)
+    			.append(Utils.API_KEY)
+    			.append(Utils.LANGUAGE_FOR_URL)
+    			.append(Utils.NUMBER_PAGE_FOR_URL)
+    			.append("1");
+    
+    	String resultJson = APIClient.getResultFromTMDB(url.toString());
+    	
+    	ShowResultsAPI showResultsAPI = new Gson().fromJson(resultJson, ShowResultsAPI.class);
     	onTheAirShows.addAll(showResultsAPI.getResults());
-    	int pages = showResultsAPI.getTotalPages();
-    	for(int i=2; i<=pages;i++) {
-    		onTheAirShowsURL = Utils.ON_THE_AIR_SHOWS_URL + Utils.API_KEY + Utils.LANGUAGE_FOR_URL + Utils.NUMBER_PAGE_FOR_URL + Integer.toString(i);
-    		json = APIClient.getResultFromTMDB(onTheAirShowsURL);
-    		showResultsAPI = new Gson().fromJson(json, ShowResultsAPI.class);
+    	
+    	for (int page = 2; page <= showResultsAPI.getTotalPages(); page++) {
+    		url.replace(url.length()-1, url.length(), Integer.toString(page));   
+    		
+    		resultJson = APIClient.getResultFromTMDB(url.toString());
+    		showResultsAPI = new Gson().fromJson(resultJson, ShowResultsAPI.class);
+    		
     		onTheAirShows.addAll(showResultsAPI.getResults());
     	}
+    	
     	return onTheAirShows;
     }
     
     public MovieDetailsAPI getMovieDetailsFromAPI(int id) {
-    	String movieDetailsURL = Utils.GENERAL_MOVIE_URL + Integer.toString(id) + Utils.API_KEY;
-    	String json = APIClient.getResultFromTMDB(movieDetailsURL);
+    	
+    	StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL)
+    			.append(Integer.toString(id))
+    			.append(Utils.API_KEY);
+    	
+    	String json = APIClient.getResultFromTMDB(url.toString());
+    	
     	MovieDetailsAPI movieDetails = new Gson().fromJson(json, MovieDetailsAPI.class);
     	String castCrewURL = Utils.GENERAL_MOVIE_URL + Integer.toString(id) + Utils.CREW_CAST_MOVIES_URL + Utils.API_KEY;
+    	
     	json = APIClient.getResultFromTMDB(castCrewURL);
     	CastCrewResultsAPI castCrewResults = new Gson().fromJson(json, CastCrewResultsAPI.class);
+    	
     	movieDetails.setCast(castCrewResults.getCastResults());
     	movieDetails.setCrew(castCrewResults.getCrewResults());
+    	
     	return movieDetails;
     }
     
