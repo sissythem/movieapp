@@ -1,8 +1,12 @@
 package com.gnt.movies.theMovieDB;
 
-public class MovieGenresAPI {
+import com.google.gson.annotations.SerializedName;
+
+public class GenresAPI {
 	
+	@SerializedName("id")
 	private int id;
+	@SerializedName("name")
 	private String name;
 	
 	public int getId() {

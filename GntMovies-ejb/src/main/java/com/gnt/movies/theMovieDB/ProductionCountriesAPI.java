@@ -1,8 +1,12 @@
 package com.gnt.movies.theMovieDB;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ProductionCountriesAPI {
 	
+	@SerializedName("iso_3166_1")
 	private String iso31661;
+	@SerializedName("name")
 	private String name;
 	
 	public String getIso31661() {
@@ -17,7 +21,9 @@ public class ProductionCountriesAPI {
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Override
+	public String toString() {
+		return "ProductionCountriesAPI [name=" + name + "]";
+	}
 	
-	
-
 }

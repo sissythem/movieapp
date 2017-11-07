@@ -1,8 +1,12 @@
 package com.gnt.movies.theMovieDB;
 
+import com.google.gson.annotations.SerializedName;
+
 public class SpokenLanguagesAPI {
 	
+	@SerializedName("iso_639_1")
 	private String iso6391;
+	@SerializedName("name")
 	private String name;
 	
 	public String getIso6391() {

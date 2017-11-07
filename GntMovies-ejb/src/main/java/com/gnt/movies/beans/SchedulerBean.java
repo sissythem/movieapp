@@ -44,7 +44,8 @@ public class SchedulerBean implements DataProviderHolder {
 		return em;
 	}
     
-    public void checkUpcomingMovies(ArrayList<UpcomingMovieAPI> upcomingMovies) {
+    public void checkUpcomingMoviesToBeStored() {
+    	ArrayList<UpcomingMovieAPI> upcomingMovies = getUpcomingMoviesFromAPI();
     	for(UpcomingMovieAPI upcomingMovie : upcomingMovies) {
     		UpcomingMovie existingMovie = upcomingMovieBean.findMovie(upcomingMovie.getId());
     		if(existingMovie == null) {
@@ -53,5 +54,11 @@ public class SchedulerBean implements DataProviderHolder {
     			upcomingMovieBean.addUpcomingMovie(newMovie, existingMovie);
     		}
     	}
+    }
+    
+    public ArrayList<UpcomingMovieAPI> getUpcomingMoviesFromAPI(){
+    	ArrayList<UpcomingMovieAPI> newUpcomingMovies = new ArrayList<>();
+    	//TODO get results and set timer
+    	return newUpcomingMovies;
     }
 }

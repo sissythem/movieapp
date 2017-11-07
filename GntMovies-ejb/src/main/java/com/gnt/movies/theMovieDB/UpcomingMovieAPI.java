@@ -5,15 +5,21 @@ import com.google.gson.annotations.SerializedName;
 public class UpcomingMovieAPI {
 	 @SerializedName("vote_count")
 	 private int voteCount;
+	 @SerializedName("id")
 	 private int id;
+	 @SerializedName("vote_average")
 	 private double voteAverage;
+	 @SerializedName("title")
 	 private String title;
-	 private double popularity;
-	 private String poster_path;
+	 @SerializedName("original_language")
 	 private String originalLanguage;
+	 @SerializedName("original_title")
 	 private String originalTitle;
-	 private byte adult;
+	 @SerializedName("adult")
+	 private boolean adult;
+	 @SerializedName("overview")
 	 private String overview;
+	 @SerializedName("release_date")
 	 private String releaseDate;
 	 
 	public int getVoteCount() {
@@ -40,18 +46,6 @@ public class UpcomingMovieAPI {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public double getPopularity() {
-		return popularity;
-	}
-	public void setPopularity(double popularity) {
-		this.popularity = popularity;
-	}
-	public String getPoster_path() {
-		return poster_path;
-	}
-	public void setPoster_path(String poster_path) {
-		this.poster_path = poster_path;
-	}
 	public String getOriginalLanguage() {
 		return originalLanguage;
 	}
@@ -64,10 +58,10 @@ public class UpcomingMovieAPI {
 	public void setOriginalTitle(String originalTitle) {
 		this.originalTitle = originalTitle;
 	}
-	public byte isAdult() {
+	public boolean isAdult() {
 		return adult;
 	}
-	public void setAdult(byte adult) {
+	public void setAdult(boolean adult) {
 		this.adult = adult;
 	}
 	public String getOverview() {

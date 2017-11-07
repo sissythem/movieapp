@@ -2,33 +2,54 @@ package com.gnt.movies.theMovieDB;
 
 import java.util.ArrayList;
 
+import com.google.gson.annotations.SerializedName;
+
 public class MovieDetailsAPI {
 
-	private byte adult;
+	@SerializedName("adult")
+	private boolean adult;
+	@SerializedName("budget")
 	private String budget;
-	private ArrayList<MovieGenresAPI> movieGenresAPI;
+	@SerializedName("genres")
+	private ArrayList<GenresAPI> genresAPI;
+	@SerializedName("homepage")
 	private String homepage;
+	@SerializedName("id")
 	private int id;
+	@SerializedName("imdb_id")
 	private String imdbId;
+	@SerializedName("original_language")
 	private String originalLanguage;
+	@SerializedName("original_title")
 	private String originalTitle;
+	@SerializedName("overview")
 	private String overview;
+	@SerializedName("production_companies")
 	private ArrayList<ProductionCompaniesAPI> productionCompaniesAPI;
+	@SerializedName("production_countries")
 	private ArrayList<ProductionCountriesAPI> productionCountriesAPI;
+	@SerializedName("release_date")
 	private String releaseDate;
+	@SerializedName("revenue")
 	private double revenue;
+	@SerializedName("runtime")
 	private int runtime;
+	@SerializedName("spoken_languages")
 	private ArrayList<SpokenLanguagesAPI> spokenLanguages;
+	@SerializedName("status")
 	private String status;
+	@SerializedName("title")
 	private String title;
+	@SerializedName("vote_average")
 	private double voteAverage;
+	@SerializedName("vote_count")
 	private int voteCount;
 
-	public byte getAdult() {
+	public boolean getAdult() {
 		return adult;
 	}
 
-	public void setAdult(byte adult) {
+	public void setAdult(boolean adult) {
 		this.adult = adult;
 	}
 
@@ -40,12 +61,12 @@ public class MovieDetailsAPI {
 		this.budget = budget;
 	}
 
-	public ArrayList<MovieGenresAPI> getMovieGenresAPI() {
-		return movieGenresAPI;
+	public ArrayList<GenresAPI> getMovieGenresAPI() {
+		return genresAPI;
 	}
 
-	public void setMovieGenresAPI(ArrayList<MovieGenresAPI> movieGenresAPI) {
-		this.movieGenresAPI = movieGenresAPI;
+	public void setMovieGenresAPI(ArrayList<GenresAPI> genresAPI) {
+		this.genresAPI = genresAPI;
 	}
 
 	public String getHomepage() {
