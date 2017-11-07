@@ -22,6 +22,7 @@ public class Utils
 	public static String LANGUAGE_FOR_URL = "&language=en-US1";
 	public static String NUMBER_PAGE_FOR_URL = "&page=";
 	
+	/** ================================================================================================================================================== **/
 	/** User named queries**/
 	public static String USER_FIND_BY_ID = "User.findById";
 	public static String USER_FIND_BY_USERNAME = "User.findByUsername";

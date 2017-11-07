@@ -25,13 +25,4 @@ public class APIClient {
 			return e.getMessage();
 		}
 	}
-	
-//	public resultToGSON(String url) {
-//		String result = getResultFromTMDB(url);
-//	    try {
-//	        Gson jsonObject = new JSONObject(result);
-//	        
-//	        } catch (JSONException e) {
-//	        }
-//	}
 }
