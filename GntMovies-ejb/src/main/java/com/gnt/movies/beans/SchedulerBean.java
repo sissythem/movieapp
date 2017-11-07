@@ -12,6 +12,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.UpcomingMovie;
+import com.gnt.movies.theMovieDB.CastCrewResultsAPI;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.NewShowsAPI;
 import com.gnt.movies.theMovieDB.ShowResultsAPI;
@@ -140,7 +141,11 @@ public class SchedulerBean implements DataProviderHolder {
     	String movieDetailsURL = Utils.GENERAL_MOVIE_URL + Integer.toString(id) + Utils.API_KEY;
     	String json = APIClient.getResultFromTMDB(movieDetailsURL);
     	MovieDetailsAPI movieDetails = new Gson().fromJson(json, MovieDetailsAPI.class);
-    	//TODO call from API for crew/cast
+    	String castCrewURL = Utils.GENERAL_MOVIE_URL + Integer.toString(id) + Utils.CREW_CAST_MOVIES_URL + Utils.API_KEY;
+    	json = APIClient.getResultFromTMDB(castCrewURL);
+    	CastCrewResultsAPI castCrewResults = new Gson().fromJson(json, CastCrewResultsAPI.class);
+    	movieDetails.setCast(castCrewResults.getCastResults());
+    	movieDetails.setCrew(castCrewResults.getCrewResults());
     	return movieDetails;
     }
     
