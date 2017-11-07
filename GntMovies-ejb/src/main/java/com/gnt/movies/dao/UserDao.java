@@ -12,6 +12,6 @@ public interface UserDao {
 	User findUserByUsername(DataProviderHolder dataProviderHolder, String username);
 	User findUserByEmail(DataProviderHolder dataProviderHolder, String email);
 	User findUserByPassword(DataProviderHolder dataProviderHolder, String password);
-	List<Object> findByAge(DataProviderHolder dataProviderHolder, int age);
+	List<User> findByAge(DataProviderHolder dataProviderHolder, int age);
 }
 

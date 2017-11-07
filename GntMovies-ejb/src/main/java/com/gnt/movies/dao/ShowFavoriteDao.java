@@ -9,7 +9,7 @@ public interface ShowFavoriteDao {
 	void updateShowFavorite(DataProviderHolder dataProviderHolder, ShowFavorite showFavorite);
 	void deleteShowFavorite(DataProviderHolder dataProviderHolder, ShowFavorite showFavorite);
 	ShowFavorite findShowFavoriteById(DataProviderHolder dataProviderHolder, Integer id);
-	List<Object> findByUserId(DataProviderHolder dataProviderHolder, Integer userId);
-	List<Object> findByShowId(DataProviderHolder dataProviderHolder, Integer showId);
+	List<ShowFavorite> findByUserId(DataProviderHolder dataProviderHolder, Integer userId);
+	List<ShowFavorite> findByShowId(DataProviderHolder dataProviderHolder, Integer showId);
 }
 

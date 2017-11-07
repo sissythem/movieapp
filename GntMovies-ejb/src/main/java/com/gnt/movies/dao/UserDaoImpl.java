@@ -1,5 +1,6 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
@@ -36,11 +37,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	
 	@Override
 	public User findUserByUsername(DataProviderHolder dataProviderHolder, String username) {
-		User user = new User();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.USER_FIND_BY_USERNAME);
-		query.setParameter("username", username);
-		user = (User)query.getSingleResult();
-		return user;
+		return (User)findSingleEntity(dataProviderHolder,"username", username, Utils.USER_FIND_BY_USERNAME);
 //		return (User)getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_USERNAME, username);
 	}
 
@@ -55,8 +52,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	}
 	
 	@Override
-	public List<Object> findByAge(DataProviderHolder dataProviderHolder, int age){
-		return (List<Object>)findListEntities(dataProviderHolder, "age", String.valueOf(age), Utils.USER_FIND_BY_AGE);
+	public List<User> findByAge(DataProviderHolder dataProviderHolder, int age){
+		List<User> users = new ArrayList<>();
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.USER_FIND_BY_AGE);
+		query.setParameter("age", age);
+		users = query.getResultList();
+		return users;
 	}
 
 }

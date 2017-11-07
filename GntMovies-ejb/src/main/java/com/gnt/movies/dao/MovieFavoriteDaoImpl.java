@@ -8,7 +8,6 @@ import javax.inject.Named;
 import javax.persistence.Query;
 
 import com.gnt.movies.entities.MovieFavorite;
-import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.utilities.Utils;
 
 @JpaDao
