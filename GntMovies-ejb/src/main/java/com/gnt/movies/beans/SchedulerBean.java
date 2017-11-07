@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
+import com.gnt.movies.theMovieDB.NewShowsAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 
 
@@ -33,7 +34,7 @@ public class SchedulerBean implements DataProviderHolder {
 	Air2dayShowBean air2dayShowBean;
 	
 	@EJB
-	UpcomingMoviesAPIBean upcomingMoviesAPIBean;
+	MovieBean movieBean;
 	
     public SchedulerBean() {
         
@@ -45,20 +46,38 @@ public class SchedulerBean implements DataProviderHolder {
 	}
     
     public void checkUpcomingMoviesToBeStored() {
-    	ArrayList<UpcomingNowPlayingMovieAPI> upcomingMovies = getUpcomingMoviesFromAPI();
-    	for(UpcomingNowPlayingMovieAPI upcomingMovie : upcomingMovies) {
-    		UpcomingMovie existingMovie = upcomingMovieBean.findMovie(upcomingMovie.getId());
-    		if(existingMovie == null) {
-    			existingMovie = upcomingMoviesAPIBean.createUpcomingMovieFromAPI(upcomingMovie);
-    			Movie newMovie = upcomingMoviesAPIBean.createMovieFromAPI(upcomingMovie);
-    			upcomingMovieBean.addUpcomingMovie(newMovie, existingMovie);
+    	ArrayList<UpcomingNowPlayingMovieAPI> upcomingMoviesAPI = getUpcomingMoviesFromAPI();
+    	for(UpcomingNowPlayingMovieAPI upcomingMovieAPI : upcomingMoviesAPI) {
+    		if(upcomingMovieBean.findMovie(upcomingMovieAPI.getId()) == null) {
+    			UpcomingMovie newUpcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(upcomingMovieAPI);
+    			Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
+    			upcomingMovieBean.addUpcomingMovie(newMovie, newUpcomingMovie);
     		}
     	}
     }
     
+    /** Get new Movies and Shows from API **/
     public ArrayList<UpcomingNowPlayingMovieAPI> getUpcomingMoviesFromAPI(){
     	ArrayList<UpcomingNowPlayingMovieAPI> newUpcomingMovies = new ArrayList<>();
     	//TODO get results and set timer
     	return newUpcomingMovies;
+    }
+    
+    public ArrayList<UpcomingNowPlayingMovieAPI> getNowPlayingMoviesFromAPI(){
+    	ArrayList<UpcomingNowPlayingMovieAPI> newNowPlayingMovies = new ArrayList<>();
+    	//TODO get results and set timer
+    	return newNowPlayingMovies;
+    }
+    
+    public ArrayList<NewShowsAPI> getAir2dayShowsFromAPI(){
+    	ArrayList<NewShowsAPI> air2dayShows = new ArrayList<>();
+    	//TODO get results and set timer
+    	return air2dayShows;
+    }
+    
+    public ArrayList<NewShowsAPI> getOnTheAirShowsFromAPI(){
+    	ArrayList<NewShowsAPI> onTheAirShows = new ArrayList<>();
+    	//TODO get results and set timer
+    	return onTheAirShows;
     }
 }
