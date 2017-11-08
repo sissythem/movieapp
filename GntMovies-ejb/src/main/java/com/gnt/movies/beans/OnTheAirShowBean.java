@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.OnTheAirShowDao;
+import com.gnt.movies.entities.OnTheAirShow;
 
 /**
  * Session Bean implementation class OnTheAirShowBean
@@ -33,5 +34,17 @@ public class OnTheAirShowBean implements DataProviderHolder{
 	public EntityManager getEntityManager() {
 		return em;
 	}
+    
+    public void addOnTheAirShow(OnTheAirShow onTheAirShow) {
+    	onTheAirShowDao.createOnTheAirShow(this, onTheAirShow);
+    }
+    
+    public OnTheAirShow findOnTheAirShowByIdTmdb(int idTmdb) {
+    	return onTheAirShowDao.findOnTheAirShowByIdTmdb(this, idTmdb);
+    }
+    
+    public OnTheAirShow createOnTheAirShowFromAPI(int idTmdb) {
+    	return new OnTheAirShow(idTmdb);
+    }
 
 }

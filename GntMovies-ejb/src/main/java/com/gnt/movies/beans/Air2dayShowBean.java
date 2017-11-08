@@ -35,7 +35,7 @@ public class Air2dayShowBean implements DataProviderHolder{
 		return em;
 	}
     
-    public void addShow(Air2dayShow air2dayShow) {
+    public void addAir2DayShow(Air2dayShow air2dayShow) {
     	air2dayShowDao.createAir2dayShow(this, air2dayShow);
     }
     

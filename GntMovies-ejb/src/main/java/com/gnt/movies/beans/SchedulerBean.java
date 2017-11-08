@@ -12,6 +12,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Air2dayShow;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.NowPlayingMovie;
+import com.gnt.movies.entities.OnTheAirShow;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
@@ -91,6 +92,7 @@ public class SchedulerBean implements DataProviderHolder {
     			
     			NowPlayingMovie newNowPlayingMovie = nowPlayingMovieBean.createNowPlayingMovieFromAPI(upcomingMovieAPI);
     			if (movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    				
     				Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
     				updateMovieWithDetailsFromAPI(newMovie);
     				
@@ -106,14 +108,51 @@ public class SchedulerBean implements DataProviderHolder {
     	}
     }
     
+    public void checkOnTheAirShowToBeStored() {
+    	
+    	ArrayList<NewShowsAPI> onTheAirShowsAPI = APIClient.getOnTheAirShowsFromAPI();
+    	
+    	for (NewShowsAPI onTheAirShowAPI : onTheAirShowsAPI) {
+    		if (onTheAirShowBean.findOnTheAirShowByIdTmdb(onTheAirShowAPI.getId()) == null) {
+    			
+    			OnTheAirShow onTheAirShow = onTheAirShowBean.createOnTheAirShowFromAPI(onTheAirShowAPI.getId());
+    			if (showBean.findShowByIdTmdb(onTheAirShowAPI.getId()) == null) {
+    				
+    				Show newShow = showBean.createShowFromAPI(onTheAirShowAPI);
+    				updateShowWithDetailsFromAPI(newShow);
+    				
+    				showBean.addShow(newShow);
+    				onTheAirShowBean.addOnTheAirShow(onTheAirShow);
+    				
+    			} else {
+    				Show show = showBean.findShowByIdTmdb(onTheAirShowAPI.getId());
+    				onTheAirShow.setShow(show);
+    				onTheAirShowBean.addOnTheAirShow(onTheAirShow);
+    			}
+    		}
+    	}
+    }
+    
     public void checkAir2dayShowsToBeStored() {
     	
     	ArrayList<NewShowsAPI> newShowsAPI = APIClient.getAir2dayShowsFromAPI();
     	
-    	for(NewShowsAPI newShow : newShowsAPI) {
-    		if(air2dayShowBean.findAir2dayShowByIdTmdb(newShow.getId()) == null) {
-    			Air2dayShow air2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShow.getId());
-    			if(showBean.findShowByIdTmdb(newShow.getId()) == null) {
+    	for (NewShowsAPI newShowAPI : newShowsAPI) {
+    		if (air2dayShowBean.findAir2dayShowByIdTmdb(newShowAPI.getId()) == null) {
+    			
+    			Air2dayShow air2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShowAPI.getId());
+    			if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
+    				
+    				Show newShow = showBean.createShowFromAPI(newShowAPI);
+    				updateShowWithDetailsFromAPI(newShow);
+    				
+    				showBean.addShow(newShow);
+    				air2dayShowBean.addAir2DayShow(air2dayShow);
+    				
+    			} else {
+    				Show show = showBean.findShowByIdTmdb(newShowAPI.getId());
+    				air2dayShow.setShow(show);
+    				air2dayShowBean.addAir2DayShow(air2dayShow);
     				
     			}
     		}
@@ -129,7 +168,6 @@ public class SchedulerBean implements DataProviderHolder {
     
     public void updateShowWithDetailsFromAPI(Show show) {
     	ShowDetailsAPI showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
-    	//TODO genres show
     	showBean.updateShowWithDetails(show, showDetails);
     }
     
