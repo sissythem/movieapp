@@ -15,6 +15,7 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.UpcomingMovieDao;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
+import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 
 /**
  * Session Bean implementation class UpcomingMovieBean
@@ -54,7 +55,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	
 	public boolean deleteUpcomingMovie(ArrayList<Integer> newIdTmdb) {
 		try {
-			ArrayList<Integer> allIdTmdb = upcomingMovieDao.getAllIdTmdb(this);
+			ArrayList<Integer> allIdTmdb = (ArrayList<Integer>) upcomingMovieDao.getAllIdTmdb(this);
 			for(int i=0; i<allIdTmdb.size();i++) {
 				if(!newIdTmdb.contains(allIdTmdb.get(i))) {
 					UpcomingMovie upcomingMovie = upcomingMovieDao.findByIdTmdb(this, allIdTmdb.get(i));
@@ -68,8 +69,16 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		}
 	}
 	
-	public UpcomingMovie findMovie(Integer id) {
-		return upcomingMovieDao.findUpcomingMovieById(this, id);
+	public UpcomingMovie findMovieByIdTmdb(Integer id) {
+		return upcomingMovieDao.findByIdTmdb(this, id);
+	}
+	
+	public UpcomingMovie createUpcomingMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) {
+    	return new UpcomingMovie(upcomingMovie.getId());
+	}
+	
+	public ArrayList<UpcomingMovie> getAllUpcomingMovies(){
+		return (ArrayList<UpcomingMovie>) upcomingMovieDao.findAll(this);
 	}
 	
 }

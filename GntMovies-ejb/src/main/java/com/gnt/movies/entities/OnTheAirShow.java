@@ -31,6 +31,10 @@ public class OnTheAirShow implements Serializable {
 
     public OnTheAirShow() {
     }
+    
+    public OnTheAirShow(int idTmdb) {
+    	this.idTmdb = idTmdb;
+    }
 
     public int getId() {
         return this.id;

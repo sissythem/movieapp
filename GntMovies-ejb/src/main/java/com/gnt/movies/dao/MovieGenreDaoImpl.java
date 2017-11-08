@@ -1,9 +1,11 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
+import javax.persistence.Query;
 
 import com.gnt.movies.entities.MovieGenre;
 import com.gnt.movies.utilities.Utils;
@@ -30,17 +32,25 @@ public class MovieGenreDaoImpl extends AbstractDao implements MovieGenreDao {
 
 	@Override
 	public MovieGenre findMovieGenreById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (MovieGenre) getSingleResult(dataProviderHolder.getEntityManager(), Utils.MOVIE_GENRE_FIND_BY_ID, id);
+		return (MovieGenre) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_GENRE_FIND_BY_ID, "id", id);
 	}
 
 	@Override
-	public List<Object> findMovieGenreByGenreId(DataProviderHolder dataProviderHolder, Integer genreId) {
-		return findListEntities(dataProviderHolder, "genreId", genreId.toString(), Utils.MOVIE_GENRE_FIND_BY_GENRE_ID);
+	public List<MovieGenre> findMovieGenreByGenreId(DataProviderHolder dataProviderHolder, Integer genreId) {
+		List<MovieGenre> movieGenres = new ArrayList<>();
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_GENRE_FIND_BY_GENRE_ID);
+		query.setParameter("genreId", genreId);
+		movieGenres = query.getResultList();
+		return movieGenres;
 	}
 
 	@Override
-	public List<Object> findMovieGenreByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		return findListEntities(dataProviderHolder, "movieId", movieId.toString(), Utils.MOVIE_GENRE_FIND_BY_MOVIE_ID);
+	public List<MovieGenre> findMovieGenreByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
+		List<MovieGenre> movieGenres = new ArrayList<>();
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_GENRE_FIND_BY_MOVIE_ID);
+		query.setParameter("movieId", movieId);
+		movieGenres = query.getResultList();
+		return movieGenres;
 	}
 
 }

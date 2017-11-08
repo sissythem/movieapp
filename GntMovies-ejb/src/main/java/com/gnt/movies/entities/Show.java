@@ -110,10 +110,10 @@ public class Show implements Serializable {
     @OneToMany(mappedBy="show")
     private List<OnTheAirShow> onTheAirShows;
 
-    @OneToMany(mappedBy="show")
+    @OneToMany(mappedBy="show", fetch=FetchType.LAZY)
     private List<ShowFavorite> showFavorites;
 
-    @OneToMany(mappedBy="show")
+    @OneToMany(mappedBy="show", fetch=FetchType.LAZY)
     private List<ShowReview> showReviews;
 
     @OneToOne
@@ -123,7 +123,23 @@ public class Show implements Serializable {
     public Show() {
     }
 
-    public int getId() {
+    public Show(LocalDate firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
+			String originCountries, String overview, double voteAverage, int voteCount) {
+		super();
+		this.firstAirDate = firstAirDate;
+		this.idTmdb = idTmdb;
+		this.name = name;
+		this.originalLanguage = originalLanguage;
+		this.originalName = originalName;
+		this.originCountries = originCountries;
+		this.overview = overview;
+		this.voteAverage = voteAverage;
+		this.voteCount = voteCount;
+	}
+
+
+
+	public int getId() {
         return this.id;
     }
 

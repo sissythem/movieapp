@@ -85,10 +85,10 @@ public class Movie implements Serializable {
     @OneToMany(mappedBy="movie")
     private List<MovieGenre> movieGenres;
 
-    @OneToMany(mappedBy="movie")
+    @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
     private List<MovieFavorite> movieFavorites;
 
-    @OneToMany(mappedBy="movie")
+    @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
     private List<MovieReview> movieReviews;
 
     @OneToOne

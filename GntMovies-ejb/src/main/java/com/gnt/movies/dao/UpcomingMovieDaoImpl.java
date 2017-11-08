@@ -32,25 +32,23 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 
 	@Override
 	public UpcomingMovie findUpcomingMovieById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (UpcomingMovie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_ID, id);
+		return (UpcomingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_ID, "id", id);
 	}
 	
 	@Override
 	public UpcomingMovie findByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		return (UpcomingMovie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_MOVIE_ID, movieId);
+		return (UpcomingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
 	}
 
 	@Override
 	public UpcomingMovie findByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		return (UpcomingMovie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_IDTMDB, idTmdb);
+		return (UpcomingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
 
 	@Override
 	public List<UpcomingMovie> findAll(DataProviderHolder dataProviderHolder) {
-		List<UpcomingMovie> allUpcomingMovies = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL);
-		allUpcomingMovies = query.getResultList();
-		return allUpcomingMovies;
+		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL)
+			.getResultList();
 	}
 	
 	@Override

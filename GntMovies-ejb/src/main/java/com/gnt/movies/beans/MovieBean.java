@@ -11,6 +11,8 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.MovieDao;
 import com.gnt.movies.entities.Movie;
+import com.gnt.movies.theMovieDB.MovieDetailsAPI;
+import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 
 @Stateless
 @LocalBean
@@ -27,13 +29,51 @@ public class MovieBean implements DataProviderHolder{
     public MovieBean() {
     	
     }
-    
-    public boolean addMovie(Movie movie) {
-    	return true;
-    }
 
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
+	}
+	
+	public Movie createMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) 
+    {
+    	byte adult;
+    	if(upcomingMovie.isAdult())
+    		adult=1;
+    	else
+    		adult=0;
+		return new Movie(adult, upcomingMovie.getId(), upcomingMovie.getReleaseDate(), upcomingMovie.getOriginalLanguage(), upcomingMovie.getOriginalTitle(), 
+				upcomingMovie.getOverview(), upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount());
+	}
+	
+	public void updateMovieWithDetails(Movie movie, MovieDetailsAPI movieDetails) {
+		movie.setBudget(movieDetails.getBudget());
+		movie.setHomepage(movieDetails.getHomepage());
+		movie.setProductionCountries(movieDetails.getProductionCountriesAPI().toString());
+		movie.setRevenue(movieDetails.getRevenue());
+		movie.setRuntime(movieDetails.getRuntime());
+		movie.setStatus(movieDetails.getStatus());
+		movie.setTitle(movieDetails.getTitle());
+		movie.setImdbId(movieDetails.getImdbId());
+	}
+	
+	public void addMovie(Movie movie) {
+		movieDao.createMovie(this, movie);
+	}
+	
+	public void updateMovieInDataBase(Movie movie) {
+		movieDao.updateMovie(this, movie);
+	}
+	
+	public Movie findMovieByIdTmdb(Integer id) {
+		return movieDao.findMovieByIdTmdb(this, id);
+	}
+	
+	public Movie findMovieByTitle(String title) {
+		return movieDao.findMovieByTitle(this, title);
+	}
+	
+	public Movie findMovieById(int id) {
+		return movieDao.findMovieById(this, id);
 	}
 }

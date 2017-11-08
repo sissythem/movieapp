@@ -1,9 +1,11 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
+import javax.persistence.Query;
 
 import com.gnt.movies.entities.ShowFavorite;
 import com.gnt.movies.utilities.Utils;
@@ -29,17 +31,25 @@ public class ShowFavoriteDaoImpl extends AbstractDao implements ShowFavoriteDao 
 
 	@Override
 	public ShowFavorite findShowFavoriteById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (ShowFavorite)getSingleResult(dataProviderHolder.getEntityManager(),Utils.SHOW_FAVORITE_FIND_BY_ID, id);
+		return (ShowFavorite)findSingleEntity(dataProviderHolder.getEntityManager(),Utils.SHOW_FAVORITE_FIND_BY_ID, "id", id);
 	}
 	
 	@Override
-	public List<Object> findByUserId(DataProviderHolder dataProviderHolder, Integer userId){
-		return (List<Object>)findListEntities(dataProviderHolder, "userId", userId.toString(), Utils.SHOW_FAVORITE_FIND_BY_USER_ID);
+	public List<ShowFavorite> findShowFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId){
+		List<ShowFavorite> showFavories = new ArrayList<>();
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_USER_ID);
+		query.setParameter("userId", userId);
+		showFavories = query.getResultList();
+		return showFavories;
 	}
 	
 	@Override
-	public List<Object> findByShowId(DataProviderHolder dataProviderHolder, Integer showId){
-		return (List<Object>)findListEntities(dataProviderHolder, "showId", showId.toString(), Utils.SHOW_FAVORITE_FIND_BY_SHOW_ID);
+	public List<ShowFavorite> findShowFavoriteByShowId(DataProviderHolder dataProviderHolder, Integer showId){
+		List<ShowFavorite> showFavories = new ArrayList<>();
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_SHOW_ID);
+		query.setParameter("showId", showId);
+		showFavories = query.getResultList();
+		return showFavories;
 	}
 
 }

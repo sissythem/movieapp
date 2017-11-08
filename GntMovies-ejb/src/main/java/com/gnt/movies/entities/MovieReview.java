@@ -40,7 +40,12 @@ public class MovieReview implements Serializable {
     public MovieReview() {
     }
 
-    public int getId() {
+    public MovieReview(User user, Movie movie) {
+		this.user = user;
+		this.movie = movie;
+	}
+
+	public int getId() {
         return this.id;
     }
 

@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.List;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
@@ -28,22 +30,22 @@ public class ShowReviewDaoImpl extends AbstractDao implements ShowReviewDao {
 
 	@Override
 	public ShowReview findShowReviewById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (ShowReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_ID, id);
+		return (ShowReview)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_ID, "id", id);
 	}
 
 	@Override
-	public ShowReview findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
-		return (ShowReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_SHOW_ID, showId);
+	public List<ShowReview> findShowReviewByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
+		return (List<ShowReview>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_SHOW_ID).setParameter("showId", showId);
 	}
 
 	@Override
-	public ShowReview findByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
-		return (ShowReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_USER_ID, userId);
+	public List<ShowReview> findShowReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
+		return (List<ShowReview>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_USER_ID).setParameter("userId", userId);
 	}
 	
 	@Override
-	public ShowReview findByRating(DataProviderHolder dataProviderHolder, double rating) {
-		return (ShowReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_RATING, rating);
+	public List<ShowReview> findShowReviewByRating(DataProviderHolder dataProviderHolder, double rating) {
+		return (List<ShowReview>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_RATING).setParameter("rating", rating);
 	}
 	
 }

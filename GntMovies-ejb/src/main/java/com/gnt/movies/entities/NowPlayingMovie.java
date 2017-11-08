@@ -30,6 +30,10 @@ public class NowPlayingMovie implements Serializable {
 
     public NowPlayingMovie() {
     }
+    
+    public NowPlayingMovie(int idTmdb) {
+    	this.idTmdb=idTmdb;
+    }
 
     public int getId() {
         return this.id;

@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.UserDao;
-import com.gnt.movies.dao.UserDaoImpl;
 import com.gnt.movies.entities.User;
 
 @Stateless
@@ -34,9 +33,9 @@ public class UserBean implements DataProviderHolder {
     	return true;
     }
     public boolean registerUser(User user) {
-//    	if(userDao.findUserByUsername(this, user.getUsername()) == null || 
-//    			userDao.findUserByEmail(this, user.getEmail()) == null)
-//    	{
+    	if(userDao.findUserByUsername(this, user.getUsername()) == null || 
+    			userDao.findUserByEmail(this, user.getEmail()) == null)
+    	{
     		try {
     			userDao.createUser(this, user);
         		return true;
@@ -45,10 +44,10 @@ public class UserBean implements DataProviderHolder {
     			return false;
     		}
     		
-//    	}
-//    	else {
-//    		return false;
-//    	}
+    	}
+    	else {
+    		return false;
+    	}
     }
     
     public boolean loginUser(String username, String password) {

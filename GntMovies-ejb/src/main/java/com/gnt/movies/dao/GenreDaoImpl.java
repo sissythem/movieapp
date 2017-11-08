@@ -28,12 +28,12 @@ public class GenreDaoImpl extends AbstractDao implements GenreDao {
 
 	@Override
 	public Genre findGenreById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (Genre)getSingleResult(dataProviderHolder.getEntityManager(), Utils.GENRE_FIND_BY_ID, id);
+		return (Genre)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.GENRE_FIND_BY_ID, "id", id);
 	}
 
 	@Override
 	public Genre findGenreByName(DataProviderHolder dataProviderHolder, String name) {
-		return (Genre)getSingleResult(dataProviderHolder.getEntityManager(), Utils.GENRE_FIND_BY_NAME, name);
+		return (Genre)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.GENRE_FIND_BY_NAME, "name", name);
 	}
 
 }

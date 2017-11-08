@@ -40,7 +40,12 @@ public class ShowReview implements Serializable {
     public ShowReview() {
     }
 
-    public int getId() {
+    public ShowReview(User user, Show show) {
+    	this.user = user;
+    	this.show = show;
+    }
+
+	public int getId() {
         return this.id;
     }
 
