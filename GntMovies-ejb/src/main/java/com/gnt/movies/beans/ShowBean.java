@@ -13,6 +13,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.ShowDao;
 import com.gnt.movies.entities.Show;
+import com.gnt.movies.theMovieDB.NewShowsAPI;
 import com.gnt.movies.theMovieDB.ShowDetailsAPI;
 
 /**
@@ -37,6 +38,13 @@ public class ShowBean implements DataProviderHolder{
 	public EntityManager getEntityManager() {
 		return em;
 	}
+    
+    public Show createShowFromAPI(NewShowsAPI newShowsAPI) {
+    	
+    	return new Show(LocalDate.parse(newShowsAPI.getFirstAirDate()), newShowsAPI.getId(), newShowsAPI.getName(), newShowsAPI.getOriginalLanguage(),
+    			newShowsAPI.getOriginalName(), newShowsAPI.getOriginCountry().toString(), newShowsAPI.getOverview(), newShowsAPI.getVoteAverage(),
+    			newShowsAPI.getVoteCount());
+    }
 
     public void updateShowWithDetails(Show show, ShowDetailsAPI showDetails) {
     	show.setCreatedBy(showDetails.getCreatedBy().toString());

@@ -107,7 +107,9 @@ public class SchedulerBean implements DataProviderHolder {
     }
     
     public void checkAir2dayShowsToBeStored() {
+    	
     	ArrayList<NewShowsAPI> newShowsAPI = APIClient.getAir2dayShowsFromAPI();
+    	
     	for(NewShowsAPI newShow : newShowsAPI) {
     		if(air2dayShowBean.findAir2dayShowByIdTmdb(newShow.getId()) == null) {
     			Air2dayShow air2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShow.getId());
