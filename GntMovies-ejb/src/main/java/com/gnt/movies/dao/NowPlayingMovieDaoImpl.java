@@ -1,5 +1,8 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
@@ -39,6 +42,12 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 	@Override
 	public NowPlayingMovie findNowPlayingMovieByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
 		return (NowPlayingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
+	}
+
+	@Override
+	public List<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder) {
+		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL)
+				.getResultList();
 	}
 
 }

@@ -223,4 +223,17 @@ public class MovieDetailsAPI {
 	public void setCrew(ArrayList<CastCrewAPI> crew) {
 		this.crew = crew;
 	}
+
+	@Override
+	public String toString() {
+		return "MovieDetailsAPI [adult=" + adult + ", budget=" + budget + ", genresAPI=" + genresAPI + ", homepage="
+				+ homepage + ", id=" + id + ", imdbId=" + imdbId + ", originalLanguage=" + originalLanguage
+				+ ", originalTitle=" + originalTitle + ", overview=" + overview + ", productionCompaniesAPI="
+				+ productionCompaniesAPI + ", productionCountriesAPI=" + productionCountriesAPI + ", releaseDate="
+				+ releaseDate + ", revenue=" + revenue + ", runtime=" + runtime + ", spokenLanguages=" + spokenLanguages
+				+ ", status=" + status + ", title=" + title + ", voteAverage=" + voteAverage + ", voteCount="
+				+ voteCount + ", cast=" + cast + ", crew=" + crew + "]";
+	}
+	
+	
 }

@@ -110,10 +110,10 @@ public class Show implements Serializable {
     @OneToMany(mappedBy="show")
     private List<OnTheAirShow> onTheAirShows;
 
-    @OneToMany(mappedBy="show")
+    @OneToMany(mappedBy="show", fetch=FetchType.LAZY)
     private List<ShowFavorite> showFavorites;
 
-    @OneToMany(mappedBy="show")
+    @OneToMany(mappedBy="show", fetch=FetchType.LAZY)
     private List<ShowReview> showReviews;
 
     @OneToOne

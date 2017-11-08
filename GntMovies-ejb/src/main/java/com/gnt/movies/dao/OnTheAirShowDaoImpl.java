@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.List;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
@@ -39,6 +41,11 @@ public class OnTheAirShowDaoImpl extends AbstractDao implements OnTheAirShowDao 
 	@Override
 	public OnTheAirShow findOnTheAirShowByMovieId(DataProviderHolder dataProviderHolder, Integer showId) {
 		return(OnTheAirShow)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_SHOW_ID, "showId", showId);
+	}
+
+	@Override
+	public List<OnTheAirShow> findAll(DataProviderHolder dataProviderHolder) {
+		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.ON_THE_AIR_SHOW_FIND_ALL).getResultList();
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.gnt.movies.beans;
 
+import java.util.ArrayList;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -45,6 +47,10 @@ public class Air2dayShowBean implements DataProviderHolder{
     
     public Air2dayShow createAir2dayShowFromAPI(int idTmdb) {
     	return new Air2dayShow(idTmdb);
+    }
+    
+    public ArrayList<Air2dayShow> getAllAir2dayShows() {
+    	return (ArrayList<Air2dayShow>) air2dayShowDao.findAll(this);
     }
 
 }

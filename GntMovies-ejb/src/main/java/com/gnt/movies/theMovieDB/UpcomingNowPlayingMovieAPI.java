@@ -76,5 +76,13 @@ public class UpcomingNowPlayingMovieAPI {
 	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
 	}
+	@Override
+	public String toString() {
+		return "UpcomingNowPlayingMovieAPI [voteCount=" + voteCount + ", id=" + id + ", voteAverage=" + voteAverage
+				+ ", title=" + title + ", originalLanguage=" + originalLanguage + ", originalTitle=" + originalTitle
+				+ ", adult=" + adult + ", overview=" + overview + ", releaseDate=" + releaseDate + "]";
+	}
+	
+	
 
 }

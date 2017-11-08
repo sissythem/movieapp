@@ -1,5 +1,7 @@
 package com.gnt.movies.beans;
 
+import java.util.ArrayList;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -43,4 +45,8 @@ public class NowPlayingMovieBean implements DataProviderHolder{
     public NowPlayingMovie createNowPlayingMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) {
     	return new NowPlayingMovie(upcomingMovie.getId());
 	}
+    
+    public ArrayList<NowPlayingMovie> getAllNowPlayingMovies(){
+    	return (ArrayList<NowPlayingMovie>) nowPlayingMovieDao.findAll(this);
+    }
 }

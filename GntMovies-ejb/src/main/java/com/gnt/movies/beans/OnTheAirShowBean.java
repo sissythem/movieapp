@@ -1,5 +1,7 @@
 package com.gnt.movies.beans;
 
+import java.util.ArrayList;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -45,6 +47,10 @@ public class OnTheAirShowBean implements DataProviderHolder{
     
     public OnTheAirShow createOnTheAirShowFromAPI(int idTmdb) {
     	return new OnTheAirShow(idTmdb);
+    }
+    
+    public ArrayList<OnTheAirShow> getAllOnTheAirShows(){
+    	return (ArrayList<OnTheAirShow>) onTheAirShowDao.findAll(this);
     }
 
 }

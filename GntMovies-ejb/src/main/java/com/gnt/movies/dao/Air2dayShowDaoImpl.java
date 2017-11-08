@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.List;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
@@ -39,6 +41,11 @@ public class Air2dayShowDaoImpl extends AbstractDao implements Air2dayShowDao {
 	@Override
 	public Air2dayShow findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
 		return (Air2dayShow)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.AIR2DAY_SHOW_FIND_BY_SHOW_ID, "showId", showId);
+	}
+
+	@Override
+	public List<Air2dayShow> findAll(DataProviderHolder dataProviderHolder) {
+		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_FIND_ALL).getResultList();
 	}
 
 }

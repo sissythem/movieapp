@@ -47,10 +47,8 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 
 	@Override
 	public List<UpcomingMovie> findAll(DataProviderHolder dataProviderHolder) {
-		List<UpcomingMovie> allUpcomingMovies = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL);
-		allUpcomingMovies = query.getResultList();
-		return allUpcomingMovies;
+		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL)
+			.getResultList();
 	}
 	
 	@Override
