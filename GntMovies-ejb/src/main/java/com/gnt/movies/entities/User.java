@@ -1,7 +1,6 @@
 package com.gnt.movies.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;

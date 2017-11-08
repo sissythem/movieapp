@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
-import javax.persistence.Query;
 
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.utilities.Utils;

@@ -1,15 +1,6 @@
 package com.gnt.movies.GntMovies_web;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.gnt.movies.beans.UserBean;
-import com.gnt.movies.entities.MovieFavorite;
-import com.gnt.movies.entities.MovieReview;
-import com.gnt.movies.entities.ShowFavorite;
-import com.gnt.movies.entities.ShowReview;
 import com.gnt.movies.entities.User;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
