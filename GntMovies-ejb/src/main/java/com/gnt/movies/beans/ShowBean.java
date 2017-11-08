@@ -56,4 +56,8 @@ public class ShowBean implements DataProviderHolder{
     	show.setStatus(showDetails.getStatus());
     	show.setType(showDetails.getType());
 	}
+    
+    public void addShow(Show show) {
+    	showDao.createShow(this, show);
+    }
 }

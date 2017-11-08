@@ -14,6 +14,7 @@ import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
+import com.gnt.movies.theMovieDB.NewShowsAPI;
 import com.gnt.movies.theMovieDB.ShowDetailsAPI;
 import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
 import com.gnt.movies.utilities.APIClient;
@@ -74,7 +75,7 @@ public class SchedulerBean implements DataProviderHolder {
     			UpcomingMovie newUpcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(upcomingMovieAPI);
     			Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
     			
-    			updateMovieWithDetailsFromAPI(newMovie);
+    			MovieDetailsAPI movieDetails = updateMovieWithDetailsFromAPI(newMovie);
     			upcomingMovieBean.addUpcomingMovie(newMovie, newUpcomingMovie);
     		}
     	}
@@ -105,12 +106,18 @@ public class SchedulerBean implements DataProviderHolder {
     	}
     }
     
-    public void updateMovieWithDetailsFromAPI(Movie movie) {
+    public void checkAir2dayShowsToBeStored() {
+    	ArrayList<NewShowsAPI> newShowsAPI = APIClient.getAir2dayShowsFromAPI();
+    	for(NewShowsAPI newShow : newShowsAPI) {
+    		
+    	}
+    }
+    
+    public MovieDetailsAPI updateMovieWithDetailsFromAPI(Movie movie) {
     	
     	MovieDetailsAPI movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
-    	//TODO genres movie
-    	
     	movieBean.updateMovieWithDetails(movie, movieDetails);
+    	return movieDetails;
     }
     
     public void updateShowWithDetailsFromAPI(Show show) {

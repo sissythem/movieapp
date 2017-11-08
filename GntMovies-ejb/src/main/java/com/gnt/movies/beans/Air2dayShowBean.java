@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.Air2dayShowDao;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
+import com.gnt.movies.entities.Air2dayShow;
 
 /**
  * Session Bean implementation class Air2dayShowBean
@@ -33,5 +34,9 @@ public class Air2dayShowBean implements DataProviderHolder{
 	public EntityManager getEntityManager() {
 		return em;
 	}
+    
+    public void addShow(Air2dayShow air2dayShow) {
+    	air2dayShowDao.createAir2dayShow(this, air2dayShow);
+    }
 
 }
