@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
+import javax.persistence.Query;
 
 import com.gnt.movies.entities.User;
 import com.gnt.movies.utilities.Utils;
@@ -35,7 +36,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	
 	@Override
 	public User findUserByUsername(DataProviderHolder dataProviderHolder, String username) {
-		return (User)getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_USERNAME, username);
+		//return (User)getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_USERNAME, username);
+		User user = new User();
+        Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.USER_FIND_BY_USERNAME);
+        query.setParameter("username", username);
+        user = (User)query.getSingleResult();
+        return user;
 	}
 
 	@Override
