@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.ShowGenreDao;
+import com.gnt.movies.entities.ShowGenre;
 
 /**
  * Session Bean implementation class ShowGenreBean
@@ -34,5 +35,10 @@ public class ShowGenreBean implements DataProviderHolder {
     public ShowGenreBean() {
         
     }
+
+	public void addShowGenre(ShowGenre showGenre) {
+		showGenreDao.createShowGenre(this, showGenre);
+		
+	}
 
 }

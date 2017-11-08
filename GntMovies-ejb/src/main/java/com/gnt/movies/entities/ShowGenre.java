@@ -36,7 +36,12 @@ public class ShowGenre implements Serializable {
     public ShowGenre() {
     }
 
-    public int getId() {
+    public ShowGenre(Show show, Genre genre) {
+		this.show = show;
+		this.genre = genre;
+	}
+
+	public int getId() {
         return this.id;
     }
 

@@ -16,6 +16,7 @@ import com.gnt.movies.entities.MovieGenre;
 import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.OnTheAirShow;
 import com.gnt.movies.entities.Show;
+import com.gnt.movies.entities.ShowGenre;
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.GenresAPI;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
@@ -93,8 +94,10 @@ public class SchedulerBean implements DataProviderHolder {
     	
     	for (UpcomingNowPlayingMovieAPI upcomingMovieAPI : nowPlayingMoviesAPI) {
     		if (nowPlayingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
+    			
     			MovieDetailsAPI movieDetails = new MovieDetailsAPI();
     			NowPlayingMovie newNowPlayingMovie = nowPlayingMovieBean.createNowPlayingMovieFromAPI(upcomingMovieAPI);
+    			
     			if (movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
     				
     				Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
@@ -121,20 +124,24 @@ public class SchedulerBean implements DataProviderHolder {
     	for (NewShowsAPI onTheAirShowAPI : onTheAirShowsAPI) {
     		if (onTheAirShowBean.findOnTheAirShowByIdTmdb(onTheAirShowAPI.getId()) == null) {
     			
+    			ShowDetailsAPI showDetails = new ShowDetailsAPI();
     			OnTheAirShow onTheAirShow = onTheAirShowBean.createOnTheAirShowFromAPI(onTheAirShowAPI.getId());
+    			
     			if (showBean.findShowByIdTmdb(onTheAirShowAPI.getId()) == null) {
     				
     				Show newShow = showBean.createShowFromAPI(onTheAirShowAPI);
-    				updateShowWithDetailsFromAPI(newShow);
+    				showDetails = updateShowWithDetailsFromAPI(newShow);
     				
     				showBean.addShow(newShow);
     				onTheAirShowBean.addOnTheAirShow(onTheAirShow);
     				
     			} else {
     				Show show = showBean.findShowByIdTmdb(onTheAirShowAPI.getId());
+    				showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
     				onTheAirShow.setShow(show);
     				onTheAirShowBean.addOnTheAirShow(onTheAirShow);
     			}
+    			addShowGenres(showDetails);
     		}
     	}
     }
@@ -146,20 +153,24 @@ public class SchedulerBean implements DataProviderHolder {
     	for (NewShowsAPI newShowAPI : newShowsAPI) {
     		if (air2dayShowBean.findAir2dayShowByIdTmdb(newShowAPI.getId()) == null) {
     			
+    			ShowDetailsAPI showDetails = new ShowDetailsAPI();
     			Air2dayShow air2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShowAPI.getId());
+    			
     			if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
     				
     				Show newShow = showBean.createShowFromAPI(newShowAPI);
-    				updateShowWithDetailsFromAPI(newShow);
+    				showDetails = updateShowWithDetailsFromAPI(newShow);
     				
     				showBean.addShow(newShow);
     				air2dayShowBean.addAir2DayShow(air2dayShow);
     				
     			} else {
     				Show show = showBean.findShowByIdTmdb(newShowAPI.getId());
+    				showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
     				air2dayShow.setShow(show);
     				air2dayShowBean.addAir2DayShow(air2dayShow);
     			}
+    			addShowGenres(showDetails);
     		}
     	}
     }
@@ -171,9 +182,10 @@ public class SchedulerBean implements DataProviderHolder {
     	return movieDetails;
     }
     
-    public void updateShowWithDetailsFromAPI(Show show) {
+    public ShowDetailsAPI updateShowWithDetailsFromAPI(Show show) {
     	ShowDetailsAPI showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
     	showBean.updateShowWithDetails(show, showDetails);
+    	return showDetails;
     }
     
     public void addMovieGenres(MovieDetailsAPI movieDetails) {
@@ -189,4 +201,21 @@ public class SchedulerBean implements DataProviderHolder {
     		movieGenreBean.addMovieGenre(movieGenre);
     	}
     }
+    
+    public void addShowGenres(ShowDetailsAPI showDetails) {
+    	ArrayList<GenresAPI> genresAPI = showDetails.getGenresAPI();
+    	
+    	for (GenresAPI genreAPI : genresAPI) {
+    		if (genreBean.findGenreByName(genreAPI.getName()) == null) {
+    			
+    			Genre genre = new Genre(genreAPI.getName());
+    			genreBean.addGenre(genre);
+    		}
+    		Show show = showBean.findShowByIdTmdb(showDetails.getId());
+    		Genre genre = genreBean.findGenreByName(genreAPI.getName());
+    		ShowGenre showGenre = new ShowGenre(show, genre);
+    		showGenreBean.addShowGenre(showGenre);
+    	}
+    }
+    
 }
