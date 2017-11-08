@@ -24,7 +24,7 @@ public class MovieGenreBean implements DataProviderHolder {
 	
 	@Inject
 	@JpaDao
-	@Named("GenreDaoImpl")
+	@Named("MovieGenreDaoImpl")
 	MovieGenreDao movieGenreDao;
 	
 	@Override

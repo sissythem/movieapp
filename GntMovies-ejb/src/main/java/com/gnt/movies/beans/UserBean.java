@@ -38,7 +38,6 @@ public class UserBean implements DataProviderHolder {
     			e.printStackTrace();
     			return false;
     		}
-    		
     	}
     	else {
     		return false;

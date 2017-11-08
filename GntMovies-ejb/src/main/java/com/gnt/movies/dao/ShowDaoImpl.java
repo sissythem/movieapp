@@ -1,8 +1,14 @@
 package com.gnt.movies.dao;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
+
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.utilities.Utils;
 
+@JpaDao
+@Dependent
+@Named("ShowDaoImpl")
 public class ShowDaoImpl extends AbstractDao implements ShowDao {
 
 	@Override
