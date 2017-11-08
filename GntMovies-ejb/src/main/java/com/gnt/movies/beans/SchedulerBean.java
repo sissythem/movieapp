@@ -10,11 +10,14 @@ import javax.persistence.PersistenceContext;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Air2dayShow;
+import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
+import com.gnt.movies.entities.MovieGenre;
 import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.OnTheAirShow;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.UpcomingMovie;
+import com.gnt.movies.theMovieDB.GenresAPI;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.NewShowsAPI;
 import com.gnt.movies.theMovieDB.ShowDetailsAPI;
@@ -79,6 +82,7 @@ public class SchedulerBean implements DataProviderHolder {
     			
     			MovieDetailsAPI movieDetails = updateMovieWithDetailsFromAPI(newMovie);
     			upcomingMovieBean.addUpcomingMovie(newMovie, newUpcomingMovie);
+    			addMovieGenres(movieDetails);
     		}
     	}
     }
@@ -89,21 +93,23 @@ public class SchedulerBean implements DataProviderHolder {
     	
     	for (UpcomingNowPlayingMovieAPI upcomingMovieAPI : nowPlayingMoviesAPI) {
     		if (nowPlayingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
-    			
+    			MovieDetailsAPI movieDetails = new MovieDetailsAPI();
     			NowPlayingMovie newNowPlayingMovie = nowPlayingMovieBean.createNowPlayingMovieFromAPI(upcomingMovieAPI);
     			if (movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
     				
     				Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
-    				updateMovieWithDetailsFromAPI(newMovie);
+    				movieDetails = updateMovieWithDetailsFromAPI(newMovie);
     				
     				movieBean.addMovie(newMovie);
     				nowPlayingMovieBean.addNowPlayingMovie(newNowPlayingMovie);
     			}
     			else {
     				Movie movie = movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId());
+    				movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
     				newNowPlayingMovie.setMovie(movie);
     				nowPlayingMovieBean.addNowPlayingMovie(newNowPlayingMovie);
     			}
+    			addMovieGenres(movieDetails);
     		}
     	}
     }
@@ -153,7 +159,6 @@ public class SchedulerBean implements DataProviderHolder {
     				Show show = showBean.findShowByIdTmdb(newShowAPI.getId());
     				air2dayShow.setShow(show);
     				air2dayShowBean.addAir2DayShow(air2dayShow);
-    				
     			}
     		}
     	}
@@ -171,5 +176,17 @@ public class SchedulerBean implements DataProviderHolder {
     	showBean.updateShowWithDetails(show, showDetails);
     }
     
-    
+    public void addMovieGenres(MovieDetailsAPI movieDetails) {
+    	ArrayList<GenresAPI> genresAPI = movieDetails.getGenresAPI();
+    	for(GenresAPI genreAPI : genresAPI) {
+    		if(genreBean.findGenreByName(genreAPI.getName()) == null) {
+    			Genre genre = new Genre(genreAPI.getName());
+    			genreBean.addGenre(genre);
+    		}
+    		Movie movie = movieBean.findMovieByIdTmdb(movieDetails.getId());
+    		Genre genre = genreBean.findGenreByName(genreAPI.getName());
+    		MovieGenre movieGenre = new MovieGenre(movie, genre);
+    		movieGenreBean.addMovieGenre(movieGenre);
+    	}
+    }
 }
