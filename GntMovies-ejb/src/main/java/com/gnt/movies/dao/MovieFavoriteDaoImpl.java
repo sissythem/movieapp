@@ -53,4 +53,9 @@ public class MovieFavoriteDaoImpl extends AbstractDao implements MovieFavoriteDa
 		return movieFavorites;
 	}
 
+	@Override
+	public List<MovieFavorite> findAll(DataProviderHolder dataProviderHolder) {
+		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_ALL).getResultList();
+	}
+
 }

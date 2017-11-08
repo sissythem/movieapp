@@ -36,7 +36,12 @@ public class ShowFavorite implements Serializable {
     public ShowFavorite() {
     }
 
-    public int getId() {
+    public ShowFavorite(User user, Show show) {
+    	this.user = user;
+    	this.show = show;
+    }
+
+	public int getId() {
         return this.id;
     }
 

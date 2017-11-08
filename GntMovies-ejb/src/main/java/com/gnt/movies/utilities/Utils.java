@@ -43,6 +43,7 @@ public class Utils
 	public static String SHOW_REVIEW_FIND_BY_RATING = "ShowReview.findByRating";
 	public static String SHOW_REVIEW_FIND_BY_USER_ID = "ShowReview.findByUserId";
 	public static String SHOW_REVIEW_FIND_BY_SHOW_ID = "ShowReview.findByShowId";
+	public static String SHOW_REVIEW_FIND_ALL = "ShowReview.findAll";
 	
 	/** Show genre queries**/
 	public static String SHOW_GENRE_FIND_BY_ID = "ShowGenre.findById";
@@ -53,6 +54,7 @@ public class Utils
 	public static String SHOW_FAVORITE_FIND_BY_ID = "ShowFavorite.findById";
 	public static String SHOW_FAVORITE_FIND_BY_USER_ID = "ShowFavorite.findByUserId";
 	public static String SHOW_FAVORITE_FIND_BY_SHOW_ID = "ShowFavorite.findByShowId";
+	public static String SHOW_FAVORITE_FIND_ALL = "ShowFavorite.findAll";
 	
 	/** Show named queries**/
 	public static String SHOW_FIND_BY_ID = "Show.findById";
@@ -80,11 +82,13 @@ public class Utils
 	public static String MOVIE_FAVORITE_FIND_BY_ID = "MovieFavorite.findById";
 	public static String MOVIE_FAVORITE_FIND_BY_MOVIE_ID = "MovieFavorite.findByMovieId";
 	public static String MOVIE_FAVORITE_FIND_BY_USER_ID = "MovieFavorite.findByUserId";
+	public static String MOVIE_FAVORITE_FIND_ALL = "MovieFavorite.findAll";
 	
 	/** Movie review named queries**/
 	public static String MOVIE_REVIEW_FIND_BY_ID = "MovieReview.findById";
 	public static String MOVIE_REVIEW_FIND_BY_USER_ID = "MovieReview.findByUserId";
 	public static String MOVIE_REVIEW_FIND_BY_MOVIE_ID = "MovieReview.findByMovieId";
+	public static String MOVIE_REVIEW_FIND_ALL = "MovieReview.findAll";
 	
 	/** Now playing movie named queries**/
 	public static String NOW_PLAYING_MOVIE_FIND_BY_ID = "NowPlayingMovie.findById";

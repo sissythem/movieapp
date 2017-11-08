@@ -68,4 +68,12 @@ public class MovieBean implements DataProviderHolder{
 	public Movie findMovieByIdTmdb(Integer id) {
 		return movieDao.findMovieByIdTmdb(this, id);
 	}
+	
+	public Movie findMovieByTitle(String title) {
+		return movieDao.findMovieByTitle(this, title);
+	}
+	
+	public Movie findMovieById(int id) {
+		return movieDao.findMovieById(this, id);
+	}
 }

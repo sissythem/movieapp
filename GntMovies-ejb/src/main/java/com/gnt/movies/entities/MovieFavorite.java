@@ -33,6 +33,11 @@ public class MovieFavorite implements Serializable {
 
     public MovieFavorite() {
     }
+    
+    public MovieFavorite(User user, Movie movie) {
+    	this.user=user;
+    	this.movie=movie;
+    }
 
     public int getId() {
         return this.id;

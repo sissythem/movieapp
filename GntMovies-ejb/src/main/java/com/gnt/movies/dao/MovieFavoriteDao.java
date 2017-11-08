@@ -11,4 +11,5 @@ public interface MovieFavoriteDao {
 	MovieFavorite findMovieFavoriteById(DataProviderHolder dataProviderHolder, Integer id);
 	List<MovieFavorite>findMovieFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId);
 	List<MovieFavorite>findMovieFavoriteByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
+	List<MovieFavorite>findAll(DataProviderHolder dataProviderHolder);
 }

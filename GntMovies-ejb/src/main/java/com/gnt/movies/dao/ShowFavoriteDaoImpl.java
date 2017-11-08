@@ -35,7 +35,7 @@ public class ShowFavoriteDaoImpl extends AbstractDao implements ShowFavoriteDao 
 	}
 	
 	@Override
-	public List<ShowFavorite> findByUserId(DataProviderHolder dataProviderHolder, Integer userId){
+	public List<ShowFavorite> findShowFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId){
 		List<ShowFavorite> showFavories = new ArrayList<>();
 		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_USER_ID);
 		query.setParameter("userId", userId);
@@ -44,7 +44,7 @@ public class ShowFavoriteDaoImpl extends AbstractDao implements ShowFavoriteDao 
 	}
 	
 	@Override
-	public List<ShowFavorite> findByShowId(DataProviderHolder dataProviderHolder, Integer showId){
+	public List<ShowFavorite> findShowFavoriteByShowId(DataProviderHolder dataProviderHolder, Integer showId){
 		List<ShowFavorite> showFavories = new ArrayList<>();
 		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_SHOW_ID);
 		query.setParameter("showId", showId);
