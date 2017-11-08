@@ -28,22 +28,22 @@ public class ShowReviewDaoImpl extends AbstractDao implements ShowReviewDao {
 
 	@Override
 	public ShowReview findShowReviewById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (ShowReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_ID, id);
+		return (ShowReview)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_ID, "id", id);
 	}
 
 	@Override
 	public ShowReview findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
-		return (ShowReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_SHOW_ID, showId);
+		return (ShowReview)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_SHOW_ID, "showId", showId);
 	}
 
 	@Override
 	public ShowReview findByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
-		return (ShowReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_USER_ID, userId);
+		return (ShowReview)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_USER_ID, "userId", userId);
 	}
 	
 	@Override
 	public ShowReview findByRating(DataProviderHolder dataProviderHolder, double rating) {
-		return (ShowReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_RATING, rating);
+		return (ShowReview)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_RATING, "rating", rating);
 	}
 	
 }

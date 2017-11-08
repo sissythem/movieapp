@@ -28,17 +28,17 @@ public class OnTheAirShowDaoImpl extends AbstractDao implements OnTheAirShowDao 
 
 	@Override
 	public OnTheAirShow findOnTheAirShowById(DataProviderHolder dataProviderHolder, Integer id) {
-		return(OnTheAirShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_ID, id);
+		return(OnTheAirShow)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_ID, "id", id);
 	}
 
 	@Override
 	public OnTheAirShow findOnTheAirShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		return(OnTheAirShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_IDTMDB, idTmdb);
+		return(OnTheAirShow)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
 
 	@Override
 	public OnTheAirShow findOnTheAirShowByMovieId(DataProviderHolder dataProviderHolder, Integer showId) {
-		return(OnTheAirShow)getSingleResult(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_SHOW_ID, showId);
+		return(OnTheAirShow)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.ON_THE_AIR_SHOW_FIND_BY_SHOW_ID, "showId", showId);
 	}
 
 }

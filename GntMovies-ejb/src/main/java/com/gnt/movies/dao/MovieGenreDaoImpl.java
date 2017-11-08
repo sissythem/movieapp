@@ -32,7 +32,7 @@ public class MovieGenreDaoImpl extends AbstractDao implements MovieGenreDao {
 
 	@Override
 	public MovieGenre findMovieGenreById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (MovieGenre) getSingleResult(dataProviderHolder.getEntityManager(), Utils.MOVIE_GENRE_FIND_BY_ID, id);
+		return (MovieGenre) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_GENRE_FIND_BY_ID, "id", id);
 	}
 
 	@Override

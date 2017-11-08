@@ -28,17 +28,17 @@ public class MovieDaoImpl extends AbstractDao implements MovieDao {
 
 	@Override
 	public Movie findMovieById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (Movie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.MOVIE_FIND_BY_ID, id);
+		return (Movie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_FIND_BY_ID, "id", id);
 	}
 
 	@Override
 	public Movie findMovieByTitle(DataProviderHolder dataProviderHolder, String title) {
-		return (Movie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.MOVIE_FIND_BY_TITLE, title);
+		return (Movie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_FIND_BY_TITLE, "title", title);
 	}
 
 	@Override
 	public Movie findMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		return (Movie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.MOVIE_FIND_BY_IDTMDB, idTmdb);
+		return (Movie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
 
 }

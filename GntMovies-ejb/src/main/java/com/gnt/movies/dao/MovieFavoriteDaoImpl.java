@@ -32,7 +32,7 @@ public class MovieFavoriteDaoImpl extends AbstractDao implements MovieFavoriteDa
 
 	@Override
 	public MovieFavorite findMovieFavoriteById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (MovieFavorite)getSingleResult(dataProviderHolder.getEntityManager(), Utils.MOVIE_FAVORITE_FIND_BY_ID, id);
+		return (MovieFavorite)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_FAVORITE_FIND_BY_ID, "id", id);
 	}
 
 	@Override

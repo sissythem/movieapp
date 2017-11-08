@@ -31,7 +31,7 @@ public class ShowFavoriteDaoImpl extends AbstractDao implements ShowFavoriteDao 
 
 	@Override
 	public ShowFavorite findShowFavoriteById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (ShowFavorite)getSingleResult(dataProviderHolder.getEntityManager(),Utils.SHOW_FAVORITE_FIND_BY_ID, id);
+		return (ShowFavorite)findSingleEntity(dataProviderHolder.getEntityManager(),Utils.SHOW_FAVORITE_FIND_BY_ID, "id", id);
 	}
 	
 	@Override

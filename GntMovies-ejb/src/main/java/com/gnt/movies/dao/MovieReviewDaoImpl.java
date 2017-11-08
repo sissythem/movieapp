@@ -32,7 +32,7 @@ public class MovieReviewDaoImpl extends AbstractDao implements MovieReviewDao {
 
 	@Override
 	public MovieReview findMovieReviewById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (MovieReview)getSingleResult(dataProviderHolder.getEntityManager(), Utils.MOVIE_REVIEW_FIND_BY_ID, id);
+		return (MovieReview)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_REVIEW_FIND_BY_ID, "id", id);
 	}
 
 	@Override

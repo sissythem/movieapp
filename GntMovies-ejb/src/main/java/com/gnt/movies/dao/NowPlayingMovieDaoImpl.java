@@ -28,17 +28,17 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (NowPlayingMovie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_ID, id);
+		return (NowPlayingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_ID, "id", id);
 	}
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		return (NowPlayingMovie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_IDTMDB, idTmdb.toString());
+		return (NowPlayingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		return (NowPlayingMovie)getSingleResult(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_MOVIE_ID, movieId);
+		return (NowPlayingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
 	}
 
 }

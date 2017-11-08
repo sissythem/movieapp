@@ -32,23 +32,22 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 	@Override
 	public User findUserById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (User)getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_ID, id);
+		return (User)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_ID, "id", id);
 	}
 	
 	@Override
 	public User findUserByUsername(DataProviderHolder dataProviderHolder, String username) {
-		return (User)findSingleEntity(dataProviderHolder,"username", username, Utils.USER_FIND_BY_USERNAME);
-//		return (User)getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_USERNAME, username);
+		return (User)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_USERNAME,"username", username);
 	}
 
 	@Override
 	public User findUserByEmail(DataProviderHolder dataProviderHolder, String email) {
-		return (User)getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_EMAIL, email);
+		return (User)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_EMAIL,"email", email);
 	}
 	
 	@Override
 	public User findUserByPassword(DataProviderHolder dataProviderHolder, String password) {
-		return (User)getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_PASSWORD, password);
+		return (User)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_FIND_BY_PASSWORD,"password", password);
 	}
 	
 	@Override

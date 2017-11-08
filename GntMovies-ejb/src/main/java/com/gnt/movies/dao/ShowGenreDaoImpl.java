@@ -32,7 +32,7 @@ public class ShowGenreDaoImpl extends AbstractDao implements ShowGenreDao {
 
 	@Override
 	public ShowGenre findShowGenreById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (ShowGenre)getSingleResult(dataProviderHolder.getEntityManager(), Utils.SHOW_GENRE_FIND_BY_ID, id);
+		return (ShowGenre)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_GENRE_FIND_BY_ID, "id", id);
 	}
 	
 	@Override
