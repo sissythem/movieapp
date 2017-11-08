@@ -31,6 +31,9 @@ public class Utils
 	public static String USER_FIND_BY_EMAIL = "User.findByEmail";
 	public static String USER_FIND_BY_PASSWORD ="User.findByPassword";
 	public static String USER_FIND_BY_AGE = "User.findByAge";
+	public static String USER_CHECK_USERNAME = "User.checkUsername";
+	public static String USER_CHECK_EMAIL = "User.checkEmail";
+	public static String USER_LOGIN = "User.login";
 	
 	/** Upcoming movie queries**/
 	public static String UPCOMING_MOVIE_FIND_BY_ID = "UpcomingMovie.findById";

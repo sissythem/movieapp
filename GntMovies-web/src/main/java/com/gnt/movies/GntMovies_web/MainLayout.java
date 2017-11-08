@@ -37,9 +37,9 @@ public class MainLayout extends VerticalLayout {
 			// List<MovieFavorite> movieFavorites,
 			// List<MovieReview> movieReviews, List<ShowFavorite> showFavorites,
 			// List<ShowReview> showReviews) {
-//			userBean.registerUser(new User(20, LocalDate.now(), "mail@mail.com", "John", "Maz", "12334", null,
-//					LocalDate.now(), "gmaz", null, null, null, null));
-
+			userBean.registerUser(new User(20, LocalDate.now(), name.getValue()+"@mail.com", "John", "Maz", "12334", null,
+					LocalDate.now(), name.getValue(), null, null, null, null));
+			System.out.println("User added");
 			User user = userBean.findUserByUsername("gmaz");
 
 			this.addComponent(new Label("Thanks " + name.getValue() + " " + MyUI.get().getUserBean() + ", it works!"));

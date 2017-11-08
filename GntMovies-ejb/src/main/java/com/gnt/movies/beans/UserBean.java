@@ -15,47 +15,47 @@ import com.gnt.movies.entities.User;
 @Stateless
 @LocalBean
 public class UserBean implements DataProviderHolder {
-	
+
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Inject
 	@JpaDao
 	@Named("UserDaoImpl")
 	UserDao userDao;
 
-    public UserBean() {
-    }
-   
-    public boolean registerUser(User user) {
-    	if(userDao.findUserByUsername(this, user.getUsername()) == null || 
-    			userDao.findUserByEmail(this, user.getEmail()) == null)
-    	{
-    		try {
-    			userDao.createUser(this, user);
-        		return true;
-    		}catch(Exception e) {
-    			e.printStackTrace();
-    			return false;
-    		}
-    	}
-    	else {
-    		return false;
-    	}
-    }
-    
-    public boolean loginUser(String username, String password) {
-    	if(userDao.findUserByUsername(this, username)!=null && userDao.findUserByPassword(this, password) !=null) {
-    		return true;
-    	}
-    	else {
-    		return false;
-    	}
-    }
-    
-    public User findUserByUsername(String username) {
-    	return userDao.findUserByUsername(this, username);
-    }
+	public UserBean() {
+	}
+
+	public boolean usernameExists(String username) {
+		return userDao.UsernameExists(this, username);
+	}
+
+	public boolean registerUser(User user) {
+		if (userDao.UsernameExists(this, user.getUsername()) || userDao.EmailExists(this, user.getEmail())) {
+			return false;
+		} else {
+			try {
+				userDao.createUser(this, user);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+	}
+
+	public boolean loginUser(String username, String password) {
+		if (userDao.checkCredentials(this, username,password)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public User findUserByUsername(String username) {
+		return userDao.findUserByUsername(this, username);
+	}
 
 	@Override
 	public EntityManager getEntityManager() {
