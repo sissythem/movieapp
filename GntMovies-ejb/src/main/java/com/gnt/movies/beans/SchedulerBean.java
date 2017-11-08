@@ -156,6 +156,7 @@ public class SchedulerBean implements DataProviderHolder {
     		Movie movie = movieBean.findMovieByIdTmdb(movieDetails.getId());
     		Genre genre = genreBean.findGenreByName(genreAPI.getName());
     		MovieGenre movieGenre = new MovieGenre(movie, genre);
+    		movieGenreBean.addMovieGenre(movieGenre);
     	}
     }
 }
