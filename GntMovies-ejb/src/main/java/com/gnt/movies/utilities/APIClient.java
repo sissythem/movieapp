@@ -41,11 +41,11 @@ public class APIClient {
     	
     	ArrayList<UpcomingNowPlayingMovieAPI> newUpcomingMovies = new ArrayList<>();
     	
-    	UpcomingNowPlayingMovieResultsAPI upcomingNowPlayingMovieResults = getUpcomingMoviePage(1);
+    	UpcomingNowPlayingMovieResultsAPI upcomingNowPlayingMovieResults = getPagesForMovies(1, Utils.UPCOMING_MOVIES_URL);
     	newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
     	
     	for (int page = 2; page <= upcomingNowPlayingMovieResults.getTotalPages(); page++) {
-   			upcomingNowPlayingMovieResults = getUpcomingMoviePage(page);
+   			upcomingNowPlayingMovieResults = getPagesForMovies(page, Utils.UPCOMING_MOVIES_URL);
     			
    			newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
     	}
@@ -57,12 +57,12 @@ public class APIClient {
     	
     	ArrayList<UpcomingNowPlayingMovieAPI> newNowPlayingMovies = new ArrayList<>();
     	
-    	UpcomingNowPlayingMovieResultsAPI resultNowPlaying = getNowPlayingMoviePage(1);
+    	UpcomingNowPlayingMovieResultsAPI resultNowPlaying = getPagesForMovies(1, Utils.NOW_PLAYING_MOVIES_URL);
     	newNowPlayingMovies.addAll(resultNowPlaying.getResults());
     	
     	for (int page = 2; page <= resultNowPlaying.getTotalPages(); page++) {
     		
-    		resultNowPlaying = getNowPlayingMoviePage(page);
+    		resultNowPlaying = getPagesForMovies(page, Utils.NOW_PLAYING_MOVIES_URL);
     		
     		newNowPlayingMovies.addAll(resultNowPlaying.getResults());
     	}
@@ -73,12 +73,12 @@ public class APIClient {
     public static ArrayList<NewShowsAPI> getAir2dayShowsFromAPI(){
     	ArrayList<NewShowsAPI> air2dayShows = new ArrayList<>();
     	
-    	ShowResultsAPI showResults = getAir2dayShowPage(1);
+    	ShowResultsAPI showResults = getPagesForShows(1, Utils.AIR2DAY_SHOWS_URL);
     	air2dayShows.addAll(showResults.getResults());
     	
     	for (int page = 2; page <= showResults.getTotalPages(); page++) {
     		
-    		showResults = getAir2dayShowPage(page);
+    		showResults =  getPagesForShows(page, Utils.AIR2DAY_SHOWS_URL);
     		
     		air2dayShows.addAll(showResults.getResults());
     	}
@@ -89,12 +89,12 @@ public class APIClient {
     public static ArrayList<NewShowsAPI> getOnTheAirShowsFromAPI(){
     	ArrayList<NewShowsAPI> onTheAirShows = new ArrayList<>();
     	
-    	ShowResultsAPI showResultsAPI = getShowOnTheAirPage(1);
+    	ShowResultsAPI showResultsAPI =  getPagesForShows(1, Utils.ON_THE_AIR_SHOWS_URL);
     	onTheAirShows.addAll(showResultsAPI.getResults());
     	
     	for (int page = 2; page <= showResultsAPI.getTotalPages(); page++) {
     		
-    		showResultsAPI = getShowOnTheAirPage(page);
+    		showResultsAPI = getPagesForShows(page, Utils.ON_THE_AIR_SHOWS_URL);
     		
     		onTheAirShows.addAll(showResultsAPI.getResults());
     	}
@@ -134,23 +134,8 @@ public class APIClient {
     	return showDetails;
     }
     
-    public static UpcomingNowPlayingMovieResultsAPI getUpcomingMoviePage(int page) {    	
-    	StringBuilder url = new StringBuilder(Utils.UPCOMING_MOVIES_URL)
-    			.append(Utils.API_KEY)
-    			.append(Utils.LANGUAGE_FOR_URL)
-    			.append(Utils.NUMBER_PAGE_FOR_URL)
-    			.append(Integer.toString(page));
-    	
-    	String resultJson = getResultFromTMDB(url.toString());
-    	
-    	UpcomingNowPlayingMovieResultsAPI upcomingNowPlayingMovieResults = new Gson()
-    			.fromJson(resultJson, UpcomingNowPlayingMovieResultsAPI.class);
-  
-    	return upcomingNowPlayingMovieResults;
-    }
-	
-    public static UpcomingNowPlayingMovieResultsAPI getNowPlayingMoviePage(int page) {    	
-    	StringBuilder url = new StringBuilder(Utils.NOW_PLAYING_MOVIES_URL)
+    public static UpcomingNowPlayingMovieResultsAPI getPagesForMovies(int page, String typeOfMovieUrl) {    	
+    	StringBuilder url = new StringBuilder(typeOfMovieUrl)
     			.append(Utils.API_KEY)
     			.append(Utils.LANGUAGE_FOR_URL)
     			.append(Utils.NUMBER_PAGE_FOR_URL)
@@ -164,23 +149,8 @@ public class APIClient {
     	return upcomingNowPlayingMovieResults;
     }
     
-    public static ShowResultsAPI getAir2dayShowPage(int page) {    	
-    	StringBuilder url = new StringBuilder(Utils.AIR2DAY_SHOWS_URL)
-    			.append(Utils.API_KEY)
-    			.append(Utils.LANGUAGE_FOR_URL)
-    			.append(Utils.NUMBER_PAGE_FOR_URL)
-    			.append(Integer.toString(page));
-    	
-    	String resultJson = getResultFromTMDB(url.toString());
-    	
-    	ShowResultsAPI showResults = new Gson()
-    			.fromJson(resultJson, ShowResultsAPI.class);
-  
-    	return showResults;
-    }
-    
-    public static ShowResultsAPI getShowOnTheAirPage(int page) {    	
-    	StringBuilder url = new StringBuilder(Utils.ON_THE_AIR_SHOWS_URL)
+    public static ShowResultsAPI getPagesForShows(int page, String typeOfShowUrl) {    	
+    	StringBuilder url = new StringBuilder(typeOfShowUrl)
     			.append(Utils.API_KEY)
     			.append(Utils.LANGUAGE_FOR_URL)
     			.append(Utils.NUMBER_PAGE_FOR_URL)
