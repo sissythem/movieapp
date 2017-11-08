@@ -14,6 +14,7 @@ import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.UpcomingMovie;
+import com.gnt.movies.theMovieDB.GenresAPI;
 import com.gnt.movies.theMovieDB.MovieDetailsAPI;
 import com.gnt.movies.theMovieDB.NewShowsAPI;
 import com.gnt.movies.theMovieDB.ShowDetailsAPI;
@@ -110,11 +111,19 @@ public class SchedulerBean implements DataProviderHolder {
     	
     	ArrayList<NewShowsAPI> newShowsAPI = APIClient.getAir2dayShowsFromAPI();
     	
-    	for(NewShowsAPI newShow : newShowsAPI) {
-    		if(air2dayShowBean.findAir2dayShowByIdTmdb(newShow.getId()) == null) {
-    			Air2dayShow air2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShow.getId());
-    			if(showBean.findShowByIdTmdb(newShow.getId()) == null) {
-    				
+    	for(NewShowsAPI newShowAPI : newShowsAPI) {
+    		if(air2dayShowBean.findAir2dayShowByIdTmdb(newShowAPI.getId()) == null) {
+    			Air2dayShow air2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShowAPI.getId());
+    			if(showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
+    				Show newShow = showBean.createShowFromAPI(newShowAPI);
+    				updateShowWithDetailsFromAPI(newShow);
+    				showBean.addShow(newShow);
+    				air2dayShowBean.addAir2dayShow(air2dayShow);
+    			}
+    			else {
+    				Show show = showBean.findShowByIdTmdb(newShowAPI.getId());
+    				air2dayShow.setShow(show);
+    				air2dayShowBean.addAir2dayShow(air2dayShow);
     			}
     		}
     	}
@@ -129,9 +138,15 @@ public class SchedulerBean implements DataProviderHolder {
     
     public void updateShowWithDetailsFromAPI(Show show) {
     	ShowDetailsAPI showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
-    	//TODO genres show
     	showBean.updateShowWithDetails(show, showDetails);
     }
     
-    
+    public void addMovieGenres(MovieDetailsAPI movieDetails) {
+    	ArrayList<GenresAPI> genres = movieDetails.getGenresAPI();
+    	for(GenresAPI genre : genres) {
+    		if(genreBean.findGenreByName(genre.getName()) == null) {
+    			
+    		}
+    	}
+    }
 }
