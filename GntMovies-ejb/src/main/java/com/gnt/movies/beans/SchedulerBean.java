@@ -44,6 +44,15 @@ public class SchedulerBean implements DataProviderHolder {
 	@EJB
 	ShowBean showBean;
 	
+	@EJB
+	GenreBean genreBean;
+	
+	@EJB
+	MovieGenreBean movieGenreBean;
+	
+	@EJB
+	ShowGenreBean showGenreBean;
+	
     public SchedulerBean() {
         
     }
@@ -100,6 +109,7 @@ public class SchedulerBean implements DataProviderHolder {
     	
     	MovieDetailsAPI movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
     	//TODO genres movie
+    	
     	movieBean.updateMovieWithDetails(movie, movieDetails);
     }
     

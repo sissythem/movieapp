@@ -28,6 +28,11 @@ public class UserBean implements DataProviderHolder {
     
     }
     
+    @Override
+	public EntityManager getEntityManager() {
+		return em;
+	}
+    
     public boolean registerUser(User user) {
     	if(userDao.findUserByUsername(this, user.getUsername()) == null || 
     			userDao.findUserByEmail(this, user.getEmail()) == null)
@@ -54,11 +59,6 @@ public class UserBean implements DataProviderHolder {
     		return false;
     	}
     }
-
-	@Override
-	public EntityManager getEntityManager() {
-		return em;
-	}
 
 	public User findUserByUsername(String username) {
 		return (User)userDao.findUserByUsername(this, username);
