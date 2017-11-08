@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
+import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -69,8 +70,7 @@ public class SchedulerBean implements DataProviderHolder {
 		return em;
 	}
     
-    //TODO set timer
-    
+    @Schedule(dayOfWeek="*", hour="0")
     public void checkUpcomingMoviesToBeStored() {
     	
     	ArrayList<UpcomingNowPlayingMovieAPI> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
@@ -88,6 +88,7 @@ public class SchedulerBean implements DataProviderHolder {
     	}
     }
     
+    @Schedule(dayOfWeek="*", hour="0")
     public void checkNowPlayingMoviesToBeStored() {
     	
     	ArrayList<UpcomingNowPlayingMovieAPI> nowPlayingMoviesAPI = APIClient.getNowPlayingMoviesFromAPI();
@@ -117,6 +118,7 @@ public class SchedulerBean implements DataProviderHolder {
     	}
     }
     
+    @Schedule(dayOfWeek="*", hour="0")
     public void checkOnTheAirShowToBeStored() {
     	
     	ArrayList<NewShowsAPI> onTheAirShowsAPI = APIClient.getOnTheAirShowsFromAPI();
@@ -146,6 +148,7 @@ public class SchedulerBean implements DataProviderHolder {
     	}
     }
     
+    @Schedule(dayOfWeek="*", hour="0")
     public void checkAir2dayShowsToBeStored() {
     	
     	ArrayList<NewShowsAPI> newShowsAPI = APIClient.getAir2dayShowsFromAPI();
