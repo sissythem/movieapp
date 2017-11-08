@@ -13,4 +13,8 @@ public class Logger {
 	public void error(String msg, NoResultException e) {
 		logger.error(msg);
 	}
+	
+	public void info(String msg) {
+		logger.info(msg);
+	}
 }
