@@ -60,4 +60,8 @@ public class ShowBean implements DataProviderHolder{
     public void addShow(Show show) {
     	showDao.createShow(this, show);
     }
+    
+    public Show findShowByIdTmdb(int idTmdb) {
+    	return showDao.findShowByIdTmdb(this, idTmdb);
+    }
 }

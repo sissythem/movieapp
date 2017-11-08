@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.gnt.movies.dao.DataProviderHolder;
+import com.gnt.movies.entities.Air2dayShow;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.Show;
@@ -90,7 +91,6 @@ public class SchedulerBean implements DataProviderHolder {
     			
     			NowPlayingMovie newNowPlayingMovie = nowPlayingMovieBean.createNowPlayingMovieFromAPI(upcomingMovieAPI);
     			if (movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
-    				
     				Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
     				updateMovieWithDetailsFromAPI(newMovie);
     				
@@ -109,7 +109,12 @@ public class SchedulerBean implements DataProviderHolder {
     public void checkAir2dayShowsToBeStored() {
     	ArrayList<NewShowsAPI> newShowsAPI = APIClient.getAir2dayShowsFromAPI();
     	for(NewShowsAPI newShow : newShowsAPI) {
-    		
+    		if(air2dayShowBean.findAir2dayShowByIdTmdb(newShow.getId()) == null) {
+    			Air2dayShow air2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShow.getId());
+    			if(showBean.findShowByIdTmdb(newShow.getId()) == null) {
+    				
+    			}
+    		}
     	}
     }
     

@@ -30,6 +30,10 @@ public class Air2dayShow implements Serializable {
 
     public Air2dayShow() {
     }
+    
+    public Air2dayShow(int idTmdb) {
+    	this.idTmdb = idTmdb;
+    }
 
     public int getId() {
         return this.id;
