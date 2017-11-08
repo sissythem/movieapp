@@ -34,6 +34,11 @@ public class MovieGenre implements Serializable {
 
     public MovieGenre() {
     }
+    
+    public MovieGenre(Movie movie, Genre genre) {
+    	this.movie=movie;
+    	this.genre=genre;
+    }
 
     public int getId() {
         return this.id;
