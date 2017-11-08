@@ -26,12 +26,7 @@ public class UserBean implements DataProviderHolder {
 
     public UserBean() {
     }
-    
-    public boolean registerUserTest(User user) {
-    	UserDaoImpl userDaoImpl = new UserDaoImpl();
-    	userDaoImpl.createUser(this, user);
-    	return true;
-    }
+   
     public boolean registerUser(User user) {
     	if(userDao.findUserByUsername(this, user.getUsername()) == null || 
     			userDao.findUserByEmail(this, user.getEmail()) == null)
