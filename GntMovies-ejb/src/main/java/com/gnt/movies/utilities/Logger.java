@@ -1,5 +1,7 @@
 package com.gnt.movies.utilities;
 
+import io.jsonwebtoken.SignatureException;
+
 import javax.persistence.NoResultException;
 
 public class Logger {
@@ -11,6 +13,14 @@ public class Logger {
 	}
 
 	public void error(String msg, NoResultException e) {
+		logger.error(msg);
+	}
+	
+	public void error(String msg, Exception e) {
+		logger.error(msg);
+	}
+	
+	public void error(String msg, SignatureException e) {
 		logger.error(msg);
 	}
 	
