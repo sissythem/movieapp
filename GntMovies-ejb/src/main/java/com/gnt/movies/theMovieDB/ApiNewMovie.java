@@ -2,7 +2,7 @@ package com.gnt.movies.theMovieDB;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UpcomingNowPlayingMovieAPI {
+public class ApiNewMovie {
 	 @SerializedName("vote_count")
 	 private int voteCount;
 	 @SerializedName("id")
@@ -78,7 +78,7 @@ public class UpcomingNowPlayingMovieAPI {
 	}
 	@Override
 	public String toString() {
-		return "UpcomingNowPlayingMovieAPI [voteCount=" + voteCount + ", id=" + id + ", voteAverage=" + voteAverage
+		return "ApiNewMovie [voteCount=" + voteCount + ", id=" + id + ", voteAverage=" + voteAverage
 				+ ", title=" + title + ", originalLanguage=" + originalLanguage + ", originalTitle=" + originalTitle
 				+ ", adult=" + adult + ", overview=" + overview + ", releaseDate=" + releaseDate + "]";
 	}

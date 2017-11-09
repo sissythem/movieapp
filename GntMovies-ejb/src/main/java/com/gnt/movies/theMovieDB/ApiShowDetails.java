@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ShowDetailsAPI {
+public class ApiShowDetails {
 	
 	@SerializedName("created_by")
-	private ArrayList<CreatorAPI> createdBy;
+	private ArrayList<ApiCreator> createdBy;
 	@SerializedName("first_air_date")
 	private String firstAirDate;
 	@SerializedName("genres")
-	private ArrayList<GenresAPI> genresAPI;
+	private ArrayList<ApiGenres> apiGenres;
 	@SerializedName("homepage")
 	private String homepage;
 	@SerializedName("id")
@@ -25,7 +25,7 @@ public class ShowDetailsAPI {
 	@SerializedName("name")
 	private String name;
 	@SerializedName("networks")
-	private ArrayList<NetworksAPI> networks;
+	private ArrayList<ApiNetworks> networks;
 	@SerializedName("number_of_episodes")
 	private int episodesNum;
 	@SerializedName("number_of_seasons")
@@ -39,9 +39,9 @@ public class ShowDetailsAPI {
 	@SerializedName("overview")
 	private String overview;
 	@SerializedName("production_companies")
-	private ArrayList<ProductionCompaniesAPI> productionCompaniesAPI;
+	private ArrayList<ApiProductionCompanies> apiProductionCompanies;
 	@SerializedName("production_countries")
-	private ArrayList<ProductionCountriesAPI> productionCountriesAPI;
+	private ArrayList<ApiProductionCountries> apiProductionCountries;
 	@SerializedName("status")
 	private String status;
 	@SerializedName("type")
@@ -51,10 +51,10 @@ public class ShowDetailsAPI {
 	@SerializedName("vote_count")
 	private int voteCount;
 	
-	public ArrayList<CreatorAPI> getCreatedBy() {
+	public ArrayList<ApiCreator> getCreatedBy() {
 		return createdBy;
 	}
-	public void setCreatedBy(ArrayList<CreatorAPI> createdBy) {
+	public void setCreatedBy(ArrayList<ApiCreator> createdBy) {
 		this.createdBy = createdBy;
 	}
 	public String getFirstAirDate() {
@@ -63,11 +63,11 @@ public class ShowDetailsAPI {
 	public void setFirstAirDate(String firstAirDate) {
 		this.firstAirDate = firstAirDate;
 	}
-	public ArrayList<GenresAPI> getGenresAPI() {
-		return genresAPI;
+	public ArrayList<ApiGenres> getGenresAPI() {
+		return apiGenres;
 	}
-	public void setGenres(ArrayList<GenresAPI> genres) {
-		this.genresAPI = genres;
+	public void setGenres(ArrayList<ApiGenres> genres) {
+		this.apiGenres = genres;
 	}
 	public String getHomepage() {
 		return homepage;
@@ -105,10 +105,10 @@ public class ShowDetailsAPI {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ArrayList<NetworksAPI> getNetworks() {
+	public ArrayList<ApiNetworks> getNetworks() {
 		return networks;
 	}
-	public void setNetworks(ArrayList<NetworksAPI> networks) {
+	public void setNetworks(ArrayList<ApiNetworks> networks) {
 		this.networks = networks;
 	}
 	public int getEpisodesNum() {
@@ -147,17 +147,17 @@ public class ShowDetailsAPI {
 	public void setOverview(String overview) {
 		this.overview = overview;
 	}
-	public ArrayList<ProductionCompaniesAPI> getProductionCompaniesAPI() {
-		return productionCompaniesAPI;
+	public ArrayList<ApiProductionCompanies> getProductionCompaniesAPI() {
+		return apiProductionCompanies;
 	}
-	public void setProductionCompaniesAPI(ArrayList<ProductionCompaniesAPI> productionCompaniesAPI) {
-		this.productionCompaniesAPI = productionCompaniesAPI;
+	public void setProductionCompaniesAPI(ArrayList<ApiProductionCompanies> apiProductionCompanies) {
+		this.apiProductionCompanies = apiProductionCompanies;
 	}
-	public ArrayList<ProductionCountriesAPI> getProductionCountriesAPI() {
-		return productionCountriesAPI;
+	public ArrayList<ApiProductionCountries> getProductionCountriesAPI() {
+		return apiProductionCountries;
 	}
-	public void setProductionCountriesAPI(ArrayList<ProductionCountriesAPI> productionCountriesAPI) {
-		this.productionCountriesAPI = productionCountriesAPI;
+	public void setProductionCountriesAPI(ArrayList<ApiProductionCountries> apiProductionCountries) {
+		this.apiProductionCountries = apiProductionCountries;
 	}
 	public String getStatus() {
 		return status;

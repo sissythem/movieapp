@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UpcomingNowPlayingMovieResultsAPI {
+public class ApiNewMovieResults {
 	@SerializedName("results")
-	private ArrayList<UpcomingNowPlayingMovieAPI> results;
+	private ArrayList<ApiNewMovie> results;
 	@SerializedName("page")
 	private int page;
 	@SerializedName("total_results")
 	private int totalResults;
 	@SerializedName("total_pages")
 	private int totalPages;
-	public ArrayList<UpcomingNowPlayingMovieAPI> getResults() {
+	public ArrayList<ApiNewMovie> getResults() {
 		return results;
 	}
-	public void setResults(ArrayList<UpcomingNowPlayingMovieAPI> results) {
+	public void setResults(ArrayList<ApiNewMovie> results) {
 		this.results = results;
 	}
 	public int getPage() {

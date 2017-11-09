@@ -2,7 +2,7 @@ package com.gnt.movies.theMovieDB;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ProductionCountriesAPI {
+public class ApiProductionCountries {
 	
 	@SerializedName("iso_3166_1")
 	private String iso31661;
@@ -23,7 +23,7 @@ public class ProductionCountriesAPI {
 	}
 	@Override
 	public String toString() {
-		return "ProductionCountriesAPI [name=" + name + "]";
+		return "ApiProductionCountries [name=" + name + "]";
 	}
 	
 }

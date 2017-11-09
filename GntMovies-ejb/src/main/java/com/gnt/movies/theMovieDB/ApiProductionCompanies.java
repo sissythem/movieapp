@@ -2,7 +2,7 @@ package com.gnt.movies.theMovieDB;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ProductionCompaniesAPI {
+public class ApiProductionCompanies {
 	
 	@SerializedName("id")
 	private int id;
@@ -23,6 +23,6 @@ public class ProductionCompaniesAPI {
 	}
 	@Override
 	public String toString() {
-		return "ProductionCompaniesAPI [name=" + name + "]";
+		return "ApiProductionCompanies [name=" + name + "]";
 	}
 }

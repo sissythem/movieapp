@@ -13,7 +13,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.NowPlayingMovieDao;
 import com.gnt.movies.entities.NowPlayingMovie;
-import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
+import com.gnt.movies.theMovieDB.ApiNewMovie;
 
 @Stateless
 @LocalBean
@@ -42,7 +42,7 @@ public class NowPlayingMovieBean implements DataProviderHolder{
 		return nowPlayingMovieDao.findNowPlayingMovieByIdTmdb(this, id);
 	}
     
-    public NowPlayingMovie createNowPlayingMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) {
+    public NowPlayingMovie createNowPlayingMovieFromAPI(ApiNewMovie upcomingMovie) {
     	return new NowPlayingMovie(upcomingMovie.getId());
 	}
     

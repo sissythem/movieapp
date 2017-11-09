@@ -3,13 +3,13 @@ package com.gnt.movies.utilities;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.gnt.movies.theMovieDB.CastCrewResultsAPI;
-import com.gnt.movies.theMovieDB.MovieDetailsAPI;
-import com.gnt.movies.theMovieDB.NewShowsAPI;
-import com.gnt.movies.theMovieDB.ShowDetailsAPI;
-import com.gnt.movies.theMovieDB.ShowResultsAPI;
-import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
-import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieResultsAPI;
+import com.gnt.movies.theMovieDB.ApiCastCrewResults;
+import com.gnt.movies.theMovieDB.ApiMovieDetails;
+import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.theMovieDB.ApiShowDetails;
+import com.gnt.movies.theMovieDB.ApiNewShowResults;
+import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.theMovieDB.ApiNewMovieResults;
 import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
@@ -37,11 +37,11 @@ public class APIClient {
 	}
 	
 	/** Get new Movies and Shows from API **/
-    public static ArrayList<UpcomingNowPlayingMovieAPI> getUpcomingMoviesFromAPI(){
+    public static ArrayList<ApiNewMovie> getUpcomingMoviesFromAPI(){
     	
-    	ArrayList<UpcomingNowPlayingMovieAPI> newUpcomingMovies = new ArrayList<>();
+    	ArrayList<ApiNewMovie> newUpcomingMovies = new ArrayList<>();
     	
-    	UpcomingNowPlayingMovieResultsAPI upcomingNowPlayingMovieResults = getPagesForMovies(1, Utils.UPCOMING_MOVIES_URL);
+    	ApiNewMovieResults upcomingNowPlayingMovieResults = getPagesForMovies(1, Utils.UPCOMING_MOVIES_URL);
     	newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
     	
     	for (int page = 2; page <= upcomingNowPlayingMovieResults.getTotalPages(); page++) {
@@ -53,11 +53,11 @@ public class APIClient {
     	return newUpcomingMovies;
     }
     
-    public static ArrayList<UpcomingNowPlayingMovieAPI> getNowPlayingMoviesFromAPI(){
+    public static ArrayList<ApiNewMovie> getNowPlayingMoviesFromAPI(){
     	
-    	ArrayList<UpcomingNowPlayingMovieAPI> newNowPlayingMovies = new ArrayList<>();
+    	ArrayList<ApiNewMovie> newNowPlayingMovies = new ArrayList<>();
     	
-    	UpcomingNowPlayingMovieResultsAPI resultNowPlaying = getPagesForMovies(1, Utils.NOW_PLAYING_MOVIES_URL);
+    	ApiNewMovieResults resultNowPlaying = getPagesForMovies(1, Utils.NOW_PLAYING_MOVIES_URL);
     	newNowPlayingMovies.addAll(resultNowPlaying.getResults());
     	
     	for (int page = 2; page <= resultNowPlaying.getTotalPages(); page++) {
@@ -70,10 +70,10 @@ public class APIClient {
     	return newNowPlayingMovies;
     }
     
-    public static ArrayList<NewShowsAPI> getAir2dayShowsFromAPI(){
-    	ArrayList<NewShowsAPI> air2dayShows = new ArrayList<>();
+    public static ArrayList<ApiNewShow> getAir2dayShowsFromAPI(){
+    	ArrayList<ApiNewShow> air2dayShows = new ArrayList<>();
     	
-    	ShowResultsAPI showResults = getPagesForShows(1, Utils.AIR2DAY_SHOWS_URL);
+    	ApiNewShowResults showResults = getPagesForShows(1, Utils.AIR2DAY_SHOWS_URL);
     	air2dayShows.addAll(showResults.getResults());
     	
     	for (int page = 2; page <= showResults.getTotalPages(); page++) {
@@ -86,23 +86,23 @@ public class APIClient {
     	return air2dayShows;
     }
     
-    public static ArrayList<NewShowsAPI> getOnTheAirShowsFromAPI(){
-    	ArrayList<NewShowsAPI> onTheAirShows = new ArrayList<>();
+    public static ArrayList<ApiNewShow> getOnTheAirShowsFromAPI(){
+    	ArrayList<ApiNewShow> onTheAirShows = new ArrayList<>();
     	
-    	ShowResultsAPI showResultsAPI =  getPagesForShows(1, Utils.ON_THE_AIR_SHOWS_URL);
-    	onTheAirShows.addAll(showResultsAPI.getResults());
+    	ApiNewShowResults apiNewShowResults =  getPagesForShows(1, Utils.ON_THE_AIR_SHOWS_URL);
+    	onTheAirShows.addAll(apiNewShowResults.getResults());
     	
-    	for (int page = 2; page <= showResultsAPI.getTotalPages(); page++) {
+    	for (int page = 2; page <= apiNewShowResults.getTotalPages(); page++) {
     		
-    		showResultsAPI = getPagesForShows(page, Utils.ON_THE_AIR_SHOWS_URL);
+    		apiNewShowResults = getPagesForShows(page, Utils.ON_THE_AIR_SHOWS_URL);
     		
-    		onTheAirShows.addAll(showResultsAPI.getResults());
+    		onTheAirShows.addAll(apiNewShowResults.getResults());
     	}
     	
     	return onTheAirShows;
     }
     
-    public static MovieDetailsAPI getMovieDetailsFromAPI(int id) {
+    public static ApiMovieDetails getMovieDetailsFromAPI(int id) {
     	
     	StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL)
     			.append(Integer.toString(id))
@@ -110,11 +110,11 @@ public class APIClient {
     	
     	String json = getResultFromTMDB(url.toString());
     	
-    	MovieDetailsAPI movieDetails = new Gson().fromJson(json, MovieDetailsAPI.class);
+    	ApiMovieDetails movieDetails = new Gson().fromJson(json, ApiMovieDetails.class);
     	String castCrewURL = Utils.GENERAL_MOVIE_URL + Integer.toString(id) + Utils.CREW_CAST_MOVIES_URL + Utils.API_KEY;
     	
     	json = getResultFromTMDB(castCrewURL);
-    	CastCrewResultsAPI castCrewResults = new Gson().fromJson(json, CastCrewResultsAPI.class);
+    	ApiCastCrewResults castCrewResults = new Gson().fromJson(json, ApiCastCrewResults.class);
     	
     	movieDetails.setCast(castCrewResults.getCastResults());
     	movieDetails.setCrew(castCrewResults.getCrewResults());
@@ -122,19 +122,19 @@ public class APIClient {
     	return movieDetails;
     }
     
-    public static ShowDetailsAPI getShowDetailsFromAPI(int id) {
+    public static ApiShowDetails getShowDetailsFromAPI(int id) {
     	StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL)
     			.append(Integer.toString(id))
     			.append(Utils.API_KEY);
     	
     	String json = getResultFromTMDB(url.toString());
     	
-    	ShowDetailsAPI showDetails = new Gson().fromJson(json, ShowDetailsAPI.class);
+    	ApiShowDetails showDetails = new Gson().fromJson(json, ApiShowDetails.class);
     	
     	return showDetails;
     }
     
-    public static UpcomingNowPlayingMovieResultsAPI getPagesForMovies(int page, String typeOfMovieUrl) {    	
+    public static ApiNewMovieResults getPagesForMovies(int page, String typeOfMovieUrl) {    	
     	StringBuilder url = new StringBuilder(typeOfMovieUrl)
     			.append(Utils.API_KEY)
     			.append(Utils.LANGUAGE_FOR_URL)
@@ -143,13 +143,13 @@ public class APIClient {
     	
     	String resultJson = getResultFromTMDB(url.toString());
     	
-    	UpcomingNowPlayingMovieResultsAPI upcomingNowPlayingMovieResults = new Gson()
-    			.fromJson(resultJson, UpcomingNowPlayingMovieResultsAPI.class);
+    	ApiNewMovieResults upcomingNowPlayingMovieResults = new Gson()
+    			.fromJson(resultJson, ApiNewMovieResults.class);
   
     	return upcomingNowPlayingMovieResults;
     }
     
-    public static ShowResultsAPI getPagesForShows(int page, String typeOfShowUrl) {    	
+    public static ApiNewShowResults getPagesForShows(int page, String typeOfShowUrl) {    	
     	StringBuilder url = new StringBuilder(typeOfShowUrl)
     			.append(Utils.API_KEY)
     			.append(Utils.LANGUAGE_FOR_URL)
@@ -158,8 +158,8 @@ public class APIClient {
     	
     	String resultJson = getResultFromTMDB(url.toString());
     	
-    	ShowResultsAPI showResults = new Gson()
-    			.fromJson(resultJson, ShowResultsAPI.class);
+    	ApiNewShowResults showResults = new Gson()
+    			.fromJson(resultJson, ApiNewShowResults.class);
   
     	return showResults;
     }

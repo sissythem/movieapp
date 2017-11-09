@@ -2,16 +2,16 @@ package com.gnt.movies.theMovieDB;
 
 import com.google.gson.annotations.SerializedName;
 
-public class NetworksAPI {
+public class ApiGenres {
 	
 	@SerializedName("id")
 	private int id;
 	@SerializedName("name")
 	private String name;
+	
 	public int getId() {
 		return id;
 	}
-	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -22,10 +22,5 @@ public class NetworksAPI {
 		this.name = name;
 	}
 	
-	@Override
-	public String toString() {
-		return "NetworksAPI [name=" + name + "]";
-	}
-
 	
 }

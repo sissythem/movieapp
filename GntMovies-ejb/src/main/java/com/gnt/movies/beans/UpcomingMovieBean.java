@@ -15,7 +15,7 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.UpcomingMovieDao;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
-import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
+import com.gnt.movies.theMovieDB.ApiNewMovie;
 
 /**
  * Session Bean implementation class UpcomingMovieBean
@@ -73,7 +73,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		return upcomingMovieDao.findByIdTmdb(this, id);
 	}
 	
-	public UpcomingMovie createUpcomingMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) {
+	public UpcomingMovie createUpcomingMovieFromAPI(ApiNewMovie upcomingMovie) {
     	return new UpcomingMovie(upcomingMovie.getId());
 	}
 	

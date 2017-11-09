@@ -2,18 +2,18 @@ package com.gnt.movies.theMovieDB;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SpokenLanguagesAPI {
+public class ApiCreator {
 	
-	@SerializedName("iso_639_1")
-	private String iso6391;
+	@SerializedName("id")
+	private int id;
 	@SerializedName("name")
 	private String name;
 	
-	public String getIso6391() {
-		return iso6391;
+	public int getId() {
+		return id;
 	}
-	public void setIso6391(String iso6391) {
-		this.iso6391 = iso6391;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -21,7 +21,8 @@ public class SpokenLanguagesAPI {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-
+	@Override
+	public String toString() {
+		return "ApiCreator [name=" + name + "]";
+	}
 }

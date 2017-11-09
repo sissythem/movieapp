@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
 
-public class NewShowsAPI {
+public class ApiNewShow {
 	
 	@SerializedName("original_name")
 	private String originalName;

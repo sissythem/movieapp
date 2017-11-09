@@ -11,8 +11,8 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.MovieDao;
 import com.gnt.movies.entities.Movie;
-import com.gnt.movies.theMovieDB.MovieDetailsAPI;
-import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
+import com.gnt.movies.theMovieDB.ApiMovieDetails;
+import com.gnt.movies.theMovieDB.ApiNewMovie;
 
 @Stateless
 @LocalBean
@@ -35,7 +35,7 @@ public class MovieBean implements DataProviderHolder{
 		return em;
 	}
 	
-	public Movie createMovieFromAPI(UpcomingNowPlayingMovieAPI upcomingMovie) 
+	public Movie createMovieFromAPI(ApiNewMovie upcomingMovie) 
     {
     	byte adult;
     	if(upcomingMovie.isAdult())
@@ -46,7 +46,7 @@ public class MovieBean implements DataProviderHolder{
 				upcomingMovie.getOverview(), upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount());
 	}
 	
-	public void updateMovieWithDetails(Movie movie, MovieDetailsAPI movieDetails) {
+	public void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
 		movie.setBudget(movieDetails.getBudget());
 		movie.setHomepage(movieDetails.getHomepage());
 		movie.setProductionCountries(movieDetails.getProductionCountriesAPI().toString());

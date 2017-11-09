@@ -13,8 +13,8 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.ShowDao;
 import com.gnt.movies.entities.Show;
-import com.gnt.movies.theMovieDB.NewShowsAPI;
-import com.gnt.movies.theMovieDB.ShowDetailsAPI;
+import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.theMovieDB.ApiShowDetails;
 
 /**
  * Session Bean implementation class ShowBean
@@ -39,14 +39,14 @@ public class ShowBean implements DataProviderHolder{
 		return em;
 	}
     
-    public Show createShowFromAPI(NewShowsAPI newShowsAPI) {
+    public Show createShowFromAPI(ApiNewShow apiNewShow) {
     	
-    	return new Show(LocalDate.parse(newShowsAPI.getFirstAirDate()), newShowsAPI.getId(), newShowsAPI.getName(), newShowsAPI.getOriginalLanguage(),
-    			newShowsAPI.getOriginalName(), newShowsAPI.getOriginCountry().toString(), newShowsAPI.getOverview(), newShowsAPI.getVoteAverage(),
-    			newShowsAPI.getVoteCount());
+    	return new Show(LocalDate.parse(apiNewShow.getFirstAirDate()), apiNewShow.getId(), apiNewShow.getName(), apiNewShow.getOriginalLanguage(),
+    			apiNewShow.getOriginalName(), apiNewShow.getOriginCountry().toString(), apiNewShow.getOverview(), apiNewShow.getVoteAverage(),
+    			apiNewShow.getVoteCount());
     }
 
-    public void updateShowWithDetails(Show show, ShowDetailsAPI showDetails) {
+    public void updateShowWithDetails(Show show, ApiShowDetails showDetails) {
     	show.setCreatedBy(showDetails.getCreatedBy().toString());
     	show.setHomepage(showDetails.getHomepage());
     	

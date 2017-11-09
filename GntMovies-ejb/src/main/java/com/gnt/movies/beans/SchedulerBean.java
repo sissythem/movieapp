@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.gnt.movies.dao.AbstractDao;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Air2dayShow;
 import com.gnt.movies.entities.Genre;
@@ -20,11 +19,11 @@ import com.gnt.movies.entities.OnTheAirShow;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.ShowGenre;
 import com.gnt.movies.entities.UpcomingMovie;
-import com.gnt.movies.theMovieDB.GenresAPI;
-import com.gnt.movies.theMovieDB.MovieDetailsAPI;
-import com.gnt.movies.theMovieDB.NewShowsAPI;
-import com.gnt.movies.theMovieDB.ShowDetailsAPI;
-import com.gnt.movies.theMovieDB.UpcomingNowPlayingMovieAPI;
+import com.gnt.movies.theMovieDB.ApiGenres;
+import com.gnt.movies.theMovieDB.ApiMovieDetails;
+import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.theMovieDB.ApiShowDetails;
+import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -80,15 +79,15 @@ public class SchedulerBean implements DataProviderHolder {
 	@Schedule(dayOfWeek = "*", hour = "0")
 	public void checkUpcomingMoviesToBeStored() {
 
-		ArrayList<UpcomingNowPlayingMovieAPI> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
+		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
 
-		for (UpcomingNowPlayingMovieAPI upcomingMovieAPI : upcomingMoviesAPI) {
+		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
 			if (upcomingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
 
 				UpcomingMovie newUpcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(upcomingMovieAPI);
 				Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
 
-				MovieDetailsAPI movieDetails = updateMovieWithDetailsFromAPI(newMovie);
+				ApiMovieDetails movieDetails = updateMovieWithDetailsFromAPI(newMovie);
 				upcomingMovieBean.addUpcomingMovie(newMovie, newUpcomingMovie);
 				addMovieGenres(movieDetails);
 			}
@@ -98,12 +97,12 @@ public class SchedulerBean implements DataProviderHolder {
 	@Schedule(dayOfWeek = "*", hour = "0")
 	public void checkNowPlayingMoviesToBeStored() {
 
-		ArrayList<UpcomingNowPlayingMovieAPI> nowPlayingMoviesAPI = APIClient.getNowPlayingMoviesFromAPI();
+		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = APIClient.getNowPlayingMoviesFromAPI();
 
-		for (UpcomingNowPlayingMovieAPI upcomingMovieAPI : nowPlayingMoviesAPI) {
+		for (ApiNewMovie upcomingMovieAPI : nowPlayingMoviesAPI) {
 			if (nowPlayingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
 
-				MovieDetailsAPI movieDetails = new MovieDetailsAPI();
+				ApiMovieDetails movieDetails = new ApiMovieDetails();
 				NowPlayingMovie newNowPlayingMovie = nowPlayingMovieBean.createNowPlayingMovieFromAPI(upcomingMovieAPI);
 
 				if (movieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
@@ -127,19 +126,18 @@ public class SchedulerBean implements DataProviderHolder {
 	@Schedule(dayOfWeek = "*", hour = "0")
 	public void checkOnTheAirShowToBeStored() {
 
-		ArrayList<NewShowsAPI> onTheAirShowsAPI = APIClient.getOnTheAirShowsFromAPI();
+		ArrayList<ApiNewShow> onTheAirShowsAPI = APIClient.getOnTheAirShowsFromAPI();
 
-		for (NewShowsAPI onTheAirShowAPI : onTheAirShowsAPI) {
+		for (ApiNewShow onTheAirShowAPI : onTheAirShowsAPI) {
 			if (onTheAirShowBean.findOnTheAirShowByIdTmdb(onTheAirShowAPI.getId()) == null) {
 
-				ShowDetailsAPI showDetails = new ShowDetailsAPI();
+				ApiShowDetails showDetails = new ApiShowDetails();
 				OnTheAirShow onTheAirShow = onTheAirShowBean.createOnTheAirShowFromAPI(onTheAirShowAPI.getId());
 
 				if (showBean.findShowByIdTmdb(onTheAirShowAPI.getId()) == null) {
 
 					Show newShow = showBean.createShowFromAPI(onTheAirShowAPI);
 					showDetails = updateShowWithDetailsFromAPI(newShow);
-
 					showBean.addShow(newShow);
 					onTheAirShowBean.addOnTheAirShow(onTheAirShow);
 
@@ -157,12 +155,12 @@ public class SchedulerBean implements DataProviderHolder {
 	@Schedule(dayOfWeek = "*", hour = "0")
 	public void checkAir2dayShowsToBeStored() {
 
-		ArrayList<NewShowsAPI> newShowsAPI = APIClient.getAir2dayShowsFromAPI();
+		ArrayList<ApiNewShow> apiNewShow = APIClient.getAir2dayShowsFromAPI();
 
-		for (NewShowsAPI newShowAPI : newShowsAPI) {
+		for (ApiNewShow newShowAPI : apiNewShow) {
 			if (air2dayShowBean.findAir2dayShowByIdTmdb(newShowAPI.getId()) == null) {
 
-				ShowDetailsAPI showDetails = new ShowDetailsAPI();
+				ApiShowDetails showDetails = new ApiShowDetails();
 				Air2dayShow air2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShowAPI.getId());
 
 				if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
@@ -184,22 +182,22 @@ public class SchedulerBean implements DataProviderHolder {
 		}
 	}
 
-	public MovieDetailsAPI updateMovieWithDetailsFromAPI(Movie movie) {
+	public ApiMovieDetails updateMovieWithDetailsFromAPI(Movie movie) {
 
-		MovieDetailsAPI movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
+		ApiMovieDetails movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
 		movieBean.updateMovieWithDetails(movie, movieDetails);
 		return movieDetails;
 	}
 
-	public ShowDetailsAPI updateShowWithDetailsFromAPI(Show show) {
-		ShowDetailsAPI showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
+	public ApiShowDetails updateShowWithDetailsFromAPI(Show show) {
+		ApiShowDetails showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
 		showBean.updateShowWithDetails(show, showDetails);
 		return showDetails;
 	}
 
-	public void addMovieGenres(MovieDetailsAPI movieDetails) {
-		ArrayList<GenresAPI> genresAPI = movieDetails.getGenresAPI();
-		for (GenresAPI genreAPI : genresAPI) {
+	public void addMovieGenres(ApiMovieDetails movieDetails) {
+		ArrayList<ApiGenres> apiGenres = movieDetails.getGenresAPI();
+		for (ApiGenres genreAPI : apiGenres) {
 			if (genreBean.findGenreByName(genreAPI.getName()) == null) {
 				Genre genre = new Genre(genreAPI.getName());
 				genreBean.addGenre(genre);
@@ -211,10 +209,10 @@ public class SchedulerBean implements DataProviderHolder {
 		}
 	}
 
-	public void addShowGenres(ShowDetailsAPI showDetails) {
-		ArrayList<GenresAPI> genresAPI = showDetails.getGenresAPI();
+	public void addShowGenres(ApiShowDetails showDetails) {
+		ArrayList<ApiGenres> apiGenres = showDetails.getGenresAPI();
 
-		for (GenresAPI genreAPI : genresAPI) {
+		for (ApiGenres genreAPI : apiGenres) {
 			if (genreBean.findGenreByName(genreAPI.getName()) == null) {
 
 				Genre genre = new Genre(genreAPI.getName());

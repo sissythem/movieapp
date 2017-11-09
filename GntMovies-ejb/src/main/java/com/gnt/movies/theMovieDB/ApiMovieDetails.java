@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MovieDetailsAPI {
+public class ApiMovieDetails {
 
 	@SerializedName("adult")
 	private boolean adult;
 	@SerializedName("budget")
 	private double budget;
 	@SerializedName("genres")
-	private ArrayList<GenresAPI> genresAPI;
+	private ArrayList<ApiGenres> apiGenres;
 	@SerializedName("homepage")
 	private String homepage;
 	@SerializedName("id")
@@ -25,9 +25,9 @@ public class MovieDetailsAPI {
 	@SerializedName("overview")
 	private String overview;
 	@SerializedName("production_companies")
-	private ArrayList<ProductionCompaniesAPI> productionCompaniesAPI;
+	private ArrayList<ApiProductionCompanies> apiProductionCompanies;
 	@SerializedName("production_countries")
-	private ArrayList<ProductionCountriesAPI> productionCountriesAPI;
+	private ArrayList<ApiProductionCountries> apiProductionCountries;
 	@SerializedName("release_date")
 	private String releaseDate;
 	@SerializedName("revenue")
@@ -35,7 +35,7 @@ public class MovieDetailsAPI {
 	@SerializedName("runtime")
 	private int runtime;
 	@SerializedName("spoken_languages")
-	private ArrayList<SpokenLanguagesAPI> spokenLanguages;
+	private ArrayList<ApiSpokenLanguages> spokenLanguages;
 	@SerializedName("status")
 	private String status;
 	@SerializedName("title")
@@ -45,8 +45,8 @@ public class MovieDetailsAPI {
 	@SerializedName("vote_count")
 	private int voteCount;
 	
-	private ArrayList<CastCrewAPI> cast;
-	private ArrayList<CastCrewAPI> crew;
+	private ArrayList<ApiCastCrew> cast;
+	private ArrayList<ApiCastCrew> crew;
 
 	public boolean getAdult() {
 		return adult;
@@ -64,12 +64,12 @@ public class MovieDetailsAPI {
 		this.budget = budget;
 	}
 
-	public ArrayList<GenresAPI> getMovieGenresAPI() {
-		return genresAPI;
+	public ArrayList<ApiGenres> getMovieGenresAPI() {
+		return apiGenres;
 	}
 
-	public void setMovieGenresAPI(ArrayList<GenresAPI> genresAPI) {
-		this.genresAPI = genresAPI;
+	public void setMovieGenresAPI(ArrayList<ApiGenres> apiGenres) {
+		this.apiGenres = apiGenres;
 	}
 
 	public String getHomepage() {
@@ -120,20 +120,20 @@ public class MovieDetailsAPI {
 		this.overview = overview;
 	}
 
-	public ArrayList<ProductionCompaniesAPI> getProductionCompaniesAPI() {
-		return productionCompaniesAPI;
+	public ArrayList<ApiProductionCompanies> getProductionCompaniesAPI() {
+		return apiProductionCompanies;
 	}
 
-	public void setProductionCompaniesAPI(ArrayList<ProductionCompaniesAPI> productionCompaniesAPI) {
-		this.productionCompaniesAPI = productionCompaniesAPI;
+	public void setProductionCompaniesAPI(ArrayList<ApiProductionCompanies> apiProductionCompanies) {
+		this.apiProductionCompanies = apiProductionCompanies;
 	}
 
-	public ArrayList<ProductionCountriesAPI> getProductionCountriesAPI() {
-		return productionCountriesAPI;
+	public ArrayList<ApiProductionCountries> getProductionCountriesAPI() {
+		return apiProductionCountries;
 	}
 
-	public void setProductionCountriesAPI(ArrayList<ProductionCountriesAPI> productionCountriesAPI) {
-		this.productionCountriesAPI = productionCountriesAPI;
+	public void setProductionCountriesAPI(ArrayList<ApiProductionCountries> apiProductionCountries) {
+		this.apiProductionCountries = apiProductionCountries;
 	}
 
 	public String getReleaseDate() {
@@ -160,11 +160,11 @@ public class MovieDetailsAPI {
 		this.runtime = runtime;
 	}
 
-	public ArrayList<SpokenLanguagesAPI> getSpokenLanguages() {
+	public ArrayList<ApiSpokenLanguages> getSpokenLanguages() {
 		return spokenLanguages;
 	}
 
-	public void setSpokenLanguages(ArrayList<SpokenLanguagesAPI> spokenLanguages) {
+	public void setSpokenLanguages(ArrayList<ApiSpokenLanguages> spokenLanguages) {
 		this.spokenLanguages = spokenLanguages;
 	}
 
@@ -200,36 +200,36 @@ public class MovieDetailsAPI {
 		this.voteCount = voteCount;
 	}
 
-	public ArrayList<GenresAPI> getGenresAPI() {
-		return genresAPI;
+	public ArrayList<ApiGenres> getGenresAPI() {
+		return apiGenres;
 	}
 
-	public void setGenresAPI(ArrayList<GenresAPI> genresAPI) {
-		this.genresAPI = genresAPI;
+	public void setGenresAPI(ArrayList<ApiGenres> apiGenres) {
+		this.apiGenres = apiGenres;
 	}
 
-	public ArrayList<CastCrewAPI> getCast() {
+	public ArrayList<ApiCastCrew> getCast() {
 		return cast;
 	}
 
-	public void setCast(ArrayList<CastCrewAPI> cast) {
+	public void setCast(ArrayList<ApiCastCrew> cast) {
 		this.cast = cast;
 	}
 
-	public ArrayList<CastCrewAPI> getCrew() {
+	public ArrayList<ApiCastCrew> getCrew() {
 		return crew;
 	}
 
-	public void setCrew(ArrayList<CastCrewAPI> crew) {
+	public void setCrew(ArrayList<ApiCastCrew> crew) {
 		this.crew = crew;
 	}
 
 	@Override
 	public String toString() {
-		return "MovieDetailsAPI [adult=" + adult + ", budget=" + budget + ", genresAPI=" + genresAPI + ", homepage="
+		return "ApiMovieDetails [adult=" + adult + ", budget=" + budget + ", apiGenres=" + apiGenres + ", homepage="
 				+ homepage + ", id=" + id + ", imdbId=" + imdbId + ", originalLanguage=" + originalLanguage
-				+ ", originalTitle=" + originalTitle + ", overview=" + overview + ", productionCompaniesAPI="
-				+ productionCompaniesAPI + ", productionCountriesAPI=" + productionCountriesAPI + ", releaseDate="
+				+ ", originalTitle=" + originalTitle + ", overview=" + overview + ", apiProductionCompanies="
+				+ apiProductionCompanies + ", apiProductionCountries=" + apiProductionCountries + ", releaseDate="
 				+ releaseDate + ", revenue=" + revenue + ", runtime=" + runtime + ", spokenLanguages=" + spokenLanguages
 				+ ", status=" + status + ", title=" + title + ", voteAverage=" + voteAverage + ", voteCount="
 				+ voteCount + ", cast=" + cast + ", crew=" + crew + "]";

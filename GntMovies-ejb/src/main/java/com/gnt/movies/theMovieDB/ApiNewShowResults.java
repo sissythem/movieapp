@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ShowResultsAPI {
+public class ApiNewShowResults {
 	
 	@SerializedName("page")
 	private int page;
@@ -13,7 +13,7 @@ public class ShowResultsAPI {
 	@SerializedName("total_pages")
 	private int totalPages;
 	@SerializedName("results")
-	private ArrayList<NewShowsAPI> results;
+	private ArrayList<ApiNewShow> results;
 	
 	public int getPage() {
 		return page;
@@ -33,10 +33,10 @@ public class ShowResultsAPI {
 	public void setTotalPages(int totalPages) {
 		this.totalPages = totalPages;
 	}
-	public ArrayList<NewShowsAPI> getResults() {
+	public ArrayList<ApiNewShow> getResults() {
 		return results;
 	}
-	public void setResults(ArrayList<NewShowsAPI> results) {
+	public void setResults(ArrayList<ApiNewShow> results) {
 		this.results = results;
 	}
 }
