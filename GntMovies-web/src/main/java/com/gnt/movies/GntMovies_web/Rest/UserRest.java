@@ -33,8 +33,12 @@ public class UserRest {
 	@Path("/login/{username}/{password}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean login(@PathParam("username") String username, @PathParam("password") String password) {
-		return userbean.loginUser(username, password);
+	public String login(@PathParam("username") String username, @PathParam("password") String password) {
+		String token=null;
+		if(userbean.loginUser(username, password)) {
+			token = KeyHolder.issueToken(username);
+		}
+		return token;
 	}
 	
 	@GET
