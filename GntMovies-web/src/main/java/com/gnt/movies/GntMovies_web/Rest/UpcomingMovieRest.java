@@ -21,7 +21,7 @@ public class UpcomingMovieRest {
 	@GET
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<UpcomingMovie> getMovieDetailsById(@HeaderParam("token") String token) {
+	public ArrayList<UpcomingMovie> getUpcomingMovies(@HeaderParam("token") String token) {
 		return upcomingMovieBean.getAllUpcomingMovies();
 	}
 }

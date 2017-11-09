@@ -21,7 +21,7 @@ public class NowPlayingMovieRest {
 	@GET
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<NowPlayingMovie> getMovieDetailsById(@HeaderParam("token") String token) {
+	public ArrayList<NowPlayingMovie> getNowPlayingMovies(@HeaderParam("token") String token) {
 		return nowPlayingMovieBean.getAllNowPlayingMovies();
 	}
 }
