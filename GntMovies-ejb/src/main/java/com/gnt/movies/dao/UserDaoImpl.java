@@ -83,4 +83,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 		return (result == null ? false : true);
 	}
 
+	@Override
+	public boolean checkToken(DataProviderHolder dataProviderHolder, String token) {
+		Integer result = (Integer) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN_TOKEN, token);
+		return (result == null ? false : true);
+	}
+
 }

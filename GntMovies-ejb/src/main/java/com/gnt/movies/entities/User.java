@@ -14,69 +14,67 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the users database table.
  *
  */
 @Entity
-@Table(name="users")
-@NamedQueries({
-        @NamedQuery(name="User.findAll", query="SELECT u FROM User u"),
-        @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-        @NamedQuery(name = "User.findByFirstname", query = "SELECT u FROM User u WHERE u.firstname = :firstname"),
-        @NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastname = :lastname"),
-        @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-        @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-        @NamedQuery(name = "User.findByAge", query = "SELECT u FROM User u WHERE u.age = :age"),
-        @NamedQuery(name = "User.checkUsername", query = "SELECT 1 FROM User u WHERE u.username = :username"),
-        @NamedQuery(name = "User.checkEmail", query = "SELECT 1 FROM User u WHERE u.email = :email"),
-        @NamedQuery(name = "User.login", query = "SELECT 1 FROM User u WHERE u.username = ?1 AND u.password = ?2")
-})
+@Table(name = "users")
+@NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+		@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+		@NamedQuery(name = "User.findByFirstname", query = "SELECT u FROM User u WHERE u.firstname = :firstname"),
+		@NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastname = :lastname"),
+		@NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+		@NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
+		@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+		@NamedQuery(name = "User.findByAge", query = "SELECT u FROM User u WHERE u.age = :age"),
+		@NamedQuery(name = "User.checkUsername", query = "SELECT 1 FROM User u WHERE u.username = :username"),
+		@NamedQuery(name = "User.checkEmail", query = "SELECT 1 FROM User u WHERE u.email = :email"),
+		@NamedQuery(name = "User.login", query = "SELECT 1 FROM User u WHERE u.username = ?1 AND u.password = ?2"),
+		@NamedQuery(name = "User.loginWithToken", query = "SELECT 1 FROM User u WHERE u.token = :token") })
 public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    private int age;
+	private int age;
 
-    private LocalDate birthdate;
+	private LocalDate birthdate;
 
-    private String email;
+	private String email;
 
-    private String firstname;
+	private String firstname;
 
-    private String lastname;
+	private String lastname;
 
-    private String password;
+	private String password;
 
-    private String photo;
+	private String photo;
 
-    private LocalDateTime registrationDate;
+	private LocalDateTime registrationDate;
 
-    private String username;
+	private String username;
 
-    @OneToMany(mappedBy="user")
-    private List<MovieFavorite> movieFavorites;
+	private String token;
 
-    @OneToMany(mappedBy="user")
-    private List<MovieReview> movieReviews;
+	@OneToMany(mappedBy = "user")
+	private List<MovieFavorite> movieFavorites;
 
-    @OneToMany(mappedBy="user")
-    private List<ShowFavorite> showFavorites;
+	@OneToMany(mappedBy = "user")
+	private List<MovieReview> movieReviews;
 
-    @OneToMany(mappedBy="user")
-    private List<ShowReview> showReviews;
+	@OneToMany(mappedBy = "user")
+	private List<ShowFavorite> showFavorites;
 
-    public User() {
-    }
-    
-    
+	@OneToMany(mappedBy = "user")
+	private List<ShowReview> showReviews;
 
-    public User(int age, LocalDate birthdate, String email, String firstname, String lastname, String password,
+	public User() {
+	}
+
+	public User(int age, LocalDate birthdate, String email, String firstname, String lastname, String password,
 			String photo, LocalDate registrationDate, String username, List<MovieFavorite> movieFavorites,
 			List<MovieReview> movieReviews, List<ShowFavorite> showFavorites, List<ShowReview> showReviews) {
 		super();
@@ -95,8 +93,6 @@ public class User implements Serializable {
 		this.showReviews = null;
 	}
 
-
-
 	public User(int age, String email, String firstname, String lastname, String password, String username) {
 		super();
 		this.age = age;
@@ -107,174 +103,180 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-
-
 	public int getId() {
-        return this.id;
-    }
+		return this.id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getAge() {
-        return this.age;
-    }
+	public int getAge() {
+		return this.age;
+	}
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+	public void setAge(int age) {
+		this.age = age;
+	}
 
-    public LocalDate getBirthdate() {
-        return this.birthdate;
-    }
+	public LocalDate getBirthdate() {
+		return this.birthdate;
+	}
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
+	public void setBirthdate(LocalDate birthdate) {
+		this.birthdate = birthdate;
+	}
 
-    public String getEmail() {
-        return this.email;
-    }
+	public String getEmail() {
+		return this.email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getFirstname() {
-        return this.firstname;
-    }
+	public String getFirstname() {
+		return this.firstname;
+	}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
 
-    public String getLastname() {
-        return this.lastname;
-    }
+	public String getLastname() {
+		return this.lastname;
+	}
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
 
-    public String getPassword() {
-        return this.password;
-    }
+	public String getPassword() {
+		return this.password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getPhoto() {
-        return this.photo;
-    }
+	public String getPhoto() {
+		return this.photo;
+	}
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 
-    public LocalDateTime getRegistrationDate() {
-        return this.registrationDate;
-    }
+	public LocalDateTime getRegistrationDate() {
+		return this.registrationDate;
+	}
 
-    public void setRegistrationDate(LocalDateTime registrationDate) {
-        this.registrationDate = registrationDate;
-    }
+	public void setRegistrationDate(LocalDateTime registrationDate) {
+		this.registrationDate = registrationDate;
+	}
 
-    public String getUsername() {
-        return this.username;
-    }
+	public String getUsername() {
+		return this.username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public List<MovieFavorite> getMovieFavorites() {
-        return this.movieFavorites;
-    }
+	public String getToken() {
+		return token;
+	}
 
-    public void setMovieFavorites(List<MovieFavorite> movieFavorites) {
-        this.movieFavorites = movieFavorites;
-    }
+	public void setToken(String token) {
+		this.token = token;
+	}
 
-    public MovieFavorite addMovieFavorite(MovieFavorite movieFavorite) {
-        getMovieFavorites().add(movieFavorite);
-        movieFavorite.setUser(this);
+	public List<MovieFavorite> getMovieFavorites() {
+		return this.movieFavorites;
+	}
 
-        return movieFavorite;
-    }
+	public void setMovieFavorites(List<MovieFavorite> movieFavorites) {
+		this.movieFavorites = movieFavorites;
+	}
 
-    public MovieFavorite removeMovieFavorite(MovieFavorite movieFavorite) {
-        getMovieFavorites().remove(movieFavorite);
-        movieFavorite.setUser(null);
+	public MovieFavorite addMovieFavorite(MovieFavorite movieFavorite) {
+		getMovieFavorites().add(movieFavorite);
+		movieFavorite.setUser(this);
 
-        return movieFavorite;
-    }
+		return movieFavorite;
+	}
 
-    public List<MovieReview> getMovieReviews() {
-        return this.movieReviews;
-    }
+	public MovieFavorite removeMovieFavorite(MovieFavorite movieFavorite) {
+		getMovieFavorites().remove(movieFavorite);
+		movieFavorite.setUser(null);
 
-    public void setMovieReviews(List<MovieReview> movieReviews) {
-        this.movieReviews = movieReviews;
-    }
+		return movieFavorite;
+	}
 
-    public MovieReview addMovieReview(MovieReview movieReview) {
-        getMovieReviews().add(movieReview);
-        movieReview.setUser(this);
+	public List<MovieReview> getMovieReviews() {
+		return this.movieReviews;
+	}
 
-        return movieReview;
-    }
+	public void setMovieReviews(List<MovieReview> movieReviews) {
+		this.movieReviews = movieReviews;
+	}
 
-    public MovieReview removeMovieReview(MovieReview movieReview) {
-        getMovieReviews().remove(movieReview);
-        movieReview.setUser(null);
+	public MovieReview addMovieReview(MovieReview movieReview) {
+		getMovieReviews().add(movieReview);
+		movieReview.setUser(this);
 
-        return movieReview;
-    }
+		return movieReview;
+	}
 
-    public List<ShowFavorite> getShowFavorites() {
-        return this.showFavorites;
-    }
+	public MovieReview removeMovieReview(MovieReview movieReview) {
+		getMovieReviews().remove(movieReview);
+		movieReview.setUser(null);
 
-    public void setShowFavorites(List<ShowFavorite> showFavorites) {
-        this.showFavorites = showFavorites;
-    }
+		return movieReview;
+	}
 
-    public ShowFavorite addShowFavorite(ShowFavorite showFavorite) {
-        getShowFavorites().add(showFavorite);
-        showFavorite.setUser(this);
+	public List<ShowFavorite> getShowFavorites() {
+		return this.showFavorites;
+	}
 
-        return showFavorite;
-    }
+	public void setShowFavorites(List<ShowFavorite> showFavorites) {
+		this.showFavorites = showFavorites;
+	}
 
-    public ShowFavorite removeShowFavorite(ShowFavorite showFavorite) {
-        getShowFavorites().remove(showFavorite);
-        showFavorite.setUser(null);
+	public ShowFavorite addShowFavorite(ShowFavorite showFavorite) {
+		getShowFavorites().add(showFavorite);
+		showFavorite.setUser(this);
 
-        return showFavorite;
-    }
+		return showFavorite;
+	}
 
-    public List<ShowReview> getShowReviews() {
-        return this.showReviews;
-    }
+	public ShowFavorite removeShowFavorite(ShowFavorite showFavorite) {
+		getShowFavorites().remove(showFavorite);
+		showFavorite.setUser(null);
 
-    public void setShowReviews(List<ShowReview> showReviews) {
-        this.showReviews = showReviews;
-    }
+		return showFavorite;
+	}
 
-    public ShowReview addShowReview(ShowReview showReview) {
-        getShowReviews().add(showReview);
-        showReview.setUser(this);
+	public List<ShowReview> getShowReviews() {
+		return this.showReviews;
+	}
 
-        return showReview;
-    }
+	public void setShowReviews(List<ShowReview> showReviews) {
+		this.showReviews = showReviews;
+	}
 
-    public ShowReview removeShowReview(ShowReview showReview) {
-        getShowReviews().remove(showReview);
-        showReview.setUser(null);
+	public ShowReview addShowReview(ShowReview showReview) {
+		getShowReviews().add(showReview);
+		showReview.setUser(this);
 
-        return showReview;
-    }
+		return showReview;
+	}
+
+	public ShowReview removeShowReview(ShowReview showReview) {
+		getShowReviews().remove(showReview);
+		showReview.setUser(null);
+
+		return showReview;
+	}
 
 }

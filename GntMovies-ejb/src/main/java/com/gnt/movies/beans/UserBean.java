@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.UserDao;
+import com.gnt.movies.dto.UserSessionDto;
 import com.gnt.movies.entities.User;
 
 @Stateless
@@ -52,10 +53,23 @@ public class UserBean implements DataProviderHolder {
 			return false;
 		}
 	}
+	
+	public boolean loginToken(String token) {
+		if (userDao.checkToken(this, token)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public User findUserByUsername(String username) {
 		return userDao.findUserByUsername(this, username);
 	}
+	
+	public UserSessionDto findUserDtoByUsername(String username) {
+		return new UserSessionDto(findUserByUsername(username));
+	}
+	
 
 	@Override
 	public EntityManager getEntityManager() {

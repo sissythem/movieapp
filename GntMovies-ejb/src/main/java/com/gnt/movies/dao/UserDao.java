@@ -2,6 +2,7 @@ package com.gnt.movies.dao;
 
 import java.util.List;
 
+import com.gnt.movies.beans.UserBean;
 import com.gnt.movies.entities.User;
 
 public interface UserDao {
@@ -16,5 +17,6 @@ public interface UserDao {
 	User findUserByPassword(DataProviderHolder dataProviderHolder, String password);
 	List<User> findByAge(DataProviderHolder dataProviderHolder, int age);
 	boolean checkCredentials(DataProviderHolder dataProviderHolder, String username, String password);
+	boolean checkToken(DataProviderHolder dataProviderHolder, String token);
 }
 

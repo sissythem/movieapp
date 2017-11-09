@@ -34,6 +34,7 @@ public class Utils
 	public static String USER_CHECK_USERNAME = "User.checkUsername";
 	public static String USER_CHECK_EMAIL = "User.checkEmail";
 	public static String USER_LOGIN = "User.login";
+	public static String USER_LOGIN_TOKEN = "User.loginWithToken";
 	
 	/** Upcoming movie queries**/
 	public static String UPCOMING_MOVIE_FIND_BY_ID = "UpcomingMovie.findById";

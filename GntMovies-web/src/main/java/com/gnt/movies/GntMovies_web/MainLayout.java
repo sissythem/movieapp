@@ -3,6 +3,7 @@ package com.gnt.movies.GntMovies_web;
 import java.time.LocalDate;
 
 import com.gnt.movies.beans.UserBean;
+import com.gnt.movies.dto.UserSessionDto;
 import com.gnt.movies.entities.User;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -20,24 +21,14 @@ public class MainLayout extends VerticalLayout {
 		Button button = new Button("Click Me");
 		button.addClickListener(e -> {
 			UserBean userBean = MyUI.get().getUserBean();
-			// User(int age, String email, String firstname, String lastname, String
-			// password, String username) {
-			// userBean.registerUser(new
-			// User(20,"mail@mail.com","John","Maz","1234","gmaz"));
-			// User(int age, LocalDate birthdate, String email, String firstname, String
-			// lastname, String password,
-			// String photo, Timestamp registrationDate, String username,
-			// List<MovieFavorite> movieFavorites,
-			// List<MovieReview> movieReviews, List<ShowFavorite> showFavorites,
-			// List<ShowReview> showReviews) {
-			userBean.registerUser(new User(20, LocalDate.now(), name.getValue()+"@mail.com", "John", "Maz", "12334", null,
-					LocalDate.now(), name.getValue(), null, null, null, null));
-			System.out.println("User added");
-			User user = userBean.findUserByUsername("gmaz");
+		
+//			userBean.registerUser(new User(20, LocalDate.now(), name.getValue()+"@mail.com", "John", "Maz", "12334", null,
+//					LocalDate.now(), name.getValue(), null, null, null, null));
+//			System.out.println("User added");
+			UserSessionDto user = userBean.findUserDtoByUsername("gmaz");
 
-			this.addComponent(new Label("Thanks " + name.getValue() + " " + MyUI.get().getUserBean() + ", it works!"));
-			this.addComponent(new Label(
-					"User: " + user.getFirstname() + " " + user.getLastname() + " " + user.getRegistrationDate()));
+//			this.addComponent(new Label("Thanks " + name.getValue() + " " + MyUI.get().getUserBean() + ", it works!"));
+			this.addComponent(new Label("User:"+user.toString()));
 		});
 
 		this.addComponents(name, button);
