@@ -76,9 +76,9 @@ public class SchedulerBean implements DataProviderHolder {
 		logger.info("Scheduler...");
     }
 
-	@Schedule(dayOfWeek = "*", hour = "0")
-	public void checkUpcomingMoviesToBeStored() {
-
+	@Schedule(dayOfWeek = "*", hour = "*",minute="*")
+	public void checkUpcomingMovies() {
+		logger.info("Scheduler checking for upcomming movies");
 		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
 
 		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
@@ -88,6 +88,7 @@ public class SchedulerBean implements DataProviderHolder {
 				Movie newMovie = movieBean.createMovieFromAPI(upcomingMovieAPI);
 
 				ApiMovieDetails movieDetails = updateMovieWithDetailsFromAPI(newMovie);
+				newUpcomingMovie.setMovie(newMovie);
 				upcomingMovieBean.addUpcomingMovie(newMovie, newUpcomingMovie);
 				addMovieGenres(movieDetails);
 			}
@@ -95,7 +96,7 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 
 	@Schedule(dayOfWeek = "*", hour = "0")
-	public void checkNowPlayingMoviesToBeStored() {
+	public void checkNowPlayingMovies() {
 
 		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = APIClient.getNowPlayingMoviesFromAPI();
 
@@ -124,7 +125,7 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 
 	@Schedule(dayOfWeek = "*", hour = "0")
-	public void checkOnTheAirShowToBeStored() {
+	public void checkOnTheAirShow() {
 
 		ArrayList<ApiNewShow> onTheAirShowsAPI = APIClient.getOnTheAirShowsFromAPI();
 
@@ -153,7 +154,7 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 
 	@Schedule(dayOfWeek = "*", hour = "0")
-	public void checkAir2dayShowsToBeStored() {
+	public void checkAir2dayShows() {
 
 		ArrayList<ApiNewShow> apiNewShow = APIClient.getAir2dayShowsFromAPI();
 

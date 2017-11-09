@@ -16,6 +16,8 @@ import com.gnt.movies.dao.UpcomingMovieDao;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
 /**
  * Session Bean implementation class UpcomingMovieBean
@@ -23,6 +25,7 @@ import com.gnt.movies.theMovieDB.ApiNewMovie;
 @Stateless
 @LocalBean
 public class UpcomingMovieBean implements DataProviderHolder {
+	private static final Logger logger = LoggerFactory.getLogger(UpcomingMovieBean.class);
 	@PersistenceContext
 	private EntityManager em;
 
@@ -44,8 +47,13 @@ public class UpcomingMovieBean implements DataProviderHolder {
 
 	public boolean addUpcomingMovie(Movie movie, UpcomingMovie upcomingMovie) {
 		try {
+			logger.info("Movie id:"+movie.getId()+" upcommingMovie id:"+upcomingMovie.getId());
 			movieBean.addMovie(movie);
+			logger.info("Movie id:"+movie.getId()+" upcommingMovie id:"+upcomingMovie.getId());
+			em.flush();
+			logger.info("Movie id:"+movie.getId()+" upcommingMovie id:"+upcomingMovie.getId());
 			upcomingMovieDao.createUpcomingMovie(this, upcomingMovie);
+			logger.info("Movie id:"+movie.getId()+" upcommingMovie id:"+upcomingMovie.getId());
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

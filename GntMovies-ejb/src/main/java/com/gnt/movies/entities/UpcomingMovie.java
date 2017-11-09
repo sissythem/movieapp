@@ -27,6 +27,7 @@ public class UpcomingMovie implements Serializable {
     private int idTmdb;
 
     @OneToOne(targetEntity=Movie.class,mappedBy="upcomingMovie")
+    @PrimaryKeyJoinColumn(name="id")
     private Movie movie;
 
     public UpcomingMovie() {
