@@ -27,7 +27,7 @@ public class ShowRest {
 	@GET
 	@Path("/details/{title}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Show getMovieDetailsByName(@HeaderParam("token") String token, @PathParam("title") String name) {
+	public Show getShowDetailsByName(@HeaderParam("token") String token, @PathParam("title") String name) {
 		return showBean.findShowByName(name);
 	}
 
