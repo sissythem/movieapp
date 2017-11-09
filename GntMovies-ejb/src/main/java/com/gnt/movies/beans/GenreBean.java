@@ -1,5 +1,7 @@
 package com.gnt.movies.beans;
 
+import java.util.ArrayList;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -42,5 +44,9 @@ public class GenreBean implements DataProviderHolder {
 
     public void addGenre(Genre genre) {
     	genreDao.createGenre(this, genre);
+    }
+    
+    public ArrayList<Genre> getAllGenres(){
+    	return genreDao.findAllGenres(this);
     }
 }
