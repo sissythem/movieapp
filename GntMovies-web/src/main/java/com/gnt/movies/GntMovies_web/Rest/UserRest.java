@@ -29,10 +29,9 @@ public class UserRest {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String login(UserLogin userLogin) {
-		System.out.println(userLogin.getUsername()+" "+userLogin.getPassword());
 		String token=null;
 		if(userBean.loginUser(userLogin.getUsername(), userLogin.getPassword())) {
-			token = AuthenticationToken.issueToken(userLogin.getUsername().concat(userLogin.getPassword()));
+			token = AuthenticationToken.issueToken(userLogin.getUsername());
 		}
 		return token;
 	}
