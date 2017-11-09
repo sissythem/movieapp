@@ -1,4 +1,4 @@
-package com.gnt.movies.GntMovies_web.Rest;
+package com.gnt.movies.GntMovies_web.Rest.Utils;
 
 import java.security.Key;
 import java.util.Date;

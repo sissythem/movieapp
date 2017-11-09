@@ -103,6 +103,7 @@ public class Utils
 	/** Genre named queries**/
 	public static String GENRE_FIND_BY_NAME = "Genre.findByName";
 	public static String GENRE_FIND_BY_ID = "Genre.findById";
+	public static String GENRE_FIND_ALL = "Genre.findAll";
 	
 	/** Movie genre named queries**/
 	public static String MOVIE_GENRE_FIND_BY_ID = "MovieGenre.findById";

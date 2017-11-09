@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
+
 import com.gnt.movies.entities.Genre;
 
 public interface GenreDao {
@@ -8,4 +10,5 @@ public interface GenreDao {
 	void deleteGenre(DataProviderHolder dataProviderHolder, Genre genre);
 	Genre findGenreById(DataProviderHolder dataProviderHolder, Integer id);
 	Genre findGenreByName(DataProviderHolder dataProviderHolder, String name);
+	ArrayList<Genre>findAllGenres(DataProviderHolder dataProviderHolder);
 }

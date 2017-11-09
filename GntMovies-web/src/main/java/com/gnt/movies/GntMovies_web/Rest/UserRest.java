@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.gnt.movies.GntMovies_web.Rest.Utils.AuthenticationToken;
 import com.gnt.movies.GntMovies_web.Rest.Utils.UserLogin;
 import com.gnt.movies.beans.UserBean;
 import com.gnt.movies.dto.UserSessionDto;
