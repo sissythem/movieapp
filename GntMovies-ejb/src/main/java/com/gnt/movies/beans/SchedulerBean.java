@@ -174,9 +174,9 @@ public class SchedulerBean implements DataProviderHolder {
 	public Movie addNewMovieWithGenres(ApiNewMovie newMovieAPI) {
 		Movie newMovie = movieBean.createMovieFromAPI(newMovieAPI);
 		ApiMovieDetails movieDetails = updateMovieWithDetailsFromAPI(newMovie);
-		addMovieGenres(movieDetails);
 		movieBean.addMovie(newMovie);
 		newMovie.setId(movieBean.findMovieByIdTmdb(newMovie.getIdTmdb()).getId());
+		addMovieGenres(movieDetails, newMovie);
 		return newMovie;
 	}
 	
@@ -216,14 +216,13 @@ public class SchedulerBean implements DataProviderHolder {
 		return newShow;
 	}
 	
-	public void addMovieGenres(ApiMovieDetails movieDetails) {
+	public void addMovieGenres(ApiMovieDetails movieDetails, Movie movie) {
 		ArrayList<ApiGenres> apiGenres = movieDetails.getGenresAPI();
 		for (ApiGenres genreAPI : apiGenres) {
 			if (genreBean.findGenreByName(genreAPI.getName()) == null) {
 				Genre genre = new Genre(genreAPI.getName());
 				genreBean.addGenre(genre);
 			}
-			Movie movie = movieBean.findMovieByIdTmdb(movieDetails.getId());
 			Genre genre = genreBean.findGenreByName(genreAPI.getName());
 			MovieGenre movieGenre = new MovieGenre(movie, genre);
 			movieGenreBean.addMovieGenre(movieGenre);
