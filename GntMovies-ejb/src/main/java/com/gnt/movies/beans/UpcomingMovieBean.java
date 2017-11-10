@@ -45,15 +45,10 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		return em;
 	}
 
-	public boolean addUpcomingMovie(Movie movie, UpcomingMovie upcomingMovie) {
+	public boolean addUpcomingMovie(UpcomingMovie upcomingMovie) {
 		try {
-			logger.info("Movie id:"+movie.getId()+" upcommingMovie id:"+upcomingMovie.getId());
-			movieBean.addMovie(movie);
-			logger.info("Movie id:"+movie.getId()+" upcommingMovie id:"+upcomingMovie.getId());
-			em.flush();
-			logger.info("Movie id:"+movie.getId()+" upcommingMovie id:"+upcomingMovie.getId());
 			upcomingMovieDao.createUpcomingMovie(this, upcomingMovie);
-			logger.info("Movie id:"+movie.getId()+" upcommingMovie id:"+upcomingMovie.getId());
+			logger.info(" upcommingMovie id:"+upcomingMovie.getId());
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
