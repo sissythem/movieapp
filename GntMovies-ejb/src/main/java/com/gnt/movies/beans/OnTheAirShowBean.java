@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.OnTheAirShowDao;
+import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.OnTheAirShow;
 
 /**
@@ -52,5 +53,20 @@ public class OnTheAirShowBean implements DataProviderHolder{
     public ArrayList<OnTheAirShow> getAllOnTheAirShows(){
     	return (ArrayList<OnTheAirShow>) onTheAirShowDao.findAll(this);
     }
+
+	public void checkOnTheAirShowsToBeDeleted(ArrayList<Integer> newIdTmdb) {
+
+		try {
+			ArrayList<Integer> allIdTmdb = (ArrayList<Integer>) onTheAirShowDao.getAllIdTmdb(this);
+			for (int i = 0; i < allIdTmdb.size(); i++) {
+				if (!newIdTmdb.contains(allIdTmdb.get(i))) {
+					OnTheAirShow onTheAirShow = onTheAirShowDao.findOnTheAirShowByIdTmdb(this, allIdTmdb.get(i));
+					onTheAirShowDao.deleteOnTheAirShow(this, onTheAirShow);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }
