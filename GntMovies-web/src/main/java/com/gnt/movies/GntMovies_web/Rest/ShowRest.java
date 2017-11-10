@@ -30,5 +30,4 @@ public class ShowRest {
 	public Show getShowDetailsByName(@HeaderParam("token") String token, @PathParam("title") String name) {
 		return showBean.findShowByName(name);
 	}
-
 }
