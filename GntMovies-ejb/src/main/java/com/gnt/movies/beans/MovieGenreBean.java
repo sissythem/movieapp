@@ -11,6 +11,8 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.MovieGenreDao;
 import com.gnt.movies.entities.MovieGenre;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
 /**
  * Session Bean implementation class MovieGenreBean
@@ -18,7 +20,7 @@ import com.gnt.movies.entities.MovieGenre;
 @Stateless
 @LocalBean
 public class MovieGenreBean implements DataProviderHolder {
-	
+	private static final Logger logger = LoggerFactory.getLogger(MovieGenreBean.class);	
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -36,6 +38,8 @@ public class MovieGenreBean implements DataProviderHolder {
     }
     
     public void addMovieGenre(MovieGenre movieGenre) {
+    	logger.info("addMovieGenre with movieId="+movieGenre.getMovie().getId()+
+    	" and genreId="+movieGenre.getGenre().getId());
     	movieGenreDao.createMovieGenre(this, movieGenre);
     }
 

@@ -2,6 +2,7 @@ package com.gnt.movies.GntMovies_web;
 
 import javax.inject.Inject;
 
+import com.gnt.movies.beans.SchedulerBean;
 import com.gnt.movies.beans.UserBean;
 import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
@@ -21,6 +22,7 @@ public class MyUI extends UI {
 	private static final long serialVersionUID = 1L;
 
 	@Inject private UserBean userBean;
+	@Inject private SchedulerBean schedulerBean;
 	
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -34,6 +36,9 @@ public class MyUI extends UI {
 	
 	public UserBean getUserBean() {
 		return userBean;
+	}
+	public SchedulerBean getSchedulerBean() {
+		return schedulerBean;
 	}
 
 //    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

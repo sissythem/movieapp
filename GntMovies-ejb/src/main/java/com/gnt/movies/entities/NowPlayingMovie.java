@@ -25,7 +25,8 @@ public class NowPlayingMovie implements Serializable {
 
     private int idTmdb;
 
-    @OneToOne(targetEntity=Movie.class,mappedBy="nowPlayingMovie")
+    @OneToOne
+    @JoinColumn(name="movieId")
     private Movie movie;
 
     public NowPlayingMovie() {

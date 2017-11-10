@@ -1,6 +1,7 @@
 package com.gnt.movies.beans;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -13,6 +14,8 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.GenreDao;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.entities.Genre;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
 /**
  * Session Bean implementation class GenreBean
@@ -20,7 +23,7 @@ import com.gnt.movies.entities.Genre;
 @Stateless
 @LocalBean
 public class GenreBean implements DataProviderHolder {
-	
+	private static final Logger logger = LoggerFactory.getLogger(GenreBean.class);
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -43,10 +46,16 @@ public class GenreBean implements DataProviderHolder {
     }
 
     public void addGenre(Genre genre) {
+    	logger.info("addGenre genre with name="+genre.getName());
     	genreDao.createGenre(this, genre);
     }
     
     public ArrayList<Genre> getAllGenres(){
     	return genreDao.findAllGenres(this);
     }
+
+	public HashSet<String> getAllGenreNames() {
+		
+		return genreDao.findAllGenreNames(this);
+	}
 }

@@ -1,5 +1,6 @@
 package com.gnt.movies.beans;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -10,14 +11,19 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.MovieDao;
+import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
+import com.gnt.movies.entities.MovieGenre;
+import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
 @Stateless
 @LocalBean
 public class MovieBean implements DataProviderHolder{
-	
+	private static final Logger logger = LoggerFactory.getLogger(MovieBean.class);	
 	@PersistenceContext
 	private EntityManager em;
 
@@ -25,6 +31,9 @@ public class MovieBean implements DataProviderHolder{
 	@JpaDao
 	@Named("MovieDaoImpl")
 	MovieDao movieDao;
+
+	@EJB
+	GenreBean genreBean;
 	
     public MovieBean() {
     	
@@ -53,9 +62,17 @@ public class MovieBean implements DataProviderHolder{
 		movie.setStatus(movieDetails.getStatus());
 		movie.setTitle(movieDetails.getTitle());
 		movie.setImdbId(movieDetails.getImdbId());
+		for (ApiGenre apiGenre : movieDetails.getGenresAPI()) {
+			Genre genre = genreBean.findGenreByName(apiGenre.getName());
+			MovieGenre movieGenre = new MovieGenre(movie,genre);
+			movie.addMovieGenre(movieGenre);
+		}
+		
+		
 	}
 	
 	public void addMovie(Movie movie) {
+		logger.info("addMovie movie with tmdbId="+movie.getIdTmdb());
 		movieDao.createMovie(this, movie);
 	}
 	

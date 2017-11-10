@@ -1,6 +1,8 @@
 package com.gnt.movies.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
@@ -41,6 +43,14 @@ public class GenreDaoImpl extends AbstractDao implements GenreDao {
 	@Override
 	public ArrayList<Genre> findAllGenres(DataProviderHolder dataProviderHolder) {
 		return (ArrayList<Genre>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL).getResultList();
+	}
+	@Override
+	public HashSet<String> findAllGenreNames(DataProviderHolder dataProviderHolder) {
+		HashSet<String> set = new HashSet<>();
+		for (Object obj : dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL_NAMES).getResultList()) {
+			set.add((String)obj);
+		}
+		return set;
 	}
 
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -82,6 +84,9 @@ public class Movie implements Serializable {
 
     private int voteCount;
 
+    @Transient
+    private UpcomingMovie upcomingMovie;
+    
     @OneToMany(mappedBy="movie")
     private List<MovieGenre> movieGenres;
 
@@ -91,13 +96,11 @@ public class Movie implements Serializable {
     @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
     private List<MovieReview> movieReviews;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn (name="id", referencedColumnName="movieId")
+    @Transient    
     private NowPlayingMovie nowPlayingMovie;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn (name="id", referencedColumnName="movieId")
-    private UpcomingMovie upcomingMovie;
+    
+//    private UpcomingMovie upcomingMovie;
 
     public Movie() {
     }
@@ -114,6 +117,7 @@ public class Movie implements Serializable {
 		this.title = title;
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
+		this.movieGenres = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -358,12 +362,12 @@ public class Movie implements Serializable {
         this.nowPlayingMovie = nowPlayingMovie;
     }
 
-    public UpcomingMovie getUpcomingMovie() {
-        return this.upcomingMovie;
-    }
-
-    public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
-        this.upcomingMovie = upcomingMovie;
-    }
+//    public UpcomingMovie getUpcomingMovie() {
+//        return this.upcomingMovie;
+//    }
+//
+//    public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
+//        this.upcomingMovie = upcomingMovie;
+//    }
 
 }

@@ -2,7 +2,7 @@ package com.gnt.movies.theMovieDB;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ApiGenres {
+public class ApiGenre {
 	
 	@SerializedName("id")
 	private int id;

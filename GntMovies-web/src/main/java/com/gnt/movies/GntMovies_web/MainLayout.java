@@ -29,6 +29,8 @@ public class MainLayout extends VerticalLayout {
 
 //			this.addComponent(new Label("Thanks " + name.getValue() + " " + MyUI.get().getUserBean() + ", it works!"));
 			this.addComponent(new Label("User:"+user.toString()));
+			
+			MyUI.get().getSchedulerBean().getUpcomingMovies();
 		});
 
 		this.addComponents(name, button);

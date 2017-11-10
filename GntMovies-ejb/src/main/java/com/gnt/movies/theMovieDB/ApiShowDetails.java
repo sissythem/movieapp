@@ -11,7 +11,7 @@ public class ApiShowDetails {
 	@SerializedName("first_air_date")
 	private String firstAirDate;
 	@SerializedName("genres")
-	private ArrayList<ApiGenres> apiGenres;
+	private ArrayList<ApiGenre> apiGenre;
 	@SerializedName("homepage")
 	private String homepage;
 	@SerializedName("id")
@@ -63,11 +63,11 @@ public class ApiShowDetails {
 	public void setFirstAirDate(String firstAirDate) {
 		this.firstAirDate = firstAirDate;
 	}
-	public ArrayList<ApiGenres> getGenresAPI() {
-		return apiGenres;
+	public ArrayList<ApiGenre> getGenresAPI() {
+		return apiGenre;
 	}
-	public void setGenres(ArrayList<ApiGenres> genres) {
-		this.apiGenres = genres;
+	public void setGenres(ArrayList<ApiGenre> genres) {
+		this.apiGenre = genres;
 	}
 	public String getHomepage() {
 		return homepage;

@@ -11,7 +11,7 @@ public class ApiMovieDetails {
 	@SerializedName("budget")
 	private double budget;
 	@SerializedName("genres")
-	private ArrayList<ApiGenres> apiGenres;
+	private ArrayList<ApiGenre> apiGenre;
 	@SerializedName("homepage")
 	private String homepage;
 	@SerializedName("id")
@@ -64,12 +64,12 @@ public class ApiMovieDetails {
 		this.budget = budget;
 	}
 
-	public ArrayList<ApiGenres> getMovieGenresAPI() {
-		return apiGenres;
+	public ArrayList<ApiGenre> getMovieGenresAPI() {
+		return apiGenre;
 	}
 
-	public void setMovieGenresAPI(ArrayList<ApiGenres> apiGenres) {
-		this.apiGenres = apiGenres;
+	public void setMovieGenresAPI(ArrayList<ApiGenre> apiGenre) {
+		this.apiGenre = apiGenre;
 	}
 
 	public String getHomepage() {
@@ -200,12 +200,12 @@ public class ApiMovieDetails {
 		this.voteCount = voteCount;
 	}
 
-	public ArrayList<ApiGenres> getGenresAPI() {
-		return apiGenres;
+	public ArrayList<ApiGenre> getGenresAPI() {
+		return apiGenre;
 	}
 
-	public void setGenresAPI(ArrayList<ApiGenres> apiGenres) {
-		this.apiGenres = apiGenres;
+	public void setGenresAPI(ArrayList<ApiGenre> apiGenre) {
+		this.apiGenre = apiGenre;
 	}
 
 	public ArrayList<ApiCastCrew> getCast() {
@@ -226,7 +226,7 @@ public class ApiMovieDetails {
 
 	@Override
 	public String toString() {
-		return "ApiMovieDetails [adult=" + adult + ", budget=" + budget + ", apiGenres=" + apiGenres + ", homepage="
+		return "ApiMovieDetails [adult=" + adult + ", budget=" + budget + ", apiGenre=" + apiGenre + ", homepage="
 				+ homepage + ", id=" + id + ", imdbId=" + imdbId + ", originalLanguage=" + originalLanguage
 				+ ", originalTitle=" + originalTitle + ", overview=" + overview + ", apiProductionCompanies="
 				+ apiProductionCompanies + ", apiProductionCountries=" + apiProductionCountries + ", releaseDate="
