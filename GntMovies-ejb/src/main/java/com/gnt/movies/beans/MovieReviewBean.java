@@ -45,7 +45,27 @@ public class MovieReviewBean implements DataProviderHolder{
 		movieReviewDao.createMovieReview(this, new MovieReview(user, movie));
 	}
 	
+	public void deleteMovieReview(User user, Movie movie) {
+		movieReviewDao.deleteMovieReview(this, new MovieReview(user, movie));
+	}
+	
+	public void updateMovieReview(User user, Movie movie) {
+		movieReviewDao.updateMovieReview(this, new MovieReview(user, movie));
+	}
+	
 	public ArrayList<MovieReview> getMovieReviewsByMovie(Movie movie){
 		return (ArrayList<MovieReview>) movieReviewDao.findMovieReviewByMovieId(this, movie.getId());
+	}
+	
+	public ArrayList<MovieReview> getMovieReviewsByMovieId(Integer movieId){
+		return (ArrayList<MovieReview>) movieReviewDao.findMovieReviewByMovieId(this, movieId);
+	}
+	
+	public ArrayList<MovieReview> getMovieReviewsByUser(Integer userId){
+		return (ArrayList<MovieReview>) movieReviewDao.findMovieReviewByUserId(this, userId);
+	}
+	
+	public MovieReview getMovieReviewFromUser(Integer movieId, Integer userId) {
+		return movieReviewDao.findMovieReview(this, movieId, userId);
 	}
 }

@@ -1,7 +1,9 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.gnt.movies.beans.OnTheAirShowBean;
 import com.gnt.movies.entities.OnTheAirShow;
 
 public interface OnTheAirShowDao {
@@ -12,4 +14,5 @@ public interface OnTheAirShowDao {
 	OnTheAirShow findOnTheAirShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
 	OnTheAirShow findOnTheAirShowByMovieId(DataProviderHolder dataProviderHolder, Integer showId);
 	List<OnTheAirShow> findAll(DataProviderHolder dataProviderHolder);
+	List<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder);
 }

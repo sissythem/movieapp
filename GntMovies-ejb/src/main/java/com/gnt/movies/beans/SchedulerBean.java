@@ -78,6 +78,7 @@ public class SchedulerBean implements DataProviderHolder {
 
 	@Schedule(dayOfWeek = "*", hour = "*",minute="*")
 	public void checkUpcomingMovies() {
+		
 		logger.info("Scheduler checking for upcomming movies");
 		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
 		ArrayList<Integer> idTmdbs = new ArrayList<>();
@@ -92,10 +93,12 @@ public class SchedulerBean implements DataProviderHolder {
 
 	@Schedule(dayOfWeek = "*", hour = "0")
 	public void checkNowPlayingMovies() {
-
+		
+		logger.info("Scheduler checking for now playing movies");
 		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = APIClient.getNowPlayingMoviesFromAPI();
 		ArrayList<Integer> idTmdbs = new ArrayList<>();
 		for (ApiNewMovie nowPlayingMovieAPI : nowPlayingMoviesAPI) {
+			idTmdbs.add(nowPlayingMovieAPI.getId());
 			if (nowPlayingMovieBean.findMovieByIdTmdb(nowPlayingMovieAPI.getId()) == null) {
 				addNewNowPlayingMovies(nowPlayingMovieAPI);
 			}
@@ -105,26 +108,34 @@ public class SchedulerBean implements DataProviderHolder {
 
 	@Schedule(dayOfWeek = "*", hour = "0")
 	public void checkOnTheAirShow() {
-
+		
+		logger.info("Scheduler checking for on the air shows");
 		ArrayList<ApiNewShow> onTheAirShowsAPI = APIClient.getOnTheAirShowsFromAPI();
+		ArrayList<Integer> idTmdbs = new ArrayList<>();
 
 		for (ApiNewShow onTheAirShowAPI : onTheAirShowsAPI) {
+			idTmdbs.add(onTheAirShowAPI.getId());
 			if (onTheAirShowBean.findOnTheAirShowByIdTmdb(onTheAirShowAPI.getId()) == null) {
 				addNewOnTheAirShows(onTheAirShowAPI);
 			}
 		}
+		onTheAirShowBean.checkOnTheAirShowsToBeDeleted(idTmdbs);
 	}
 
 	@Schedule(dayOfWeek = "*", hour = "0")
 	public void checkAir2dayShows() {
 
+		logger.info("Scheduler checking for air today shows");
 		ArrayList<ApiNewShow> apiNewShow = APIClient.getAir2dayShowsFromAPI();
+		ArrayList<Integer> idTmdbs = new ArrayList<>();
 
 		for (ApiNewShow newShowAPI : apiNewShow) {
+			idTmdbs.add(newShowAPI.getId());
 			if (air2dayShowBean.findAir2dayShowByIdTmdb(newShowAPI.getId()) == null) {
 				addNewAir2dayShows(newShowAPI);
 			}
 		}
+		air2dayShowBean.checkAir2dayShowsToBeDeleted(idTmdbs);
 	}
 
 	public ApiMovieDetails updateMovieWithDetailsFromAPI(Movie movie) {

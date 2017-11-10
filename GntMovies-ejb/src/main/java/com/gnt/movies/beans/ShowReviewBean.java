@@ -44,6 +44,10 @@ public class ShowReviewBean implements DataProviderHolder {
 		showReviewDao.createShowReview(this, new ShowReview(user, show));
 	}
 	
+	public void deleteShowReview(User user, Show show) {
+		showReviewDao.deleteShowReview(this, new ShowReview(user, show));
+	}
+	
 	public ArrayList<ShowReview> getShowReviewsByShow(Show show){
 		return (ArrayList<ShowReview>) showReviewDao.findShowReviewByShowId(this, show.getId());
 	}
