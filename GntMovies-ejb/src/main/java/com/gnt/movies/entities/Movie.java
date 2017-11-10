@@ -32,12 +32,12 @@ import java.util.List;
         @NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
         @NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId")
 })
-public class Movie implements Serializable {
+public class Movie implements Serializable, Comparable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private byte adult;
 
@@ -350,7 +350,7 @@ public class Movie implements Serializable {
         return movieReview;
     }
 
-    public NowPlayingMovie getNowPlayingMovy() {
+    public NowPlayingMovie getNowPlayingMovie() {
         return this.nowPlayingMovie;
     }
 
@@ -364,6 +364,51 @@ public class Movie implements Serializable {
 
     public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
         this.upcomingMovie = upcomingMovie;
+    }
+    
+    /** Count our average rating based on ratings and comments only in our app **/
+    public double getAverageRating(){
+        double rating = 0.0;
+        double averageRating;
+        if(movieReviews == null){
+            averageRating=0.0;
+        } else {
+            for(int i=0;i<movieReviews.size();i++){
+                rating = rating + ((List<MovieReview>)movieReviews).get(i).getRating();
+            }
+            averageRating = rating/movieReviews.size();
+        }
+        return averageRating;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (!(object instanceof Movie)) {
+            return false;
+        }
+        Movie other = (Movie) object;
+
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+    /** Compare movies based on our average rating for ordering (eg in a list) **/
+    @Override
+    public int compareTo(Object o) {
+        Double averageRating = this.getAverageRating();
+        Double otherAverageRating = ((Movie) o).getAverageRating();
+        return  -averageRating.compareTo(otherAverageRating);
     }
 
 }
