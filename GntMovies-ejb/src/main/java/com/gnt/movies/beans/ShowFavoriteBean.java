@@ -35,7 +35,6 @@ public class ShowFavoriteBean implements DataProviderHolder{
 
     }
 
-
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
@@ -48,6 +47,4 @@ public class ShowFavoriteBean implements DataProviderHolder{
     public ArrayList<ShowFavorite> getAllShowFavoritesForUser(User user){
     	return (ArrayList<ShowFavorite>) showFavoriteDao.findShowFavoriteByUserId(this, user.getId());
     }
-    
-
 }

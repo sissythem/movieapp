@@ -56,7 +56,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		}
 	}
 	
-	public boolean deleteUpcomingMovie(ArrayList<Integer> newIdTmdb) {
+	public void checkUpcomingMoviesToBeDeleted(ArrayList<Integer> newIdTmdb) {
 		try {
 			ArrayList<Integer> allIdTmdb = (ArrayList<Integer>) upcomingMovieDao.getAllIdTmdb(this);
 			for(int i=0; i<allIdTmdb.size();i++) {
@@ -65,10 +65,8 @@ public class UpcomingMovieBean implements DataProviderHolder {
 					upcomingMovieDao.deleteUpcomingMovie(this, upcomingMovie);
 				}
 			}
-			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
 	}
 	

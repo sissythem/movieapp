@@ -40,5 +40,4 @@ public class ShowGenreBean implements DataProviderHolder {
 		showGenreDao.createShowGenre(this, showGenre);
 		
 	}
-
 }

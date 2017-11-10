@@ -1,5 +1,6 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
@@ -49,4 +50,13 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 				.getResultList();
 	}
 
+	@Override
+	public ArrayList<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder){
+		ArrayList<Integer> allIdTmdb = new ArrayList<>();
+		List<NowPlayingMovie> allNowPlayingMovies = findAll(dataProviderHolder);
+		for(NowPlayingMovie nowPlayingMovie : allNowPlayingMovies) {
+			allIdTmdb.add(nowPlayingMovie.getIdTmdb());
+		}
+		return allIdTmdb;
+	}
 }

@@ -12,4 +12,5 @@ public interface NowPlayingMovieDao {
 	NowPlayingMovie findNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
 	NowPlayingMovie findNowPlayingMovieByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
 	List<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder);
+	List<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder);
 }

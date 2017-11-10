@@ -13,6 +13,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.NowPlayingMovieDao;
 import com.gnt.movies.entities.NowPlayingMovie;
+import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 
 @Stateless
@@ -49,4 +50,18 @@ public class NowPlayingMovieBean implements DataProviderHolder{
     public ArrayList<NowPlayingMovie> getAllNowPlayingMovies(){
     	return (ArrayList<NowPlayingMovie>) nowPlayingMovieDao.findAll(this);
     }
+    
+    public void checkNowPlayingMoviesToBeDeleted(ArrayList<Integer> newIdTmdb) {
+		try {
+			ArrayList<Integer> allIdTmdb = (ArrayList<Integer>) nowPlayingMovieDao.getAllIdTmdb(this);
+			for(int i=0; i<allIdTmdb.size();i++) {
+				if(!newIdTmdb.contains(allIdTmdb.get(i))) {
+					NowPlayingMovie nowPlayingMovie = nowPlayingMovieDao.findNowPlayingMovieByIdTmdb(this, allIdTmdb.get(i));
+					nowPlayingMovieDao.deleteNowPlayingMovie(this, nowPlayingMovie);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

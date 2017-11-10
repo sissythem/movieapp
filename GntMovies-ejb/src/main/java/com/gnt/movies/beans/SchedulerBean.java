@@ -80,25 +80,27 @@ public class SchedulerBean implements DataProviderHolder {
 	public void checkUpcomingMovies() {
 		logger.info("Scheduler checking for upcomming movies");
 		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
-
+		ArrayList<Integer> idTmdbs = new ArrayList<>();
 		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
+			idTmdbs.add(upcomingMovieAPI.getId());
 			if (upcomingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
 				addNewUpcomingMovies(upcomingMovieAPI);
 			}
 		}
+		upcomingMovieBean.checkUpcomingMoviesToBeDeleted(idTmdbs);
 	}
 
 	@Schedule(dayOfWeek = "*", hour = "0")
 	public void checkNowPlayingMovies() {
 
 		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = APIClient.getNowPlayingMoviesFromAPI();
-
+		ArrayList<Integer> idTmdbs = new ArrayList<>();
 		for (ApiNewMovie nowPlayingMovieAPI : nowPlayingMoviesAPI) {
 			if (nowPlayingMovieBean.findMovieByIdTmdb(nowPlayingMovieAPI.getId()) == null) {
 				addNewNowPlayingMovies(nowPlayingMovieAPI);
-				
 			}
 		}
+		nowPlayingMovieBean.checkNowPlayingMoviesToBeDeleted(idTmdbs);
 	}
 
 	@Schedule(dayOfWeek = "*", hour = "0")
