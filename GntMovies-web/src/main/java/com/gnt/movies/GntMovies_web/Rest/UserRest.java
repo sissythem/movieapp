@@ -89,7 +89,7 @@ public class UserRest {
 				return "Hi " + user.getUsername();
 			}
 		}
-		return "Sorry Please loging...";
+		return "Sorry Please log in...";
 	}
 
 }
