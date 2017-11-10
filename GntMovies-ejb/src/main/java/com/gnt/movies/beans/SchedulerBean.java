@@ -141,10 +141,10 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 	
 	public void addNewUpcomingMovies(ApiNewMovie newMovieAPI) {
-		UpcomingMovie newUpcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(newMovieAPI);
+		UpcomingMovie newUpcomingMovie = new UpcomingMovie();
 		Movie newMovie = addNewMovieWithGenres(newMovieAPI);
-		newUpcomingMovie.setMovie(newMovie);
-		upcomingMovieBean.addUpcomingMovie(newUpcomingMovie);
+		newMovie.setUpcomingMovie(newUpcomingMovie);
+		movieBean.addMovie(newMovie);
 	}
 	
 	public void addNewNowPlayingMovies(ApiNewMovie newMovieAPI) {

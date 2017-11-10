@@ -74,10 +74,6 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		return upcomingMovieDao.findByIdTmdb(this, id);
 	}
 	
-	public UpcomingMovie createUpcomingMovieFromAPI(ApiNewMovie upcomingMovie) {
-    	return new UpcomingMovie(upcomingMovie.getId());
-	}
-	
 	public ArrayList<UpcomingMovie> getAllUpcomingMovies(){
 		return (ArrayList<UpcomingMovie>) upcomingMovieDao.findAll(this);
 	}
