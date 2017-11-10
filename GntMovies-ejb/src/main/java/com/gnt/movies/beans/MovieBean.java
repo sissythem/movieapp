@@ -62,6 +62,8 @@ public class MovieBean implements DataProviderHolder{
 		movie.setStatus(movieDetails.getStatus());
 		movie.setTitle(movieDetails.getTitle());
 		movie.setImdbId(movieDetails.getImdbId());
+		
+		
 		for (ApiGenre apiGenre : movieDetails.getGenresAPI()) {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
 			MovieGenre movieGenre = new MovieGenre(movie,genre);
