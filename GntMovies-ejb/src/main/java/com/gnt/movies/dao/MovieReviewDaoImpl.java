@@ -37,20 +37,29 @@ public class MovieReviewDaoImpl extends AbstractDao implements MovieReviewDao {
 
 	@Override
 	public List<MovieReview> findMovieReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
-		List<MovieReview> movieGenres = new ArrayList<>();
+		List<MovieReview> movieReviews = new ArrayList<>();
 		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_USER_ID);
 		query.setParameter("userId", userId);
-		movieGenres = query.getResultList();
-		return movieGenres;
+		movieReviews = query.getResultList();
+		return movieReviews;
 	}
 
 	@Override
 	public List<MovieReview> findMovieReviewByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		List<MovieReview> movieGenres = new ArrayList<>();
+		List<MovieReview> movieReviews = new ArrayList<>();
 		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_MOVIE_ID);
 		query.setParameter("movieId", movieId);
-		movieGenres = query.getResultList();
-		return movieGenres;
+		movieReviews = query.getResultList();
+		return movieReviews;
+	}
+	
+	@Override
+	public MovieReview findMovieReview(DataProviderHolder dataProviderHolder, Integer movieId, Integer userId){
+		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW);
+		query.setParameter(1, movieId);
+		query.setParameter(2, userId);
+		return (MovieReview) query.getSingleResult();
+		
 	}
 
 }

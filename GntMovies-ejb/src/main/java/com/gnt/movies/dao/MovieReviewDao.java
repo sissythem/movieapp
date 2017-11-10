@@ -11,4 +11,5 @@ public interface MovieReviewDao {
 	MovieReview findMovieReviewById(DataProviderHolder dataProviderHolder, Integer id);
 	List<MovieReview>findMovieReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId);
 	List<MovieReview>findMovieReviewByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
+	MovieReview findMovieReview(DataProviderHolder dataProviderHolder, Integer movieId, Integer userId);
 }

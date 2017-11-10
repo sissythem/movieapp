@@ -39,7 +39,7 @@ public class Movie implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private byte adult;
 
@@ -83,9 +83,6 @@ public class Movie implements Serializable {
     private double voteAverage;
 
     private int voteCount;
-
-    @Transient
-    private UpcomingMovie upcomingMovie;
     
     @OneToMany(mappedBy="movie")
     private List<MovieGenre> movieGenres;
@@ -99,8 +96,8 @@ public class Movie implements Serializable {
     @Transient    
     private NowPlayingMovie nowPlayingMovie;
 
-    
-//    private UpcomingMovie upcomingMovie;
+    @Transient
+    private UpcomingMovie upcomingMovie;
 
     public Movie() {
     }
@@ -354,7 +351,7 @@ public class Movie implements Serializable {
         return movieReview;
     }
 
-    public NowPlayingMovie getNowPlayingMovy() {
+    public NowPlayingMovie getNowPlayingMovie() {
         return this.nowPlayingMovie;
     }
 
@@ -362,12 +359,50 @@ public class Movie implements Serializable {
         this.nowPlayingMovie = nowPlayingMovie;
     }
 
-//    public UpcomingMovie getUpcomingMovie() {
-//        return this.upcomingMovie;
-//    }
-//
-//    public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
-//        this.upcomingMovie = upcomingMovie;
-//    }
+    public UpcomingMovie getUpcomingMovie() {
+        return this.upcomingMovie;
+    }
 
+    public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
+        this.upcomingMovie = upcomingMovie;
+    }
+    
+    /** Count our average rating based on ratings and comments only in our app **/
+    public double getAverageRating(){
+        double rating = 0.0;
+        double averageRating;
+        if(movieReviews == null){
+            averageRating=0.0;
+        } else {
+            for(int i=0;i<movieReviews.size();i++){
+                rating = rating + ((List<MovieReview>)movieReviews).get(i).getRating();
+            }
+            averageRating = rating/movieReviews.size();
+        }
+        return averageRating;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (!(object instanceof Movie)) {
+            return false;
+        }
+        Movie other = (Movie) object;
+
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+    
 }

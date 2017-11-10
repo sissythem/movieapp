@@ -47,5 +47,9 @@ public class MovieFavoriteBean implements DataProviderHolder{
     public ArrayList<MovieFavorite> getAllMovieFavoritesForUser(User user){
     	return (ArrayList<MovieFavorite>) movieFavoriteDao.findMovieFavoriteByUserId(this, user.getId());
     }
+    
+    public void removeMovieFavorite(User user, Movie movie) {
+    	movieFavoriteDao.deleteMovieFavorite(this, new MovieFavorite(user, movie));
+    }
 
 }

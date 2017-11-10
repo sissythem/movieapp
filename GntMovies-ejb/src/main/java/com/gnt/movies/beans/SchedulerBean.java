@@ -66,7 +66,7 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 
 	private static boolean flag = false;
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*")
+	@Schedule(dayOfWeek = "*", hour = "*", minute = "*",second="*")
 	public void getUpcomingMovies() {
 		if(flag)
 			return;
@@ -75,7 +75,6 @@ public class SchedulerBean implements DataProviderHolder {
 		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
 		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
 			checkUpcomingMovie(upcomingMovieAPI);
-			break;
 		}
 		logger.info("Done checking for upcomming movies");
 		flag = false;

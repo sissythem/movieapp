@@ -2,6 +2,7 @@ package com.gnt.movies.utilities;
 
 public class Utils 
 {
+
 	public static String API_KEY = "?api_key=eaf5fc7d22157774a158a75a3ed6fe9c";
 	
 	/** URLs for TheMovieDB**/
@@ -93,6 +94,7 @@ public class Utils
 	public static String MOVIE_REVIEW_FIND_BY_USER_ID = "MovieReview.findByUserId";
 	public static String MOVIE_REVIEW_FIND_BY_MOVIE_ID = "MovieReview.findByMovieId";
 	public static String MOVIE_REVIEW_FIND_ALL = "MovieReview.findAll";
+	public static String MOVIE_REVIEW = "MovieReview.findMovieReview";
 	
 	/** Now playing movie named queries**/
 	public static String NOW_PLAYING_MOVIE_FIND_BY_ID = "NowPlayingMovie.findById";

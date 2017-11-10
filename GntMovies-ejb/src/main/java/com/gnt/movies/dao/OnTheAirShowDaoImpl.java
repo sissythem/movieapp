@@ -1,5 +1,6 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
@@ -46,6 +47,19 @@ public class OnTheAirShowDaoImpl extends AbstractDao implements OnTheAirShowDao 
 	@Override
 	public List<OnTheAirShow> findAll(DataProviderHolder dataProviderHolder) {
 		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.ON_THE_AIR_SHOW_FIND_ALL).getResultList();
+	}
+
+	@Override
+	public ArrayList<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
+
+		ArrayList<Integer> allIdTmdbOnTheAirShow = new ArrayList<>();
+		List<OnTheAirShow> allOnTheAirShows = new ArrayList<>();
+		allOnTheAirShows = findAll(dataProviderHolder);
+		for (OnTheAirShow onTheAirShow : allOnTheAirShows) {
+			allIdTmdbOnTheAirShow.add(onTheAirShow.getIdTmdb());
+		}
+
+		return allIdTmdbOnTheAirShow;
 	}
 
 }

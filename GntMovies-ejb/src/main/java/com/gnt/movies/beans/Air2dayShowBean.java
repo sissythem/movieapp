@@ -53,4 +53,19 @@ public class Air2dayShowBean implements DataProviderHolder{
     	return (ArrayList<Air2dayShow>) air2dayShowDao.findAll(this);
     }
 
+	public void checkAir2dayShowsToBeDeleted(ArrayList<Integer> newIdTmdb) {
+
+		try {
+			ArrayList<Integer> allIdTmdb = (ArrayList<Integer>) air2dayShowDao.getAllIdTmdb(this);
+			for (int i = 0; i < allIdTmdb.size(); i++) {
+				if (!newIdTmdb.contains(allIdTmdb.get(i))){
+					Air2dayShow air2dayShow = air2dayShowDao.findByIdTmdb(this, allIdTmdb.get(i));
+					air2dayShowDao.deleteAir2dayShow(this, air2dayShow);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
