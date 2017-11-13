@@ -103,6 +103,8 @@ public class Utils
 	public static String NOW_PLAYING_MOVIE_FIND_BY_IDTMDB = "NowPlayingMovie.findByIdTmdb";
 	public static String NOW_PLAYING_MOVIE_FIND_BY_MOVIE_ID = "NowPlayingMovie.findByMovieId";
 	public static String NOW_PLAYING_MOVIE_FIND_ALL = "NowPlayingMovie.findAll";
+	public static String NOW_PLAYING_MOVIE_GET_ALL_IDTMDB = "NowPlayingMovie.getAllIdTmdb";
+	public static String NOW_PLAYING_MOVIE_DELETE_BY_IDTMDB = "NowPlayingMovie.deleteByIdTmdb";
 	
 	/** Genre named queries**/
 	public static String GENRE_FIND_BY_NAME = "Genre.findByName";
