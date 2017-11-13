@@ -56,6 +56,7 @@ public class SchedulerBean implements DataProviderHolder {
 	@EJB
 	ShowGenreBean showGenreBean;
 
+	APIClient apiClient = new APIClient();
 	public SchedulerBean() {
 
 	}
@@ -66,23 +67,21 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 
 	private static boolean flag = false;
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*")
+	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=false)
 	public void getUpcomingMovies() {
 		if(flag)
 			return;
 		flag=true;
-		logger.info("Scheduler checking for upcomming movies");
-		ArrayList<Integer> allIdTmdb = upcomingMovieBean.findAllIdTmdb();
-		ArrayList<Integer> newIdTmdb = new ArrayList<>();
-		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
-		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
-			upcomingMovieBean.checkUpcomingMovie(upcomingMovieAPI, allIdTmdb);
-			newIdTmdb.add(upcomingMovieAPI.getId());
-			break;
-		}
 		
-		upcomingMovieBean.checkUpcomingMoviesToBeDeleted(newIdTmdb, allIdTmdb);
+		logger.info("Scheduler checking for upcomming movies");
+		upcomingMovieBean.findAllIdTmdb();
+		ArrayList<ApiNewMovie> upcomingMoviesAPI = apiClient.getUpcomingMoviesFromAPI();
+		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
+			upcomingMovieBean.checkUpcomingMovie(upcomingMovieAPI);
+		}
+		upcomingMovieBean.removeOldNotUpMovies(upcomingMoviesAPI);
 		logger.info("Done checking for upcomming movies");
+		
 		flag = false;
 	}
 

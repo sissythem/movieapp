@@ -42,6 +42,8 @@ public class Utils
 	public static String UPCOMING_MOVIE_FIND_BY_MOVIE_ID = "UpcomingMovie.findByMovieId";
 	public static String UPCOMING_MOVIE_FIND_BY_IDTMDB = "UpcomingMovie.findByIdTmdb";
 	public static String UPCOMING_MOVIE_FIND_ALL = "UpcomingMovie.findAll";
+	public static String UPCOMING_MOVIE_GET_ALL_IDTMDB = "UpcomingMovie.getAllIdTmdb";
+	public static String UPCOMING_MOVIE_DELETE_BY_IDTMDB = "UpcomingMovie.deleteByIdTmdb";
 	
 	/** Show review queries**/
 	public static String SHOW_REVIEW_FIND_BY_ID = "ShowReview.findById";

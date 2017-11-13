@@ -1,6 +1,7 @@
 package com.gnt.movies.beans;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -39,6 +40,8 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	@EJB
 	MovieBean movieBean;
 
+	HashSet<Integer> allIdTmdb;
+	
 	public UpcomingMovieBean() {
 	}
 
@@ -58,22 +61,11 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		}
 	}
 	
-	public ArrayList<Integer> findAllIdTmdb (){
-		return (ArrayList<Integer>) upcomingMovieDao.getAllIdTmdb(this);
+	public void findAllIdTmdb (){
+		allIdTmdb =(HashSet<Integer>) upcomingMovieDao.getAllIdTmdb(this);
 	}
 	
-	public void checkUpcomingMoviesToBeDeleted(ArrayList<Integer> newIdTmdb, ArrayList<Integer> allIdTmdb) {
-		try {
-			for(int i=0; i<allIdTmdb.size();i++) {
-				if(!newIdTmdb.contains(allIdTmdb.get(i))) {
-					UpcomingMovie upcomingMovie = upcomingMovieDao.findByIdTmdb(this, allIdTmdb.get(i));
-					upcomingMovieDao.deleteUpcomingMovie(this, upcomingMovie);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 	
 	public UpcomingMovie findMovieByIdTmdb(Integer id) {
 		return upcomingMovieDao.findByIdTmdb(this, id);
@@ -88,13 +80,25 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void checkUpcomingMovie(ApiNewMovie movieAPI, ArrayList<Integer> allIdTmdb) {
+	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
 		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
-		if(allIdTmdb.contains(movieAPI))
+		if(allIdTmdb.contains(movieAPI.getId()))
 			return;
 		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movieAPI);
 		Movie movie = movieBean.addNewMovie(movieAPI);
 		upcomingMovie.setMovie(movie);
 		addUpcomingMovie(upcomingMovie);
+		allIdTmdb.add(upcomingMovie.getIdTmdb());
+	}
+	public void removeOldNotUpMovies(ArrayList<ApiNewMovie> apiNewMovieArrayList) {
+		
+		for (ApiNewMovie apiNewMovie: apiNewMovieArrayList) {
+			allIdTmdb.remove(apiNewMovie.getId());
+		}
+		
+		for (Integer idtmdb : allIdTmdb) {
+			logger.info("removing movie with tmdbId=" + idtmdb);
+			upcomingMovieDao.deleteUpcomingMovieByIdTmdb(this, idtmdb);
+		}
 	}
 }
