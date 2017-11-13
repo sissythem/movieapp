@@ -1,6 +1,7 @@
 package com.gnt.movies.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
@@ -50,14 +51,16 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 	}
 	
 	@Override
-	public ArrayList<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder){
-		ArrayList<Integer> allIdTmdbUpcoming = new ArrayList<>();
-		List<UpcomingMovie> allUpcomingMovies = new ArrayList<>();
-		allUpcomingMovies = findAll(dataProviderHolder);
-		for(UpcomingMovie upcomingMovie : allUpcomingMovies) {
-			allIdTmdbUpcoming.add(upcomingMovie.getIdTmdb());
-		}
-		return allIdTmdbUpcoming;
+	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder){
+		HashSet<Integer> set = new HashSet<>();
+		
+		set.addAll((List<Integer>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_GET_ALL_IDTMDB).getResultList());
+		return set;
+	}
+
+	@Override
+	public void deleteUpcomingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
+		dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_DELETE_BY_IDTMDB).setParameter("idTmdb", idTmdb).executeUpdate();//.getResultList();
 	}
 	
 }

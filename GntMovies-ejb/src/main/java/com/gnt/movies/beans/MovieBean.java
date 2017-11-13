@@ -39,6 +39,8 @@ public class MovieBean implements DataProviderHolder{
 	@EJB
 	MovieGenreBean movieGenreBean;
 	
+	APIClient apiClient = new APIClient();
+	
     public MovieBean() {
     	
     }
@@ -82,7 +84,7 @@ public class MovieBean implements DataProviderHolder{
 		logger.info("addNewMovieWithGenres movie with tmdbId=" + movieApi.getId());
 		Movie movie = createMovieFromAPI(movieApi);
 
-		ApiMovieDetails movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
+		ApiMovieDetails movieDetails = apiClient.getMovieDetailsFromAPI(movie.getIdTmdb());
 		genreBean.updateGenres(movieDetails.getGenresAPI());
 
 		updateMovieWithDetails(movie, movieDetails);
