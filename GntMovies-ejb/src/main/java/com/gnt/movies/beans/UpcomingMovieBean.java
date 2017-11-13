@@ -58,9 +58,12 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		}
 	}
 	
-	public void checkUpcomingMoviesToBeDeleted(ArrayList<Integer> newIdTmdb) {
+	public ArrayList<Integer> findAllIdTmdb (){
+		return (ArrayList<Integer>) upcomingMovieDao.getAllIdTmdb(this);
+	}
+	
+	public void checkUpcomingMoviesToBeDeleted(ArrayList<Integer> newIdTmdb, ArrayList<Integer> allIdTmdb) {
 		try {
-			ArrayList<Integer> allIdTmdb = (ArrayList<Integer>) upcomingMovieDao.getAllIdTmdb(this);
 			for(int i=0; i<allIdTmdb.size();i++) {
 				if(!newIdTmdb.contains(allIdTmdb.get(i))) {
 					UpcomingMovie upcomingMovie = upcomingMovieDao.findByIdTmdb(this, allIdTmdb.get(i));
@@ -85,18 +88,13 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
+	public void checkUpcomingMovie(ApiNewMovie movieAPI, ArrayList<Integer> allIdTmdb) {
 		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
-		// check if movie exists....
-		// check if delete upcomming....
+		if(allIdTmdb.contains(movieAPI))
+			return;
 		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movieAPI);
-
 		Movie movie = movieBean.addNewMovie(movieAPI);
-
 		upcomingMovie.setMovie(movie);
 		addUpcomingMovie(upcomingMovie);
-
-		// UpcomingMovie.setMovie(movie);
-		// upcomingMovieBean.addUpcomingMovie(UpcomingMovie);
 	}
 }
