@@ -40,7 +40,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	@EJB
 	MovieBean movieBean;
 
-	HashSet<Integer> allIdTmdb;
+	static HashSet<Integer> allIdTmdb;
 	
 	public UpcomingMovieBean() {
 	}
