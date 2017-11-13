@@ -17,6 +17,7 @@ import com.gnt.movies.entities.MovieGenre;
 import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
@@ -34,6 +35,8 @@ public class MovieBean implements DataProviderHolder{
 
 	@EJB
 	GenreBean genreBean;
+	@EJB
+	MovieGenreBean movieGenreBean;
 	
     public MovieBean() {
     	
@@ -71,6 +74,21 @@ public class MovieBean implements DataProviderHolder{
 		}
 		
 		
+	}
+	
+	public Movie addNewMovie(ApiNewMovie movieApi) {
+		logger.info("addNewMovieWithGenres movie with tmdbId=" + movieApi.getId());
+		Movie movie = createMovieFromAPI(movieApi);
+
+		ApiMovieDetails movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
+		genreBean.updateGenres(movieDetails.getGenresAPI());
+
+		updateMovieWithDetails(movie, movieDetails);
+		addMovie(movie);
+		for (MovieGenre movieGenre : movie.getMovieGenres()) {
+			movieGenreBean.addMovieGenre(movieGenre);
+		}
+		return movie;
 	}
 	
 	public void addMovie(Movie movie) {

@@ -1,7 +1,7 @@
 package com.gnt.movies.beans;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -10,13 +10,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.ejb3.annotation.TransactionTimeout;
+
 import com.gnt.movies.dao.DataProviderHolder;
-import com.gnt.movies.entities.Genre;
-import com.gnt.movies.entities.Movie;
-import com.gnt.movies.entities.MovieGenre;
-import com.gnt.movies.entities.UpcomingMovie;
-import com.gnt.movies.theMovieDB.ApiGenre;
-import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
@@ -26,6 +22,7 @@ import com.gnt.movies.utilities.LoggerFactory;
 @LocalBean
 public class SchedulerBean implements DataProviderHolder {
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerBean.class);
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -66,21 +63,44 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 
 	private static boolean flag = false;
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*")
+
+	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1", persistent=false)
+	@TransactionTimeout(value = 1, unit = TimeUnit.HOURS)
 	public void getUpcomingMovies() {
-		if(flag)
+		logger.info("Scheduler: getUpcomingMovies");
+		if (flag)
 			return;
-		flag=true;
+		flag = true;
 		logger.info("Scheduler checking for upcomming movies");
 		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMoviesFromAPI();
+		logger.info("Scheduler will add " + upcomingMoviesAPI.size() + " movies");
+		int i = 0;
 		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
-			checkUpcomingMovie(upcomingMovieAPI);
-			break;
+
+			logger.info("Scheduler will add movie:" + i++);
+			upcomingMovieBean.checkUpcomingMovie(upcomingMovieAPI);
 		}
 		logger.info("Done checking for upcomming movies");
 		flag = false;
 	}
 
+/*	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
+		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
+		// check if movie exists....
+		// check if delete upcomming....
+		UpcomingMovie upcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(movieAPI);
+
+		Movie movie = addNewMovie(movieAPI);
+
+		upcomingMovie.setMovie(movie);
+		upcomingMovieBean.addUpcomingMovie(upcomingMovie);
+
+		// UpcomingMovie.setMovie(movie);
+		// upcomingMovieBean.addUpcomingMovie(UpcomingMovie);
+	}*/
+	
+	
 	// @Schedule(dayOfWeek = "*", hour = "*", minute = "*")
 	// public void test() {
 	// logger.info("Scheduler...");
@@ -147,19 +167,7 @@ public class SchedulerBean implements DataProviderHolder {
 	// return showDetails;
 	// }
 	//
-	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
-		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
-//check if movie exists....
-//check if delete upcomming....
-		UpcomingMovie upcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(movieAPI);
-
-		Movie movie = addNewMovie(movieAPI);
-		upcomingMovie.setMovie(movie);
-		upcomingMovieBean.addUpcomingMovie(upcomingMovie);
-
-		// UpcomingMovie.setMovie(movie);
-		// upcomingMovieBean.addUpcomingMovie(UpcomingMovie);
-	}
+	
 
 	/*
 	 * public void addNewUpcomingMovies(ApiNewMovie newMovieAPI) {
@@ -182,101 +190,57 @@ public class SchedulerBean implements DataProviderHolder {
 		// nowPlayingMovieBean.addNowPlayingMovie(newNowPlayingMovie);
 		// }
 		//
-	// public Movie addNewMovieWithGenres(ApiNewMovie newMovieAPI) {
-	// logger.info("addNewMovieWithGenres movie with tmdbId=" +
-	// newMovieAPI.getId());
-	// Movie newMovie = movieBean.createMovieFromAPI(newMovieAPI);
-	//
-	// ApiMovieDetails movieDetails = updateMovieWithDetailsFromAPI(newMovie);
-	// movieBean.addMovie(newMovie);
-	// newMovie.setId(movieBean.findMovieByIdTmdb(newMovie.getIdTmdb()).getId());
-	// return newMovie;
-	// }
+		// public Movie addNewMovieWithGenres(ApiNewMovie newMovieAPI) {
+		// logger.info("addNewMovieWithGenres movie with tmdbId=" +
+		// newMovieAPI.getId());
+		// Movie newMovie = movieBean.createMovieFromAPI(newMovieAPI);
+		//
+		// ApiMovieDetails movieDetails = updateMovieWithDetailsFromAPI(newMovie);
+		// movieBean.addMovie(newMovie);
+		// newMovie.setId(movieBean.findMovieByIdTmdb(newMovie.getIdTmdb()).getId());
+		// return newMovie;
+		// }
 
-	public Movie addNewMovie(ApiNewMovie movieApi) {
-		logger.info("addNewMovieWithGenres movie with tmdbId=" + movieApi.getId());
-		Movie movie = movieBean.createMovieFromAPI(movieApi);
-
-		ApiMovieDetails movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
-		updateGenres(movieDetails.getGenresAPI());
-		
-		
-		movieBean.addMovie(movie);
-		movieBean.updateMovieWithDetails(movie, movieDetails);
-		for (MovieGenre genre : movie.getMovieGenres()) {
-			movieGenreBean.addMovieGenre(genre);
-		}
-		return movie;
-	}
-
-	/*public void addNewOnTheAirShows(ApiNewShow newShowAPI) {
-		OnTheAirShow newOnTheAirShow = onTheAirShowBean.createOnTheAirShowFromAPI(newShowAPI.getId());
-		Show show;
-		if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
-
-			show = addNewShowWithGenres(newShowAPI);
-
-		} else {
-			show = showBean.findShowByIdTmdb(newShowAPI.getId());
-		}
-		newOnTheAirShow.setShow(show);
-		onTheAirShowBean.addOnTheAirShow(newOnTheAirShow);
-	}
-
-	public void addNewAir2dayShows(ApiNewShow newShowAPI) {
-		Air2dayShow newAir2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShowAPI.getId());
-		Show show;
-		if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
-			show = addNewShowWithGenres(newShowAPI);
-
-		} else {
-			show = showBean.findShowByIdTmdb(newShowAPI.getId());
-		}
-		newAir2dayShow.setShow(show);
-		air2dayShowBean.addAir2DayShow(newAir2dayShow);
-	}
-
-	public Show addNewShowWithGenres(ApiNewShow newShowAPI) {
-		Show newShow = showBean.createShowFromAPI(newShowAPI);
-		ApiShowDetails showDetails = updateShowWithDetailsFromAPI(newShow);
-		addShowGenres(showDetails);
-		showBean.addShow(newShow);
-		newShow.setId(showBean.findShowByIdTmdb(newShow.getIdTmdb()).getId());
-		return newShow;
-	}
-
-	public void addMovieGenres(ApiMovieDetails movieDetails, Movie movie) {
-		logger.info("addMovieGenres movie with tmdbId=" + movie.getIdTmdb() + " and id=" + movie.getId());
-		ArrayList<ApiGenre> apiGenre = movieDetails.getGenresAPI();
-		for (ApiGenre genreAPI : apiGenre) {
-			Genre genre = genreBean.findGenreByName(genreAPI.getName());
-			MovieGenre movieGenre = new MovieGenre(movie, genre);
-			movieGenreBean.addMovieGenre(movieGenre);
-		}
-	}*/
-
-	HashSet<String> genres;
-	private void updateGenres(ArrayList<ApiGenre> genresApi) {
-		genres = genreBean.getAllGenreNames();
-		
-		for (ApiGenre apiGenre : genresApi) {
-			if(!genreExists(apiGenre)) {
-				addGenre(apiGenre);
-			}
-		}
-	}
 	
-	private boolean genreExists(ApiGenre apiGenre) {
-			if (!genres.contains(apiGenre.getName()))
-				return false;
-			else return true;
-	}
 
-	private void addGenre(ApiGenre genreAPI) {
-		Genre genre = new Genre(genreAPI.getName());
-		genreBean.addGenre(genre);
-		genres.add(genreAPI.getName());
-	}
+	/*
+	 * public void addNewOnTheAirShows(ApiNewShow newShowAPI) { OnTheAirShow
+	 * newOnTheAirShow =
+	 * onTheAirShowBean.createOnTheAirShowFromAPI(newShowAPI.getId()); Show show; if
+	 * (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
+	 * 
+	 * show = addNewShowWithGenres(newShowAPI);
+	 * 
+	 * } else { show = showBean.findShowByIdTmdb(newShowAPI.getId()); }
+	 * newOnTheAirShow.setShow(show);
+	 * onTheAirShowBean.addOnTheAirShow(newOnTheAirShow); }
+	 * 
+	 * public void addNewAir2dayShows(ApiNewShow newShowAPI) { Air2dayShow
+	 * newAir2dayShow =
+	 * air2dayShowBean.createAir2dayShowFromAPI(newShowAPI.getId()); Show show; if
+	 * (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) { show =
+	 * addNewShowWithGenres(newShowAPI);
+	 * 
+	 * } else { show = showBean.findShowByIdTmdb(newShowAPI.getId()); }
+	 * newAir2dayShow.setShow(show); air2dayShowBean.addAir2DayShow(newAir2dayShow);
+	 * }
+	 * 
+	 * public Show addNewShowWithGenres(ApiNewShow newShowAPI) { Show newShow =
+	 * showBean.createShowFromAPI(newShowAPI); ApiShowDetails showDetails =
+	 * updateShowWithDetailsFromAPI(newShow); addShowGenres(showDetails);
+	 * showBean.addShow(newShow);
+	 * newShow.setId(showBean.findShowByIdTmdb(newShow.getIdTmdb()).getId()); return
+	 * newShow; }
+	 * 
+	 * public void addMovieGenres(ApiMovieDetails movieDetails, Movie movie) {
+	 * logger.info("addMovieGenres movie with tmdbId=" + movie.getIdTmdb() +
+	 * " and id=" + movie.getId()); ArrayList<ApiGenre> apiGenre =
+	 * movieDetails.getGenresAPI(); for (ApiGenre genreAPI : apiGenre) { Genre genre
+	 * = genreBean.findGenreByName(genreAPI.getName()); MovieGenre movieGenre = new
+	 * MovieGenre(movie, genre); movieGenreBean.addMovieGenre(movieGenre); } }
+	 */
+
+	
 	//
 	// public void addShowGenres(ApiShowDetails showDetails) {
 	// ArrayList<ApiGenre> apiGenres = showDetails.getGenresAPI();

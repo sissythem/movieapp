@@ -2,6 +2,7 @@ package com.gnt.movies.utilities;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import com.gnt.movies.theMovieDB.ApiCastCrewResults;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
@@ -15,12 +16,20 @@ import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.OkHttpClient.Builder;
 
 public class APIClient {
 
 	public static String getResultFromTMDB(String url) 
 	{
-		OkHttpClient client = new OkHttpClient();
+//		OkHttpClient client = new OkHttpClient();
+		
+		Builder b = new Builder();
+		b.readTimeout(10, TimeUnit.SECONDS);
+//		b.writeTimeout(600, TimeUnit.SECONDS);
+		
+		OkHttpClient client = b.build();
+
 		Request request = new Request.Builder()
 		  .url(url)
 		  .get()

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -13,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.UpcomingMovieDao;
+import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.utilities.Logger;
@@ -81,4 +84,19 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		return (ArrayList<UpcomingMovie>) upcomingMovieDao.findAll(this);
 	}
 	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
+		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
+		// check if movie exists....
+		// check if delete upcomming....
+		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movieAPI);
+
+		Movie movie = movieBean.addNewMovie(movieAPI);
+
+		upcomingMovie.setMovie(movie);
+		addUpcomingMovie(upcomingMovie);
+
+		// UpcomingMovie.setMovie(movie);
+		// upcomingMovieBean.addUpcomingMovie(UpcomingMovie);
+	}
 }

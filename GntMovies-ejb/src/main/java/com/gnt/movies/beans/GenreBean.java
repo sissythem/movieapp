@@ -14,6 +14,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.GenreDao;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.entities.Genre;
+import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
@@ -37,6 +38,8 @@ public class GenreBean implements DataProviderHolder {
 		return em;
 	}
 	
+	static HashSet<String> genres;
+	
     public GenreBean() {
         
     }
@@ -57,5 +60,30 @@ public class GenreBean implements DataProviderHolder {
 	public HashSet<String> getAllGenreNames() {
 		
 		return genreDao.findAllGenreNames(this);
+	}
+	
+	
+
+	public void updateGenres(ArrayList<ApiGenre> genresApi) {
+		genres = getAllGenreNames();
+
+		for (ApiGenre apiGenre : genresApi) {
+			if (!genreExists(apiGenre)) {
+				addGenre(apiGenre);
+			}
+		}
+	}
+
+	private boolean genreExists(ApiGenre apiGenre) {
+		if (!genres.contains(apiGenre.getName()))
+			return false;
+		else
+			return true;
+	}
+
+	private void addGenre(ApiGenre genreAPI) {
+		Genre genre = new Genre(genreAPI.getName());
+		addGenre(genre);
+		genres.add(genreAPI.getName());
 	}
 }
