@@ -30,16 +30,16 @@ public class SchedulerBean implements DataProviderHolder {
 	private EntityManager em;
 
 	@EJB
-	UpcomingMovieBean upcomingMovieBean;
+	private UpcomingMovieBean upcomingMovieBean;
 
 	@EJB
-	NowPlayingMovieBean nowPlayingMovieBean;
+	private NowPlayingMovieBean nowPlayingMovieBean;
 
 	@EJB
-	OnTheAirShowBean onTheAirShowBean;
+	private OnTheAirShowBean onTheAirShowBean;
 
 	@EJB
-	Air2dayShowBean air2dayShowBean;
+	private Air2dayShowBean air2dayShowBean;
 
 //	@EJB
 //	MovieBean movieBean;
@@ -69,6 +69,11 @@ public class SchedulerBean implements DataProviderHolder {
 	private static boolean flag = false;
 	
 	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=false)
+	public void update() {
+		getUpcomingMovies();
+		getNowPlayingMovies();
+	}
+	int i = 1;
 	public void getUpcomingMovies() {
 		if(flag)
 			return;
@@ -77,7 +82,12 @@ public class SchedulerBean implements DataProviderHolder {
 		logger.info("Scheduler checking for upcomming movies");
 		upcomingMovieBean.findAllIdTmdb();
 		ArrayList<ApiNewMovie> upcomingMoviesAPI = apiClient.getUpcomingMoviesFromAPI();
+		
 		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
+			if(i==10) {
+				break;
+			}
+			i++;
 			upcomingMovieBean.checkUpcomingMovie(upcomingMovieAPI);
 		}
 		upcomingMovieBean.removeOldNotUpMovies(upcomingMoviesAPI);
@@ -87,12 +97,24 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 
 	public void  getNowPlayingMovies() {
+		if(flag)
+			return;
+		flag=true;
+		
+		logger.info("Scheduler checking for now playing movies");
 		nowPlayingMovieBean.findAllIdTmdb();
 		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = apiClient.getNowPlayingMoviesFromAPI();
+		i=1;
 		for(ApiNewMovie newMovieApi : nowPlayingMoviesAPI) {
+			if(i==10) {
+				break;
+			}
+			i++;
 			nowPlayingMovieBean.checkNowPlayingMovie(newMovieApi);
 		}
-		nowPlayingMovieBean.checkNowPlayingMoviesToBeDeleted(nowPlayingMoviesAPI);
+		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
+		nowPlayingMovieBean.removeNowPlayingMoviesFromUpComing(nowPlayingMoviesAPI);
+		flag = false;
 	}
 	// @Schedule(dayOfWeek = "*", hour = "0")
 	// public void checkNowPlayingMovies() {

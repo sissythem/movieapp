@@ -35,10 +35,10 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	@Inject
 	@JpaDao
 	@Named("UpcomingMovieDaoImpl")
-	UpcomingMovieDao upcomingMovieDao;
+	private UpcomingMovieDao upcomingMovieDao;
 	
 	@EJB
-	MovieBean movieBean;
+	private MovieBean movieBean;
 
 	static HashSet<Integer> allIdTmdb;
 	
@@ -99,4 +99,10 @@ public class UpcomingMovieBean implements DataProviderHolder {
 			upcomingMovieDao.deleteUpcomingMovieByIdTmdb(this, idtmdb);
 		}
 	}
+
+	public static HashSet<Integer> getAllIdTmdb() {
+		return allIdTmdb;
+	}
+	
+	
 }

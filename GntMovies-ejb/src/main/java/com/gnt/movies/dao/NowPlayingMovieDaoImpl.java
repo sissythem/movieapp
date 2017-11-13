@@ -63,7 +63,8 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 	}
 
 	@Override
-	public void deleteUpcomingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_DELETE_BY_IDTMDB).setParameter("idTmdb", idTmdb).executeUpdate();
+	public void deleteNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
+		dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_DELETE_BY_IDTMDB)
+				.setParameter("idTmdb", idTmdb).executeUpdate();
 	}
 }

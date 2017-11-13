@@ -14,5 +14,5 @@ public interface NowPlayingMovieDao {
 	NowPlayingMovie findNowPlayingMovieByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
 	List<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder);
 	HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder);
-	void deleteUpcomingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
+	void deleteNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
 }

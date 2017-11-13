@@ -43,8 +43,8 @@ public class APIClient {
 
 	/** Get new Movies and Shows from API **/
 	public ArrayList<ApiNewMovie> getUpcomingMoviesFromAPI() {
-
-		ArrayList<ApiNewMovie> newUpcomingMovies = new ArrayList<>();
+		String command = Utils.UPCOMING_MOVIES_URL;
+/*		ArrayList<ApiNewMovie> newUpcomingMovies = new ArrayList<>();
 
 		ApiNewMovieResults upcomingNowPlayingMovieResults = getPagesForMovies(1, Utils.UPCOMING_MOVIES_URL);
 		newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
@@ -55,7 +55,8 @@ public class APIClient {
 			newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
 		}
 
-		return newUpcomingMovies;
+		return newUpcomingMovies;*/
+		return getMovieListFromApi(command);
 	}
 
 	public ApiMovieDetails getMovieDetailsFromAPI(int id) {
@@ -101,21 +102,36 @@ public class APIClient {
 
 	public ArrayList<ApiNewMovie> getNowPlayingMoviesFromAPI() {
 
+		String command = Utils.NOW_PLAYING_MOVIES_URL;
+/*		getMovieListFromApi(command);
 		ArrayList<ApiNewMovie> newNowPlayingMovies = new ArrayList<>();
 
 		ApiNewMovieResults resultNowPlaying = getPagesForMovies(1, Utils.NOW_PLAYING_MOVIES_URL);
 		newNowPlayingMovies.addAll(resultNowPlaying.getResults());
 
 		for (int page = 2; page <= resultNowPlaying.getTotalPages(); page++) {
-
 			resultNowPlaying = getPagesForMovies(page, Utils.NOW_PLAYING_MOVIES_URL);
-
 			newNowPlayingMovies.addAll(resultNowPlaying.getResults());
-		}
+		}*/
 
-		return newNowPlayingMovies;
+		return getMovieListFromApi(command);
 	}
 
+	private ArrayList<ApiNewMovie> getMovieListFromApi(String command) {
+		ArrayList<ApiNewMovie> movies = new ArrayList<>();
+
+		ApiNewMovieResults resultNowPlaying = getPagesForMovies(1, command);
+		movies.addAll(resultNowPlaying.getResults());
+
+		for (int page = 2; page <= resultNowPlaying.getTotalPages(); page++) {
+			resultNowPlaying = getPagesForMovies(page, command);
+			movies.addAll(resultNowPlaying.getResults());
+		}
+
+		return movies;
+
+	}
+	
 	public ArrayList<ApiNewShow> getAir2dayShowsFromAPI() {
 		ArrayList<ApiNewShow> air2dayShows = new ArrayList<>();
 
