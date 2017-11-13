@@ -35,6 +35,7 @@ public class MovieBean implements DataProviderHolder{
 
 	@EJB
 	GenreBean genreBean;
+	
 	@EJB
 	MovieGenreBean movieGenreBean;
 	
@@ -65,7 +66,8 @@ public class MovieBean implements DataProviderHolder{
 		movie.setStatus(movieDetails.getStatus());
 		movie.setTitle(movieDetails.getTitle());
 		movie.setImdbId(movieDetails.getImdbId());
-		
+		movie.setCast(movieDetails.getCast().toString());
+		movie.setCrew(movieDetails.getCrew().toString());
 		
 		for (ApiGenre apiGenre : movieDetails.getGenresAPI()) {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
