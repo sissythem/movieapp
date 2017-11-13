@@ -20,6 +20,7 @@ import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
+import com.google.gson.Gson;
 
 @Stateless
 @LocalBean
@@ -68,8 +69,11 @@ public class MovieBean implements DataProviderHolder{
 		movie.setStatus(movieDetails.getStatus());
 		movie.setTitle(movieDetails.getTitle());
 		movie.setImdbId(movieDetails.getImdbId());
-		movie.setCast(movieDetails.getCast().toString());
-		movie.setCrew(movieDetails.getCrew().toString());
+		Gson gson = new Gson();
+		movie.setCast(gson.toJson(movieDetails.getCast()));
+		movie.setCrew(gson.toJson(movieDetails.getCrew()));
+		
+		
 		
 		for (ApiGenre apiGenre : movieDetails.getGenresAPI()) {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
