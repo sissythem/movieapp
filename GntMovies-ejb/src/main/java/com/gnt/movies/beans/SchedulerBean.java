@@ -41,20 +41,20 @@ public class SchedulerBean implements DataProviderHolder {
 	@EJB
 	Air2dayShowBean air2dayShowBean;
 
-	@EJB
-	MovieBean movieBean;
-
-	@EJB
-	ShowBean showBean;
-
-	@EJB
-	GenreBean genreBean;
-
-	@EJB
-	MovieGenreBean movieGenreBean;
-
-	@EJB
-	ShowGenreBean showGenreBean;
+//	@EJB
+//	MovieBean movieBean;
+//
+//	@EJB
+//	ShowBean showBean;
+//
+//	@EJB
+//	GenreBean genreBean;
+//
+//	@EJB
+//	MovieGenreBean movieGenreBean;
+//
+//	@EJB
+//	ShowGenreBean showGenreBean;
 
 	APIClient apiClient = new APIClient();
 	public SchedulerBean() {
@@ -67,6 +67,7 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 
 	private static boolean flag = false;
+	
 	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=false)
 	public void getUpcomingMovies() {
 		if(flag)
@@ -85,22 +86,18 @@ public class SchedulerBean implements DataProviderHolder {
 		flag = false;
 	}
 
-	 /* @Schedule(dayOfWeek = "*", hour = "*", minute = "*") public void
-	 * checkUpcomingMovies() {
-	 * logger.info("Scheduler checking for upcomming movies");
-	 * ArrayList<ApiNewMovie> upcomingMoviesAPI =
-	 * APIClient.getUpcomingMoviesFromAPI(); ArrayList<Integer> idTmdbs = new
-	 * ArrayList<>(); for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
-	 * idTmdbs.add(upcomingMovieAPI.getId()); if
-	 * (upcomingMovieBean.findMovieByIdTmdb(upcomingMovieAPI.getId()) == null) {
-	 * addNewUpcomingMovies(upcomingMovieAPI); } }
-	 * upcomingMovieBean.checkUpcomingMoviesToBeDeleted(idTmdbs); }
-	 */
+	public void  getNowPlayingMovies() {
+		nowPlayingMovieBean.findAllIdTmdb();
+		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = apiClient.getNowPlayingMoviesFromAPI();
+		for(ApiNewMovie newMovieApi : nowPlayingMoviesAPI) {
+			nowPlayingMovieBean.checkNowPlayingMovie(newMovieApi);
+		}
+		nowPlayingMovieBean.checkNowPlayingMoviesToBeDeleted(nowPlayingMoviesAPI);
+	}
 	// @Schedule(dayOfWeek = "*", hour = "0")
 	// public void checkNowPlayingMovies() {
 	//
-	// ArrayList<ApiNewMovie> nowPlayingMoviesAPI =
-	// APIClient.getNowPlayingMoviesFromAPI();
+	// 
 	// ArrayList<Integer> idTmdbs = new ArrayList<>();
 	// for (ApiNewMovie nowPlayingMovieAPI : nowPlayingMoviesAPI) {
 	// if (nowPlayingMovieBean.findMovieByIdTmdb(nowPlayingMovieAPI.getId()) ==
@@ -146,27 +143,8 @@ public class SchedulerBean implements DataProviderHolder {
 	// }
 	//
 
-	/*
-	 * public void addNewUpcomingMovies(ApiNewMovie newMovieAPI) {
-	 * logger.info("Adding movie with tmdbId="+newMovieAPI.getId()); UpcomingMovie
-	 * newUpcomingMovie = upcomingMovieBean.createUpcomingMovieFromAPI(newMovieAPI);
-	 * Movie newMovie = addNewMovieWithGenres(newMovieAPI);
-	 * newUpcomingMovie.setMovie(newMovie);
-	 * upcomingMovieBean.addUpcomingMovie(newUpcomingMovie); }
-	 *///
-		// public void addNewNowPlayingMovies(ApiNewMovie newMovieAPI) {
-		// NowPlayingMovie newNowPlayingMovie =
-		// nowPlayingMovieBean.createNowPlayingMovieFromAPI(newMovieAPI);
-		// Movie movie;
-		// if (movieBean.findMovieByIdTmdb(newMovieAPI.getId()) == null) {
-		// movie = addNewMovieWithGenres(newMovieAPI);
-		// } else {
-		// movie = movieBean.findMovieByIdTmdb(newMovieAPI.getId());
-		// }
-		// newNowPlayingMovie.setMovie(movie);
-		// nowPlayingMovieBean.addNowPlayingMovie(newNowPlayingMovie);
-		// }
-		//
+	
+	//
 	// public Movie addNewMovieWithGenres(ApiNewMovie newMovieAPI) {
 	// logger.info("addNewMovieWithGenres movie with tmdbId=" +
 	// newMovieAPI.getId());

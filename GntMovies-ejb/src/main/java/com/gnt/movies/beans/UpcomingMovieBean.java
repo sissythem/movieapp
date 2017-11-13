@@ -65,8 +65,6 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		allIdTmdb =(HashSet<Integer>) upcomingMovieDao.getAllIdTmdb(this);
 	}
 	
-	
-	
 	public UpcomingMovie findMovieByIdTmdb(Integer id) {
 		return upcomingMovieDao.findByIdTmdb(this, id);
 	}

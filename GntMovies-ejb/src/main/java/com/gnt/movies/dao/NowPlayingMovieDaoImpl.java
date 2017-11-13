@@ -1,6 +1,7 @@
 package com.gnt.movies.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
@@ -31,32 +32,38 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (NowPlayingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_ID, "id", id);
+		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),
+				Utils.NOW_PLAYING_MOVIE_FIND_BY_ID, "id", id);
 	}
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		return (NowPlayingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
+		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),
+				Utils.NOW_PLAYING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		return (NowPlayingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.NOW_PLAYING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
+		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),
+				Utils.NOW_PLAYING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
 	}
 
 	@Override
 	public List<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder) {
-		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL)
-				.getResultList();
+		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList();
 	}
 
 	@Override
-	public ArrayList<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder){
-		ArrayList<Integer> allIdTmdb = new ArrayList<>();
-		List<NowPlayingMovie> allNowPlayingMovies = findAll(dataProviderHolder);
-		for(NowPlayingMovie nowPlayingMovie : allNowPlayingMovies) {
-			allIdTmdb.add(nowPlayingMovie.getIdTmdb());
-		}
-		return allIdTmdb;
+	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
+		HashSet<Integer> set = new HashSet<>();
+
+		set.addAll((List<Integer>) dataProviderHolder.getEntityManager()
+				.createNamedQuery(Utils.NOW_PLAYING_MOVIE_GET_ALL_IDTMDB).getResultList());
+		return set;
+	}
+
+	@Override
+	public void deleteUpcomingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
+		dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_DELETE_BY_IDTMDB).setParameter("idTmdb", idTmdb).executeUpdate();
 	}
 }

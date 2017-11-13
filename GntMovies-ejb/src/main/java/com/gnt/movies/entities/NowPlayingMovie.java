@@ -14,7 +14,9 @@ import javax.persistence.*;
         @NamedQuery(name = "NowPlayingMovie.findAll", query = "SELECT n FROM NowPlayingMovie n"),
         @NamedQuery(name = "NowPlayingMovie.findById", query = "SELECT n FROM NowPlayingMovie n WHERE n.id = :id"),
         @NamedQuery(name = "NowPlayingMovie.findByIdTmdb", query = "SELECT n FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb"),
-        @NamedQuery(name = "NowPlayingMovie.findByMovieId", query = "SELECT n FROM NowPlayingMovie n WHERE n.movie.id = :movieId")
+        @NamedQuery(name = "NowPlayingMovie.getAllIdTmdb", query = "SELECT n.idTmdb FROM NowPlayingMovie n"),
+        @NamedQuery(name = "NowPlayingMovie.findByMovieId", query = "SELECT n FROM NowPlayingMovie n WHERE n.movie.id = :movieId"),
+        @NamedQuery(name = "NowPlayingMovie.deleteByIdTmdb", query = "DELETE FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb")
 })
 public class NowPlayingMovie implements Serializable {
     private static final long serialVersionUID = 1L;
