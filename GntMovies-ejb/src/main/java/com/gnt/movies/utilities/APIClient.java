@@ -6,17 +6,17 @@ import java.util.concurrent.TimeUnit;
 
 import com.gnt.movies.theMovieDB.ApiCastCrewResults;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
-import com.gnt.movies.theMovieDB.ApiNewShow;
-import com.gnt.movies.theMovieDB.ApiShowDetails;
-import com.gnt.movies.theMovieDB.ApiNewShowResults;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovieResults;
+import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.theMovieDB.ApiNewShowResults;
+import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
+import okhttp3.OkHttpClient.Builder;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.OkHttpClient.Builder;
 
 public class APIClient {
 
@@ -60,19 +60,28 @@ public class APIClient {
 
 	public ApiMovieDetails getMovieDetailsFromAPI(int id) {
 
-		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
-				.append(Utils.API_KEY);
-
-		String json = getResultFromTMDB(url.toString());
-
-		ApiMovieDetails movieDetails = new Gson().fromJson(json, ApiMovieDetails.class);
-		String castCrewURL = Utils.GENERAL_MOVIE_URL + Integer.toString(id) + Utils.CREW_CAST_MOVIES_URL
-				+ Utils.API_KEY;
-
-		json = getResultFromTMDB(castCrewURL);
+		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.API_KEY);
+		StringBuilder castCrewURL = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.CREW_CAST_MOVIES_URL).append(Utils.API_KEY);
 		
-		ApiCastCrewResults castCrewResults = new Gson().fromJson(json, ApiCastCrewResults.class);
+		APIClientRunnable run1 = new APIClientRunnable(url.toString());
+		Thread t1 = new Thread(run1);
+		t1.start();
+		
+		APIClientRunnable run2 = new APIClientRunnable(castCrewURL.toString());
+		Thread t2 = new Thread(run2);
+		t2.start();
+		
 
+		//join here
+		try {
+			t1.join();
+			t2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		ApiMovieDetails movieDetails = new Gson().fromJson(run1.getResult(), ApiMovieDetails.class);
+		ApiCastCrewResults castCrewResults = new Gson().fromJson(run2.getResult(), ApiCastCrewResults.class);
 		movieDetails.setCast(castCrewResults.getCastResults());
 		movieDetails.setCrew(castCrewResults.getCrewResults());
 
