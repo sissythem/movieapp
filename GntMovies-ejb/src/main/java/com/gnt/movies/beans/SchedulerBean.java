@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -54,6 +55,7 @@ public class SchedulerBean implements DataProviderHolder {
 		getAir2dayShows();
 		getOnTheAirShows();
 	}
+	
 	int i = 1;
 	public void getUpcomingMovies() {
 		if(flag)
@@ -97,7 +99,19 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 	
 	public void getOnTheAirShows() {
-		
+		if(flag)
+			return;
+		flag=true;
+		logger.info("Scheduler checking for on the air shows");
+		ArrayList<ApiNewShow> onTheAirShowsAPI = apiClient.getOnTheAirShowsFromAPI();
+		for(ApiNewShow newShoweApi : onTheAirShowsAPI) {
+			if(i==10) {
+				break;
+			}
+			i++;
+			onTheAirShowBean.checkOnTheAirShow(newShoweApi);
+		}
+		flag = false;
 	}
 	
 	public void getAir2dayShows() {
