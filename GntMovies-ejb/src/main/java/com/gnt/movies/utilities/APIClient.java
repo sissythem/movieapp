@@ -1,10 +1,12 @@
 package com.gnt.movies.utilities;
 
+import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
-import com.gnt.movies.theMovieDB.ApiCredits;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovieResults;
@@ -49,34 +51,18 @@ public class APIClient {
 
 	public ApiMovieDetails getMovieDetailsFromAPI(int id) {
 
-		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.API_KEY)
-				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-		
-		APIClientRunnable run1 = new APIClientRunnable(url.toString());
-		Thread t1 = new Thread(run1);
-		t1.start();
-		
-//		APIClientRunnable run2 = new APIClientRunnable(url.toString());
-//		Thread t2 = new Thread(run2);
-//		t2.start();
-		
+		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
+				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
 
-		//join here
-		try {
-			t1.join();
-//			t2.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		ApiMovieDetails movieDetails = new Gson().fromJson(run1.getResult(), ApiMovieDetails.class);
-//		
+		String result = getResultFromTMDB(url.toString());
+
+		ApiMovieDetails movieDetails = new Gson().fromJson(result, ApiMovieDetails.class);
 
 		return movieDetails;
 	}
 
-	public ApiNewMovieResults getPagesForMovies(int page, String typeOfMovieUrl) {
-		StringBuilder url = new StringBuilder(typeOfMovieUrl).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL)
+	public ApiNewMovieResults getPagesForMovies(int page, String urlApi) {
+		StringBuilder url = new StringBuilder(urlApi).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL)
 				.append(Utils.NUMBER_PAGE_FOR_URL).append(Integer.toString(page));
 
 		String resultJson = getResultFromTMDB(url.toString());
@@ -92,20 +78,25 @@ public class APIClient {
 		return getMovieListFromApi(command);
 	}
 
-	private ArrayList<ApiNewMovie> getMovieListFromApi(String command) {
+	private ArrayList<ApiNewMovie> getMovieListFromApi(String urlApi) {
 		ArrayList<ApiNewMovie> movies = new ArrayList<>();
 
-		ApiNewMovieResults resultNowPlaying = getPagesForMovies(1, command);
+		ApiNewMovieResults resultNowPlaying = getPagesForMovies(1, urlApi);
 		movies.addAll(resultNowPlaying.getResults());
+		int i;
+		for (i = 0; i < resultNowPlaying.getTotalPages(); i++) {
+
+		}
 
 		for (int page = 2; page <= resultNowPlaying.getTotalPages(); page++) {
-			resultNowPlaying = getPagesForMovies(page, command);
+			resultNowPlaying = getPagesForMovies(page, urlApi);
 			movies.addAll(resultNowPlaying.getResults());
 		}
 
 		return movies;
 
 	}
+
 	private ArrayList<ApiNewShow> getShowListFromApi(String command) {
 		ArrayList<ApiNewShow> shows = new ArrayList<>();
 
@@ -113,13 +104,14 @@ public class APIClient {
 		shows.addAll(showResults.getResults());
 
 		for (int page = 2; page <= showResults.getTotalPages(); page++) {
-			showResults= getPagesForShows(page, command);
+			showResults = getPagesForShows(page, command);
 			shows.addAll(showResults.getResults());
 		}
-		
+
 		return shows;
 
 	}
+
 	public ArrayList<ApiNewShow> getAir2dayShowsFromAPI() {
 		String command = Utils.AIR2DAY_SHOWS_URL;
 		return getShowListFromApi(command);
@@ -131,25 +123,11 @@ public class APIClient {
 	}
 
 	public ApiShowDetails getShowDetailsFromAPI(int id) {
-		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id))
-				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-		
-		APIClientRunnable run1 = new APIClientRunnable(url.toString());
-		Thread t1 = new Thread(run1);
-		t1.start();
-//		
-//		APIClientRunnable run2 = new APIClientRunnable(url.toString());
-//		Thread t2 = new Thread(run2);
-//		t2.start();
-		
-		try {
-			t1.join();
-//			t2.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		ApiShowDetails showDetails = new Gson().fromJson(run1.getResult(), ApiShowDetails.class);
+		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
+				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
+
+		String result = getResultFromTMDB(url.toString());
+		ApiShowDetails showDetails = new Gson().fromJson(result, ApiShowDetails.class);
 		return showDetails;
 	}
 
@@ -162,5 +140,55 @@ public class APIClient {
 		ApiNewShowResults showResults = new Gson().fromJson(resultJson, ApiNewShowResults.class);
 
 		return showResults;
+	}
+
+	public ArrayList<ApiNewMovie> getUpcomingMovies() {
+
+		StringBuilder sb = new StringBuilder(Utils.UPCOMING_MOVIES_URL).append(Utils.API_KEY)
+				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
+
+		return getMovies(sb.toString());
+	}
+
+	public ArrayList<ApiNewMovie> getMovies(String url) {
+		ArrayList<APIClientRunnable> rs = new ArrayList<>();
+		ArrayList<Thread> ts = new ArrayList<>();
+		ArrayList<ApiNewMovie> movies = new ArrayList<>();
+
+		StringBuilder sb = new StringBuilder(url).append("1");
+		APIClientRunnable r = new APIClientRunnable(sb.toString());
+
+		Thread t = new Thread(r);
+		rs.add(r);
+		ts.add(t);
+
+		t.start();
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int pages = new Gson().fromJson(r.getResult(), ApiNewMovieResults.class).getTotalPages();
+		for (int page = 2; page <= pages; page++) {
+			sb = new StringBuilder(url).append(page);
+			r = new APIClientRunnable(sb.toString());
+			rs.add(r);
+			t = new Thread(r);
+			ts.add(t);
+			t.start();
+		}
+		for (int page = 1; page < pages; page++) {
+			try {
+				ts.get(page).join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		for (int page = 1; page < pages; page++) {
+			movies.addAll(new Gson().fromJson(rs.get(page).getResult(), ApiNewMovieResults.class).getResults());
+		}
+		return movies;
 	}
 }

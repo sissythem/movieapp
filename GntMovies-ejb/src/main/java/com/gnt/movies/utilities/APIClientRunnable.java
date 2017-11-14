@@ -2,37 +2,27 @@ package com.gnt.movies.utilities;
 
 public class APIClientRunnable implements Runnable {
 	
-	private String url;
+	private String urlApi;
 	private String result;
-	
 	
 	@Override
 	public void run() {
-		APIClient apiClient= new APIClient();
-		result = apiClient.getResultFromTMDB(url.toString());
+		APIClient client = new APIClient();
+		result = client.getResultFromTMDB(urlApi);
 	}
-	
-	
-	
-	public APIClientRunnable(String url) {
+
+	public APIClientRunnable(String urlApi) {
 		super();
-		this.url = url;
+		this.urlApi = urlApi;
 	}
 
-
-
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
 	public String getResult() {
 		return result;
 	}
-	public void setResult(String result) {
-		this.result = result;
-	}
+	
+	
+	
+	
 	
 	
 
