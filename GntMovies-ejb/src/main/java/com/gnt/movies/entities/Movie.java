@@ -29,7 +29,6 @@ import java.util.List;
         @NamedQuery(name = "Movie.findByVoteAverage", query = "SELECT m FROM Movie m WHERE m.voteAverage = :voteAverage"),
         @NamedQuery(name = "Movie.findByVoteCount", query = "SELECT m FROM Movie m WHERE m.voteCount = :voteCount"),
         @NamedQuery(name = "Movie.findByOriginalLanguage", query = "SELECT m FROM Movie m WHERE m.originalLanguage = :originalLanguage"),
-        @NamedQuery(name = "Movie.findByCreator", query = "SELECT m FROM Movie m WHERE m.creator = :creator"),
         @NamedQuery(name = "Movie.findByProductionCountries", query = "SELECT m FROM Movie m WHERE m.productionCountries = :productionCountries"),
         @NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
         @NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId")
@@ -47,8 +46,6 @@ public class Movie implements Serializable {
 
     @Lob
     private String cast;
-
-    private String creator;
 
     @Lob
     private String crew;
@@ -150,14 +147,6 @@ public class Movie implements Serializable {
 
     public void setCast(String cast) {
         this.cast = cast;
-    }
-
-    public String getCreator() {
-        return this.creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
     }
 
     public String getCrew() {
