@@ -49,7 +49,6 @@ public class MovieBean implements DataProviderHolder{
 	APIClient apiClient = new APIClient();
 	
     public MovieBean() {
-    	
     }
 
 	@Override

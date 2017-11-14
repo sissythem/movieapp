@@ -16,17 +16,16 @@ import com.gnt.movies.dao.ShowDao;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.ShowGenre;
+import com.gnt.movies.entities.ShowImage;
 import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 import com.google.gson.Gson;
 
-/**
- * Session Bean implementation class ShowBean
- */
 @Stateless
 @LocalBean
 public class ShowBean implements DataProviderHolder{
@@ -46,6 +45,9 @@ public class ShowBean implements DataProviderHolder{
 	
 	@EJB
 	ShowGenreBean showGenreBean;
+	
+	@EJB
+	ShowImageBean showImageBean;
 	
 	APIClient apiClient = new APIClient();
 	
@@ -90,6 +92,16 @@ public class ShowBean implements DataProviderHolder{
 			ShowGenre showGenre = new ShowGenre(show,genre);
 			show.addShowGenre(showGenre);
 		}
+    	
+    	for (ApiPostersBackdrops apiImage : showDetails.getApiImages().getApiBackdrops()) {
+    		ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
+    		show.addShowImage(showImage);
+    	}
+    	
+    	for (ApiPostersBackdrops apiImage : showDetails.getApiImages().getApiPosters()) {
+    		ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
+    		show.addShowImage(showImage);
+    	}
 	}
     
     public Show addNewShow(ApiNewShow showApi) {
@@ -103,6 +115,9 @@ public class ShowBean implements DataProviderHolder{
 		addShow(show);
 		for (ShowGenre showGenre : show.getShowGenres()) {
 			showGenreBean.addShowGenre(showGenre);
+		}
+		for (ShowImage showImage : show.getShowImages()) {
+			showImageBean.addShowImage(showImage);
 		}
 		return show;
     }

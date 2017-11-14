@@ -31,6 +31,15 @@ public class ShowImage implements Serializable{
 	@ManyToOne
     @JoinColumn(name="showId")
     private Show show;
+	
+	public ShowImage() {
+		
+	}
+
+	public ShowImage(Show show, String path) {
+		this.show = show;
+		this.imagePath = path;
+	}
 
 	public int getId() {
 		return id;

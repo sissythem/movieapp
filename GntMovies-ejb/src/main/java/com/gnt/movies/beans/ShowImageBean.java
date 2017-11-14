@@ -9,36 +9,36 @@ import javax.persistence.PersistenceContext;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
-import com.gnt.movies.dao.MovieImageDao;
-import com.gnt.movies.entities.MovieImage;
+import com.gnt.movies.dao.ShowImageDao;
+import com.gnt.movies.entities.ShowImage;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
 @Stateless
 @LocalBean
-public class MovieImageBean implements DataProviderHolder {
-	private static final Logger logger = LoggerFactory.getLogger(MovieImageBean.class);
+public class ShowImageBean implements DataProviderHolder {
+	private static final Logger logger = LoggerFactory.getLogger(ShowImageBean.class);
 
 	@PersistenceContext
 	private EntityManager em;
 
 	@Inject
 	@JpaDao
-	@Named("MovieImageDaoImpl")
-	MovieImageDao movieImageDao;
+	@Named("ShowImageDaoImpl")
+	ShowImageDao showImageDao;
 
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
 	}
 
-	public MovieImageBean() {
+	public ShowImageBean() {
 	}
 
-	public void addMovieImage(MovieImage movieImage) {
+	public void addShowImage(ShowImage showImage) {
 
-		movieImageDao.createMovieImage(this, movieImage);
-		logger.info("addMovieImage with movieId=" + movieImage.getMovie().getIdTmdb());
+		showImageDao.createShowImage(this, showImage);
+		logger.info("addShowImage with movieId=" + showImage.getShow().getIdTmdb());
 	}
 
 }
