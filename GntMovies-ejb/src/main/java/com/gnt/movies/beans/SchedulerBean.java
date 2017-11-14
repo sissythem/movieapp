@@ -93,6 +93,8 @@ public class SchedulerBean implements DataProviderHolder {
 			nowPlayingMovieBean.checkNowPlayingMovie(newMovieApi);
 		}
 		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
+		logger.info("Done checking for now playing movies");
+		
 		flag = false;
 	}
 	
