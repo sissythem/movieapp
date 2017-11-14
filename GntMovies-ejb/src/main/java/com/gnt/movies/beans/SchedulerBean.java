@@ -1,6 +1,7 @@
 package com.gnt.movies.beans;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -8,6 +9,8 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
@@ -18,6 +21,7 @@ import com.gnt.movies.utilities.LoggerFactory;
 
 @Stateless
 @LocalBean
+@TransactionTimeout(value=1,unit=TimeUnit.HOURS)
 public class SchedulerBean implements DataProviderHolder {
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerBean.class);
 	@PersistenceContext
@@ -48,12 +52,14 @@ public class SchedulerBean implements DataProviderHolder {
 
 	private static boolean flag = false;
 	
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=true)
+	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",persistent=false)
 	public void update() {
+		logger.info("Scheduler updating database!");
 		getUpcomingMovies();
 		getNowPlayingMovies();
-		getAir2dayShows();
 		getOnTheAirShows();
+		getAir2dayShows();
+		logger.info("Scheduler finished updating database!");
 	}
 	
 	int i = 1;
@@ -105,7 +111,9 @@ public class SchedulerBean implements DataProviderHolder {
 			return;
 		flag=true;
 		logger.info("Scheduler checking for on the air shows");
+		onTheAirShowBean.findAllIdTmdb();
 		ArrayList<ApiNewShow> onTheAirShowsAPI = apiClient.getOnTheAirShowsFromAPI();
+		i=1;
 		for(ApiNewShow newShowApi : onTheAirShowsAPI) {
 			if(i==10) {
 				break;
@@ -113,6 +121,7 @@ public class SchedulerBean implements DataProviderHolder {
 			i++;
 			onTheAirShowBean.checkOnTheAirShow(newShowApi);
 		}
+//		onTheAirShowsAPI.remove(0);
 		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShowsAPI);
 		logger.info("Done checking for on the air shows");
 		flag = false;

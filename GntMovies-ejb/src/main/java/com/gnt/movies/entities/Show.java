@@ -2,9 +2,20 @@ package com.gnt.movies.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -20,8 +31,6 @@ import java.util.List;
         @NamedQuery(name = "Show.findByOriginalName", query = "SELECT s FROM Show s WHERE s.originalName = :originalName"),
         @NamedQuery(name = "Show.findByIdTmdb", query = "SELECT s FROM Show s WHERE s.idTmdb = :idTmdb"),
         @NamedQuery(name = "Show.findByHomepage", query = "SELECT s FROM Show s WHERE s.homepage = :homepage"),
-        @NamedQuery(name = "Show.findByBudget", query = "SELECT s FROM Show s WHERE s.budget = :budget"),
-        @NamedQuery(name = "Show.findByRevenue", query = "SELECT s FROM Show s WHERE s.revenue = :revenue"),
         @NamedQuery(name = "Show.findByRuntime", query = "SELECT s FROM Show s WHERE s.runtime = :runtime"),
         @NamedQuery(name = "Show.findByStatus", query = "SELECT s FROM Show s WHERE s.status = :status"),
         @NamedQuery(name = "Show.findByFirstAirDate", query = "SELECT s FROM Show s WHERE s.firstAirDate = :firstAirDate"),
@@ -35,9 +44,7 @@ import java.util.List;
         @NamedQuery(name = "Show.findByNetworks", query = "SELECT s FROM Show s WHERE s.networks = :networks"),
         @NamedQuery(name = "Show.findByOriginCountries", query = "SELECT s FROM Show s WHERE s.originCountries = :originCountries"),
         @NamedQuery(name = "Show.findByProductionCountries", query = "SELECT s FROM Show s WHERE s.productionCountries = :productionCountries"),
-        @NamedQuery(name = "Show.findByAdult", query = "SELECT s FROM Show s WHERE s.adult = :adult"),
         @NamedQuery(name = "Show.findByInProduction", query = "SELECT s FROM Show s WHERE s.inProduction = :inProduction"),
-        @NamedQuery(name = "Show.findByImdbId", query = "SELECT s FROM Show s WHERE s.imdbId = :imdbId"),
         @NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type")
 })
 public class Show implements Serializable {
@@ -46,10 +53,6 @@ public class Show implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
-
-    private byte adult;
-
-    private double budget;
 
     @Lob
     private String cast;
@@ -64,8 +67,6 @@ public class Show implements Serializable {
     private String homepage;
 
     private int idTmdb;
-
-    private String imdbId;
 
     private byte inProduction;
 
@@ -92,8 +93,6 @@ public class Show implements Serializable {
 
     private String productionCountries;
 
-    private double revenue;
-
     private int runtime;
 
     private String status;
@@ -116,17 +115,18 @@ public class Show implements Serializable {
     @OneToMany(mappedBy="show", fetch=FetchType.LAZY)
     private List<ShowReview> showReviews;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name="id", referencedColumnName="showId")
+    @Transient
     private Air2dayShow air2dayShow;
 
     public Show() {
     }
 
-    public Show(LocalDate firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
+    public Show(String firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
 			String originCountries, String overview, double voteAverage, int voteCount) {
 		super();
-		this.firstAirDate = firstAirDate;
+		if(firstAirDate.length()>0) {
+			this.firstAirDate = LocalDate.parse(firstAirDate);
+		}
 		this.idTmdb = idTmdb;
 		this.name = name;
 		this.originalLanguage = originalLanguage;
@@ -135,9 +135,8 @@ public class Show implements Serializable {
 		this.overview = overview;
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
+		this.showGenres = new ArrayList<>();
 	}
-
-
 
 	public int getId() {
         return this.id;
@@ -145,22 +144,6 @@ public class Show implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public byte getAdult() {
-        return this.adult;
-    }
-
-    public void setAdult(byte adult) {
-        this.adult = adult;
-    }
-
-    public double getBudget() {
-        return this.budget;
-    }
-
-    public void setBudget(double budget) {
-        this.budget = budget;
     }
 
     public String getCast() {
@@ -209,14 +192,6 @@ public class Show implements Serializable {
 
     public void setIdTmdb(int idTmdb) {
         this.idTmdb = idTmdb;
-    }
-
-    public String getImdbId() {
-        return this.imdbId;
-    }
-
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
     }
 
     public byte getInProduction() {
@@ -313,14 +288,6 @@ public class Show implements Serializable {
 
     public void setProductionCountries(String productionCountries) {
         this.productionCountries = productionCountries;
-    }
-
-    public double getRevenue() {
-        return this.revenue;
-    }
-
-    public void setRevenue(double revenue) {
-        this.revenue = revenue;
     }
 
     public int getRuntime() {

@@ -71,12 +71,16 @@ public class Air2dayShowBean implements DataProviderHolder{
     public static HashSet<Integer> getAllIdTmdb() {
 		return allIdTmdb;
 	}
+
+	public void findAllIdTmdb() {
+		allIdTmdb = (HashSet<Integer>) air2dayShowDao.getAllIdTmdb(this);
+	}
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void checkAir2dayShow(ApiNewShow newShowAPI) {
-    	logger.info("Adding movie with tmdbId=" + newShowAPI.getId());
 		if (allIdTmdb.contains(newShowAPI.getId()))
 			return;
+		logger.info("Adding show with tmdbId=" + newShowAPI.getId());
 		Air2dayShow air2dayShow = createAir2dayShowFromAPI(newShowAPI);
 		Show show = showBean.getShow(newShowAPI);
 		air2dayShow.setShow(show);
@@ -105,10 +109,4 @@ public class Air2dayShowBean implements DataProviderHolder{
     		air2dayShowDao.deleteAir2dayShowByIdTmdb(this, idtmdb);
     	} 
     }
-
-	public void findAllIdTmdb() {
-		allIdTmdb = (HashSet<Integer>) air2dayShowDao.getAllIdTmdb(this);
-		
-	}
-
 }

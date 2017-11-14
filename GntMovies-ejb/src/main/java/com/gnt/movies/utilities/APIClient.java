@@ -24,7 +24,7 @@ public class APIClient {
 		// OkHttpClient client = new OkHttpClient();
 
 		Builder b = new Builder();
-		b.readTimeout(10, TimeUnit.SECONDS);
+		b.readTimeout(15, TimeUnit.SECONDS);
 		// b.writeTimeout(600, TimeUnit.SECONDS);
 
 		OkHttpClient client = b.build();
@@ -168,8 +168,6 @@ public class APIClient {
 		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id))
 				.append(Utils.API_KEY);
 		StringBuilder castCrewURL = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.CREW_CAST_URL).append(Utils.API_KEY);
-
-		String json = getResultFromTMDB(url.toString());
 		
 		APIClientRunnable run1 = new APIClientRunnable(url.toString());
 		Thread t1 = new Thread(run1);
@@ -178,6 +176,13 @@ public class APIClient {
 		APIClientRunnable run2 = new APIClientRunnable(castCrewURL.toString());
 		Thread t2 = new Thread(run2);
 		t2.start();
+		
+		try {
+			t1.join();
+			t2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		ApiShowDetails showDetails = new Gson().fromJson(run1.getResult(), ApiShowDetails.class);
 		ApiCastCrewResults castCrewResults = new Gson().fromJson(run2.getResult(), ApiCastCrewResults.class);

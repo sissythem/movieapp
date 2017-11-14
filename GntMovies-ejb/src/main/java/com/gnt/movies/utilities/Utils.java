@@ -8,7 +8,8 @@ public class Utils
 	/** URLs for TheMovieDB**/
 	
 	/** URL example for getting movie details: https://api.themoviedb.org/3/movie/120?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US **/
-	/** URL example for getting show details: https://api.themoviedb.org/3/tv/456?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US **/
+	/** URL example for getting show details: https://api.themoviedb.org/3/tv/1418?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US **/
+
 	public static String GENERAL_MOVIE_URL = "https://api.themoviedb.org/3/movie/";
 	public static String GENERAL_SHOW_URL = "https://api.themoviedb.org/3/tv/";
 	/** URL example for upcoming movies: https://api.themoviedb.org/3/movie/upcoming?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US&page=1**/
@@ -82,8 +83,8 @@ public class Utils
 	public static String ON_THE_AIR_SHOW_FIND_BY_IDTMDB = "OnTheAirShow.findByIdTmdb";
 	public static String ON_THE_AIR_SHOW_FIND_BY_SHOW_ID = "OnTheAirShow.findByShowId";
 	public static String ON_THE_AIR_SHOW_FIND_ALL = "OnTheAirShow.findAll";
-	public static String ON_THE_AIR_SHOW_GET_ALL_IDTMDB = "Air2dayShow.getAllIdTmdb";
-	public static String ON_THE_AIR_DELETE_BY_IDTMDB = "Air2dayShow.deleteByIdTmdb";
+	public static String ON_THE_AIR_SHOW_GET_ALL_IDTMDB = "OnTheAirShow.getAllIdTmdb";
+	public static String ON_THE_AIR_DELETE_BY_IDTMDB = "OnTheAirShow.deleteByIdTmdb";
 	
 	/** Movie named queries**/
 	public static String MOVIE_FIND_BY_ID = "Movie.findById";

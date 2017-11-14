@@ -16,6 +16,8 @@ import javax.persistence.*;
         @NamedQuery(name = "Air2dayShow.findByIdTmdb", query = "SELECT a FROM Air2dayShow a WHERE a.idTmdb = :idTmdb"),
         @NamedQuery(name = "Air2dayShow.findByShowId", query = "SELECT a FROM Air2dayShow a WHERE a.show.id= :showId"),
         @NamedQuery(name = "Air2dayShow.getAllIdTmdb", query = "SELECT a.idTmdb FROM Air2dayShow a"),
+        @NamedQuery(name = "Air2dayShow.deleteByIdTmdb", query = "DELETE FROM Air2dayShow a WHERE a.idTmdb = :idTmdb  ")
+        
 })
 public class Air2dayShow implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -26,7 +28,8 @@ public class Air2dayShow implements Serializable {
 
     private int idTmdb;
 
-    @OneToOne(targetEntity=Show.class,mappedBy="air2dayShow")
+    @OneToOne
+    @JoinColumn(name="showId")
     private Show show;
 
     public Air2dayShow() {

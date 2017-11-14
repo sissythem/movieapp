@@ -13,13 +13,16 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.ShowDao;
+import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.ShowGenre;
+import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
+import com.google.gson.Gson;
 
 /**
  * Session Bean implementation class ShowBean
@@ -56,13 +59,14 @@ public class ShowBean implements DataProviderHolder{
     
     public Show createShowFromAPI(ApiNewShow apiNewShow) {
     	
-    	return new Show(LocalDate.parse(apiNewShow.getFirstAirDate()), apiNewShow.getId(), apiNewShow.getName(), apiNewShow.getOriginalLanguage(),
+    	return new Show(apiNewShow.getFirstAirDate(), apiNewShow.getId(), apiNewShow.getName(), apiNewShow.getOriginalLanguage(),
     			apiNewShow.getOriginalName(), apiNewShow.getOriginCountry().toString(), apiNewShow.getOverview(), apiNewShow.getVoteAverage(),
     			apiNewShow.getVoteCount());
     }
 
     public void updateShowWithDetails(Show show, ApiShowDetails showDetails) {
-    	show.setCreatedBy(showDetails.getCreatedBy().toString());
+    	Gson gson = new Gson();
+    	show.setCreatedBy(gson.toJson(showDetails.getCreatedBy()));
     	show.setHomepage(showDetails.getHomepage());
     	
     	byte inProduction;
@@ -71,17 +75,25 @@ public class ShowBean implements DataProviderHolder{
     	show.setInProduction(inProduction);
     	
     	show.setLastAirDate(LocalDate.parse(showDetails.getLastAirDate()));
-    	show.setNetworks(showDetails.getNetworks().toString());
+    	show.setNetworks(gson.toJson(showDetails.getNetworks()));
     	show.setNumOfEpisodes(showDetails.getEpisodesNum());
     	show.setNumOfSeasons(showDetails.getEpisodesNum());
     	
-    	show.setProductionCountries(showDetails.getProductionCountriesAPI().toString());
+    	show.setProductionCountries(gson.toJson(showDetails.getProductionCountriesAPI()));
     	show.setStatus(showDetails.getStatus());
     	show.setType(showDetails.getType());
+    	show.setCast(gson.toJson(showDetails.getCast()));
+    	show.setCrew(gson.toJson(showDetails.getCrew()));
+    	
+    	for (ApiGenre apiGenre : showDetails.getGenresAPI()) {
+			Genre genre = genreBean.findGenreByName(apiGenre.getName());
+			ShowGenre showGenre = new ShowGenre(show,genre);
+			show.addShowGenre(showGenre);
+		}
 	}
     
     public Show addNewShow(ApiNewShow showApi) {
-		logger.info("addNewMovieWithGenres movie with tmdbId=" + showApi.getId());
+		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
 		Show show = createShowFromAPI(showApi);
 		
 		ApiShowDetails showDetails = apiClient.getShowDetailsFromAPI(show.getIdTmdb());

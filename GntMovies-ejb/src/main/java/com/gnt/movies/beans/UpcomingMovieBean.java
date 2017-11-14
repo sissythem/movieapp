@@ -79,9 +79,9 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
-		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
 		if(allIdTmdb.contains(movieAPI.getId()))
 			return;
+		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
 		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movieAPI);
 		Movie movie = movieBean.addNewMovie(movieAPI);
 		upcomingMovie.setMovie(movie);
