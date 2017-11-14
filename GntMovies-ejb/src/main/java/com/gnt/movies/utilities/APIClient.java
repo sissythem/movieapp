@@ -61,7 +61,7 @@ public class APIClient {
 
 	public ApiMovieDetails getMovieDetailsFromAPI(int id) {
 
-		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.API_KEY);
+		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.API_KEY).append(Utils.IMAGES_URL);
 		StringBuilder castCrewURL = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.CREW_CAST_URL).append(Utils.API_KEY);
 		
 		APIClientRunnable run1 = new APIClientRunnable(url.toString());
