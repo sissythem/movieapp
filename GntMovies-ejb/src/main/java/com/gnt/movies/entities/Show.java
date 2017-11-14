@@ -139,6 +139,7 @@ public class Show implements Serializable {
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
 		this.showGenres = new ArrayList<>();
+		this.showImages = new ArrayList<>();
 	}
 
 	public int getId() {

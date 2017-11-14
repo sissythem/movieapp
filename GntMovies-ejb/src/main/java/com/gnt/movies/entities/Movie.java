@@ -115,6 +115,7 @@ public class Movie implements Serializable {
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
 		this.movieGenres = new ArrayList<>();
+		this.movieImages = new ArrayList<>();
 	}
 
 	public int getId() {
