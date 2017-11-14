@@ -72,24 +72,20 @@ public class OnTheAirShowBean implements DataProviderHolder{
 		return allIdTmdb;
 	}
     
+	public void findAllIdTmdb() {
+		allIdTmdb = (HashSet<Integer>) onTheAirShowDao.getAllIdTmdb(this);
+	}
+    
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void checkOnTheAirShow(ApiNewShow newShowAPI) {
-    	logger.info("Adding movie with tmdbId=" + newShowAPI.getId());
-    	Show show;
-    	if(allIdTmdb.contains(newShowAPI.getId()))
+    public void checkOnTheAirShow(ApiNewShow apiNewShow) {
+    	logger.info("Adding movie with tmdbId=" + apiNewShow.getId());
+    	if(allIdTmdb.contains(apiNewShow.getId()))
     			return;
-    	//check if the show is new
-    	OnTheAirShow newOnTheAirShow = createOnTheAirShowFromAPI(newShowAPI);
-    	//first time getting on the air shows, we also need to add the show
-    	if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
-    		show = showBean.addNewShow(newShowAPI);
-    	} else {
-    		show = showBean.findShowByIdTmdb(newShowAPI.getId());
-    	}
-    	
-    	newOnTheAirShow.setShow(show);
-    	addOnTheAirShow(newOnTheAirShow);
-    	allIdTmdb.add(newOnTheAirShow.getIdTmdb());
+    	OnTheAirShow onTheAirShow = createOnTheAirShowFromAPI(apiNewShow);
+    	Show show = showBean.getShow(apiNewShow);
+    	onTheAirShow.setShow(show);
+    	addOnTheAirShow(onTheAirShow);
+    	allIdTmdb.add(onTheAirShow.getIdTmdb());
     }
     
     public boolean addOnTheAir(OnTheAirShow onTheAirShow) {
@@ -113,11 +109,4 @@ public class OnTheAirShowBean implements DataProviderHolder{
     		onTheAirShowDao.deleteOnTheAirShowByIdTmdb(this, idtmdb);
     	} 
     }
-
-	public void findAllIdTmdb() {
-		allIdTmdb = (HashSet<Integer>) onTheAirShowDao.getAllIdTmdb(this);
-		
-	}
-
-
 }
