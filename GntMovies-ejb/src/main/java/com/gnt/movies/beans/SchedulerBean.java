@@ -121,7 +121,6 @@ public class SchedulerBean implements DataProviderHolder {
 			i++;
 			onTheAirShowBean.checkOnTheAirShow(newShowApi);
 		}
-//		onTheAirShowsAPI.remove(0);
 		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShowsAPI);
 		logger.info("Done checking for on the air shows");
 		flag = false;

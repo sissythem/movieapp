@@ -46,8 +46,9 @@ public class ApiMovieDetails {
 	private int voteCount;
 	@SerializedName("images")
 	private ArrayList<ApiImages> apiImages;
-	
+	@SerializedName("cast")
 	private ArrayList<ApiCastCrew> cast;
+	@SerializedName("crew")
 	private ArrayList<ApiCastCrew> crew;
 
 	public boolean getAdult() {
