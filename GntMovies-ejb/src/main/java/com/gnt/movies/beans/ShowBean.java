@@ -66,7 +66,7 @@ public class ShowBean implements DataProviderHolder{
     			apiNewShow.getVoteCount());
     }
 
-    public void updateShowWithDetails(Show show, ApiShowDetails showDetails) {
+    private void updateShowWithDetails(Show show, ApiShowDetails showDetails) {
     	Gson gson = new Gson();
     	show.setCreatedBy(gson.toJson(showDetails.getCreatedBy()));
     	show.setHomepage(showDetails.getHomepage());
@@ -118,12 +118,9 @@ public class ShowBean implements DataProviderHolder{
     }
     
     public Show getShow(ApiNewShow apiNewShow) {
-    	
     	Show show = findShowByIdTmdb(apiNewShow.getId());
-    	
     	if (show == null)
     		show = addNewShow(apiNewShow);
-    	
     	return show;
     }
     

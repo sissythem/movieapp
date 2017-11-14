@@ -63,7 +63,7 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 	
 	int i = 1;
-	public void getUpcomingMovies() {
+	private void getUpcomingMovies() {
 		if(flag)
 			return;
 		flag=true;
@@ -85,7 +85,7 @@ public class SchedulerBean implements DataProviderHolder {
 		flag = false;
 	}
 	
-	public void  getNowPlayingMovies() {
+	private void  getNowPlayingMovies() {
 		if(flag)
 			return;
 		flag=true;
@@ -106,7 +106,7 @@ public class SchedulerBean implements DataProviderHolder {
 		flag = false;
 	}
 	
-	public void getOnTheAirShows() {
+	private void getOnTheAirShows() {
 		if(flag)
 			return;
 		flag=true;
@@ -126,7 +126,7 @@ public class SchedulerBean implements DataProviderHolder {
 		flag = false;
 	}
 	
-	public void getAir2dayShows() {
+	private void getAir2dayShows() {
 		if(flag)
 			return;
 		flag=true;

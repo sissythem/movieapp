@@ -62,8 +62,6 @@ public class GenreBean implements DataProviderHolder {
 		return genreDao.findAllGenreNames(this);
 	}
 	
-	
-
 	public void updateGenres(ArrayList<ApiGenre> genresApi) {
 		genres = getAllGenreNames();
 

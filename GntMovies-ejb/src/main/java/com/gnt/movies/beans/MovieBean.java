@@ -65,7 +65,7 @@ public class MovieBean implements DataProviderHolder{
 				upcomingMovie.getOverview(), upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount());
 	}
 	
-	public void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
+	private void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
 		movie.setBudget(movieDetails.getBudget());
 		movie.setHomepage(movieDetails.getHomepage());
 		movie.setProductionCountries(movieDetails.getProductionCountriesAPI().toString());
