@@ -83,7 +83,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 			return;
 		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
 		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movieAPI);
-		Movie movie = movieBean.addNewMovie(movieAPI);
+		Movie movie = movieBean.getMovie(movieAPI);
 		upcomingMovie.setMovie(movie);
 		addUpcomingMovie(upcomingMovie);
 		allIdTmdb.add(upcomingMovie.getIdTmdb());

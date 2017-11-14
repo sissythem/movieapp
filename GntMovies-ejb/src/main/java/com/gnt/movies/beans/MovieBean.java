@@ -108,7 +108,7 @@ public class MovieBean implements DataProviderHolder{
 		return movie;
 	}
 	
-	public Movie getMovieFromNowPlayingMovie(ApiNewMovie apiNewMovie) {
+	public Movie getMovie(ApiNewMovie apiNewMovie) {
 		Movie movie = findMovieByIdTmdb(apiNewMovie.getId());
 		if(movie == null)
 			movie = addNewMovie(apiNewMovie);
