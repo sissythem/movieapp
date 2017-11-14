@@ -61,14 +61,14 @@ public class APIClient {
 
 	public ApiMovieDetails getMovieDetailsFromAPI(int id) {
 
-		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.API_KEY).append(Utils.IMAGES_URL);
-		StringBuilder castCrewURL = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.CREW_CAST_URL).append(Utils.API_KEY);
+		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id)).append(Utils.API_KEY)
+				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
 		
 		APIClientRunnable run1 = new APIClientRunnable(url.toString());
 		Thread t1 = new Thread(run1);
 		t1.start();
 		
-		APIClientRunnable run2 = new APIClientRunnable(castCrewURL.toString());
+		APIClientRunnable run2 = new APIClientRunnable(url.toString());
 		Thread t2 = new Thread(run2);
 		t2.start();
 		
@@ -166,14 +166,13 @@ public class APIClient {
 
 	public ApiShowDetails getShowDetailsFromAPI(int id) {
 		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id))
-				.append(Utils.API_KEY);
-		StringBuilder castCrewURL = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.CREW_CAST_URL).append(Utils.API_KEY);
+				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
 		
 		APIClientRunnable run1 = new APIClientRunnable(url.toString());
 		Thread t1 = new Thread(run1);
 		t1.start();
 		
-		APIClientRunnable run2 = new APIClientRunnable(castCrewURL.toString());
+		APIClientRunnable run2 = new APIClientRunnable(url.toString());
 		Thread t2 = new Thread(run2);
 		t2.start();
 		

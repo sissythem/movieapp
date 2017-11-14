@@ -21,7 +21,7 @@ public class Utils
 	/** URL example for on the air shows: https://api.themoviedb.org/3/tv/airing_today?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US&page=1**/
 	public static String ON_THE_AIR_SHOWS_URL = "https://api.themoviedb.org/3/tv/on_the_air";
 	/** URL example for getting cast and crew for movies: https://api.themoviedb.org/3/movie/120/credits?api_key=eaf5fc7d22157774a158a75a3ed6fe9c **/
-	public static String CREW_CAST_URL = "/credits";
+	public static String CREW_CAST_URL = ",credits";
 	/** URL example for getting cast and crew for movies: https://api.themoviedb.org/3/movie/157336?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&append_to_response=images **/
 	public static String IMAGES_URL = "&append_to_response=images";
 	public static String LANGUAGE_FOR_URL = "&language=en-US1";
