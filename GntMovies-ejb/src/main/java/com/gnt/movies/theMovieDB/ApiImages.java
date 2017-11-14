@@ -7,20 +7,20 @@ import com.google.gson.annotations.SerializedName;
 public class ApiImages {
 
 	@SerializedName("backdrops")
-	private ArrayList<ApiBackdrops> apiBackdrops;
+	private ArrayList<ApiPostersBackdrops> apiPostersBackdrops;
 	@SerializedName("posters")
-	private ArrayList<ApiPosters> apiPosters;
+	private ArrayList<ApiPostersBackdrops> apiPosters;
 	
-	public ArrayList<ApiBackdrops> getApiBackdrops() {
-		return apiBackdrops;
+	public ArrayList<ApiPostersBackdrops> getApiBackdrops() {
+		return apiPostersBackdrops;
 	}
-	public void setApiBackdrops(ArrayList<ApiBackdrops> apiBackdrops) {
-		this.apiBackdrops = apiBackdrops;
+	public void setApiBackdrops(ArrayList<ApiPostersBackdrops> apiPostersBackdrops) {
+		this.apiPostersBackdrops = apiPostersBackdrops;
 	}
-	public ArrayList<ApiPosters> getApiPosters() {
+	public ArrayList<ApiPostersBackdrops> getApiPosters() {
 		return apiPosters;
 	}
-	public void setApiPosters(ArrayList<ApiPosters> apiPosters) {
+	public void setApiPosters(ArrayList<ApiPostersBackdrops> apiPosters) {
 		this.apiPosters = apiPosters;
 	}
 	
