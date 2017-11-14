@@ -45,11 +45,9 @@ public class ApiMovieDetails {
 	@SerializedName("vote_count")
 	private int voteCount;
 	@SerializedName("images")
-	private ArrayList<ApiImages> apiImages;
-	@SerializedName("cast")
-	private ArrayList<ApiCastCrew> cast;
-	@SerializedName("crew")
-	private ArrayList<ApiCastCrew> crew;
+	private ApiImages apiImages;
+	@SerializedName("credits")
+	private ApiCredits apiCredits;
 
 	public boolean getAdult() {
 		return adult;
@@ -211,40 +209,37 @@ public class ApiMovieDetails {
 		this.apiGenre = apiGenre;
 	}
 
+	public ApiCredits getApiCredits() {
+		return apiCredits;
+	}
+
+	public void setApiCredits(ApiCredits apiCredits) {
+		this.apiCredits = apiCredits;
+	}
+
 	public ArrayList<ApiCastCrew> getCast() {
-		return cast;
+		return getApiCredits().getCast();
 	}
 
 	public void setCast(ArrayList<ApiCastCrew> cast) {
-		this.cast = cast;
+		getApiCredits().setCast(cast);
 	}
 
 	public ArrayList<ApiCastCrew> getCrew() {
-		return crew;
+		return getApiCredits().getCrew();
 	}
 
 	public void setCrew(ArrayList<ApiCastCrew> crew) {
-		this.crew = crew;
+		getApiCredits().setCrew(crew);
 	}
 
-	public ArrayList<ApiImages> getApiImages() {
+	public ApiImages getApiImages() {
 		return apiImages;
 	}
 
-	public void setApiImages(ArrayList<ApiImages> apiImages) {
+	public void setApiImages(ApiImages apiImages) {
 		this.apiImages = apiImages;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "ApiMovieDetails [adult=" + adult + ", budget=" + budget + ", apiGenre=" + apiGenre + ", homepage="
-				+ homepage + ", id=" + id + ", imdbId=" + imdbId + ", originalLanguage=" + originalLanguage
-				+ ", originalTitle=" + originalTitle + ", overview=" + overview + ", apiProductionCompanies="
-				+ apiProductionCompanies + ", apiProductionCountries=" + apiProductionCountries + ", releaseDate="
-				+ releaseDate + ", revenue=" + revenue + ", runtime=" + runtime + ", spokenLanguages=" + spokenLanguages
-				+ ", status=" + status + ", title=" + title + ", voteAverage=" + voteAverage + ", voteCount="
-				+ voteCount + ", cast=" + cast + ", crew=" + crew + "]";
-	}
-	
-	
 }

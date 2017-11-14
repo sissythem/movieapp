@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import com.gnt.movies.theMovieDB.ApiCastCrewResults;
+import com.gnt.movies.theMovieDB.ApiCredits;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovieResults;
@@ -56,23 +56,21 @@ public class APIClient {
 		Thread t1 = new Thread(run1);
 		t1.start();
 		
-		APIClientRunnable run2 = new APIClientRunnable(url.toString());
-		Thread t2 = new Thread(run2);
-		t2.start();
+//		APIClientRunnable run2 = new APIClientRunnable(url.toString());
+//		Thread t2 = new Thread(run2);
+//		t2.start();
 		
 
 		//join here
 		try {
 			t1.join();
-			t2.join();
+//			t2.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
 		ApiMovieDetails movieDetails = new Gson().fromJson(run1.getResult(), ApiMovieDetails.class);
-		ApiCastCrewResults castCrewResults = new Gson().fromJson(run2.getResult(), ApiCastCrewResults.class);
-		movieDetails.setCast(castCrewResults.getCastResults());
-		movieDetails.setCrew(castCrewResults.getCrewResults());
+//		
 
 		return movieDetails;
 	}
@@ -139,23 +137,19 @@ public class APIClient {
 		APIClientRunnable run1 = new APIClientRunnable(url.toString());
 		Thread t1 = new Thread(run1);
 		t1.start();
-		
-		APIClientRunnable run2 = new APIClientRunnable(url.toString());
-		Thread t2 = new Thread(run2);
-		t2.start();
+//		
+//		APIClientRunnable run2 = new APIClientRunnable(url.toString());
+//		Thread t2 = new Thread(run2);
+//		t2.start();
 		
 		try {
 			t1.join();
-			t2.join();
+//			t2.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
 		ApiShowDetails showDetails = new Gson().fromJson(run1.getResult(), ApiShowDetails.class);
-		ApiCastCrewResults castCrewResults = new Gson().fromJson(run2.getResult(), ApiCastCrewResults.class);
-		showDetails.setCast(castCrewResults.getCastResults());
-		showDetails.setCrew(castCrewResults.getCrewResults());
-
 		return showDetails;
 	}
 

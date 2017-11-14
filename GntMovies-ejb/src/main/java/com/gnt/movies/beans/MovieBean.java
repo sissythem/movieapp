@@ -71,10 +71,8 @@ public class MovieBean implements DataProviderHolder{
 		movie.setTitle(movieDetails.getTitle());
 		movie.setImdbId(movieDetails.getImdbId());
 		Gson gson = new Gson();
-		movie.setCast(gson.toJson(movieDetails.getCast()));
-		movie.setCrew(gson.toJson(movieDetails.getCrew()));
-		
-		
+		movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
+		movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
 		
 		for (ApiGenre apiGenre : movieDetails.getGenresAPI()) {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());

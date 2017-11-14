@@ -78,7 +78,7 @@ public class ShowBean implements DataProviderHolder{
     	show.setNetworks(gson.toJson(showDetails.getNetworks()));
     	show.setNumOfEpisodes(showDetails.getEpisodesNum());
     	show.setNumOfSeasons(showDetails.getEpisodesNum());
-    	
+    	show.setRuntime(showDetails.getRuntime());
     	show.setProductionCountries(gson.toJson(showDetails.getProductionCountriesAPI()));
     	show.setStatus(showDetails.getStatus());
     	show.setType(showDetails.getType());

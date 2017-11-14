@@ -26,6 +26,8 @@ public class ApiShowDetails {
 	private String name;
 	@SerializedName("networks")
 	private ArrayList<ApiNetworks> networks;
+	@SerializedName("episode_run_time")
+	private Integer[] runtime;
 	@SerializedName("number_of_episodes")
 	private int episodesNum;
 	@SerializedName("number_of_seasons")
@@ -50,9 +52,10 @@ public class ApiShowDetails {
 	private double voteAverage;
 	@SerializedName("vote_count")
 	private int voteCount;
-	
-	private ArrayList<ApiCastCrew> cast;
-	private ArrayList<ApiCastCrew> crew;
+	@SerializedName("images")
+	private ApiImages apiImages;
+	@SerializedName("credits")
+	private ApiCredits apiCredits;
 	
 	public ArrayList<ApiCreator> getCreatedBy() {
 		return createdBy;
@@ -186,19 +189,42 @@ public class ApiShowDetails {
 	public void setVoteCount(int voteCount) {
 		this.voteCount = voteCount;
 	}
+	
+	public ApiCredits getApiCredits() {
+		return apiCredits;
+	}
+	public void setApiCredits(ApiCredits apiCredits) {
+		this.apiCredits = apiCredits;
+	}
 	public ArrayList<ApiCastCrew> getCast() {
-		return cast;
+		return getApiCredits().getCast();
 	}
 
 	public void setCast(ArrayList<ApiCastCrew> cast) {
-		this.cast = cast;
+		getApiCredits().setCast(cast);
 	}
 
 	public ArrayList<ApiCastCrew> getCrew() {
-		return crew;
+		return getApiCredits().getCrew();
 	}
 
 	public void setCrew(ArrayList<ApiCastCrew> crew) {
-		this.crew = crew;
+		getApiCredits().setCrew(crew);
 	}
+	public ApiImages getApiImages() {
+		return apiImages;
+	}
+	public void setApiImages(ApiImages apiImages) {
+		this.apiImages = apiImages;
+	}
+	public Integer getRuntime() {
+		if(runtime.length>0)
+		return runtime[0];
+		else
+			return 0;
+	}
+	public void setRuntime(Integer[] runtime) {
+		this.runtime = runtime;
+	}
+	
 }
