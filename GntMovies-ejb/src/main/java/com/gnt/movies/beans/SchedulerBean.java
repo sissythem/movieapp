@@ -113,7 +113,6 @@ public class SchedulerBean implements DataProviderHolder {
 			nowPlayingMovieBean.checkNowPlayingMovie(newMovieApi);
 		}
 		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
-		nowPlayingMovieBean.removeNowPlayingMoviesFromUpComing(nowPlayingMoviesAPI);
 		flag = false;
 	}
 	// @Schedule(dayOfWeek = "*", hour = "0")
