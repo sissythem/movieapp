@@ -95,7 +95,7 @@ public class ShowBean implements DataProviderHolder{
 		return show;
     }
     
-    public Show getShowFromOnTheAirShow(ApiNewShow apiNewShow) {
+    public Show getShow(ApiNewShow apiNewShow) {
     	
     	Show show = findShowByIdTmdb(apiNewShow.getId());
     	

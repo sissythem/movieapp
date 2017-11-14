@@ -17,6 +17,8 @@ import com.gnt.movies.dao.Air2dayShowDao;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.entities.Air2dayShow;
+import com.gnt.movies.entities.Movie;
+import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.Logger;
@@ -73,21 +75,13 @@ public class Air2dayShowBean implements DataProviderHolder{
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void checkAir2dayShow(ApiNewShow newShowAPI) {
     	logger.info("Adding movie with tmdbId=" + newShowAPI.getId());
-    	Show show;
-    	if(allIdTmdb.contains(newShowAPI.getId()))
-    			return;
-    	//check if the show is new
-    	Air2dayShow newAir2dayShow = createAir2dayShowFromAPI(newShowAPI);
-    	//first time getting on the air shows, we also need to add the show
-    	if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
-    		show = showBean.addNewShow(newShowAPI);
-    	} else {
-    		show = showBean.findShowByIdTmdb(newShowAPI.getId());
-    	}
-    	
-    	newAir2dayShow.setShow(show);
-    	addAir2dayShow(newAir2dayShow);
-    	allIdTmdb.add(newAir2dayShow.getIdTmdb());
+		if (allIdTmdb.contains(newShowAPI.getId()))
+			return;
+		Air2dayShow air2dayShow = createAir2dayShowFromAPI(newShowAPI);
+		Show show = showBean.getShow(newShowAPI);
+		air2dayShow.setShow(show);
+		addAir2day(air2dayShow);
+		allIdTmdb.add(air2dayShow.getIdTmdb());
     }
     
     public boolean addAir2day(Air2dayShow air2dayShow) {
