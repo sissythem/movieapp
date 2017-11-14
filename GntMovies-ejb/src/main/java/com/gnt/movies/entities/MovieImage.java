@@ -2,6 +2,7 @@ package com.gnt.movies.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,10 +28,11 @@ public class MovieImage implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 	
+	@Column(name = "image_path")
 	private String imagePath;
 	
 	@ManyToOne
-    @JoinColumn(name="movieId")
+    @JoinColumn(name="movie_id")
     private Movie movie;
 	
 	public MovieImage() {
