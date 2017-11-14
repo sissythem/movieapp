@@ -1,5 +1,6 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -48,8 +49,8 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 	}
 
 	@Override
-	public List<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder) {
-		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList();
+	public ArrayList<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder) {
+		return (ArrayList<NowPlayingMovie>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList();
 	}
 
 	@Override
