@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -54,6 +55,7 @@ public class SchedulerBean implements DataProviderHolder {
 		getAir2dayShows();
 		getOnTheAirShows();
 	}
+	
 	int i = 1;
 	public void getUpcomingMovies() {
 		if(flag)
@@ -97,10 +99,40 @@ public class SchedulerBean implements DataProviderHolder {
 	}
 	
 	public void getOnTheAirShows() {
-		
+		if(flag)
+			return;
+		flag=true;
+		logger.info("Scheduler checking for on the air shows");
+		onTheAirShowBean.findAllIdTmdb();
+		ArrayList<ApiNewShow> onTheAirShowsAPI = apiClient.getOnTheAirShowsFromAPI();
+		i=1;
+		for(ApiNewShow newShowApi : onTheAirShowsAPI) {
+			if(i==10) {
+				break;
+			}
+			i++;
+			onTheAirShowBean.checkOnTheAirShow(newShowApi);
+		}
+		onTheAirShowBean.removeOldNotOnTheAirShow(onTheAirShowsAPI);
+		flag = false;
 	}
 	
 	public void getAir2dayShows() {
-		
+		if(flag)
+			return;
+		flag=true;
+		logger.info("Scheduler checking for air today shows");
+		air2dayShowBean.findAllIdTmdb();
+		ArrayList<ApiNewShow> air2dayShowsAPI = apiClient.getAir2dayShowsFromAPI();
+		i=1;
+		for(ApiNewShow newShowApi : air2dayShowsAPI) {
+			if(i==10) {
+				break;
+			}
+			i++;
+			air2dayShowBean.checkAir2dayShow(newShowApi);
+		}
+		air2dayShowBean.removeOldNotAir2dayShow(air2dayShowsAPI);
+		flag = false;
 	}
 }
