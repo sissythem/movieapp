@@ -14,9 +14,11 @@ import com.gnt.movies.dao.MovieDao;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.MovieGenre;
+import com.gnt.movies.entities.MovieImage;
 import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -40,6 +42,9 @@ public class MovieBean implements DataProviderHolder{
 	
 	@EJB
 	MovieGenreBean movieGenreBean;
+	
+	@EJB
+	MovieImageBean movieImageBean;
 	
 	APIClient apiClient = new APIClient();
 	
@@ -80,7 +85,15 @@ public class MovieBean implements DataProviderHolder{
 			movie.addMovieGenre(movieGenre);
 		}
 		
+		for(ApiPostersBackdrops apiImage : movieDetails.getApiImages().getApiBackdrops()) {
+			MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
+			movie.addMovieImage(movieImage);
+		}
 		
+		for(ApiPostersBackdrops apiImage : movieDetails.getApiImages().getApiPosters()) {
+			MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
+			movie.addMovieImage(movieImage);
+		}
 	}
 	
 	public Movie addNewMovie(ApiNewMovie movieApi) {
@@ -94,6 +107,9 @@ public class MovieBean implements DataProviderHolder{
 		addMovie(movie);
 		for (MovieGenre movieGenre : movie.getMovieGenres()) {
 			movieGenreBean.addMovieGenre(movieGenre);
+		}
+		for(MovieImage movieImage : movie.getMovieImages()) {
+			movieImageBean.addMovieImage(movieImage);
 		}
 		return movie;
 	}
