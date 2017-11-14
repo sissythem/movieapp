@@ -105,6 +105,9 @@ public class Show implements Serializable {
 
     @OneToMany(mappedBy="show")
     private List<ShowGenre> showGenres;
+    
+    @OneToMany(mappedBy="show", fetch=FetchType.LAZY)
+    private List<ShowImage> showImages;
 
     @OneToMany(mappedBy="show")
     private List<OnTheAirShow> onTheAirShows;
@@ -424,6 +427,28 @@ public class Show implements Serializable {
 
     public void setAir2dayShow(Air2dayShow air2dayShow) {
         this.air2dayShow = air2dayShow;
+    }
+    
+    public List<ShowImage> getShowImages() {
+        return this.showImages;
+    }
+
+    public void setShowImages(List<ShowImage> showImages) {
+        this.showImages = showImages;
+    }
+
+    public ShowImage addShowImage(ShowImage showImage) {
+    	getShowImages().add(showImage);
+        showImage.setShow(this);
+
+        return showImage;
+    }
+
+    public ShowImage removeShowImage(ShowImage showImage) {
+    	getShowImages().remove(showImage);
+    	showImage.setShow(null);
+
+        return showImage;
     }
 
 }

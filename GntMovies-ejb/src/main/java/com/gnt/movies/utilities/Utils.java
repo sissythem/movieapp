@@ -123,4 +123,11 @@ public class Utils
 	public static String MOVIE_GENRE_FIND_BY_MOVIE_ID = "MovieGenre.findByMovieId";
 	public static String MOVIE_GENRE_FIND_BY_GENRE_ID = "MovieGenre.findByGenreId";
 	
+	/** Movie images named queries**/
+	public static String MOVIE_IMAGE_FIND_BY_ID = "MovieImage.findById";
+	public static String MOVIE_IMAGE_FIND_BY_MOVIE_ID = "MovieImage.findByMovieId";
+	
+	/** Show images named queries**/
+	public static String SHOW_IMAGE_FIND_BY_ID = "ShowImage.findById";
+	public static String SHOW_IMAGE_FIND_BY_MOVIE_ID = "ShowImage.findByShowId";
 }

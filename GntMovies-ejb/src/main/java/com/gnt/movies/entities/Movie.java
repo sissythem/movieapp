@@ -86,6 +86,9 @@ public class Movie implements Serializable {
     
     @OneToMany(mappedBy="movie")
     private List<MovieGenre> movieGenres;
+    
+    @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
+    private List<MovieImage> movieImages;
 
     @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
     private List<MovieFavorite> movieFavorites;
@@ -365,6 +368,28 @@ public class Movie implements Serializable {
 
     public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
         this.upcomingMovie = upcomingMovie;
+    }
+    
+    public List<MovieImage> getMovieImages() {
+        return this.movieImages;
+    }
+
+    public void setMovieImages(List<MovieImage> movieImages) {
+        this.movieImages = movieImages;
+    }
+
+    public MovieImage addMovieImage(MovieImage movieImage) {
+        getMovieImages().add(movieImage);
+        movieImage.setMovie(this);
+
+        return movieImage;
+    }
+
+    public MovieImage removeMovieImages(MovieImage movieImage) {
+        getMovieImages().remove(movieImage);
+        movieImage.setMovie(null);
+
+        return movieImage;
     }
     
     /** Count our average rating based on ratings and comments only in our app **/
