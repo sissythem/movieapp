@@ -1,6 +1,6 @@
 package com.gnt.movies.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.gnt.movies.entities.MovieImage;
 
@@ -9,5 +9,5 @@ public interface MovieImageDao {
 	void updateMovieImage(DataProviderHolder dataProviderHolder, MovieImage movieImage);
 	void deleteMovieImage(DataProviderHolder dataProviderHolder, MovieImage movieImage);
 	MovieImage findMovieImageById(DataProviderHolder dataProviderHolder, Integer id);
-	List<MovieImage>findMovieGenreByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
+	ArrayList<MovieImage>findMovieGenreByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
 }
