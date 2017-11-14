@@ -1,11 +1,7 @@
 package com.gnt.movies.dao;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.Query;
-
-import com.gnt.movies.entities.MovieGenre;
 import com.gnt.movies.entities.MovieImage;
 import com.gnt.movies.utilities.Utils;
 

@@ -1,6 +1,6 @@
 package com.gnt.movies.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.gnt.movies.entities.ShowImage;
 
@@ -10,6 +10,6 @@ public interface ShowImageDao {
 	void updateShowImage(DataProviderHolder dataProviderHolder, ShowImage showImage);
 	void deleteShowImage(DataProviderHolder dataProviderHolder, ShowImage showImage);
 	ShowImage findShowImageById(DataProviderHolder dataProviderHolder, Integer id);
-	List<ShowImage> findByShowId(DataProviderHolder dataProviderHolder, Integer showId);
+	ArrayList<ShowImage> findByShowId(DataProviderHolder dataProviderHolder, Integer showId);
 
 }

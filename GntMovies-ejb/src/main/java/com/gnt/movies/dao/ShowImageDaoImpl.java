@@ -1,39 +1,36 @@
 package com.gnt.movies.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.gnt.movies.entities.ShowImage;
+import com.gnt.movies.utilities.Utils;
 
-public class ShowImageDaoImpl implements ShowImageDao {
+public class ShowImageDaoImpl extends AbstractDao implements ShowImageDao {
 
 	@Override
 	public void createShowImage(DataProviderHolder dataProviderHolder, ShowImage showImage) {
-		// TODO Auto-generated method stub
-		
+		createEntity(dataProviderHolder.getEntityManager(), showImage);
 	}
 
 	@Override
 	public void updateShowImage(DataProviderHolder dataProviderHolder, ShowImage showImage) {
-		// TODO Auto-generated method stub
-		
+		updateEntity(dataProviderHolder.getEntityManager(), showImage);
 	}
 
 	@Override
 	public void deleteShowImage(DataProviderHolder dataProviderHolder, ShowImage showImage) {
-		// TODO Auto-generated method stub
-		
+		removeEntity(dataProviderHolder.getEntityManager(), showImage);
 	}
 
 	@Override
 	public ShowImage findShowImageById(DataProviderHolder dataProviderHolder, Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (ShowImage)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_IMAGE_FIND_BY_ID, "id", id);
 	}
 
 	@Override
-	public List<ShowImage> findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<ShowImage> findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
+		return (ArrayList<ShowImage>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_IMAGE_FIND_BY_SHOW_ID)
+				.setParameter("showId", showId).getResultList();
 	}
 
 }

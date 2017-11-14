@@ -129,5 +129,5 @@ public class Utils
 	
 	/** Show images named queries**/
 	public static String SHOW_IMAGE_FIND_BY_ID = "ShowImage.findById";
-	public static String SHOW_IMAGE_FIND_BY_MOVIE_ID = "ShowImage.findByShowId";
+	public static String SHOW_IMAGE_FIND_BY_SHOW_ID = "ShowImage.findByShowId";
 }
