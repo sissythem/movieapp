@@ -15,6 +15,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.OnTheAirShowDao;
 import com.gnt.movies.entities.OnTheAirShow;
+import com.gnt.movies.theMovieDB.ApiNewShow;
 
 /**
  * Session Bean implementation class OnTheAirShowBean
@@ -64,7 +65,7 @@ public class OnTheAirShowBean implements DataProviderHolder{
 		return allIdTmdb;
 	}
 
-	public void checkOnTheAirShowsToBeDeleted(ArrayList<Integer> newIdTmdb) {
+	public void removeOldNotOnTheAirShows(ArrayList<ApiNewShow> onTheAirShowsAPI) {
 
 		try {
 			for (int i = 0; i < allIdTmdb.size(); i++) {
@@ -76,6 +77,10 @@ public class OnTheAirShowBean implements DataProviderHolder{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void checkOnTheAirShow(ApiNewShow newShowApi) {
+		
 	}
 
 }

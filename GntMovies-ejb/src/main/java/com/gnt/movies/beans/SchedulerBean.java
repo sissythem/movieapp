@@ -106,13 +106,14 @@ public class SchedulerBean implements DataProviderHolder {
 		flag=true;
 		logger.info("Scheduler checking for on the air shows");
 		ArrayList<ApiNewShow> onTheAirShowsAPI = apiClient.getOnTheAirShowsFromAPI();
-		for(ApiNewShow newShoweApi : onTheAirShowsAPI) {
+		for(ApiNewShow newShowApi : onTheAirShowsAPI) {
 			if(i==10) {
 				break;
 			}
 			i++;
-			onTheAirShowBean.checkOnTheAirShow(newShoweApi);
+			onTheAirShowBean.checkOnTheAirShow(newShowApi);
 		}
+		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShowsAPI);
 		flag = false;
 	}
 	
