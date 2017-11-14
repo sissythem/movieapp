@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.time.LocalDate;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -13,8 +14,12 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.ShowDao;
 import com.gnt.movies.entities.Show;
+import com.gnt.movies.entities.ShowGenre;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
+import com.gnt.movies.utilities.APIClient;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
 /**
  * Session Bean implementation class ShowBean
@@ -22,6 +27,8 @@ import com.gnt.movies.theMovieDB.ApiShowDetails;
 @Stateless
 @LocalBean
 public class ShowBean implements DataProviderHolder{
+	private static final Logger logger = LoggerFactory.getLogger(ShowBean.class);	
+
 
 	@PersistenceContext
 	private EntityManager em;
@@ -30,6 +37,14 @@ public class ShowBean implements DataProviderHolder{
 	@JpaDao
 	@Named("ShowDaoImpl")
 	ShowDao showDao;
+	
+	@EJB
+	GenreBean genreBean;
+	
+	@EJB
+	ShowGenreBean showGenreBean;
+	
+	APIClient apiClient = new APIClient();
 	
     public ShowBean() {
     }
@@ -65,7 +80,33 @@ public class ShowBean implements DataProviderHolder{
     	show.setType(showDetails.getType());
 	}
     
+    public Show addNewShow(ApiNewShow showApi) {
+		logger.info("addNewMovieWithGenres movie with tmdbId=" + showApi.getId());
+		Show show = createShowFromAPI(showApi);
+		
+		ApiShowDetails showDetails = apiClient.getShowDetailsFromAPI(show.getIdTmdb());
+		genreBean.updateGenres(showDetails.getGenresAPI());
+		
+		updateShowWithDetails(show, showDetails);
+		addShow(show);
+		for (ShowGenre showGenre : show.getShowGenres()) {
+			showGenreBean.addShowGenre(showGenre);
+		}
+		return show;
+    }
+    
+    public Show getShowFromOnTheAirShow(ApiNewShow apiNewShow) {
+    	
+    	Show show = findShowByIdTmdb(apiNewShow.getId());
+    	
+    	if (show == null)
+    		show = addNewShow(apiNewShow);
+    	
+    	return show;
+    }
+    
     public void addShow(Show show) {
+    	logger.info("addShow show with tmdbId="+show.getIdTmdb());
     	showDao.createShow(this, show);
     }
     
