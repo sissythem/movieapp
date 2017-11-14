@@ -74,7 +74,7 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 			return;
 		logger.info("Adding movie with tmdbId=" + apiNewMovie.getId());
 		NowPlayingMovie nowPlayingMovie = createNowPlayingMovieFromAPI(apiNewMovie);
-		Movie movie = movieBean.getMovieFromNowPlayingMovie(apiNewMovie);
+		Movie movie = movieBean.getMovie(apiNewMovie);
 		nowPlayingMovie.setMovie(movie);
 		addNowPlaying(nowPlayingMovie);
 		allIdTmdb.add(nowPlayingMovie.getIdTmdb());

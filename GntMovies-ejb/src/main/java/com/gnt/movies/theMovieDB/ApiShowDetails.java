@@ -57,6 +57,8 @@ public class ApiShowDetails {
 	@SerializedName("credits")
 	private ApiCredits apiCredits;
 	
+	private ArrayList<ApiPostersBackdrops> allImages;
+	
 	public ArrayList<ApiCreator> getCreatedBy() {
 		return createdBy;
 	}
@@ -225,6 +227,15 @@ public class ApiShowDetails {
 	}
 	public void setRuntime(Integer[] runtime) {
 		this.runtime = runtime;
+	}
+	
+	public ArrayList<ApiPostersBackdrops> getAllImages() {
+		return allImages;
+	}
+
+	public void setAllImages(ApiImages apiImages) {
+		this.allImages = apiImages.getApiBackdrops();
+		this.allImages = apiImages.getApiPosters();
 	}
 	
 }

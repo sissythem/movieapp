@@ -48,6 +48,8 @@ public class ApiMovieDetails {
 	private ApiImages apiImages;
 	@SerializedName("credits")
 	private ApiCredits apiCredits;
+	
+	private ArrayList<ApiPostersBackdrops> allImages;
 
 	public boolean getAdult() {
 		return adult;
@@ -240,6 +242,13 @@ public class ApiMovieDetails {
 	public void setApiImages(ApiImages apiImages) {
 		this.apiImages = apiImages;
 	}
-	
 
+	public ArrayList<ApiPostersBackdrops> getAllImages() {
+		return allImages;
+	}
+
+	public void setAllImages(ApiImages apiImages) {
+		this.allImages = apiImages.getApiBackdrops();
+		this.allImages = apiImages.getApiPosters();
+	}
 }

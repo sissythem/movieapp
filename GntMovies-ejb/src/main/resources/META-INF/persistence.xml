@@ -22,6 +22,8 @@
 		<class>com.gnt.movies.entities.User</class>
 		<class>com.gnt.movies.utilities.LocalDateAttributeConverter</class>
 		<class>com.gnt.movies.utilities.LocalDateTimeAttributeConverter</class>
+		<class>com.gnt.movies.entities.ShowImage</class>
+		<class>com.gnt.movies.entities.MovieImage</class>
 
 		<properties>
 			<property name="eclipselink.target-server" value="JBoss" />

@@ -24,15 +24,10 @@ public class APIClient {
 
 	public String getResultFromTMDB(String url) {
 		// OkHttpClient client = new OkHttpClient();
-
 		Builder b = new Builder();
 		b.readTimeout(15, TimeUnit.SECONDS);
-		// b.writeTimeout(600, TimeUnit.SECONDS);
-
 		OkHttpClient client = b.build();
-
 		Request request = new Request.Builder().url(url).get().build();
-
 		Response response;
 		try {
 			response = client.newCall(request).execute();
@@ -64,45 +59,36 @@ public class APIClient {
 	public ApiNewMovieResults getPagesForMovies(int page, String urlApi) {
 		StringBuilder url = new StringBuilder(urlApi).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL)
 				.append(Utils.NUMBER_PAGE_FOR_URL).append(Integer.toString(page));
-
 		String resultJson = getResultFromTMDB(url.toString());
-
 		ApiNewMovieResults upcomingNowPlayingMovieResults = new Gson().fromJson(resultJson, ApiNewMovieResults.class);
-
 		return upcomingNowPlayingMovieResults;
 	}
 
 	public ArrayList<ApiNewMovie> getNowPlayingMoviesFromAPI() {
-
 		String command = Utils.NOW_PLAYING_MOVIES_URL;
 		return getMovieListFromApi(command);
 	}
 
 	private ArrayList<ApiNewMovie> getMovieListFromApi(String urlApi) {
 		ArrayList<ApiNewMovie> movies = new ArrayList<>();
-
 		ApiNewMovieResults resultNowPlaying = getPagesForMovies(1, urlApi);
 		movies.addAll(resultNowPlaying.getResults());
 		int i;
 		for (i = 0; i < resultNowPlaying.getTotalPages(); i++) {
 
 		}
-
 		for (int page = 2; page <= resultNowPlaying.getTotalPages(); page++) {
 			resultNowPlaying = getPagesForMovies(page, urlApi);
 			movies.addAll(resultNowPlaying.getResults());
 		}
-
 		return movies;
 
 	}
 
 	private ArrayList<ApiNewShow> getShowListFromApi(String command) {
 		ArrayList<ApiNewShow> shows = new ArrayList<>();
-
 		ApiNewShowResults showResults = getPagesForShows(1, command);
 		shows.addAll(showResults.getResults());
-
 		for (int page = 2; page <= showResults.getTotalPages(); page++) {
 			showResults = getPagesForShows(page, command);
 			shows.addAll(showResults.getResults());
@@ -134,11 +120,8 @@ public class APIClient {
 	public ApiNewShowResults getPagesForShows(int page, String typeOfShowUrl) {
 		StringBuilder url = new StringBuilder(typeOfShowUrl).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL)
 				.append(Utils.NUMBER_PAGE_FOR_URL).append(Integer.toString(page));
-
 		String resultJson = getResultFromTMDB(url.toString());
-
 		ApiNewShowResults showResults = new Gson().fromJson(resultJson, ApiNewShowResults.class);
-
 		return showResults;
 	}
 

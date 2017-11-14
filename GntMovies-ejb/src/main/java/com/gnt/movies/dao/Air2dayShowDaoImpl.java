@@ -1,5 +1,6 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -45,8 +46,8 @@ public class Air2dayShowDaoImpl extends AbstractDao implements Air2dayShowDao {
 	}
 
 	@Override
-	public List<Air2dayShow> findAll(DataProviderHolder dataProviderHolder) {
-		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_FIND_ALL).getResultList();
+	public ArrayList<Air2dayShow> findAll(DataProviderHolder dataProviderHolder) {
+		return (ArrayList<Air2dayShow>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_FIND_ALL).getResultList();
 	}
 
 	@Override

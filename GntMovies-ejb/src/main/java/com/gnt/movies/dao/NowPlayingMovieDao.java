@@ -1,7 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 import com.gnt.movies.entities.NowPlayingMovie;
 
@@ -12,7 +12,7 @@ public interface NowPlayingMovieDao {
 	NowPlayingMovie findNowPlayingMovieById(DataProviderHolder dataProviderHolder, Integer id);
 	NowPlayingMovie findNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
 	NowPlayingMovie findNowPlayingMovieByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
-	List<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder);
+	ArrayList<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder);
 	HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder);
 	void deleteNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
 }

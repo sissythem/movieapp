@@ -14,9 +14,11 @@ import com.gnt.movies.dao.MovieDao;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.MovieGenre;
+import com.gnt.movies.entities.MovieImage;
 import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -41,10 +43,12 @@ public class MovieBean implements DataProviderHolder{
 	@EJB
 	MovieGenreBean movieGenreBean;
 	
+	@EJB
+	MovieImageBean movieImageBean;
+	
 	APIClient apiClient = new APIClient();
 	
     public MovieBean() {
-    	
     }
 
 	@Override
@@ -61,7 +65,7 @@ public class MovieBean implements DataProviderHolder{
 				upcomingMovie.getOverview(), upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount());
 	}
 	
-	public void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
+	private void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
 		movie.setBudget(movieDetails.getBudget());
 		movie.setHomepage(movieDetails.getHomepage());
 		movie.setProductionCountries(movieDetails.getProductionCountriesAPI().toString());
@@ -73,14 +77,17 @@ public class MovieBean implements DataProviderHolder{
 		Gson gson = new Gson();
 		movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
 		movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
-		
+		movieDetails.setAllImages(movieDetails.getApiImages());
 		for (ApiGenre apiGenre : movieDetails.getGenresAPI()) {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
 			MovieGenre movieGenre = new MovieGenre(movie,genre);
 			movie.addMovieGenre(movieGenre);
 		}
 		
-		
+		for(ApiPostersBackdrops apiImage : movieDetails.getAllImages()) {
+			MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
+			movie.addMovieImage(movieImage);
+		}
 	}
 	
 	public Movie addNewMovie(ApiNewMovie movieApi) {
@@ -95,16 +102,16 @@ public class MovieBean implements DataProviderHolder{
 		for (MovieGenre movieGenre : movie.getMovieGenres()) {
 			movieGenreBean.addMovieGenre(movieGenre);
 		}
+		for(MovieImage movieImage : movie.getMovieImages()) {
+			movieImageBean.addMovieImage(movieImage);
+		}
 		return movie;
 	}
 	
-	public Movie getMovieFromNowPlayingMovie(ApiNewMovie apiNewMovie) {
-		
+	public Movie getMovie(ApiNewMovie apiNewMovie) {
 		Movie movie = findMovieByIdTmdb(apiNewMovie.getId());
-		
 		if(movie == null)
 			movie = addNewMovie(apiNewMovie);
-		
 		return	movie;
 		
 	}

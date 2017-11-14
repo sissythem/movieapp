@@ -16,17 +16,16 @@ import com.gnt.movies.dao.ShowDao;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.ShowGenre;
+import com.gnt.movies.entities.ShowImage;
 import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 import com.google.gson.Gson;
 
-/**
- * Session Bean implementation class ShowBean
- */
 @Stateless
 @LocalBean
 public class ShowBean implements DataProviderHolder{
@@ -47,6 +46,9 @@ public class ShowBean implements DataProviderHolder{
 	@EJB
 	ShowGenreBean showGenreBean;
 	
+	@EJB
+	ShowImageBean showImageBean;
+	
 	APIClient apiClient = new APIClient();
 	
     public ShowBean() {
@@ -64,7 +66,7 @@ public class ShowBean implements DataProviderHolder{
     			apiNewShow.getVoteCount());
     }
 
-    public void updateShowWithDetails(Show show, ApiShowDetails showDetails) {
+    private void updateShowWithDetails(Show show, ApiShowDetails showDetails) {
     	Gson gson = new Gson();
     	show.setCreatedBy(gson.toJson(showDetails.getCreatedBy()));
     	show.setHomepage(showDetails.getHomepage());
@@ -84,12 +86,17 @@ public class ShowBean implements DataProviderHolder{
     	show.setType(showDetails.getType());
     	show.setCast(gson.toJson(showDetails.getCast()));
     	show.setCrew(gson.toJson(showDetails.getCrew()));
-    	
+    	showDetails.setAllImages(showDetails.getApiImages());
     	for (ApiGenre apiGenre : showDetails.getGenresAPI()) {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
 			ShowGenre showGenre = new ShowGenre(show,genre);
 			show.addShowGenre(showGenre);
 		}
+    	
+    	for (ApiPostersBackdrops apiImage : showDetails.getAllImages()) {
+    		ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
+    		show.addShowImage(showImage);
+    	}
 	}
     
     public Show addNewShow(ApiNewShow showApi) {
@@ -104,16 +111,16 @@ public class ShowBean implements DataProviderHolder{
 		for (ShowGenre showGenre : show.getShowGenres()) {
 			showGenreBean.addShowGenre(showGenre);
 		}
+		for (ShowImage showImage : show.getShowImages()) {
+			showImageBean.addShowImage(showImage);
+		}
 		return show;
     }
     
     public Show getShow(ApiNewShow apiNewShow) {
-    	
     	Show show = findShowByIdTmdb(apiNewShow.getId());
-    	
     	if (show == null)
     		show = addNewShow(apiNewShow);
-    	
     	return show;
     }
     

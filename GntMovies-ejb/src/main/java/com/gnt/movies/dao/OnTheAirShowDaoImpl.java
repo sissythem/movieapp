@@ -46,8 +46,8 @@ public class OnTheAirShowDaoImpl extends AbstractDao implements OnTheAirShowDao 
 	}
 
 	@Override
-	public List<OnTheAirShow> findAll(DataProviderHolder dataProviderHolder) {
-		return dataProviderHolder.getEntityManager().createNamedQuery(Utils.ON_THE_AIR_SHOW_FIND_ALL).getResultList();
+	public ArrayList<OnTheAirShow> findAll(DataProviderHolder dataProviderHolder) {
+		return (ArrayList<OnTheAirShow>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.ON_THE_AIR_SHOW_FIND_ALL).getResultList();
 	}
 
 	@Override

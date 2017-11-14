@@ -29,7 +29,6 @@ import java.util.List;
         @NamedQuery(name = "Movie.findByVoteAverage", query = "SELECT m FROM Movie m WHERE m.voteAverage = :voteAverage"),
         @NamedQuery(name = "Movie.findByVoteCount", query = "SELECT m FROM Movie m WHERE m.voteCount = :voteCount"),
         @NamedQuery(name = "Movie.findByOriginalLanguage", query = "SELECT m FROM Movie m WHERE m.originalLanguage = :originalLanguage"),
-        @NamedQuery(name = "Movie.findByCreator", query = "SELECT m FROM Movie m WHERE m.creator = :creator"),
         @NamedQuery(name = "Movie.findByProductionCountries", query = "SELECT m FROM Movie m WHERE m.productionCountries = :productionCountries"),
         @NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
         @NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId")
@@ -47,8 +46,6 @@ public class Movie implements Serializable {
 
     @Lob
     private String cast;
-
-    private String creator;
 
     @Lob
     private String crew;
@@ -86,6 +83,9 @@ public class Movie implements Serializable {
     
     @OneToMany(mappedBy="movie")
     private List<MovieGenre> movieGenres;
+    
+    @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
+    private List<MovieImage> movieImages;
 
     @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
     private List<MovieFavorite> movieFavorites;
@@ -115,6 +115,7 @@ public class Movie implements Serializable {
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
 		this.movieGenres = new ArrayList<>();
+		this.movieImages = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -147,14 +148,6 @@ public class Movie implements Serializable {
 
     public void setCast(String cast) {
         this.cast = cast;
-    }
-
-    public String getCreator() {
-        return this.creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
     }
 
     public String getCrew() {
@@ -365,6 +358,28 @@ public class Movie implements Serializable {
 
     public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
         this.upcomingMovie = upcomingMovie;
+    }
+    
+    public List<MovieImage> getMovieImages() {
+        return this.movieImages;
+    }
+
+    public void setMovieImages(List<MovieImage> movieImages) {
+        this.movieImages = movieImages;
+    }
+
+    public MovieImage addMovieImage(MovieImage movieImage) {
+        getMovieImages().add(movieImage);
+        movieImage.setMovie(this);
+
+        return movieImage;
+    }
+
+    public MovieImage removeMovieImages(MovieImage movieImage) {
+        getMovieImages().remove(movieImage);
+        movieImage.setMovie(null);
+
+        return movieImage;
     }
     
     /** Count our average rating based on ratings and comments only in our app **/
