@@ -32,6 +32,15 @@ public class MovieImage implements Serializable{
 	@ManyToOne
     @JoinColumn(name="movieId")
     private Movie movie;
+	
+	public MovieImage() {
+		
+	}
+	
+	public MovieImage(Movie movie, String path) {
+		this.movie=movie;
+		this.imagePath=path;
+	}
 
 	public int getId() {
 		return id;
