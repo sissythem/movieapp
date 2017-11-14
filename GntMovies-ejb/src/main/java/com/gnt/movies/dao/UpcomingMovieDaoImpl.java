@@ -59,7 +59,7 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 
 	@Override
 	public void deleteUpcomingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_DELETE_BY_IDTMDB).setParameter("idTmdb", idTmdb).executeUpdate();//.getResultList();
+		dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_DELETE_BY_IDTMDB).setParameter("idTmdb", idTmdb).executeUpdate();
 	}
 	
 }

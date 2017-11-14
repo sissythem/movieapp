@@ -80,7 +80,6 @@ public class SchedulerBean implements DataProviderHolder {
 		if(flag)
 			return;
 		flag=true;
-		
 		logger.info("Scheduler checking for now playing movies");
 		nowPlayingMovieBean.findAllIdTmdb();
 		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = apiClient.getNowPlayingMoviesFromAPI();
