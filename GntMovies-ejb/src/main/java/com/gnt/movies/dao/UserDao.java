@@ -1,6 +1,6 @@
 package com.gnt.movies.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.gnt.movies.entities.User;
 
@@ -14,7 +14,7 @@ public interface UserDao {
 	User findUserByUsername(DataProviderHolder dataProviderHolder, String username);
 	User findUserByEmail(DataProviderHolder dataProviderHolder, String email);
 	User findUserByPassword(DataProviderHolder dataProviderHolder, String password);
-	List<User> findByAge(DataProviderHolder dataProviderHolder, int age);
+	ArrayList<User> findByAge(DataProviderHolder dataProviderHolder, int age);
 	boolean checkCredentials(DataProviderHolder dataProviderHolder, String username, String password);
 	boolean checkToken(DataProviderHolder dataProviderHolder, String token);
 }

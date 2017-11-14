@@ -1,6 +1,6 @@
 package com.gnt.movies.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.gnt.movies.entities.ShowFavorite;
 
@@ -9,7 +9,7 @@ public interface ShowFavoriteDao {
 	void updateShowFavorite(DataProviderHolder dataProviderHolder, ShowFavorite showFavorite);
 	void deleteShowFavorite(DataProviderHolder dataProviderHolder, ShowFavorite showFavorite);
 	ShowFavorite findShowFavoriteById(DataProviderHolder dataProviderHolder, Integer id);
-	List<ShowFavorite> findShowFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId);
-	List<ShowFavorite> findShowFavoriteByShowId(DataProviderHolder dataProviderHolder, Integer showId);
+	ArrayList<ShowFavorite> findShowFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId);
+	ArrayList<ShowFavorite> findShowFavoriteByShowId(DataProviderHolder dataProviderHolder, Integer showId);
 }
 

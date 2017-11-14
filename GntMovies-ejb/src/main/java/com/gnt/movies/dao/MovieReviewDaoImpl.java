@@ -1,11 +1,9 @@
 package com.gnt.movies.dao;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
-import javax.persistence.Query;
 
 import com.gnt.movies.entities.MovieReview;
 import com.gnt.movies.utilities.Utils;
@@ -36,29 +34,23 @@ public class MovieReviewDaoImpl extends AbstractDao implements MovieReviewDao {
 	}
 
 	@Override
-	public List<MovieReview> findMovieReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
-		List<MovieReview> movieReviews = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_USER_ID);
-		query.setParameter("userId", userId);
-		movieReviews = query.getResultList();
-		return movieReviews;
+	public ArrayList<MovieReview> findMovieReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
+		return (ArrayList<MovieReview>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_USER_ID)
+				.setParameter("userId", userId).getResultList();
 	}
 
 	@Override
-	public List<MovieReview> findMovieReviewByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		List<MovieReview> movieReviews = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_MOVIE_ID);
-		query.setParameter("movieId", movieId);
-		movieReviews = query.getResultList();
-		return movieReviews;
+	public ArrayList<MovieReview> findMovieReviewByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
+		return (ArrayList<MovieReview>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_MOVIE_ID)
+				.setParameter("movieId", movieId).getResultList();
 	}
 	
 	@Override
 	public MovieReview findMovieReview(DataProviderHolder dataProviderHolder, Integer movieId, Integer userId){
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW);
-		query.setParameter(1, movieId);
-		query.setParameter(2, userId);
-		return (MovieReview) query.getSingleResult();
+		return (MovieReview) dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW)
+				.setParameter(1, movieId)
+				.setParameter(2, userId)
+				.getSingleResult();
 		
 	}
 

@@ -17,8 +17,6 @@ import com.gnt.movies.dao.Air2dayShowDao;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.entities.Air2dayShow;
-import com.gnt.movies.entities.Movie;
-import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.Logger;

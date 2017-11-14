@@ -1,6 +1,6 @@
 package com.gnt.movies.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.gnt.movies.entities.ShowReview;
 
@@ -9,7 +9,7 @@ public interface ShowReviewDao {
 	void updateShowReview(DataProviderHolder dataProviderHolder, ShowReview showReview);
 	void deleteShowReview(DataProviderHolder dataProviderHolder, ShowReview showReview);
 	ShowReview findShowReviewById(DataProviderHolder dataProviderHolder, Integer id);
-	List<ShowReview> findShowReviewByShowId(DataProviderHolder dataProviderHolder, Integer showId);
-	List<ShowReview> findShowReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId);
-	List<ShowReview> findShowReviewByRating(DataProviderHolder dataProviderHolder, double rating);
+	ArrayList<ShowReview> findShowReviewByShowId(DataProviderHolder dataProviderHolder, Integer showId);
+	ArrayList<ShowReview> findShowReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId);
+	ArrayList<ShowReview> findShowReviewByRating(DataProviderHolder dataProviderHolder, double rating);
 }

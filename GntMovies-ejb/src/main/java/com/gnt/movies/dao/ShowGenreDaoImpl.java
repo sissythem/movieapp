@@ -1,11 +1,9 @@
 package com.gnt.movies.dao;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
-import javax.persistence.Query;
 
 import com.gnt.movies.entities.ShowGenre;
 import com.gnt.movies.utilities.Utils;
@@ -36,21 +34,15 @@ public class ShowGenreDaoImpl extends AbstractDao implements ShowGenreDao {
 	}
 	
 	@Override
-	public List<ShowGenre> findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
-		List<ShowGenre> showGenres = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_GENRE_FIND_BY_SHOW_ID);
-		query.setParameter("showId", showId);
-		showGenres = query.getResultList();
-		return showGenres;
+	public ArrayList<ShowGenre> findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
+		return (ArrayList<ShowGenre>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_GENRE_FIND_BY_SHOW_ID)
+				.setParameter("showId", showId).getResultList();
 	}
 	
 	@Override
-	public List<ShowGenre> findByGenreId(DataProviderHolder dataProviderHolder, Integer genreId) {
-		List<ShowGenre> showGenres = new ArrayList<>();
-		Query query = dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_GENRE_FIND_BY_GENRE_ID);
-		query.setParameter("genreId", genreId);
-		showGenres = query.getResultList();
-		return showGenres;
+	public ArrayList<ShowGenre> findByGenreId(DataProviderHolder dataProviderHolder, Integer genreId) {
+		return (ArrayList<ShowGenre>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_GENRE_FIND_BY_GENRE_ID)
+				.setParameter("genreId", genreId).getResultList();
 	}
 }
 
