@@ -2,9 +2,15 @@ package com.gnt.movies.dao;
 
 import java.util.ArrayList;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
+
 import com.gnt.movies.entities.MovieImage;
 import com.gnt.movies.utilities.Utils;
 
+@JpaDao
+@Dependent
+@Named("MovieImageDaoImpl")
 public class MovieImageDaoImpl extends AbstractDao implements MovieImageDao {
 
 	@Override

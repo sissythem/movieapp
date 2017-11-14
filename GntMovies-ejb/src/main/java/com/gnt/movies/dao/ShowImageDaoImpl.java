@@ -2,9 +2,15 @@ package com.gnt.movies.dao;
 
 import java.util.ArrayList;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
+
 import com.gnt.movies.entities.ShowImage;
 import com.gnt.movies.utilities.Utils;
 
+@JpaDao
+@Dependent
+@Named("ShowImageDaoImpl")
 public class ShowImageDaoImpl extends AbstractDao implements ShowImageDao {
 
 	@Override
