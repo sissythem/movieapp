@@ -73,12 +73,16 @@ public class Utils
 	public static String AIR2DAY_SHOW_FIND_BY_ID = "Air2dayShow.findById";
 	public static String AIR2DAY_SHOW_FIND_BY_IDTMDB_ID = "Air2dayShow.findByIdTmdb";
 	public static String AIR2DAY_SHOW_FIND_ALL = "Air2dayShow.findAll";
+	public static String AIR2DAY_SHOW_GET_ALL_IDTMDB = "Air2dayShow.getAllIdTmdb";
+	public static String AIR2DAY_SHOW_DELETE_BY_IDTMDB = "Air2dayShow.deleteByIdTmdb";
 	
 	/** On the air show named queries**/
 	public static String ON_THE_AIR_SHOW_FIND_BY_ID = "OnTheAirShow.findById";
 	public static String ON_THE_AIR_SHOW_FIND_BY_IDTMDB = "OnTheAirShow.findByIdTmdb";
 	public static String ON_THE_AIR_SHOW_FIND_BY_SHOW_ID = "OnTheAirShow.findByShowId";
 	public static String ON_THE_AIR_SHOW_FIND_ALL = "OnTheAirShow.findAll";
+	public static String ON_THE_AIR_GET_ALL_IDTMDB = "Air2dayShow.getAllIdTmdb";
+	public static String ON_THE_AIR_DELETE_BY_IDTMDB = "Air2dayShow.deleteByIdTmdb";
 	
 	/** Movie named queries**/
 	public static String MOVIE_FIND_BY_ID = "Movie.findById";
