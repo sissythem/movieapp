@@ -51,6 +51,9 @@ public class ApiShowDetails {
 	@SerializedName("vote_count")
 	private int voteCount;
 	
+	private ArrayList<ApiCastCrew> cast;
+	private ArrayList<ApiCastCrew> crew;
+	
 	public ArrayList<ApiCreator> getCreatedBy() {
 		return createdBy;
 	}
@@ -182,5 +185,20 @@ public class ApiShowDetails {
 	}
 	public void setVoteCount(int voteCount) {
 		this.voteCount = voteCount;
+	}
+	public ArrayList<ApiCastCrew> getCast() {
+		return cast;
+	}
+
+	public void setCast(ArrayList<ApiCastCrew> cast) {
+		this.cast = cast;
+	}
+
+	public ArrayList<ApiCastCrew> getCrew() {
+		return crew;
+	}
+
+	public void setCrew(ArrayList<ApiCastCrew> crew) {
+		this.crew = crew;
 	}
 }
