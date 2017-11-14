@@ -44,18 +44,6 @@ public class APIClient {
 	/** Get new Movies and Shows from API **/
 	public ArrayList<ApiNewMovie> getUpcomingMoviesFromAPI() {
 		String command = Utils.UPCOMING_MOVIES_URL;
-/*		ArrayList<ApiNewMovie> newUpcomingMovies = new ArrayList<>();
-
-		ApiNewMovieResults upcomingNowPlayingMovieResults = getPagesForMovies(1, Utils.UPCOMING_MOVIES_URL);
-		newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
-
-		for (int page = 2; page <= upcomingNowPlayingMovieResults.getTotalPages(); page++) {
-			// thread
-			upcomingNowPlayingMovieResults = getPagesForMovies(page, Utils.UPCOMING_MOVIES_URL);
-			newUpcomingMovies.addAll(upcomingNowPlayingMovieResults.getResults());
-		}
-
-		return newUpcomingMovies;*/
 		return getMovieListFromApi(command);
 	}
 
@@ -103,17 +91,6 @@ public class APIClient {
 	public ArrayList<ApiNewMovie> getNowPlayingMoviesFromAPI() {
 
 		String command = Utils.NOW_PLAYING_MOVIES_URL;
-/*		getMovieListFromApi(command);
-		ArrayList<ApiNewMovie> newNowPlayingMovies = new ArrayList<>();
-
-		ApiNewMovieResults resultNowPlaying = getPagesForMovies(1, Utils.NOW_PLAYING_MOVIES_URL);
-		newNowPlayingMovies.addAll(resultNowPlaying.getResults());
-
-		for (int page = 2; page <= resultNowPlaying.getTotalPages(); page++) {
-			resultNowPlaying = getPagesForMovies(page, Utils.NOW_PLAYING_MOVIES_URL);
-			newNowPlayingMovies.addAll(resultNowPlaying.getResults());
-		}*/
-
 		return getMovieListFromApi(command);
 	}
 
@@ -131,37 +108,28 @@ public class APIClient {
 		return movies;
 
 	}
-	
-	public ArrayList<ApiNewShow> getAir2dayShowsFromAPI() {
-		ArrayList<ApiNewShow> air2dayShows = new ArrayList<>();
+	private ArrayList<ApiNewShow> getShowListFromApi(String command) {
+		ArrayList<ApiNewShow> shows = new ArrayList<>();
 
-		ApiNewShowResults showResults = getPagesForShows(1, Utils.AIR2DAY_SHOWS_URL);
-		air2dayShows.addAll(showResults.getResults());
+		ApiNewShowResults showResults = getPagesForShows(1, command);
+		shows.addAll(showResults.getResults());
 
 		for (int page = 2; page <= showResults.getTotalPages(); page++) {
-
-			showResults = getPagesForShows(page, Utils.AIR2DAY_SHOWS_URL);
-
-			air2dayShows.addAll(showResults.getResults());
+			showResults= getPagesForShows(page, command);
+			shows.addAll(showResults.getResults());
 		}
+		
+		return shows;
 
-		return air2dayShows;
+	}
+	public ArrayList<ApiNewShow> getAir2dayShowsFromAPI() {
+		String command = Utils.AIR2DAY_SHOWS_URL;
+		return getShowListFromApi(command);
 	}
 
 	public ArrayList<ApiNewShow> getOnTheAirShowsFromAPI() {
-		ArrayList<ApiNewShow> onTheAirShows = new ArrayList<>();
-
-		ApiNewShowResults apiNewShowResults = getPagesForShows(1, Utils.ON_THE_AIR_SHOWS_URL);
-		onTheAirShows.addAll(apiNewShowResults.getResults());
-
-		for (int page = 2; page <= apiNewShowResults.getTotalPages(); page++) {
-
-			apiNewShowResults = getPagesForShows(page, Utils.ON_THE_AIR_SHOWS_URL);
-
-			onTheAirShows.addAll(apiNewShowResults.getResults());
-		}
-
-		return onTheAirShows;
+		String command = Utils.ON_THE_AIR_SHOWS_URL;
+		return getShowListFromApi(command);
 	}
 
 	public ApiShowDetails getShowDetailsFromAPI(int id) {
