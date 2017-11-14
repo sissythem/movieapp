@@ -103,7 +103,7 @@ public class Movie implements Serializable {
     }
 
     public Movie(byte adult, int idTmdb, String releaseDate, String originalLanguage, String originalTitle, String overview, String title, double voteAverage, 
-    		int voteCount) {
+    		int voteCount, String posterPath) {
 		super();
 		this.adult = adult;
 		this.idTmdb = idTmdb;
@@ -114,6 +114,7 @@ public class Movie implements Serializable {
 		this.title = title;
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
+		this.posterPath = posterPath;
 		this.movieGenres = new ArrayList<>();
 		this.movieImages = new ArrayList<>();
 	}

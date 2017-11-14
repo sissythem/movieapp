@@ -125,7 +125,7 @@ public class Show implements Serializable {
     }
 
     public Show(String firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
-			String originCountries, String overview, double voteAverage, int voteCount) {
+			String originCountries, String overview, double voteAverage, int voteCount, String posterPath) {
 		super();
 		if(firstAirDate.length()>0) {
 			this.firstAirDate = LocalDate.parse(firstAirDate);
@@ -138,6 +138,7 @@ public class Show implements Serializable {
 		this.overview = overview;
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
+		this.posterPath = posterPath;
 		this.showGenres = new ArrayList<>();
 		this.showImages = new ArrayList<>();
 	}

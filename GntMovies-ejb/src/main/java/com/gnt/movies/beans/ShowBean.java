@@ -63,7 +63,7 @@ public class ShowBean implements DataProviderHolder{
     	
     	return new Show(apiNewShow.getFirstAirDate(), apiNewShow.getId(), apiNewShow.getName(), apiNewShow.getOriginalLanguage(),
     			apiNewShow.getOriginalName(), apiNewShow.getOriginCountry().toString(), apiNewShow.getOverview(), apiNewShow.getVoteAverage(),
-    			apiNewShow.getVoteCount());
+    			apiNewShow.getVoteCount(), apiNewShow.getPoster_path());
     }
 
     private void updateShowWithDetails(Show show, ApiShowDetails showDetails) {

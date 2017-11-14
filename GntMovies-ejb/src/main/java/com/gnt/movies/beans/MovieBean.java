@@ -62,7 +62,7 @@ public class MovieBean implements DataProviderHolder{
     	if(upcomingMovie.isAdult()) adult=1;
     	else adult=0;
 		return new Movie(adult, upcomingMovie.getId(), upcomingMovie.getReleaseDate(), upcomingMovie.getOriginalLanguage(), upcomingMovie.getOriginalTitle(), 
-				upcomingMovie.getOverview(), upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount());
+				upcomingMovie.getOverview(), upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount(), upcomingMovie.getPoster_path());
 	}
 	
 	private void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
