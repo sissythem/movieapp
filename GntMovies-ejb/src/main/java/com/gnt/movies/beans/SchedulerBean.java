@@ -51,6 +51,8 @@ public class SchedulerBean implements DataProviderHolder {
 	public void update() {
 		getUpcomingMovies();
 		getNowPlayingMovies();
+		getAir2dayShows();
+		getOnTheAirShows();
 	}
 	int i = 1;
 	public void getUpcomingMovies() {
@@ -75,7 +77,6 @@ public class SchedulerBean implements DataProviderHolder {
 		flag = false;
 	}
 	
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=false)
 	public void  getNowPlayingMovies() {
 		if(flag)
 			return;
@@ -94,75 +95,12 @@ public class SchedulerBean implements DataProviderHolder {
 		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
 		flag = false;
 	}
-	/*
-	@Schedule(dayOfWeek = "*", hour = "0")
-	public void checkAir2dayShows() {
-	 	ArrayList<ApiNewShow> apiNewShow = APIClient.getAir2dayShowsFromAPI();
-
-		for (ApiNewShow newShowAPI : apiNewShow) {
- 			if (air2dayShowBean.findAir2dayShowByIdTmdb(newShowAPI.getId()) == null) {
- 				addNewAir2dayShows(newShowAPI);
-	 		}
-		}
-	 }
-
-	public ApiShowDetails updateShowWithDetailsFromAPI(Show show) {
-		ApiShowDetails showDetails =
-	 	APIClient.getShowDetailsFromAPI(show.getIdTmdb());
-		showBean.updateShowWithDetails(show, showDetails);
-		return showDetails;
- 	}
-
-	public void addNewOnTheAirShows(ApiNewShow newShowAPI) {
-		OnTheAirShow newOnTheAirShow = onTheAirShowBean.createOnTheAirShowFromAPI(newShowAPI.getId());
-		Show show;
-		if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
-
-			show = addNewShowWithGenres(newShowAPI);
-
-		} else {
-			show = showBean.findShowByIdTmdb(newShowAPI.getId());
-		}
-		newOnTheAirShow.setShow(show);
-		onTheAirShowBean.addOnTheAirShow(newOnTheAirShow);
-	}
-
-	public void addNewAir2dayShows(ApiNewShow newShowAPI) {
-		Air2dayShow newAir2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShowAPI.getId());
-		Show show;
-		if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
-			show = addNewShowWithGenres(newShowAPI);
-
-		} else {
-			show = showBean.findShowByIdTmdb(newShowAPI.getId());
-		}
-		newAir2dayShow.setShow(show);
-		air2dayShowBean.addAir2DayShow(newAir2dayShow);
-	}
-
-	public Show addNewShowWithGenres(ApiNewShow newShowAPI) {
-		Show newShow = showBean.createShowFromAPI(newShowAPI);
-		ApiShowDetails showDetails = updateShowWithDetailsFromAPI(newShow);
-		addShowGenres(showDetails);
-		showBean.addShow(newShow);
-		newShow.setId(showBean.findShowByIdTmdb(newShow.getIdTmdb()).getId());
-		return newShow;
-	}
-
-	 public void addShowGenres(ApiShowDetails showDetails) {
-	 ArrayList<ApiGenre> apiGenres = showDetails.getGenresAPI();
 	
-	 for (ApiGenre genreAPI : apiGenres) {
-	 if (genreBean.findGenreByName(genreAPI.getName()) == null) {
-	
-	 Genre genre = new Genre(genreAPI.getName());
-	 genreBean.addGenre(genre);
-	 }
-	 Show show = showBean.findShowByIdTmdb(showDetails.getId());
-	 Genre genre = genreBean.findGenreByName(genreAPI.getName());
-	 ShowGenre showGenre = new ShowGenre(show, genre);
-	 showGenreBean.addShowGenre(showGenre);
-	 }
+	public void getOnTheAirShows() {
+		
 	}
-*/
+	
+	public void getAir2dayShows() {
+		
+	}
 }
