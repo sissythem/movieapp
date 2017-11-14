@@ -86,19 +86,14 @@ public class ShowBean implements DataProviderHolder{
     	show.setType(showDetails.getType());
     	show.setCast(gson.toJson(showDetails.getCast()));
     	show.setCrew(gson.toJson(showDetails.getCrew()));
-    	
+    	showDetails.setAllImages(showDetails.getApiImages());
     	for (ApiGenre apiGenre : showDetails.getGenresAPI()) {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
 			ShowGenre showGenre = new ShowGenre(show,genre);
 			show.addShowGenre(showGenre);
 		}
     	
-    	for (ApiPostersBackdrops apiImage : showDetails.getApiImages().getApiBackdrops()) {
-    		ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
-    		show.addShowImage(showImage);
-    	}
-    	
-    	for (ApiPostersBackdrops apiImage : showDetails.getApiImages().getApiPosters()) {
+    	for (ApiPostersBackdrops apiImage : showDetails.getAllImages()) {
     		ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
     		show.addShowImage(showImage);
     	}
