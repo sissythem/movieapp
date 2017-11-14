@@ -44,6 +44,8 @@ public class ApiMovieDetails {
 	private double voteAverage;
 	@SerializedName("vote_count")
 	private int voteCount;
+	@SerializedName("images")
+	private ArrayList<ApiImages> apiImages;
 	
 	private ArrayList<ApiCastCrew> cast;
 	private ArrayList<ApiCastCrew> crew;
@@ -222,6 +224,14 @@ public class ApiMovieDetails {
 
 	public void setCrew(ArrayList<ApiCastCrew> crew) {
 		this.crew = crew;
+	}
+
+	public ArrayList<ApiImages> getApiImages() {
+		return apiImages;
+	}
+
+	public void setApiImages(ArrayList<ApiImages> apiImages) {
+		this.apiImages = apiImages;
 	}
 
 	@Override
