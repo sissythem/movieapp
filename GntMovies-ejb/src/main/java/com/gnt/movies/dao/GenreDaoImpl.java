@@ -1,7 +1,6 @@
 package com.gnt.movies.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.enterprise.context.Dependent;

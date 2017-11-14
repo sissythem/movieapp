@@ -1,7 +1,9 @@
 package com.gnt.movies.beans;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,11 +25,16 @@ public class Air2dayShowBean implements DataProviderHolder{
 	
 	@PersistenceContext
 	private EntityManager em;
+	
+	static HashSet<Integer> allIdTmdb;
 
 	@Inject
 	@JpaDao
 	@Named("Air2dayShowDaoImpl")
 	Air2dayShowDao air2dayShowDao;
+	
+	@EJB
+	ShowBean showBean;
 	
     public Air2dayShowBean() {
     }
@@ -52,16 +59,18 @@ public class Air2dayShowBean implements DataProviderHolder{
     public ArrayList<Air2dayShow> getAllAir2dayShows() {
     	return (ArrayList<Air2dayShow>) air2dayShowDao.findAll(this);
     }
+    public static HashSet<Integer> getAllIdTmdb() {
+		return allIdTmdb;
+	}
 
 	public void checkAir2dayShowsToBeDeleted(ArrayList<Integer> newIdTmdb) {
 
 		try {
-			ArrayList<Integer> allIdTmdb = (ArrayList<Integer>) air2dayShowDao.getAllIdTmdb(this);
 			for (int i = 0; i < allIdTmdb.size(); i++) {
-				if (!newIdTmdb.contains(allIdTmdb.get(i))){
-					Air2dayShow air2dayShow = air2dayShowDao.findByIdTmdb(this, allIdTmdb.get(i));
-					air2dayShowDao.deleteAir2dayShow(this, air2dayShow);
-				}
+//				if (!newIdTmdb.contains(allIdTmdb.get(i))){
+//					Air2dayShow air2dayShow = air2dayShowDao.findByIdTmdb(this, allIdTmdb.get(i));
+//					air2dayShowDao.deleteAir2dayShow(this, air2dayShow);
+//				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

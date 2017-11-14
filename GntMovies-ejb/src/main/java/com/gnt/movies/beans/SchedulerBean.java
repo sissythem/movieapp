@@ -1,7 +1,6 @@
 package com.gnt.movies.beans;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -11,12 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.gnt.movies.dao.DataProviderHolder;
-import com.gnt.movies.entities.Genre;
-import com.gnt.movies.entities.Movie;
-import com.gnt.movies.entities.MovieGenre;
-import com.gnt.movies.entities.UpcomingMovie;
-import com.gnt.movies.theMovieDB.ApiGenre;
-import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.utilities.APIClient;
 import com.gnt.movies.utilities.Logger;
@@ -41,22 +34,8 @@ public class SchedulerBean implements DataProviderHolder {
 	@EJB
 	private Air2dayShowBean air2dayShowBean;
 
-//	@EJB
-//	MovieBean movieBean;
-//
-//	@EJB
-//	ShowBean showBean;
-//
-//	@EJB
-//	GenreBean genreBean;
-//
-//	@EJB
-//	MovieGenreBean movieGenreBean;
-//
-//	@EJB
-//	ShowGenreBean showGenreBean;
-
 	APIClient apiClient = new APIClient();
+	
 	public SchedulerBean() {
 
 	}
@@ -72,6 +51,8 @@ public class SchedulerBean implements DataProviderHolder {
 	public void update() {
 		getUpcomingMovies();
 		getNowPlayingMovies();
+		getAir2dayShows();
+		getOnTheAirShows();
 	}
 	int i = 1;
 	public void getUpcomingMovies() {
@@ -95,12 +76,11 @@ public class SchedulerBean implements DataProviderHolder {
 		
 		flag = false;
 	}
-
+	
 	public void  getNowPlayingMovies() {
 		if(flag)
 			return;
 		flag=true;
-		
 		logger.info("Scheduler checking for now playing movies");
 		nowPlayingMovieBean.findAllIdTmdb();
 		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = apiClient.getNowPlayingMoviesFromAPI();
@@ -115,129 +95,12 @@ public class SchedulerBean implements DataProviderHolder {
 		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
 		flag = false;
 	}
-	// @Schedule(dayOfWeek = "*", hour = "0")
-	// public void checkNowPlayingMovies() {
-	//
-	// 
-	// ArrayList<Integer> idTmdbs = new ArrayList<>();
-	// for (ApiNewMovie nowPlayingMovieAPI : nowPlayingMoviesAPI) {
-	// if (nowPlayingMovieBean.findMovieByIdTmdb(nowPlayingMovieAPI.getId()) ==
-	// null) {
-	// addNewNowPlayingMovies(nowPlayingMovieAPI);
-	// }
-	// }
-	// nowPlayingMovieBean.checkNowPlayingMoviesToBeDeleted(idTmdbs);
-	// }
-	//
-	// @Schedule(dayOfWeek = "*", hour = "0")
-	// public void checkOnTheAirShow() {
-	//
-	// ArrayList<ApiNewShow> onTheAirShowsAPI = APIClient.getOnTheAirShowsFromAPI();
-	//
-	// for (ApiNewShow onTheAirShowAPI : onTheAirShowsAPI) {
-	// if (onTheAirShowBean.findOnTheAirShowByIdTmdb(onTheAirShowAPI.getId()) ==
-	// null) {
-	// addNewOnTheAirShows(onTheAirShowAPI);
-	// }
-	// }
-	// }
-	//
-	// @Schedule(dayOfWeek = "*", hour = "0")
-	// public void checkAir2dayShows() {
-	//
-	// ArrayList<ApiNewShow> apiNewShow = APIClient.getAir2dayShowsFromAPI();
-	//
-	// for (ApiNewShow newShowAPI : apiNewShow) {
-	// if (air2dayShowBean.findAir2dayShowByIdTmdb(newShowAPI.getId()) == null) {
-	// addNewAir2dayShows(newShowAPI);
-	// }
-	// }
-	// }
-	//
-
-	//
-	// public ApiShowDetails updateShowWithDetailsFromAPI(Show show) {
-	// ApiShowDetails showDetails =
-	// APIClient.getShowDetailsFromAPI(show.getIdTmdb());
-	// showBean.updateShowWithDetails(show, showDetails);
-	// return showDetails;
-	// }
-	//
-
 	
-	//
-	// public Movie addNewMovieWithGenres(ApiNewMovie newMovieAPI) {
-	// logger.info("addNewMovieWithGenres movie with tmdbId=" +
-	// newMovieAPI.getId());
-	// Movie newMovie = movieBean.createMovieFromAPI(newMovieAPI);
-	//
-	// ApiMovieDetails movieDetails = updateMovieWithDetailsFromAPI(newMovie);
-	// movieBean.addMovie(newMovie);
-	// newMovie.setId(movieBean.findMovieByIdTmdb(newMovie.getIdTmdb()).getId());
-	// return newMovie;
-	// }
-
-	/*public void addNewOnTheAirShows(ApiNewShow newShowAPI) {
-		OnTheAirShow newOnTheAirShow = onTheAirShowBean.createOnTheAirShowFromAPI(newShowAPI.getId());
-		Show show;
-		if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
-
-			show = addNewShowWithGenres(newShowAPI);
-
-		} else {
-			show = showBean.findShowByIdTmdb(newShowAPI.getId());
-		}
-		newOnTheAirShow.setShow(show);
-		onTheAirShowBean.addOnTheAirShow(newOnTheAirShow);
+	public void getOnTheAirShows() {
+		
 	}
-
-	public void addNewAir2dayShows(ApiNewShow newShowAPI) {
-		Air2dayShow newAir2dayShow = air2dayShowBean.createAir2dayShowFromAPI(newShowAPI.getId());
-		Show show;
-		if (showBean.findShowByIdTmdb(newShowAPI.getId()) == null) {
-			show = addNewShowWithGenres(newShowAPI);
-
-		} else {
-			show = showBean.findShowByIdTmdb(newShowAPI.getId());
-		}
-		newAir2dayShow.setShow(show);
-		air2dayShowBean.addAir2DayShow(newAir2dayShow);
+	
+	public void getAir2dayShows() {
+		
 	}
-
-	public Show addNewShowWithGenres(ApiNewShow newShowAPI) {
-		Show newShow = showBean.createShowFromAPI(newShowAPI);
-		ApiShowDetails showDetails = updateShowWithDetailsFromAPI(newShow);
-		addShowGenres(showDetails);
-		showBean.addShow(newShow);
-		newShow.setId(showBean.findShowByIdTmdb(newShow.getIdTmdb()).getId());
-		return newShow;
-	}
-
-	public void addMovieGenres(ApiMovieDetails movieDetails, Movie movie) {
-		logger.info("addMovieGenres movie with tmdbId=" + movie.getIdTmdb() + " and id=" + movie.getId());
-		ArrayList<ApiGenre> apiGenre = movieDetails.getGenresAPI();
-		for (ApiGenre genreAPI : apiGenre) {
-			Genre genre = genreBean.findGenreByName(genreAPI.getName());
-			MovieGenre movieGenre = new MovieGenre(movie, genre);
-			movieGenreBean.addMovieGenre(movieGenre);
-		}
-	}*/
-
-	//
-	// public void addShowGenres(ApiShowDetails showDetails) {
-	// ArrayList<ApiGenre> apiGenres = showDetails.getGenresAPI();
-	//
-	// for (ApiGenre genreAPI : apiGenres) {
-	// if (genreBean.findGenreByName(genreAPI.getName()) == null) {
-	//
-	// Genre genre = new Genre(genreAPI.getName());
-	// genreBean.addGenre(genre);
-	// }
-	// Show show = showBean.findShowByIdTmdb(showDetails.getId());
-	// Genre genre = genreBean.findGenreByName(genreAPI.getName());
-	// ShowGenre showGenre = new ShowGenre(show, genre);
-	// showGenreBean.addShowGenre(showGenre);
-	// }
-	// }
-
 }

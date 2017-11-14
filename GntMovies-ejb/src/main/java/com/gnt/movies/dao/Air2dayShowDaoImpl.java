@@ -1,6 +1,7 @@
 package com.gnt.movies.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
@@ -50,16 +51,15 @@ public class Air2dayShowDaoImpl extends AbstractDao implements Air2dayShowDao {
 	}
 
 	@Override
-	public ArrayList<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
+	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
+		HashSet<Integer> set = new HashSet<>();
+		set.addAll((List<Integer>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_GET_ALL_IDTMDB).getResultList());
+		return set;
+	}
 
-		ArrayList<Integer> allIdTmdbAir2dayShow = new ArrayList<>();
-		List<Air2dayShow> allAir2dayShows = new ArrayList<>();
-		allAir2dayShows = findAll(dataProviderHolder);
-		for (Air2dayShow air2dayShow : allAir2dayShows) {
-			allIdTmdbAir2dayShow.add(air2dayShow.getIdTmdb());
-		}
-
-		return allIdTmdbAir2dayShow;
+	@Override
+	public void deleteAir2dayShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
+		dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_DELETE_BY_IDTMDB).setParameter("idTmdb", idTmdb).executeUpdate();
 	}
 
 }

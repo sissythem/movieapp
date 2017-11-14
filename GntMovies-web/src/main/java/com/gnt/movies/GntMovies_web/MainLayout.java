@@ -1,10 +1,7 @@
 package com.gnt.movies.GntMovies_web;
 
-import java.time.LocalDate;
-
 import com.gnt.movies.beans.UserBean;
 import com.gnt.movies.dto.UserSessionDto;
-import com.gnt.movies.entities.User;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;

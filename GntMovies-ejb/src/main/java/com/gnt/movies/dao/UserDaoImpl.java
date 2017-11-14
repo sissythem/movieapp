@@ -6,7 +6,6 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 import com.gnt.movies.entities.User;
 import com.gnt.movies.utilities.Utils;
