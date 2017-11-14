@@ -47,7 +47,7 @@ public class SchedulerBean implements DataProviderHolder {
 
 	private static boolean flag = false;
 	
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=false)
+	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=true)
 	public void update() {
 		getUpcomingMovies();
 		getNowPlayingMovies();
