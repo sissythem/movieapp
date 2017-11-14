@@ -31,8 +31,6 @@ import javax.persistence.Transient;
         @NamedQuery(name = "Show.findByOriginalName", query = "SELECT s FROM Show s WHERE s.originalName = :originalName"),
         @NamedQuery(name = "Show.findByIdTmdb", query = "SELECT s FROM Show s WHERE s.idTmdb = :idTmdb"),
         @NamedQuery(name = "Show.findByHomepage", query = "SELECT s FROM Show s WHERE s.homepage = :homepage"),
-        @NamedQuery(name = "Show.findByBudget", query = "SELECT s FROM Show s WHERE s.budget = :budget"),
-        @NamedQuery(name = "Show.findByRevenue", query = "SELECT s FROM Show s WHERE s.revenue = :revenue"),
         @NamedQuery(name = "Show.findByRuntime", query = "SELECT s FROM Show s WHERE s.runtime = :runtime"),
         @NamedQuery(name = "Show.findByStatus", query = "SELECT s FROM Show s WHERE s.status = :status"),
         @NamedQuery(name = "Show.findByFirstAirDate", query = "SELECT s FROM Show s WHERE s.firstAirDate = :firstAirDate"),
@@ -46,9 +44,7 @@ import javax.persistence.Transient;
         @NamedQuery(name = "Show.findByNetworks", query = "SELECT s FROM Show s WHERE s.networks = :networks"),
         @NamedQuery(name = "Show.findByOriginCountries", query = "SELECT s FROM Show s WHERE s.originCountries = :originCountries"),
         @NamedQuery(name = "Show.findByProductionCountries", query = "SELECT s FROM Show s WHERE s.productionCountries = :productionCountries"),
-        @NamedQuery(name = "Show.findByAdult", query = "SELECT s FROM Show s WHERE s.adult = :adult"),
         @NamedQuery(name = "Show.findByInProduction", query = "SELECT s FROM Show s WHERE s.inProduction = :inProduction"),
-        @NamedQuery(name = "Show.findByImdbId", query = "SELECT s FROM Show s WHERE s.imdbId = :imdbId"),
         @NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type")
 })
 public class Show implements Serializable {
@@ -57,10 +53,6 @@ public class Show implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
-
-    private byte adult;
-
-    private double budget;
 
     @Lob
     private String cast;
@@ -75,8 +67,6 @@ public class Show implements Serializable {
     private String homepage;
 
     private int idTmdb;
-
-    private String imdbId;
 
     private byte inProduction;
 
@@ -102,8 +92,6 @@ public class Show implements Serializable {
     private String posterPath;
 
     private String productionCountries;
-
-    private double revenue;
 
     private int runtime;
 
@@ -133,10 +121,12 @@ public class Show implements Serializable {
     public Show() {
     }
 
-    public Show(LocalDate firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
+    public Show(String firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
 			String originCountries, String overview, double voteAverage, int voteCount) {
 		super();
-		this.firstAirDate = firstAirDate;
+		if(firstAirDate.length()>0) {
+			this.firstAirDate = LocalDate.parse(firstAirDate);
+		}
 		this.idTmdb = idTmdb;
 		this.name = name;
 		this.originalLanguage = originalLanguage;
@@ -148,30 +138,12 @@ public class Show implements Serializable {
 		this.showGenres = new ArrayList<>();
 	}
 
-
-
 	public int getId() {
         return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public byte getAdult() {
-        return this.adult;
-    }
-
-    public void setAdult(byte adult) {
-        this.adult = adult;
-    }
-
-    public double getBudget() {
-        return this.budget;
-    }
-
-    public void setBudget(double budget) {
-        this.budget = budget;
     }
 
     public String getCast() {
@@ -220,14 +192,6 @@ public class Show implements Serializable {
 
     public void setIdTmdb(int idTmdb) {
         this.idTmdb = idTmdb;
-    }
-
-    public String getImdbId() {
-        return this.imdbId;
-    }
-
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
     }
 
     public byte getInProduction() {
@@ -324,14 +288,6 @@ public class Show implements Serializable {
 
     public void setProductionCountries(String productionCountries) {
         this.productionCountries = productionCountries;
-    }
-
-    public double getRevenue() {
-        return this.revenue;
-    }
-
-    public void setRevenue(double revenue) {
-        this.revenue = revenue;
     }
 
     public int getRuntime() {

@@ -52,12 +52,14 @@ public class SchedulerBean implements DataProviderHolder {
 
 	private static boolean flag = false;
 	
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=true)
+	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",persistent=false)
 	public void update() {
-//		getUpcomingMovies();
-//		getNowPlayingMovies();
+		logger.info("Scheduler updating database!");
+		getUpcomingMovies();
+		getNowPlayingMovies();
+		getOnTheAirShows();
 		getAir2dayShows();
-//		getOnTheAirShows();
+		logger.info("Scheduler finished updating database!");
 	}
 	
 	int i = 1;
@@ -109,7 +111,9 @@ public class SchedulerBean implements DataProviderHolder {
 			return;
 		flag=true;
 		logger.info("Scheduler checking for on the air shows");
+		onTheAirShowBean.findAllIdTmdb();
 		ArrayList<ApiNewShow> onTheAirShowsAPI = apiClient.getOnTheAirShowsFromAPI();
+		i=1;
 		for(ApiNewShow newShowApi : onTheAirShowsAPI) {
 			if(i==10) {
 				break;
@@ -117,6 +121,7 @@ public class SchedulerBean implements DataProviderHolder {
 			i++;
 			onTheAirShowBean.checkOnTheAirShow(newShowApi);
 		}
+//		onTheAirShowsAPI.remove(0);
 		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShowsAPI);
 		logger.info("Done checking for on the air shows");
 		flag = false;
