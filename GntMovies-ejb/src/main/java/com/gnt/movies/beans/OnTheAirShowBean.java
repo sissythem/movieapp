@@ -91,11 +91,6 @@ public class OnTheAirShowBean implements DataProviderHolder{
     	addOnTheAirShow(newOnTheAirShow);
     	allIdTmdb.add(newOnTheAirShow.getIdTmdb());
     }
-
-
-	public void removeOldNotOnTheAirShows(ArrayList<ApiNewShow> onTheAirShowsAPI) {
-
-    }
     
     public boolean addOnTheAir(OnTheAirShow onTheAirShow) {
     	try {
@@ -108,7 +103,7 @@ public class OnTheAirShowBean implements DataProviderHolder{
     	}
     }
     
-    public void removeOldNotOnTheAirShow(ArrayList<ApiNewShow> onTheAirShowsAPI) {
+    public void removeOldNotOnTheAirShows(ArrayList<ApiNewShow> onTheAirShowsAPI) {
     	for (ApiNewShow apiNewShow : onTheAirShowsAPI) {
     		allIdTmdb.remove(apiNewShow.getId());
     	}
