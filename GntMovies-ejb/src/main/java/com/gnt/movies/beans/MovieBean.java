@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 @LocalBean
 public class MovieBean implements DataProviderHolder{
 	private static final Logger logger = LoggerFactory.getLogger(MovieBean.class);	
+	
 	@PersistenceContext
 	private EntityManager em;
 
