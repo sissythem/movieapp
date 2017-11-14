@@ -26,7 +26,8 @@ public class Air2dayShow implements Serializable {
 
     private int idTmdb;
 
-    @OneToOne(targetEntity=Show.class,mappedBy="air2dayShow")
+    @OneToOne
+    @JoinColumn(name="showId")
     private Show show;
 
     public Air2dayShow() {

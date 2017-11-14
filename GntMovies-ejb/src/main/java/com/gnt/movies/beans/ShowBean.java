@@ -13,8 +13,11 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.ShowDao;
+import com.gnt.movies.entities.Genre;
+import com.gnt.movies.entities.MovieGenre;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.ShowGenre;
+import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.gnt.movies.utilities.APIClient;
@@ -78,10 +81,16 @@ public class ShowBean implements DataProviderHolder{
     	show.setProductionCountries(showDetails.getProductionCountriesAPI().toString());
     	show.setStatus(showDetails.getStatus());
     	show.setType(showDetails.getType());
+    	
+    	for (ApiGenre apiGenre : showDetails.getGenresAPI()) {
+			Genre genre = genreBean.findGenreByName(apiGenre.getName());
+			ShowGenre showGenre = new ShowGenre(show,genre);
+			show.addShowGenre(showGenre);
+		}
 	}
     
     public Show addNewShow(ApiNewShow showApi) {
-		logger.info("addNewMovieWithGenres movie with tmdbId=" + showApi.getId());
+		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
 		Show show = createShowFromAPI(showApi);
 		
 		ApiShowDetails showDetails = apiClient.getShowDetailsFromAPI(show.getIdTmdb());

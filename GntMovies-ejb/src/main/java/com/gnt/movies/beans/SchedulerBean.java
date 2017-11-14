@@ -1,6 +1,7 @@
 package com.gnt.movies.beans;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -8,6 +9,8 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
@@ -18,6 +21,7 @@ import com.gnt.movies.utilities.LoggerFactory;
 
 @Stateless
 @LocalBean
+@TransactionTimeout(value=1,unit=TimeUnit.HOURS)
 public class SchedulerBean implements DataProviderHolder {
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerBean.class);
 	@PersistenceContext
@@ -50,10 +54,10 @@ public class SchedulerBean implements DataProviderHolder {
 	
 	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",second="*",persistent=true)
 	public void update() {
-		getUpcomingMovies();
-		getNowPlayingMovies();
+//		getUpcomingMovies();
+//		getNowPlayingMovies();
 		getAir2dayShows();
-		getOnTheAirShows();
+//		getOnTheAirShows();
 	}
 	
 	int i = 1;
