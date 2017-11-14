@@ -1,11 +1,8 @@
 package com.gnt.movies.utilities;
 
-import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
