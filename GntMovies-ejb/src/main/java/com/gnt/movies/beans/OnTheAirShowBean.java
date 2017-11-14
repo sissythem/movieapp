@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.OnTheAirShowDao;
-import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.entities.OnTheAirShow;
 
 /**

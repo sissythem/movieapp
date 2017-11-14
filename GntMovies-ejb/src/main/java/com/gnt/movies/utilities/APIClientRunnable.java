@@ -8,7 +8,6 @@ public class APIClientRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		APIClient apiClient= new APIClient();
 		result = apiClient.getResultFromTMDB(url.toString());
 	}

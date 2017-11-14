@@ -1,9 +1,7 @@
 package com.gnt.movies.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.gnt.movies.beans.Air2dayShowBean;
 import com.gnt.movies.entities.Air2dayShow;
 
 public interface Air2dayShowDao {

@@ -1,9 +1,7 @@
 package com.gnt.movies.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.gnt.movies.beans.OnTheAirShowBean;
 import com.gnt.movies.entities.OnTheAirShow;
 
 public interface OnTheAirShowDao {

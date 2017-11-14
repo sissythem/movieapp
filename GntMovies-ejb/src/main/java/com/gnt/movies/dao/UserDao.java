@@ -2,7 +2,6 @@ package com.gnt.movies.dao;
 
 import java.util.List;
 
-import com.gnt.movies.beans.UserBean;
 import com.gnt.movies.entities.User;
 
 public interface UserDao {
