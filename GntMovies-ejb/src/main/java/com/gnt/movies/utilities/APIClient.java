@@ -122,18 +122,39 @@ public class APIClient {
 		return showResults;
 	}
 
+	
 	public ArrayList<ApiNewMovie> getUpcomingMovies() {
 
 		StringBuilder sb = new StringBuilder(Utils.UPCOMING_MOVIES_URL).append(Utils.API_KEY)
 				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
 
-		return getMovies(sb.toString());
+		return (ArrayList<ApiNewMovie>) getPages(sb.toString(), "movie");
 	}
+	public ArrayList<ApiNewMovie> getNowPlayingMovies() {
 
-	public ArrayList<ApiNewMovie> getMovies(String url) {
+		StringBuilder sb = new StringBuilder(Utils.NOW_PLAYING_MOVIES_URL).append(Utils.API_KEY)
+				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
+
+		return (ArrayList<ApiNewMovie>) getPages(sb.toString(), "movie");
+	}
+	public ArrayList<ApiNewShow> getOnTheAirShows() {
+		
+		StringBuilder sb = new StringBuilder(Utils.ON_THE_AIR_SHOWS_URL).append(Utils.API_KEY)
+				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
+		
+		return (ArrayList<ApiNewShow>) getPages(sb.toString(), "show");
+	}
+	public ArrayList<ApiNewShow> getAir2dayShows() {
+		
+		StringBuilder sb = new StringBuilder(Utils.AIR2DAY_SHOWS_URL).append(Utils.API_KEY)
+				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
+		
+		return (ArrayList<ApiNewShow>) getPages(sb.toString(), "show");
+	}
+	
+	public ArrayList<?> getPages(String url, String type) {
 		ArrayList<APIClientRunnable> rs = new ArrayList<>();
 		ArrayList<Thread> ts = new ArrayList<>();
-		ArrayList<ApiNewMovie> movies = new ArrayList<>();
 
 		StringBuilder sb = new StringBuilder(url).append("1");
 		APIClientRunnable r = new APIClientRunnable(sb.toString());
@@ -149,7 +170,14 @@ public class APIClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int pages = new Gson().fromJson(r.getResult(), ApiNewMovieResults.class).getTotalPages();
+		int pages = 0;
+
+		if (type == "movie") {
+			pages = new Gson().fromJson(r.getResult(), ApiNewMovieResults.class).getTotalPages();
+		} else {
+			pages = new Gson().fromJson(r.getResult(), ApiNewShowResults.class).getTotalPages();
+		}
+		//
 		for (int page = 2; page <= pages; page++) {
 			sb = new StringBuilder(url).append(page);
 			r = new APIClientRunnable(sb.toString());
@@ -166,9 +194,20 @@ public class APIClient {
 				e.printStackTrace();
 			}
 		}
-		for (int page = 1; page < pages; page++) {
-			movies.addAll(new Gson().fromJson(rs.get(page).getResult(), ApiNewMovieResults.class).getResults());
+
+		if (type == "movie") {
+			ArrayList<ApiNewMovie> movies = new ArrayList<>();
+			for (int page = 1; page < pages; page++) {
+				movies.addAll(new Gson().fromJson(rs.get(page).getResult(), ApiNewMovieResults.class).getResults());
+			}
+			return movies;
+		} else {
+			ArrayList<ApiNewShow> shows = new ArrayList<>();
+			for (int page = 1; page < pages; page++) {
+				shows.addAll(new Gson().fromJson(rs.get(page).getResult(), ApiNewShowResults.class).getResults());
+			}
+			return shows;
 		}
-		return movies;
+
 	}
 }

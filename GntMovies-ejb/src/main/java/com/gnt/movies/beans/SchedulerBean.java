@@ -55,8 +55,8 @@ public class SchedulerBean implements DataProviderHolder {
 	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",persistent=false)
 	public void update() {
 		logger.info("Scheduler updating database!");
-		getUpcomingMovies();
-//		getNowPlayingMovies();
+//		getUpcomingMovies();
+		getNowPlayingMovies();
 //		getOnTheAirShows();
 //		getAir2dayShows();
 		logger.info("Scheduler finished updating database!");
@@ -94,7 +94,7 @@ public class SchedulerBean implements DataProviderHolder {
 		flag=true;
 		logger.info("Scheduler checking for now playing movies");
 		nowPlayingMovieBean.findAllIdTmdb();
-		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = apiClient.getNowPlayingMoviesFromAPI();
+		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = apiClient.getNowPlayingMovies();
 		i=1;
 		for(ApiNewMovie newMovieApi : nowPlayingMoviesAPI) {
 			if(i==10) {
@@ -115,7 +115,7 @@ public class SchedulerBean implements DataProviderHolder {
 		flag=true;
 		logger.info("Scheduler checking for on the air shows");
 		onTheAirShowBean.findAllIdTmdb();
-		ArrayList<ApiNewShow> onTheAirShowsAPI = apiClient.getOnTheAirShowsFromAPI();
+		ArrayList<ApiNewShow> onTheAirShowsAPI = apiClient.getOnTheAirShows();
 		i=1;
 		for(ApiNewShow newShowApi : onTheAirShowsAPI) {
 			if(i==10) {
@@ -135,7 +135,7 @@ public class SchedulerBean implements DataProviderHolder {
 		flag=true;
 		logger.info("Scheduler checking for air today shows");
 		air2dayShowBean.findAllIdTmdb();
-		ArrayList<ApiNewShow> air2dayShowsAPI = apiClient.getAir2dayShowsFromAPI();
+		ArrayList<ApiNewShow> air2dayShowsAPI = apiClient.getAir2dayShows();
 		i=1;
 		for(ApiNewShow newShowApi : air2dayShowsAPI) {
 			if(i==10) {
