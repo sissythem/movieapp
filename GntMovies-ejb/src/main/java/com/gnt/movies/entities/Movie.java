@@ -49,7 +49,7 @@ public class Movie implements Serializable, Comparable {
 
     @Lob
     private String crew;
-
+    @Lob
     private String homepage;
 
     private int idTmdb;

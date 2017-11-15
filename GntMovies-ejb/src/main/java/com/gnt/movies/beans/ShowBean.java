@@ -49,8 +49,6 @@ public class ShowBean implements DataProviderHolder{
 	@EJB
 	ShowImageBean showImageBean;
 	
-	APIClient apiClient = new APIClient();
-	
     public ShowBean() {
     }
     
@@ -103,7 +101,7 @@ public class ShowBean implements DataProviderHolder{
 		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
 		Show show = createShowFromAPI(showApi);
 		
-		ApiShowDetails showDetails = apiClient.getShowDetailsFromAPI(show.getIdTmdb());
+		ApiShowDetails showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
 		genreBean.updateGenres(showDetails.getGenresAPI());
 		
 		updateShowWithDetails(show, showDetails);

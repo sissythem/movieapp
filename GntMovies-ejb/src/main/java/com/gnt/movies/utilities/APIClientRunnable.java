@@ -7,8 +7,7 @@ public class APIClientRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		APIClient client = new APIClient();
-		result = client.getResultFromTMDB(urlApi);
+		result = APIClient.getResultFromTMDB(urlApi);
 	}
 
 	public APIClientRunnable(String urlApi) {

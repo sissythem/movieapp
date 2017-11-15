@@ -46,8 +46,6 @@ public class MovieBean implements DataProviderHolder{
 	@EJB
 	MovieImageBean movieImageBean;
 	
-	APIClient apiClient = new APIClient();
-	
     public MovieBean() {
     }
 
@@ -94,7 +92,7 @@ public class MovieBean implements DataProviderHolder{
 		logger.info("addNewMovieWithGenres movie with tmdbId=" + movieApi.getId());
 		Movie movie = createMovieFromAPI(movieApi);
 
-		ApiMovieDetails movieDetails = apiClient.getMovieDetailsFromAPI(movie.getIdTmdb());
+		ApiMovieDetails movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
 		genreBean.updateGenres(movieDetails.getGenresAPI());
 
 		updateMovieWithDetails(movie, movieDetails);
