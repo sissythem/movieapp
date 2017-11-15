@@ -1,7 +1,8 @@
 package com.gnt.movies.dao;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
@@ -15,7 +16,7 @@ import com.gnt.movies.utilities.Utils;
 public class GenreDaoImpl extends AbstractDao implements GenreDao {
 
 	@Override
-	public void createGenre(DataProviderHolder dataProviderHolder, Genre genre) {
+	public synchronized void createGenre(DataProviderHolder dataProviderHolder, Genre genre) {
 		createEntity(dataProviderHolder.getEntityManager(), genre);
 	}
 
@@ -40,16 +41,18 @@ public class GenreDaoImpl extends AbstractDao implements GenreDao {
 	}
 
 	@Override
-	public ArrayList<Genre> findAllGenres(DataProviderHolder dataProviderHolder) {
-		return (ArrayList<Genre>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL).getResultList();
+	public List<?> findAllGenres(DataProviderHolder dataProviderHolder) {
+		return  dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL).getResultList();
 	}
 	@Override
-	public HashSet<String> findAllGenreNames(DataProviderHolder dataProviderHolder) {
-		HashSet<String> set = new HashSet<>();
+	public ConcurrentHashMap<Integer,String> findAllGenreNames(DataProviderHolder dataProviderHolder) {
+		ConcurrentHashMap<Integer,String> map = new ConcurrentHashMap<>();
+		Genre g;
 		for (Object obj : dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL_NAMES).getResultList()) {
-			set.add((String)obj);
+			g = (Genre)obj;
+			map.put(g.getId(),g.getName());
 		}
-		return set;
+		return map;
 	}
 
 }

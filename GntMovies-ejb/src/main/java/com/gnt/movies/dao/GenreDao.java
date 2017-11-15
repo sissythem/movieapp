@@ -1,7 +1,7 @@
 package com.gnt.movies.dao;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.gnt.movies.entities.Genre;
 
@@ -11,6 +11,6 @@ public interface GenreDao {
 	void deleteGenre(DataProviderHolder dataProviderHolder, Genre genre);
 	Genre findGenreById(DataProviderHolder dataProviderHolder, Integer id);
 	Genre findGenreByName(DataProviderHolder dataProviderHolder, String name);
-	ArrayList<Genre>findAllGenres(DataProviderHolder dataProviderHolder);
-	HashSet<String>findAllGenreNames(DataProviderHolder dataProviderHolder);
+	List<?> findAllGenres(DataProviderHolder dataProviderHolder);
+	ConcurrentHashMap<Integer,String>findAllGenreNames(DataProviderHolder dataProviderHolder);
 }

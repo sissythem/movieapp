@@ -1,10 +1,13 @@
 package com.gnt.movies.beans;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -38,8 +41,8 @@ public class GenreBean implements DataProviderHolder {
 		return em;
 	}
 	
-	static HashSet<String> genres;
-	
+	static ConcurrentHashMap<String,Genre> genres;
+
     public GenreBean() {
         
     }
@@ -48,40 +51,50 @@ public class GenreBean implements DataProviderHolder {
     	return genreDao.findGenreByName(this, name);
     }
 
-    public void addGenre(Genre genre) {
+    public synchronized void addGenre(Genre genre) {
     	logger.info("addGenre genre with name="+genre.getName());
     	genreDao.createGenre(this, genre);
     }
     
-    public ArrayList<Genre> getAllGenres(){
+    public List<?> getAllGenres(){
     	return genreDao.findAllGenres(this);
     }
 
-	public HashSet<String> getAllGenreNames() {
-		
-		return genreDao.findAllGenreNames(this);
-	}
+//	public synchronized ConcurrentHashMap<Integer,String> getAllGenreNames() {
+//		
+//		return genreDao.findAllGenreNames(this);
+//	}
 	
 	public synchronized void updateGenres(ArrayList<ApiGenre> genresApi) {
-		genres = getAllGenreNames();
-
+		Genre g;
+		for (Object o : getAllGenres()) {
+			g= (Genre)o;
+			genres.put(g.getName(),g);
+		}
+		
 		for (ApiGenre apiGenre : genresApi) {
 			if (!genreExists(apiGenre)) {
-				addGenre(apiGenre);
+				Genre genre = addGenre(apiGenre);
+				genres.put(genre.getName(),genre);
 			}
 		}
 	}
 
-	private boolean genreExists(ApiGenre apiGenre) {
+	private synchronized boolean genreExists(ApiGenre apiGenre) {
 		if (!genres.contains(apiGenre.getName()))
 			return false;
 		else
 			return true;
 	}
 
-	private void addGenre(ApiGenre genreAPI) {
+	//@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	private synchronized Genre addGenre(ApiGenre genreAPI) {
 		Genre genre = new Genre(genreAPI.getName());
 		addGenre(genre);
-		genres.add(genreAPI.getName());
+		return genre;
+	}
+
+	public Genre getGenre(String name) {
+		return genres.get(name);
 	}
 }

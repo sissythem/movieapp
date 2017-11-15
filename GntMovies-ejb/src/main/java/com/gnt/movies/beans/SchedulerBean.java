@@ -55,9 +55,9 @@ public class SchedulerBean implements DataProviderHolder {
 		logger.info("Scheduler updating database!");
 		APIClient.setTimer();
 		getUpcomingMovies();
-		getNowPlayingMovies();
-		getOnTheAirShows();
-		getAir2dayShows();
+//		getNowPlayingMovies();
+//		getOnTheAirShows();
+//		getAir2dayShows();
 		APIClient.unsetTimer();
 		logger.info("Scheduler finished updating database!");
 	}
@@ -73,15 +73,15 @@ public class SchedulerBean implements DataProviderHolder {
 //		ArrayList<ApiNewMovie> upcomingMoviesAPI = apiClient.getUpcomingMoviesFromAPI();
 		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMovies();
 		
-		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
-//			if(i==10) {
-////				break;
-//			}
-//			i++;
-			upcomingMovieBean.checkUpcomingMovie(upcomingMovieAPI);
-//			
-		}
-//		upcomingMoviesAPI.stream().forEach(e->upcomingMovieBean.checkUpcomingMovie(e));
+//		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
+////			if(i==10) {
+//////				break;
+////			}
+////			i++;
+//			upcomingMovieBean.checkUpcomingMovie(upcomingMovieAPI);
+////			
+//		}
+		upcomingMoviesAPI.stream().parallel().forEach(e->upcomingMovieBean.checkUpcomingMovie(e));
 		upcomingMovieBean.removeOldNotUpMovies(upcomingMoviesAPI);
 		logger.info("Done checking for upcomming movies");
 		

@@ -36,12 +36,12 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	@JpaDao
 	@Named("UpcomingMovieDaoImpl")
 	private UpcomingMovieDao upcomingMovieDao;
-	
+
 	@EJB
 	private MovieBean movieBean;
 
-	static HashSet<Integer> allIdTmdb;
-	
+	static volatile HashSet<Integer> allIdTmdb;
+
 	public UpcomingMovieBean() {
 	}
 
@@ -53,47 +53,51 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	public boolean addUpcomingMovie(UpcomingMovie upcomingMovie) {
 		try {
 			upcomingMovieDao.createUpcomingMovie(this, upcomingMovie);
-			logger.info(" upcommingMovie id:"+upcomingMovie.getId());
+			logger.info(" upcommingMovie id:" + upcomingMovie.getId());
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
-	public void findAllIdTmdb (){
-		allIdTmdb =(HashSet<Integer>) upcomingMovieDao.getAllIdTmdb(this);
+
+	public void findAllIdTmdb() {
+		allIdTmdb = (HashSet<Integer>) upcomingMovieDao.getAllIdTmdb(this);
 	}
-	
+
 	public UpcomingMovie findMovieByIdTmdb(Integer id) {
 		return upcomingMovieDao.findByIdTmdb(this, id);
 	}
-	
+
 	public UpcomingMovie createUpcomingMovieFromAPI(ApiNewMovie upcomingMovie) {
-    	return new UpcomingMovie(upcomingMovie.getId());
+		return new UpcomingMovie(upcomingMovie.getId());
 	}
-	
-	public ArrayList<UpcomingMovie> getAllUpcomingMovies(){
+
+	public ArrayList<UpcomingMovie> getAllUpcomingMovies() {
 		return (ArrayList<UpcomingMovie>) upcomingMovieDao.findAll(this);
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
-		if(allIdTmdb.contains(movieAPI.getId()))
+		if (allIdTmdb.contains(movieAPI.getId()))
 			return;
 		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
 		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movieAPI);
-		Movie movie = movieBean.getMovie(movieAPI);
+		Movie movie =null;
+		synchronized (this) {
+			movie = movieBean.getMovie(movieAPI);
+		}
 		upcomingMovie.setMovie(movie);
 		addUpcomingMovie(upcomingMovie);
 		allIdTmdb.add(upcomingMovie.getIdTmdb());
 	}
+
 	public void removeOldNotUpMovies(ArrayList<ApiNewMovie> apiNewMovieArrayList) {
-		
-		for (ApiNewMovie apiNewMovie: apiNewMovieArrayList) {
+
+		for (ApiNewMovie apiNewMovie : apiNewMovieArrayList) {
 			allIdTmdb.remove(apiNewMovie.getId());
 		}
-		
+
 		for (Integer idtmdb : allIdTmdb) {
 			logger.info("removing movie with tmdbId=" + idtmdb);
 			upcomingMovieDao.deleteUpcomingMovieByIdTmdb(this, idtmdb);

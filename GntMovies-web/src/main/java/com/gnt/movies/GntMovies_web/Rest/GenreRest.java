@@ -21,6 +21,6 @@ public class GenreRest {
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Genre> getAllGenres(@HeaderParam("token") String token) {
-		return genreBean.getAllGenres();
+		return (ArrayList<Genre>)genreBean.getAllGenres();
 	}
 }

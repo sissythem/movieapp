@@ -37,11 +37,9 @@ public class MovieGenreBean implements DataProviderHolder {
     public MovieGenreBean() {
     }
     
-    public void addMovieGenre(MovieGenre movieGenre) {
-    	
+    public synchronized void addMovieGenre(MovieGenre movieGenre) {
     	movieGenreDao.createMovieGenre(this, movieGenre);
-    	logger.info("addMovieGenre with movieId="+movieGenre.getMovie().getIdTmdb()+
-    	    	" and genreId="+movieGenre.getGenre().getId());
+//    	logger.info("addMovieGenre "+movieGenre.getGenre().getName()+" with movieId="+movieGenre.getMovie().getIdTmdb());
     }
 
 }
