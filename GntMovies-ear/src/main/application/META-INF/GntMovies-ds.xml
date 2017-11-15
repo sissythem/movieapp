@@ -28,7 +28,7 @@
         <driver>mysql</driver>
         <security>
             <user-name>root</user-name>
-            <password>12345678</password>
+            <password>Gnt2017</password>
         </security>
     </datasource>
 </datasources>
