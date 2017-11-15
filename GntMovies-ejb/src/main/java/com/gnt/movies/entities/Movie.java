@@ -34,7 +34,7 @@ import java.util.List;
         @NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
         @NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId")
 })
-public class Movie implements Serializable, Comparable {
+public class Movie implements Serializable, Comparable<Movie> {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -424,9 +424,9 @@ public class Movie implements Serializable, Comparable {
     
     /** Default compareTo, sorting based on our rating **/
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Movie movie) {
         Double averageRating = this.getAverageRating();
-        Double otherAverageRating = ((Movie) o).getAverageRating();
+        Double otherAverageRating = movie.getAverageRating();
         return  -averageRating.compareTo(otherAverageRating);
     }
     
