@@ -67,4 +67,31 @@ public class MovieListItemDto implements Serializable {
 	public void setVoteCount(int voteCount) {
 		this.voteCount = voteCount;
 	}
+
+	public double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(double averageRating) {
+		this.averageRating = averageRating;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MovieListItemDto [id=");
+		builder.append(id);
+		builder.append(", originalTitle=");
+		builder.append(originalTitle);
+		builder.append(", posterPath=");
+		builder.append(posterPath);
+		builder.append(", voteAverage=");
+		builder.append(voteAverage);
+		builder.append(", voteCount=");
+		builder.append(voteCount);
+		builder.append(", averageRating=");
+		builder.append(averageRating);
+		builder.append("]");
+		return builder.toString();
+	}
 }

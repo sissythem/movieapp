@@ -47,12 +47,12 @@ import javax.persistence.Transient;
         @NamedQuery(name = "Show.findByInProduction", query = "SELECT s FROM Show s WHERE s.inProduction = :inProduction"),
         @NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type")
 })
-public class Show implements Serializable {
+public class Show implements Serializable, Comparable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Lob
     private String cast;
@@ -452,5 +452,48 @@ public class Show implements Serializable {
 
         return showImage;
     }
+    
+    public double getAverageRating(){
+        double rating = 0.0;
+        double averageRating;
+        if(showReviews == null){
+            averageRating=0.0;
+        } else {
+            for(int i=0;i<showReviews.size();i++){
+                rating = rating + ((List<ShowReview>)showReviews).get(i).getRating();
+            }
+            averageRating = rating/showReviews.size();
+        }
+        return averageRating;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (!(object instanceof Movie)) {
+            return false;
+        }
+        Show other = (Show) object;
 
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public int compareTo(Object o) {
+        Double averageRating = this.getAverageRating();
+        Double otherAverageRating = ((Show) o).getAverageRating();
+        return  -averageRating.compareTo(otherAverageRating);
+    }
 }
