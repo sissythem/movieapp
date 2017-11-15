@@ -64,19 +64,19 @@ public class MovieBean implements DataProviderHolder{
 	}
 	
 	private void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
+		Gson gson = new Gson();
 		movie.setBudget(movieDetails.getBudget());
 		movie.setHomepage(movieDetails.getHomepage());
-		movie.setProductionCountries(movieDetails.getProductionCountriesAPI().toString());
+		movie.setProductionCountries(gson.toJson(movieDetails.getApiProductionCountries()));
 		movie.setRevenue(movieDetails.getRevenue());
 		movie.setRuntime(movieDetails.getRuntime());
 		movie.setStatus(movieDetails.getStatus());
 		movie.setTitle(movieDetails.getTitle());
 		movie.setImdbId(movieDetails.getImdbId());
-		Gson gson = new Gson();
 		movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
 		movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
 		movieDetails.setAllImages(movieDetails.getApiImages());
-		for (ApiGenre apiGenre : movieDetails.getGenresAPI()) {
+		for (ApiGenre apiGenre : movieDetails.getApiGenres()) {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
 			MovieGenre movieGenre = new MovieGenre(movie,genre);
 			movie.addMovieGenre(movieGenre);
@@ -93,7 +93,7 @@ public class MovieBean implements DataProviderHolder{
 		Movie movie = createMovieFromAPI(movieApi);
 
 		ApiMovieDetails movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
-		genreBean.updateGenres(movieDetails.getGenresAPI());
+		genreBean.updateGenres(movieDetails.getApiGenres());
 
 		updateMovieWithDetails(movie, movieDetails);
 		addMovie(movie);

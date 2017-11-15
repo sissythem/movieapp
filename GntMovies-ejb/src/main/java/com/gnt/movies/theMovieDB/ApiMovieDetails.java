@@ -67,11 +67,11 @@ public class ApiMovieDetails {
 		this.budget = budget;
 	}
 
-	public ArrayList<ApiGenre> getMovieGenresAPI() {
+	public ArrayList<ApiGenre> getApiMovieGenres() {
 		return apiGenre;
 	}
 
-	public void setMovieGenresAPI(ArrayList<ApiGenre> apiGenre) {
+	public void setApiMovieGenres(ArrayList<ApiGenre> apiGenre) {
 		this.apiGenre = apiGenre;
 	}
 
@@ -123,19 +123,19 @@ public class ApiMovieDetails {
 		this.overview = overview;
 	}
 
-	public ArrayList<ApiProductionCompanies> getProductionCompaniesAPI() {
+	public ArrayList<ApiProductionCompanies> getApiProductionCompanies() {
 		return apiProductionCompanies;
 	}
 
-	public void setProductionCompaniesAPI(ArrayList<ApiProductionCompanies> apiProductionCompanies) {
+	public void setApiProductionCompanies(ArrayList<ApiProductionCompanies> apiProductionCompanies) {
 		this.apiProductionCompanies = apiProductionCompanies;
 	}
 
-	public ArrayList<ApiProductionCountries> getProductionCountriesAPI() {
+	public ArrayList<ApiProductionCountries> getApiProductionCountries() {
 		return apiProductionCountries;
 	}
 
-	public void setProductionCountriesAPI(ArrayList<ApiProductionCountries> apiProductionCountries) {
+	public void setApiProductionCountries(ArrayList<ApiProductionCountries> apiProductionCountries) {
 		this.apiProductionCountries = apiProductionCountries;
 	}
 
@@ -203,11 +203,11 @@ public class ApiMovieDetails {
 		this.voteCount = voteCount;
 	}
 
-	public ArrayList<ApiGenre> getGenresAPI() {
+	public ArrayList<ApiGenre> getApiGenres() {
 		return apiGenre;
 	}
 
-	public void setGenresAPI(ArrayList<ApiGenre> apiGenre) {
+	public void setApiGenres(ArrayList<ApiGenre> apiGenre) {
 		this.apiGenre = apiGenre;
 	}
 
