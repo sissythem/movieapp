@@ -41,29 +41,27 @@ public class APIClient {
 		return getMovieListFromApi(command);
 	}
 
-	public ApiMovieDetails getMovieDetailsFromAPI(int id) {
-
-		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
-				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-
-		String result = getResultFromTMDB(url.toString());
-
-		ApiMovieDetails movieDetails = new Gson().fromJson(result, ApiMovieDetails.class);
-
-		return movieDetails;
+	public ArrayList<ApiNewMovie> getNowPlayingMoviesFromAPI() {
+		String command = Utils.NOW_PLAYING_MOVIES_URL;
+		return getMovieListFromApi(command);
+	}
+	
+	public ArrayList<ApiNewShow> getAir2dayShowsFromAPI() {
+		String command = Utils.AIR2DAY_SHOWS_URL;
+		return getShowListFromApi(command);
 	}
 
+	public ArrayList<ApiNewShow> getOnTheAirShowsFromAPI() {
+		String command = Utils.ON_THE_AIR_SHOWS_URL;
+		return getShowListFromApi(command);
+	}
+	
 	public ApiNewMovieResults getPagesForMovies(int page, String urlApi) {
 		StringBuilder url = new StringBuilder(urlApi).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL)
 				.append(Utils.NUMBER_PAGE_FOR_URL).append(Integer.toString(page));
 		String resultJson = getResultFromTMDB(url.toString());
 		ApiNewMovieResults upcomingNowPlayingMovieResults = new Gson().fromJson(resultJson, ApiNewMovieResults.class);
 		return upcomingNowPlayingMovieResults;
-	}
-
-	public ArrayList<ApiNewMovie> getNowPlayingMoviesFromAPI() {
-		String command = Utils.NOW_PLAYING_MOVIES_URL;
-		return getMovieListFromApi(command);
 	}
 
 	private ArrayList<ApiNewMovie> getMovieListFromApi(String urlApi) {
@@ -79,7 +77,14 @@ public class APIClient {
 			movies.addAll(resultNowPlaying.getResults());
 		}
 		return movies;
-
+	}
+	
+	public ApiNewShowResults getPagesForShows(int page, String typeOfShowUrl) {
+		StringBuilder url = new StringBuilder(typeOfShowUrl).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL)
+				.append(Utils.NUMBER_PAGE_FOR_URL).append(Integer.toString(page));
+		String resultJson = getResultFromTMDB(url.toString());
+		ApiNewShowResults showResults = new Gson().fromJson(resultJson, ApiNewShowResults.class);
+		return showResults;
 	}
 
 	private ArrayList<ApiNewShow> getShowListFromApi(String command) {
@@ -90,19 +95,15 @@ public class APIClient {
 			showResults = getPagesForShows(page, command);
 			shows.addAll(showResults.getResults());
 		}
-
 		return shows;
-
 	}
 
-	public ArrayList<ApiNewShow> getAir2dayShowsFromAPI() {
-		String command = Utils.AIR2DAY_SHOWS_URL;
-		return getShowListFromApi(command);
-	}
-
-	public ArrayList<ApiNewShow> getOnTheAirShowsFromAPI() {
-		String command = Utils.ON_THE_AIR_SHOWS_URL;
-		return getShowListFromApi(command);
+	public ApiMovieDetails getMovieDetailsFromAPI(int id) {
+		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
+				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
+		String result = getResultFromTMDB(url.toString());
+		ApiMovieDetails movieDetails = new Gson().fromJson(result, ApiMovieDetails.class);
+		return movieDetails;
 	}
 
 	public ApiShowDetails getShowDetailsFromAPI(int id) {
@@ -113,16 +114,11 @@ public class APIClient {
 		ApiShowDetails showDetails = new Gson().fromJson(result, ApiShowDetails.class);
 		return showDetails;
 	}
-
-	public ApiNewShowResults getPagesForShows(int page, String typeOfShowUrl) {
-		StringBuilder url = new StringBuilder(typeOfShowUrl).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL)
-				.append(Utils.NUMBER_PAGE_FOR_URL).append(Integer.toString(page));
-		String resultJson = getResultFromTMDB(url.toString());
-		ApiNewShowResults showResults = new Gson().fromJson(resultJson, ApiNewShowResults.class);
-		return showResults;
-	}
-
 	
+	/** ===================================================================================================================== 
+	 * Using threads for getting all pages from API
+	 * **/
+
 	public ArrayList<ApiNewMovie> getUpcomingMovies() {
 
 		StringBuilder sb = new StringBuilder(Utils.UPCOMING_MOVIES_URL).append(Utils.API_KEY)
@@ -167,7 +163,6 @@ public class APIClient {
 		try {
 			t.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		int pages = 0;
@@ -190,7 +185,6 @@ public class APIClient {
 			try {
 				ts.get(page).join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -208,6 +202,5 @@ public class APIClient {
 			}
 			return shows;
 		}
-
 	}
 }

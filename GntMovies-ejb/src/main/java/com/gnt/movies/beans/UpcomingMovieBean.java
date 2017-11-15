@@ -103,6 +103,4 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	public static HashSet<Integer> getAllIdTmdb() {
 		return allIdTmdb;
 	}
-	
-	
 }
