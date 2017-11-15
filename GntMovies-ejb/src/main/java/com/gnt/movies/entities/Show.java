@@ -3,6 +3,7 @@ package com.gnt.movies.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -43,8 +44,9 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "Show.findByOriginCountries", query = "SELECT s FROM Show s WHERE s.originCountries = :originCountries"),
 		@NamedQuery(name = "Show.findByProductionCountries", query = "SELECT s FROM Show s WHERE s.productionCountries = :productionCountries"),
 		@NamedQuery(name = "Show.findByInProduction", query = "SELECT s FROM Show s WHERE s.inProduction = :inProduction"),
-		@NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type") })
-public class Show implements Serializable, Comparable {
+		@NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type") 
+})
+public class Show implements Serializable, Comparable<Show> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -96,7 +98,7 @@ public class Show implements Serializable, Comparable {
 
 	private String type;
 
-	private double voteAverage;
+	private Double voteAverage;
 
 	private int voteCount;
 
@@ -316,7 +318,7 @@ public class Show implements Serializable, Comparable {
 		this.type = type;
 	}
 
-	public double getVoteAverage() {
+	public Double getVoteAverage() {
 		return this.voteAverage;
 	}
 
@@ -487,10 +489,20 @@ public class Show implements Serializable, Comparable {
 		return true;
 	}
 
+	/** Default sorting for shows, based on our rating **/
 	@Override
-	public int compareTo(Object o) {
+	public int compareTo(Show show) {
 		Double averageRating = this.getAverageRating();
-		Double otherAverageRating = ((Show) o).getAverageRating();
+		Double otherAverageRating = show.getAverageRating();
 		return -averageRating.compareTo(otherAverageRating);
 	}
+	/** Compare and sort shows based on vote average of the movie db **/
+	public static Comparator<Show> VoteAverageComparator = new Comparator<Show>() {
+
+        @Override
+        public int compare(Show show1, Show show2) {
+            return show1.getVoteAverage().compareTo(show2.getVoteAverage());
+        }
+    };
+
 }
