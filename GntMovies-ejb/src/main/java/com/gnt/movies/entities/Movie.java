@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -77,7 +78,7 @@ public class Movie implements Serializable, Comparable {
 
     private String title;
 
-    private double voteAverage;
+    private Double voteAverage;
 
     private int voteCount;
     
@@ -263,7 +264,7 @@ public class Movie implements Serializable, Comparable {
         this.title = title;
     }
 
-    public double getVoteAverage() {
+    public Double getVoteAverage() {
         return this.voteAverage;
     }
 
@@ -421,10 +422,20 @@ public class Movie implements Serializable, Comparable {
         return true;
     }
     
+    /** Default compareTo, sorting based on our rating **/
     @Override
     public int compareTo(Object o) {
         Double averageRating = this.getAverageRating();
         Double otherAverageRating = ((Movie) o).getAverageRating();
         return  -averageRating.compareTo(otherAverageRating);
     }
+    
+    /** Compare and sort movies based on vote average of the movie db **/
+	public static Comparator<Movie> VoteAverageComparator = new Comparator<Movie>() {
+
+        @Override
+        public int compare(Movie movie1, Movie movie2) {
+            return movie1.getVoteAverage().compareTo(movie2.getVoteAverage());
+        }
+    };
 }
