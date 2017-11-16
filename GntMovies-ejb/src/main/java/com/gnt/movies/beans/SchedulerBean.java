@@ -1,6 +1,6 @@
 package com.gnt.movies.beans;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 import javax.ejb.EJB;
@@ -16,14 +16,17 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.APIClient;
+import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
 @Stateless
 @LocalBean
 @TransactionTimeout(value=1,unit=TimeUnit.HOURS)
-public class SchedulerBean implements DataProviderHolder {
+public class SchedulerBean implements DataProviderHolder 
+{
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerBean.class);
+	
 	@PersistenceContext
 	private EntityManager em;
 
@@ -55,32 +58,20 @@ public class SchedulerBean implements DataProviderHolder {
 		logger.info("Scheduler updating database!");
 		APIClient.setTimer();
 		getUpcomingMovies();
-//		getNowPlayingMovies();
-//		getOnTheAirShows();
-//		getAir2dayShows();
+		getNowPlayingMovies();
+		getOnTheAirShows();
+		getAir2dayShows();
 		APIClient.unsetTimer();
 		logger.info("Scheduler finished updating database!");
 	}
 	
-	int i = 1;
 	private void getUpcomingMovies() {
 		if(flag)
 			return;
 		flag=true;
 		
 		logger.info("Scheduler checking for upcomming movies");
-		upcomingMovieBean.findAllIdTmdb();
-//		ArrayList<ApiNewMovie> upcomingMoviesAPI = apiClient.getUpcomingMoviesFromAPI();
-		ArrayList<ApiNewMovie> upcomingMoviesAPI = APIClient.getUpcomingMovies();
-		
-//		for (ApiNewMovie upcomingMovieAPI : upcomingMoviesAPI) {
-////			if(i==10) {
-//////				break;
-////			}
-////			i++;
-//			upcomingMovieBean.checkUpcomingMovie(upcomingMovieAPI);
-////			
-//		}
+		HashSet<ApiNewMovie> upcomingMoviesAPI = ApiCalls.getUpcomingMovies();
 		upcomingMoviesAPI.stream().parallel().forEach(e->upcomingMovieBean.checkUpcomingMovie(e));
 		upcomingMovieBean.removeOldNotUpMovies(upcomingMoviesAPI);
 		logger.info("Done checking for upcomming movies");
@@ -93,16 +84,8 @@ public class SchedulerBean implements DataProviderHolder {
 			return;
 		flag=true;
 		logger.info("Scheduler checking for now playing movies");
-		nowPlayingMovieBean.findAllIdTmdb();
-		ArrayList<ApiNewMovie> nowPlayingMoviesAPI = APIClient.getNowPlayingMovies();
-		i=1;
-		for(ApiNewMovie newMovieApi : nowPlayingMoviesAPI) {
-//			if(i==10) {
-//				break;
-//			}
-//			i++;
-			nowPlayingMovieBean.checkNowPlayingMovie(newMovieApi);
-		}
+		HashSet<ApiNewMovie> nowPlayingMoviesAPI = ApiCalls.getNowPlayingMovies();
+		nowPlayingMoviesAPI.stream().parallel().forEach(e->nowPlayingMovieBean.checkNowPlayingMovie(e));
 		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
 		logger.info("Done checking for now playing movies");
 		
@@ -114,16 +97,8 @@ public class SchedulerBean implements DataProviderHolder {
 			return;
 		flag=true;
 		logger.info("Scheduler checking for on the air shows");
-		onTheAirShowBean.findAllIdTmdb();
-		ArrayList<ApiNewShow> onTheAirShowsAPI = APIClient.getOnTheAirShows();
-		i=1;
-		for(ApiNewShow newShowApi : onTheAirShowsAPI) {
-//			if(i==10) {
-//				break;
-//			}
-//			i++;
-			onTheAirShowBean.checkOnTheAirShow(newShowApi);
-		}
+		HashSet<ApiNewShow> onTheAirShowsAPI = ApiCalls.getOnTheAirShows();
+		onTheAirShowsAPI.stream().parallel().forEach(e->onTheAirShowBean.checkOnTheAirShow(e));
 		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShowsAPI);
 		logger.info("Done checking for on the air shows");
 		flag = false;
@@ -134,16 +109,8 @@ public class SchedulerBean implements DataProviderHolder {
 			return;
 		flag=true;
 		logger.info("Scheduler checking for air today shows");
-		air2dayShowBean.findAllIdTmdb();
-		ArrayList<ApiNewShow> air2dayShowsAPI = APIClient.getAir2dayShows();
-		i=1;
-		for(ApiNewShow newShowApi : air2dayShowsAPI) {
-//			if(i==10) {
-//				break;
-//			}
-//			i++;
-			air2dayShowBean.checkAir2dayShow(newShowApi);
-		}
+		HashSet<ApiNewShow> air2dayShowsAPI = ApiCalls.getAir2dayShows();
+		air2dayShowsAPI.stream().parallel().forEach(e->air2dayShowBean.checkAir2dayShow(e));
 		air2dayShowBean.removeOldNotAir2dayShow(air2dayShowsAPI);
 		logger.info("Done checking for air2day shows");
 		flag = false;

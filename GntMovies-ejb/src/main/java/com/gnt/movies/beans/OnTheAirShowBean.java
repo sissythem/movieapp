@@ -77,6 +77,7 @@ public class OnTheAirShowBean implements DataProviderHolder {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void checkOnTheAirShow(ApiNewShow apiNewShow) {
+		findAllIdTmdb();
 		if (allIdTmdb.contains(apiNewShow.getId()))
 			return;
 		logger.info("Adding show with tmdbId=" + apiNewShow.getId());
@@ -98,7 +99,7 @@ public class OnTheAirShowBean implements DataProviderHolder {
 		}
 	}
 
-	public void removeOldNotOnTheAirShows(ArrayList<ApiNewShow> onTheAirShowsAPI) {
+	public void removeOldNotOnTheAirShows(HashSet<ApiNewShow> onTheAirShowsAPI) {
 		for (ApiNewShow apiNewShow : onTheAirShowsAPI) {
 			allIdTmdb.remove(apiNewShow.getId());
 		}

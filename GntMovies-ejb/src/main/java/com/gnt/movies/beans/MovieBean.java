@@ -19,7 +19,7 @@ import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
-import com.gnt.movies.utilities.APIClient;
+import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 import com.google.gson.Gson;
@@ -95,7 +95,7 @@ public class MovieBean implements DataProviderHolder {
 		logger.info("addNewMovieWithGenres movie with tmdbId=" + movieApi.getId());
 		Movie movie = createMovieFromAPI(movieApi);
 
-		ApiMovieDetails movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
+		ApiMovieDetails movieDetails = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
 		synchronized (this) {
 			genreBean.updateGenres(movieDetails.getApiGenres());
 			updateMovieWithDetails(movie, movieDetails);

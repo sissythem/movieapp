@@ -79,6 +79,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
+		findAllIdTmdb();
 		if (allIdTmdb.contains(movieAPI.getId()))
 			return;
 		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
@@ -92,7 +93,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		allIdTmdb.add(upcomingMovie.getIdTmdb());
 	}
 
-	public void removeOldNotUpMovies(ArrayList<ApiNewMovie> apiNewMovieArrayList) {
+	public void removeOldNotUpMovies(HashSet<ApiNewMovie> apiNewMovieArrayList) {
 
 		for (ApiNewMovie apiNewMovie : apiNewMovieArrayList) {
 			allIdTmdb.remove(apiNewMovie.getId());

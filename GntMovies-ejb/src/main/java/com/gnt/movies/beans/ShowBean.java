@@ -21,7 +21,7 @@ import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
-import com.gnt.movies.utilities.APIClient;
+import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 import com.google.gson.Gson;
@@ -101,7 +101,7 @@ public class ShowBean implements DataProviderHolder{
 		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
 		Show show = createShowFromAPI(showApi);
 		
-		ApiShowDetails showDetails = APIClient.getShowDetailsFromAPI(show.getIdTmdb());
+		ApiShowDetails showDetails = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
 		genreBean.updateGenres(showDetails.getGenresAPI());
 		
 		updateShowWithDetails(show, showDetails);

@@ -76,6 +76,7 @@ public class Air2dayShowBean implements DataProviderHolder{
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void checkAir2dayShow(ApiNewShow newShowAPI) {
+    	findAllIdTmdb();
 		if (allIdTmdb.contains(newShowAPI.getId()))
 			return;
 		logger.info("Adding show with tmdbId=" + newShowAPI.getId());
@@ -97,7 +98,7 @@ public class Air2dayShowBean implements DataProviderHolder{
     	}
     }
     
-    public void removeOldNotAir2dayShow(ArrayList<ApiNewShow> air2dayShowsAPI) {
+    public void removeOldNotAir2dayShow(HashSet<ApiNewShow> air2dayShowsAPI) {
     	for (ApiNewShow apiNewShow : air2dayShowsAPI) {
     		allIdTmdb.remove(apiNewShow.getId());
     	}
