@@ -85,33 +85,26 @@ public class ShowBean implements DataProviderHolder{
     	show.setCast(gson.toJson(showDetails.getCast()));
     	show.setCrew(gson.toJson(showDetails.getCrew()));
     	showDetails.setAllImages(showDetails.getApiImages());
-    	for (ApiGenre apiGenre : showDetails.getGenresAPI()) {
-			Genre genre = genreBean.findGenreByName(apiGenre.getName());
+    	showDetails.getGenresAPI().stream().forEach(apiGenre->{
+    		Genre genre = genreBean.findGenreByName(apiGenre.getName());
 			ShowGenre showGenre = new ShowGenre(show,genre);
 			show.addShowGenre(showGenre);
-		}
-    	
-    	for (ApiPostersBackdrops apiImage : showDetails.getAllImages()) {
+    	});
+    	showDetails.getAllImages().stream().forEach(apiImage->{
     		ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
     		show.addShowImage(showImage);
-    	}
+    	});
 	}
     
     public Show addNewShow(ApiNewShow showApi) {
 		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
 		Show show = createShowFromAPI(showApi);
-		
 		ApiShowDetails showDetails = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
 		genreBean.updateGenres(showDetails.getGenresAPI());
-		
 		updateShowWithDetails(show, showDetails);
 		addShow(show);
-		for (ShowGenre showGenre : show.getShowGenres()) {
-			showGenreBean.addShowGenre(showGenre);
-		}
-		for (ShowImage showImage : show.getShowImages()) {
-			showImageBean.addShowImage(showImage);
-		}
+		show.getShowGenres().stream().forEach(showGenre->showGenreBean.addShowGenre(showGenre));
+		show.getShowImages().stream().forEach(showImage->showImageBean.addShowImage(showImage));
 		return show;
     }
     

@@ -26,6 +26,7 @@ public class APIClient {
 	private static AtomicInteger counter = new AtomicInteger(0);
 	private static Timer timer;
 	private static OkHttpClient client;
+	
 	public static synchronized void setTimer() {
 		if (timer == null) {
 			System.out.println("timer created");
@@ -49,7 +50,6 @@ public class APIClient {
 
 	public static String getResultFromTMDB(String url) {
 		checkNumCalls(url);
-
 		Response response;
 		try {
 			response = client.newCall(buildRequest(url)).execute();

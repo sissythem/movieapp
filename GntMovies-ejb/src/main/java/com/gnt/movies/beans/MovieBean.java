@@ -15,10 +15,8 @@ import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.MovieGenre;
 import com.gnt.movies.entities.MovieImage;
-import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
-import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -79,16 +77,15 @@ public class MovieBean implements DataProviderHolder {
 		movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
 		movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
 		movieDetails.setAllImages(movieDetails.getApiImages());
-		for (ApiGenre apiGenre : movieDetails.getApiGenres()) {
+		movieDetails.getApiGenres().stream().forEach(apiGenre->{
 			Genre genre = genreBean.getGenre(apiGenre.getName());
 			MovieGenre movieGenre = new MovieGenre(movie, genre);
 			movie.addMovieGenre(movieGenre);
-		}
-
-		for (ApiPostersBackdrops apiImage : movieDetails.getAllImages()) {
+		});
+		movieDetails.getAllImages().stream().forEach(apiImage->{
 			MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
 			movie.addMovieImage(movieImage);
-		}
+		});
 	}
 
 	public Movie addNewMovie(ApiNewMovie movieApi) {
@@ -96,20 +93,11 @@ public class MovieBean implements DataProviderHolder {
 		Movie movie = createMovieFromAPI(movieApi);
 
 		ApiMovieDetails movieDetails = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
-		synchronized (this) {
-			genreBean.updateGenres(movieDetails.getApiGenres());
-			updateMovieWithDetails(movie, movieDetails);
-		}
-
+		genreBean.updateGenres(movieDetails.getApiGenres());
+		updateMovieWithDetails(movie, movieDetails);
 		addMovie(movie);
-		synchronized (this) {
-			for (MovieGenre movieGenre : movie.getMovieGenres()) {
-				movieGenreBean.addMovieGenre(movieGenre);
-			}
-			for (MovieImage movieImage : movie.getMovieImages()) {
-				movieImageBean.addMovieImage(movieImage);
-			}
-		}
+		movie.getMovieGenres().stream().forEach(movieGenre->movieGenreBean.addMovieGenre(movieGenre));
+		movie.getMovieImages().stream().forEach(movieImage->movieImageBean.addMovieImage(movieImage));
 		return movie;
 	}
 

@@ -55,18 +55,13 @@ public class ApiCalls {
 	public static ApiMovieDetails getMovieDetailsFromAPI(int id) {
 		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
 				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-		String result = APIClient.getResultFromTMDB(url.toString());
-		ApiMovieDetails movieDetails = new Gson().fromJson(result, ApiMovieDetails.class);
-		return movieDetails;
+		return new Gson().fromJson(APIClient.getResultFromTMDB(url.toString()), ApiMovieDetails.class);
 	}
 
 	public static ApiShowDetails getShowDetailsFromAPI(int id) {
 		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
 				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-
-		String result = APIClient.getResultFromTMDB(url.toString());
-		ApiShowDetails showDetails = new Gson().fromJson(result, ApiShowDetails.class);
-		return showDetails;
+		return new Gson().fromJson(APIClient.getResultFromTMDB(url.toString()), ApiShowDetails.class);
 	}
 
 	private static HashSet<?> getPages(String url, String type) {
