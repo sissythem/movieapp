@@ -25,7 +25,7 @@ public class ApiCalls {
 		StringBuilder sb = new StringBuilder(Utils.UPCOMING_MOVIES_URL).append(Utils.API_KEY)
 				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
 
-		return (HashSet<ApiNewMovie>) getPages(sb.toString(), "movie");
+		return (HashSet<ApiNewMovie>) getAllResults(sb.toString(), "movie");
 	}
 
 	public static HashSet<ApiNewMovie> getNowPlayingMovies() {
@@ -33,7 +33,7 @@ public class ApiCalls {
 		StringBuilder sb = new StringBuilder(Utils.NOW_PLAYING_MOVIES_URL).append(Utils.API_KEY)
 				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
 
-		return (HashSet<ApiNewMovie>) getPages(sb.toString(), "movie");
+		return (HashSet<ApiNewMovie>) getAllResults(sb.toString(), "movie");
 	}
 
 	public static HashSet<ApiNewShow> getOnTheAirShows() {
@@ -41,7 +41,7 @@ public class ApiCalls {
 		StringBuilder sb = new StringBuilder(Utils.ON_THE_AIR_SHOWS_URL).append(Utils.API_KEY)
 				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
 
-		return (HashSet<ApiNewShow>) getPages(sb.toString(), "show");
+		return (HashSet<ApiNewShow>) getAllResults(sb.toString(), "show");
 	}
 
 	public static HashSet<ApiNewShow> getAir2dayShows() {
@@ -49,7 +49,7 @@ public class ApiCalls {
 		StringBuilder sb = new StringBuilder(Utils.AIR2DAY_SHOWS_URL).append(Utils.API_KEY)
 				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
 
-		return (HashSet<ApiNewShow>) getPages(sb.toString(), "show");
+		return (HashSet<ApiNewShow>) getAllResults(sb.toString(), "show");
 	}
 	
 	public static ApiMovieDetails getMovieDetailsFromAPI(int id) {
@@ -64,11 +64,11 @@ public class ApiCalls {
 		return new Gson().fromJson(APIClient.getResultFromTMDB(url.toString()), ApiShowDetails.class);
 	}
 
-	private static HashSet<?> getPages(String url, String type) {
+	private static HashSet<?> getAllResults(String url, String type) {
 		APIClientRunnable runnable = firstThreadRun(url);
 		int pages = getTotalNumPages(type, runnable);
 		runRemainingThreads(url,pages);
-		return getFinalResults(type);
+		return getResultsFromPages(type);
 	}
 	
 	private static int getTotalNumPages(String type, APIClientRunnable runnable) {
@@ -122,14 +122,13 @@ public class ApiCalls {
 		}
 	}
 	
-	private static HashSet<?>getFinalResults(String type){
+	private static HashSet<?>getResultsFromPages(String type){
 		if (type == "movie") {
 			HashSet<ApiNewMovie> movies = new HashSet<>();
 			for (APIClientRunnable apiClientRunnable : runnables) {
 				movies.addAll(new Gson().fromJson(apiClientRunnable.getResult(), ApiNewMovieResults.class)
 						.getResults());
 			}
-
 			return movies;
 		} else {
 			HashSet<ApiNewShow> shows = new HashSet<>();
