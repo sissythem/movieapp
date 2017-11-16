@@ -50,9 +50,8 @@ public class APIClient {
 
 	public static String getResultFromTMDB(String url) {
 		checkNumCalls(url);
-		Response response;
 		try {
-			response = client.newCall(buildRequest(url)).execute();
+			Response response = client.newCall(buildRequest(url)).execute();
 			logger.info(Thread.currentThread().getId() + ":" + response.code());
 			checkForReachingCallsLimit(response, url);
 			return response.body().string();

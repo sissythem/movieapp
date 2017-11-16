@@ -73,7 +73,6 @@ public class ApiCalls {
 	
 	private static int getTotalNumPages(String type, APIClientRunnable runnable) {
 		int pages = 0;
-
 		if (type == "movie") {
 			pages = new Gson().fromJson(runnable.getResult(), ApiNewMovieResults.class).getTotalPages();
 		} else if (type == "show") {
@@ -110,9 +109,7 @@ public class ApiCalls {
 			Thread thread = new Thread(runnable);
 			threads.add(thread);
 		}
-		for (int i = 1; i < threads.size(); i++) {
-			threads.get(i).start();
-		}
+		threads.stream().forEach(thread->thread.start());
 		for (int i = 1; i < threads.size(); i++) {
 			try {
 				threads.get(i).join();
@@ -125,17 +122,13 @@ public class ApiCalls {
 	private static HashSet<?>getResultsFromPages(String type){
 		if (type == "movie") {
 			HashSet<ApiNewMovie> movies = new HashSet<>();
-			for (APIClientRunnable apiClientRunnable : runnables) {
-				movies.addAll(new Gson().fromJson(apiClientRunnable.getResult(), ApiNewMovieResults.class)
-						.getResults());
-			}
+			runnables.stream().forEach(apiClientRunnable->movies.addAll(new Gson().fromJson(apiClientRunnable.getResult(), ApiNewMovieResults.class)
+					.getResults()));
 			return movies;
 		} else {
 			HashSet<ApiNewShow> shows = new HashSet<>();
-			for (APIClientRunnable apiClientRunnable : runnables) {
-				shows.addAll(
-						new Gson().fromJson(apiClientRunnable.getResult(), ApiNewShowResults.class).getResults());
-			}
+			runnables.stream().forEach(apiClientRunnable->shows.addAll(
+					new Gson().fromJson(apiClientRunnable.getResult(), ApiNewShowResults.class).getResults()));
 			return shows;
 		}
 	}
