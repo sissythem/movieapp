@@ -41,7 +41,7 @@ public class GenreBean implements DataProviderHolder {
 		return em;
 	}
 	
-	static ConcurrentHashMap<String,Genre> genres;
+	static ConcurrentHashMap<String,Genre> genres = new ConcurrentHashMap<>();
 
     public GenreBean() {
         
@@ -59,11 +59,6 @@ public class GenreBean implements DataProviderHolder {
     public List<?> getAllGenres(){
     	return genreDao.findAllGenres(this);
     }
-
-//	public synchronized ConcurrentHashMap<Integer,String> getAllGenreNames() {
-//		
-//		return genreDao.findAllGenreNames(this);
-//	}
 	
 	public synchronized void updateGenres(ArrayList<ApiGenre> genresApi) {
 		Genre g;

@@ -97,7 +97,7 @@ public class MovieBean implements DataProviderHolder {
 
 		ApiMovieDetails movieDetails = APIClient.getMovieDetailsFromAPI(movie.getIdTmdb());
 		synchronized (this) {
-			genreBean.updateGenres(movieDetails.getGenresAPI());
+			genreBean.updateGenres(movieDetails.getApiGenres());
 			updateMovieWithDetails(movie, movieDetails);
 		}
 
