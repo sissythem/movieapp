@@ -79,7 +79,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 	@Override
 	public boolean checkToken(DataProviderHolder dataProviderHolder, String token) {
-		Long result = (Long) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN_TOKEN, token);
+		Long result = (Long) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN_TOKEN, "token", token);
 		return (result == null ? false : true);
 	}
 
