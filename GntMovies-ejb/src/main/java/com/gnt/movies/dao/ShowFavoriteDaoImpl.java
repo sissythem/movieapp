@@ -6,6 +6,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 import com.gnt.movies.entities.ShowFavorite;
+import com.gnt.movies.entities.ShowReview;
 import com.gnt.movies.utilities.Utils;
 @JpaDao
 @Dependent
@@ -34,13 +35,17 @@ public class ShowFavoriteDaoImpl extends AbstractDao implements ShowFavoriteDao 
 	
 	@Override
 	public ArrayList<ShowFavorite> findShowFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId){
-		return (ArrayList<ShowFavorite>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_USER_ID)
-				.setParameter("userId", userId).getResultList();
+		ArrayList<ShowFavorite> list = new ArrayList<>();
+		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_USER_ID)
+				.setParameter("userId", userId).getResultList());
+		return list;
 	}
 	
 	@Override
 	public ArrayList<ShowFavorite> findShowFavoriteByShowId(DataProviderHolder dataProviderHolder, Integer showId){
-		return (ArrayList<ShowFavorite>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_SHOW_ID)
-				.setParameter("showId", showId).getResultList();
+		ArrayList<ShowFavorite> list = new ArrayList<>();
+		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_SHOW_ID)
+				.setParameter("showId", showId).getResultList());
+		return list;
 	}
 }

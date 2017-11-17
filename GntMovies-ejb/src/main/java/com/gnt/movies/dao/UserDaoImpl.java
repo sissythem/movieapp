@@ -66,8 +66,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 	@Override
 	public ArrayList<User> findByAge(DataProviderHolder dataProviderHolder, int age) {
-		return (ArrayList<User>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.USER_FIND_BY_AGE)
-				.setParameter("age", age).getResultList();
+		ArrayList<User> list = new ArrayList<>();
+		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.USER_FIND_BY_AGE)
+				.setParameter("age", age).getResultList());
+		return list ;
 	}
 
 	@Override

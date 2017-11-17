@@ -6,6 +6,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 import com.gnt.movies.entities.ShowImage;
+import com.gnt.movies.entities.ShowReview;
 import com.gnt.movies.utilities.Utils;
 
 @JpaDao
@@ -35,8 +36,10 @@ public class ShowImageDaoImpl extends AbstractDao implements ShowImageDao {
 
 	@Override
 	public ArrayList<ShowImage> findByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
-		return (ArrayList<ShowImage>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_IMAGE_FIND_BY_SHOW_ID)
-				.setParameter("showId", showId).getResultList();
+		ArrayList<ShowImage> list = new ArrayList<>();
+		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_IMAGE_FIND_BY_SHOW_ID)
+				.setParameter("showId", showId).getResultList());
+		return list;
 	}
 
 }

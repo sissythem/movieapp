@@ -8,6 +8,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 import com.gnt.movies.entities.NowPlayingMovie;
+import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.utilities.Utils;
 
 @JpaDao
@@ -50,7 +51,9 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 
 	@Override
 	public ArrayList<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder) {
-		return (ArrayList<NowPlayingMovie>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList();
+		ArrayList<NowPlayingMovie> list = new ArrayList<>();
+		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList());
+		return list;
 	}
 
 	@Override

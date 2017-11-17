@@ -8,6 +8,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 import com.gnt.movies.entities.OnTheAirShow;
+import com.gnt.movies.entities.ShowReview;
 import com.gnt.movies.utilities.Utils;
 
 @JpaDao
@@ -47,7 +48,9 @@ public class OnTheAirShowDaoImpl extends AbstractDao implements OnTheAirShowDao 
 
 	@Override
 	public ArrayList<OnTheAirShow> findAll(DataProviderHolder dataProviderHolder) {
-		return (ArrayList<OnTheAirShow>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.ON_THE_AIR_SHOW_FIND_ALL).getResultList();
+		ArrayList<OnTheAirShow> list = new ArrayList<>();
+		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.ON_THE_AIR_SHOW_FIND_ALL).getResultList());
+		return list;
 	}
 
 	@Override
