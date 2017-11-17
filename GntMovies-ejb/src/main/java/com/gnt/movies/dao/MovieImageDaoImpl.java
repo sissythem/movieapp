@@ -35,8 +35,10 @@ public class MovieImageDaoImpl extends AbstractDao implements MovieImageDao {
 
 	@Override
 	public ArrayList<MovieImage> findMovieGenreByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		return (ArrayList<MovieImage>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_IMAGE_FIND_BY_MOVIE_ID)
-				.setParameter("movieId", movieId).getResultList();
+		ArrayList<MovieImage> movieImages = new ArrayList<>();
+		movieImages.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_IMAGE_FIND_BY_MOVIE_ID)
+				.setParameter("movieId", movieId).getResultList());
+		return movieImages;
 	}
 
 }

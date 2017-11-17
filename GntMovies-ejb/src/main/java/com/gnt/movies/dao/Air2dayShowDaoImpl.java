@@ -47,7 +47,9 @@ public class Air2dayShowDaoImpl extends AbstractDao implements Air2dayShowDao {
 
 	@Override
 	public ArrayList<Air2dayShow> findAll(DataProviderHolder dataProviderHolder) {
-		return (ArrayList<Air2dayShow>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_FIND_ALL).getResultList();
+		ArrayList<Air2dayShow> allAir2dayShows = new ArrayList<>();
+		allAir2dayShows.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_FIND_ALL).getResultList());
+		return allAir2dayShows;
 	}
 
 	@Override

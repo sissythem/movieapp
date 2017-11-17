@@ -29,11 +29,11 @@ public class TestUserBean {
 	@Test
 	public void testLoginUser() {
 		when(userDaoMock.checkCredentials(userBean, "username", "password"))
-			.thenReturn(false);
-		assertEquals(false, userBean.loginUser("username", "password"));
-		when(userDaoMock.checkCredentials(userBean, "gmaz", "1234"))
 			.thenReturn(true);
-		assertEquals(true, userBean.loginUser("gmaz", "1234"));
+		assertEquals(true, userBean.loginUser("username", "password"));
+		when(userDaoMock.checkCredentials(userBean, "gmaz", "1234"))
+			.thenReturn(false);
+		assertEquals(false, userBean.loginUser("gmaz", "1234"));
 	}
 	
 	@Test
