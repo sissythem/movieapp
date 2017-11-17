@@ -69,7 +69,6 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void checkNowPlayingMovie(ApiNewMovie apiNewMovie) {
-		findAllIdTmdb();
 		if (allIdTmdb.contains(apiNewMovie.getId()))
 			return;
 		logger.info("Adding movie with tmdbId=" + apiNewMovie.getId());

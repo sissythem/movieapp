@@ -69,7 +69,7 @@ public class SchedulerBean implements DataProviderHolder
 		if(flag)
 			return;
 		flag=true;
-		
+		upcomingMovieBean.findAllIdTmdb();
 		logger.info("Scheduler checking for upcomming movies");
 		HashSet<ApiNewMovie> upcomingMoviesAPI = ApiCalls.getUpcomingMovies();
 		upcomingMoviesAPI.stream().parallel().forEach(e->upcomingMovieBean.checkUpcomingMovie(e));
@@ -83,6 +83,7 @@ public class SchedulerBean implements DataProviderHolder
 		if(flag)
 			return;
 		flag=true;
+		nowPlayingMovieBean.findAllIdTmdb();
 		logger.info("Scheduler checking for now playing movies");
 		HashSet<ApiNewMovie> nowPlayingMoviesAPI = ApiCalls.getNowPlayingMovies();
 		nowPlayingMoviesAPI.stream().parallel().forEach(e->nowPlayingMovieBean.checkNowPlayingMovie(e));
@@ -96,6 +97,7 @@ public class SchedulerBean implements DataProviderHolder
 		if(flag)
 			return;
 		flag=true;
+		onTheAirShowBean.findAllIdTmdb();
 		logger.info("Scheduler checking for on the air shows");
 		HashSet<ApiNewShow> onTheAirShowsAPI = ApiCalls.getOnTheAirShows();
 		onTheAirShowsAPI.stream().parallel().forEach(e->onTheAirShowBean.checkOnTheAirShow(e));
@@ -108,6 +110,7 @@ public class SchedulerBean implements DataProviderHolder
 		if(flag)
 			return;
 		flag=true;
+		air2dayShowBean.findAllIdTmdb();
 		logger.info("Scheduler checking for air today shows");
 		HashSet<ApiNewShow> air2dayShowsAPI = ApiCalls.getAir2dayShows();
 		air2dayShowsAPI.stream().parallel().forEach(e->air2dayShowBean.checkAir2dayShow(e));
