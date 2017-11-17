@@ -90,4 +90,8 @@ public class GenreBean implements DataProviderHolder {
 	public Genre getGenre(String name) {
 		return genres.get(name);
 	}
+	
+	public synchronized void editGenre(Genre genre) {
+		genreDao.updateGenre(this, genre);
+	}
 }
