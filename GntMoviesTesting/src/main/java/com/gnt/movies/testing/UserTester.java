@@ -40,6 +40,8 @@ public class UserTester
 		User user = new User(20, "email@email.com", "firstname", "lastname", "password", "username");
 		// Mock your input data and then combine the result with the expected value
 		// Assert.assertEquals(movieBean.isProximityReserved("4417010628"), true);
-		assertEquals(userBean.registerUser(user), true);
+//		assertEquals(userBean.registerUser(user), true);
+//		assertEquals(userBean.findUserByUsername("username").getUsername(), "username");
+		assertEquals(userBean.loginUser("username", "password"), true);
 	}
 }

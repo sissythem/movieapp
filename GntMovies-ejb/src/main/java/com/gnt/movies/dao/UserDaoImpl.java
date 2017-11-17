@@ -15,14 +15,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 	@Override
 	public boolean UsernameExists(DataProviderHolder dataProviderHolder, String username) {
-		Integer result = (Integer) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_CHECK_USERNAME,
+		Long result = (Long) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_CHECK_USERNAME,
 				"username", username);
 		return (result == null ? false : true);
 	}
 
 	@Override
 	public boolean EmailExists(DataProviderHolder dataProviderHolder, String email) {
-		Integer result = (Integer) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_CHECK_EMAIL,
+		Long result = (Long) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_CHECK_EMAIL,
 				"email", email);
 		return (result == null ? false : true);
 	}
@@ -72,14 +72,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 	@Override
 	public boolean checkCredentials(DataProviderHolder dataProviderHolder, String username, String password) {
-		Integer result = (Integer) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN, username,
+		Long result = (Long) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN, username,
 				password);
 		return (result == null ? false : true);
 	}
 
 	@Override
 	public boolean checkToken(DataProviderHolder dataProviderHolder, String token) {
-		Integer result = (Integer) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN_TOKEN, token);
+		Long result = (Long) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN_TOKEN, token);
 		return (result == null ? false : true);
 	}
 
