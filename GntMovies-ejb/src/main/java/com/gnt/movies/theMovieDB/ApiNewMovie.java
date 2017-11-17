@@ -24,21 +24,6 @@ public class ApiNewMovie {
 	@SerializedName("release_date")
 	private String releaseDate;
 
-	public ApiNewMovie(int voteCount, int id, double voteAverage, String title, String poster_path,
-			String originalLanguage, String originalTitle, boolean adult, String overview, String releaseDate) {
-		super();
-		this.voteCount = voteCount;
-		this.id = id;
-		this.voteAverage = voteAverage;
-		this.title = title;
-		this.poster_path = poster_path;
-		this.originalLanguage = originalLanguage;
-		this.originalTitle = originalTitle;
-		this.adult = adult;
-		this.overview = overview;
-		this.releaseDate = releaseDate;
-	}
-
 	public int getVoteCount() {
 		return voteCount;
 	}
@@ -121,9 +106,31 @@ public class ApiNewMovie {
 
 	@Override
 	public String toString() {
-		return "ApiNewMovie [voteCount=" + voteCount + ", id=" + id + ", voteAverage=" + voteAverage + ", title="
-				+ title + ", originalLanguage=" + originalLanguage + ", originalTitle=" + originalTitle + ", adult="
-				+ adult + ", overview=" + overview + ", releaseDate=" + releaseDate + "]";
+		return "ApiNewMovie [id=" + id + ", title="
+				+ title + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ApiNewMovie other = (ApiNewMovie) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+	
+	
 }

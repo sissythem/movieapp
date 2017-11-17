@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -40,7 +41,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	@EJB
 	private MovieBean movieBean;
 
-	static volatile HashSet<Integer> allIdTmdb;
+	static ConcurrentHashMap<Integer, Boolean> allIdTmdb;
 
 	public UpcomingMovieBean() {
 	}
@@ -48,6 +49,11 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
+	}
+
+	public static void init() {
+		allIdTmdb = new ConcurrentHashMap<>();
+		
 	}
 
 	public boolean addUpcomingMovie(UpcomingMovie upcomingMovie) {
@@ -62,7 +68,9 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	}
 
 	public void findAllIdTmdb() {
-		allIdTmdb = (HashSet<Integer>) upcomingMovieDao.getAllIdTmdb(this);
+		for (Object o : upcomingMovieDao.getAllIdTmdb(this)) {
+			allIdTmdb.put((Integer) o, true);
+		}
 	}
 
 	public UpcomingMovie findMovieByIdTmdb(Integer id) {
@@ -79,15 +87,15 @@ public class UpcomingMovieBean implements DataProviderHolder {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
+		logger.info("Thread id:" + Thread.currentThread().getId());
 		if (allIdTmdb.contains(movieAPI.getId()))
 			return;
 		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
 		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movieAPI);
-		Movie movie = null;
-		movie = movieBean.getMovie(movieAPI);
+		Movie movie = movieBean.getMovie(movieAPI);
 		upcomingMovie.setMovie(movie);
 		addUpcomingMovie(upcomingMovie);
-		allIdTmdb.add(upcomingMovie.getIdTmdb());
+		allIdTmdb.put(upcomingMovie.getIdTmdb(), true);
 	}
 
 	public void removeOldNotUpMovies(HashSet<ApiNewMovie> apiNewMovieArrayList) {
@@ -96,13 +104,9 @@ public class UpcomingMovieBean implements DataProviderHolder {
 			allIdTmdb.remove(apiNewMovie.getId());
 		}
 
-		for (Integer idtmdb : allIdTmdb) {
-			logger.info("removing movie with tmdbId=" + idtmdb);
-			upcomingMovieDao.deleteUpcomingMovieByIdTmdb(this, idtmdb);
-		}
-	}
-
-	public static HashSet<Integer> getAllIdTmdb() {
-		return allIdTmdb;
+		allIdTmdb.forEachKey(10, e -> {
+			logger.info("removing movie with tmdbId=" + e);
+			upcomingMovieDao.deleteUpcomingMovieByIdTmdb(this, e);
+		});
 	}
 }

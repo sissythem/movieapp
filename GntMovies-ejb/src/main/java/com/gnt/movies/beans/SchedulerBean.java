@@ -3,6 +3,7 @@ package com.gnt.movies.beans;
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
@@ -13,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import com.gnt.movies.dao.DataProviderHolder;
+import com.gnt.movies.entities.Genre;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.ApiClient;
@@ -29,6 +31,9 @@ public class SchedulerBean implements DataProviderHolder
 	
 	@PersistenceContext
 	private EntityManager em;
+	
+	@EJB
+	private GenreBean genreBean;
 
 	@EJB
 	private UpcomingMovieBean upcomingMovieBean;
@@ -57,12 +62,27 @@ public class SchedulerBean implements DataProviderHolder
 	public void update() {
 		logger.info("Scheduler updating database!");
 		ApiClient.setTimer();
+		getGenres();
 		getUpcomingMovies();
 		getNowPlayingMovies();
 		getOnTheAirShows();
 		getAir2dayShows();
 		ApiClient.unsetTimer();
 		logger.info("Scheduler finished updating database!");
+	}
+	
+	private void getGenres() {
+		HashSet<Genre> genres = ApiCalls.getGenres();
+		genreBean.addGenres(genres);
+		logger.info("Availabe genres:");
+		genres.stream().forEach(g->logger.info(g.getName()));
+	}
+	
+	@PostConstruct
+	private void init() {
+		GenreBean.init();
+		UpcomingMovieBean.init();
+		NowPlayingMovieBean.init();
 	}
 	
 	private void getUpcomingMovies() {

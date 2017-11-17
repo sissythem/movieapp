@@ -23,6 +23,4 @@ public class ApiImages {
 	public void setApiPosters(ArrayList<ApiPostersBackdrops> apiPosters) {
 		this.apiPosters = apiPosters;
 	}
-	
-	
 }

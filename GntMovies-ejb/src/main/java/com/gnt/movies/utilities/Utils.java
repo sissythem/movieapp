@@ -24,6 +24,12 @@ public class Utils
 	public static String CREW_CAST_URL = ",credits";
 	/** URL example for getting cast and crew for movies: https://api.themoviedb.org/3/movie/157336?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&append_to_response=images **/
 	public static String IMAGES_URL = "&append_to_response=images";
+	/** URL example for getting all movie genres: https://api.themoviedb.org/3/genre/movie/list?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US
+	 * */
+	public static String MOVIE_GENRES = "https://api.themoviedb.org/3/genre/movie/list";
+	/** URL example for getting all show genres: https://api.themoviedb.org/3/genre/tv/list?api_key=eaf5fc7d22157774a158a75a3ed6fe9c&language=en-US
+	 * */
+	public static String SHOW_GENRES = "https://api.themoviedb.org/3/genre/tv/list";
 	public static String LANGUAGE_FOR_URL = "&language=en-US1";
 	public static String NUMBER_PAGE_FOR_URL = "&page=";
 	

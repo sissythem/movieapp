@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -102,8 +107,12 @@ public class Show implements Serializable, Comparable<Show> {
 
 	private int voteCount;
 
-	@OneToMany(mappedBy = "show")
-	private List<ShowGenre> showGenres;
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name = "show_genres", joinColumns = {
+			@JoinColumn(name = "showId", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "genreId", referencedColumnName = "id") }
+	)
+	private Set<Genre> genres;
 
 	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
 	private List<ShowImage> showImages;
@@ -138,7 +147,7 @@ public class Show implements Serializable, Comparable<Show> {
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
 		this.posterPath = posterPath;
-		this.showGenres = new ArrayList<>();
+		this.genres = new HashSet<>();
 		this.showImages = new ArrayList<>();
 	}
 
@@ -334,26 +343,20 @@ public class Show implements Serializable, Comparable<Show> {
 		this.voteCount = voteCount;
 	}
 
-	public List<ShowGenre> getShowGenres() {
-		return this.showGenres;
+	public Set<Genre> getGenres() {
+		return this.genres;
 	}
 
-	public void setShowGenres(List<ShowGenre> showGenres) {
-		this.showGenres = showGenres;
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
 	}
 
-	public ShowGenre addShowGenre(ShowGenre showGenre) {
-		getShowGenres().add(showGenre);
-		showGenre.setShow(this);
-
-		return showGenre;
+	public void addGenre(Genre genre) {
+		getGenres().add(genre);
 	}
 
-	public ShowGenre removeShowGenre(ShowGenre showGenre) {
-		getShowGenres().remove(showGenre);
-		showGenre.setShow(null);
-
-		return showGenre;
+	public void removeGenre(Genre genre) {
+		getGenres().remove(genre);
 	}
 
 	public List<OnTheAirShow> getOnTheAirShows() {

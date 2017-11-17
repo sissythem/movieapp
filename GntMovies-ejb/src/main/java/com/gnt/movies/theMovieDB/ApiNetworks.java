@@ -26,6 +26,4 @@ public class ApiNetworks {
 	public String toString() {
 		return "ApiNetworks [name=" + name + "]";
 	}
-
-	
 }

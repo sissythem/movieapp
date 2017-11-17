@@ -2,109 +2,130 @@ package com.gnt.movies.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
-import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the movies database table.
  *
  */
 @Entity
-@Table(name="movies")
-@NamedQueries({
-        @NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m"),
-        @NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.id = :id"),
-        @NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title = :title"),
-        @NamedQuery(name = "Movie.findByOriginalTitle", query = "SELECT m FROM Movie m WHERE m.originalTitle = :originalTitle"),
-        @NamedQuery(name = "Movie.findByIdTmdb", query = "SELECT m FROM Movie m WHERE m.idTmdb = :idTmdb"),
-        @NamedQuery(name = "Movie.findByBudget", query = "SELECT m FROM Movie m WHERE m.budget = :budget"),
-        @NamedQuery(name = "Movie.findByRevenue", query = "SELECT m FROM Movie m WHERE m.revenue = :revenue"),
-        @NamedQuery(name = "Movie.findByRuntime", query = "SELECT m FROM Movie m WHERE m.runtime = :runtime"),
-        @NamedQuery(name = "Movie.findByStatus", query = "SELECT m FROM Movie m WHERE m.status = :status"),
-        @NamedQuery(name = "Movie.findByReleaseDate", query = "SELECT m FROM Movie m WHERE m.releaseDate = :releaseDate"),
-        @NamedQuery(name = "Movie.findByVoteAverage", query = "SELECT m FROM Movie m WHERE m.voteAverage = :voteAverage"),
-        @NamedQuery(name = "Movie.findByVoteCount", query = "SELECT m FROM Movie m WHERE m.voteCount = :voteCount"),
-        @NamedQuery(name = "Movie.findByOriginalLanguage", query = "SELECT m FROM Movie m WHERE m.originalLanguage = :originalLanguage"),
-        @NamedQuery(name = "Movie.findByProductionCountries", query = "SELECT m FROM Movie m WHERE m.productionCountries = :productionCountries"),
-        @NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
-        @NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId")
-})
+@Table(name = "movies")
+@NamedQueries({ @NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m"),
+		@NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.id = :id"),
+		@NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title = :title"),
+		@NamedQuery(name = "Movie.findByOriginalTitle", query = "SELECT m FROM Movie m WHERE m.originalTitle = :originalTitle"),
+		@NamedQuery(name = "Movie.findByIdTmdb", query = "SELECT m FROM Movie m WHERE m.idTmdb = :idTmdb"),
+		@NamedQuery(name = "Movie.findByBudget", query = "SELECT m FROM Movie m WHERE m.budget = :budget"),
+		@NamedQuery(name = "Movie.findByRevenue", query = "SELECT m FROM Movie m WHERE m.revenue = :revenue"),
+		@NamedQuery(name = "Movie.findByRuntime", query = "SELECT m FROM Movie m WHERE m.runtime = :runtime"),
+		@NamedQuery(name = "Movie.findByStatus", query = "SELECT m FROM Movie m WHERE m.status = :status"),
+		@NamedQuery(name = "Movie.findByReleaseDate", query = "SELECT m FROM Movie m WHERE m.releaseDate = :releaseDate"),
+		@NamedQuery(name = "Movie.findByVoteAverage", query = "SELECT m FROM Movie m WHERE m.voteAverage = :voteAverage"),
+		@NamedQuery(name = "Movie.findByVoteCount", query = "SELECT m FROM Movie m WHERE m.voteCount = :voteCount"),
+		@NamedQuery(name = "Movie.findByOriginalLanguage", query = "SELECT m FROM Movie m WHERE m.originalLanguage = :originalLanguage"),
+		@NamedQuery(name = "Movie.findByProductionCountries", query = "SELECT m FROM Movie m WHERE m.productionCountries = :productionCountries"),
+		@NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
+		@NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId") })
 public class Movie implements Serializable, Comparable<Movie> {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    private byte adult;
+	private byte adult;
 
-    private double budget;
+	private double budget;
 
-    @Lob
-    private String cast;
+	@Lob
+	private String cast;
 
-    @Lob
-    private String crew;
-    @Lob
-    private String homepage;
+	@Lob
+	private String crew;
+	@Lob
+	private String homepage;
 
-    private int idTmdb;
+	private int idTmdb;
 
-    private String imdbId;
+	private String imdbId;
 
-    private String originalLanguage;
+	private String originalLanguage;
 
-    private String originalTitle;
+	private String originalTitle;
 
-    @Lob
-    private String overview;
+	@Lob
+	private String overview;
 
-    private String posterPath;
+	private String posterPath;
 
-    private String productionCountries;
+	private String productionCountries;
 
-    private LocalDate releaseDate;
+	private LocalDate releaseDate;
 
-    private double revenue;
+	private double revenue;
 
-    private int runtime;
+	private int runtime;
 
-    private String status;
+	private String status;
 
-    private String title;
+	private String title;
 
-    private Double voteAverage;
+	private Double voteAverage;
 
-    private int voteCount;
-    
-    @OneToMany(mappedBy="movie")
-    private List<MovieGenre> movieGenres;
-    
-    @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
-    private List<MovieImage> movieImages;
+	private int voteCount;
 
-    @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
-    private List<MovieFavorite> movieFavorites;
+//	@ManyToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
+//	@JoinTable(name = "movie_genres", joinColumns = {
+//			@JoinColumn(name = "movieId", referencedColumnName = "id") }, inverseJoinColumns = {
+//					@JoinColumn(name = "genreId", referencedColumnName = "id") }
+//
+//	)
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name = "movie_genres", joinColumns = {
+			@JoinColumn(name = "movieId", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "genreId", referencedColumnName = "id") }
+	)
+	private Set<Genre> genres;
 
-    @OneToMany(mappedBy="movie", fetch=FetchType.LAZY)
-    private List<MovieReview> movieReviews;
+	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+	private List<MovieImage> movieImages;
 
-    @Transient    
-    private NowPlayingMovie nowPlayingMovie;
+	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+	private List<MovieFavorite> movieFavorites;
 
-    @Transient
-    private UpcomingMovie upcomingMovie;
+	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+	private List<MovieReview> movieReviews;
 
-    public Movie() {
-    }
+	@Transient
+	private NowPlayingMovie nowPlayingMovie;
 
-    public Movie(byte adult, int idTmdb, String releaseDate, String originalLanguage, String originalTitle, String overview, String title, double voteAverage, 
-    		int voteCount, String posterPath) {
+	@Transient
+	private UpcomingMovie upcomingMovie;
+
+	public Movie() {
+	}
+
+	public Movie(byte adult, int idTmdb, String releaseDate, String originalLanguage, String originalTitle,
+			String overview, String title, double voteAverage, int voteCount, String posterPath) {
 		super();
 		this.adult = adult;
 		this.idTmdb = idTmdb;
@@ -116,326 +137,320 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
 		this.posterPath = posterPath;
-		this.movieGenres = new ArrayList<>();
+		this.genres = new HashSet<>();
 		this.movieImages = new ArrayList<>();
 	}
 
 	public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public byte getAdult() {
-        return this.adult;
-    }
-
-    public void setAdult(byte adult) {
-        this.adult = adult;
-    }
-
-    public double getBudget() {
-        return this.budget;
-    }
-
-    public void setBudget(double budget) {
-        this.budget = budget;
-    }
-
-    public String getCast() {
-        return this.cast;
-    }
-
-    public void setCast(String cast) {
-        this.cast = cast;
-    }
-
-    public String getCrew() {
-        return this.crew;
-    }
-
-    public void setCrew(String crew) {
-        this.crew = crew;
-    }
-
-    public String getHomepage() {
-        return this.homepage;
-    }
-
-    public void setHomepage(String homepage) {
-        this.homepage = homepage;
-    }
-
-    public int getIdTmdb() {
-        return this.idTmdb;
-    }
-
-    public void setIdTmdb(int idTmdb) {
-        this.idTmdb = idTmdb;
-    }
-
-    public String getImdbId() {
-        return this.imdbId;
-    }
-
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
-    }
-
-    public String getOriginalLanguage() {
-        return this.originalLanguage;
-    }
-
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
-    public String getOriginalTitle() {
-        return this.originalTitle;
-    }
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public byte getAdult() {
+		return this.adult;
+	}
+
+	public void setAdult(byte adult) {
+		this.adult = adult;
+	}
+
+	public double getBudget() {
+		return this.budget;
+	}
+
+	public void setBudget(double budget) {
+		this.budget = budget;
+	}
+
+	public String getCast() {
+		return this.cast;
+	}
+
+	public void setCast(String cast) {
+		this.cast = cast;
+	}
+
+	public String getCrew() {
+		return this.crew;
+	}
+
+	public void setCrew(String crew) {
+		this.crew = crew;
+	}
+
+	public String getHomepage() {
+		return this.homepage;
+	}
+
+	public void setHomepage(String homepage) {
+		this.homepage = homepage;
+	}
+
+	public int getIdTmdb() {
+		return this.idTmdb;
+	}
+
+	public void setIdTmdb(int idTmdb) {
+		this.idTmdb = idTmdb;
+	}
+
+	public String getImdbId() {
+		return this.imdbId;
+	}
+
+	public void setImdbId(String imdbId) {
+		this.imdbId = imdbId;
+	}
+
+	public String getOriginalLanguage() {
+		return this.originalLanguage;
+	}
+
+	public void setOriginalLanguage(String originalLanguage) {
+		this.originalLanguage = originalLanguage;
+	}
+
+	public String getOriginalTitle() {
+		return this.originalTitle;
+	}
+
+	public void setOriginalTitle(String originalTitle) {
+		this.originalTitle = originalTitle;
+	}
+
+	public String getOverview() {
+		return this.overview;
+	}
+
+	public void setOverview(String overview) {
+		this.overview = overview;
+	}
+
+	public String getPosterPath() {
+		return this.posterPath;
+	}
 
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
+	public void setPosterPath(String posterPath) {
+		this.posterPath = posterPath;
+	}
 
-    public String getOverview() {
-        return this.overview;
-    }
+	public String getProductionCountries() {
+		return this.productionCountries;
+	}
 
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
+	public void setProductionCountries(String productionCountries) {
+		this.productionCountries = productionCountries;
+	}
 
-    public String getPosterPath() {
-        return this.posterPath;
-    }
+	public LocalDate getReleaseDate() {
+		return this.releaseDate;
+	}
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
+	public void setReleaseDate(LocalDate releaseDate) {
+		this.releaseDate = releaseDate;
+	}
 
-    public String getProductionCountries() {
-        return this.productionCountries;
-    }
+	public double getRevenue() {
+		return this.revenue;
+	}
 
-    public void setProductionCountries(String productionCountries) {
-        this.productionCountries = productionCountries;
-    }
+	public void setRevenue(double revenue) {
+		this.revenue = revenue;
+	}
 
-    public LocalDate getReleaseDate() {
-        return this.releaseDate;
-    }
+	public int getRuntime() {
+		return this.runtime;
+	}
 
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
-    }
+	public void setRuntime(int runtime) {
+		this.runtime = runtime;
+	}
 
-    public double getRevenue() {
-        return this.revenue;
-    }
+	public String getStatus() {
+		return this.status;
+	}
 
-    public void setRevenue(double revenue) {
-        this.revenue = revenue;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public int getRuntime() {
-        return this.runtime;
-    }
+	public String getTitle() {
+		return this.title;
+	}
 
-    public void setRuntime(int runtime) {
-        this.runtime = runtime;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getStatus() {
-        return this.status;
-    }
+	public Double getVoteAverage() {
+		return this.voteAverage;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public void setVoteAverage(double voteAverage) {
+		this.voteAverage = voteAverage;
+	}
 
-    public String getTitle() {
-        return this.title;
-    }
+	public int getVoteCount() {
+		return this.voteCount;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setVoteCount(int voteCount) {
+		this.voteCount = voteCount;
+	}
 
-    public Double getVoteAverage() {
-        return this.voteAverage;
-    }
+	public Set<Genre> getGenres() {
+		return this.genres;
+	}
 
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
-    }
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
+	}
 
-    public int getVoteCount() {
-        return this.voteCount;
-    }
+	public void addGenre(Genre genre) {
+		getGenres().add(genre);
+	}
 
-    public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
-    }
+	public void removeGenre(Genre genre) {
+		getGenres().remove(genre);
+	}
 
-    public List<MovieGenre> getMovieGenres() {
-        return this.movieGenres;
-    }
+	public List<MovieFavorite> getMovieFavorites() {
+		return this.movieFavorites;
+	}
 
-    public void setMovieGenres(List<MovieGenre> movieGenres) {
-        this.movieGenres = movieGenres;
-    }
+	public void setMovieFavorites(List<MovieFavorite> movieFavorites) {
+		this.movieFavorites = movieFavorites;
+	}
 
-    public MovieGenre addMovieGenre(MovieGenre movieGenre) {
-        getMovieGenres().add(movieGenre);
-        movieGenre.setMovie(this);
+	public MovieFavorite addMovieFavorite(MovieFavorite movieFavorite) {
+		getMovieFavorites().add(movieFavorite);
+		movieFavorite.setMovie(this);
 
-        return movieGenre;
-    }
+		return movieFavorite;
+	}
 
-    public MovieGenre removeMovieGenre(MovieGenre movieGenre) {
-        getMovieGenres().remove(movieGenre);
-        movieGenre.setMovie(null);
+	public MovieFavorite removeMovieFavorite(MovieFavorite movieFavorite) {
+		getMovieFavorites().remove(movieFavorite);
+		movieFavorite.setMovie(null);
 
-        return movieGenre;
-    }
+		return movieFavorite;
+	}
 
-    public List<MovieFavorite> getMovieFavorites() {
-        return this.movieFavorites;
-    }
+	public List<MovieReview> getMovieReviews() {
+		return this.movieReviews;
+	}
 
-    public void setMovieFavorites(List<MovieFavorite> movieFavorites) {
-        this.movieFavorites = movieFavorites;
-    }
+	public void setMovieReviews(List<MovieReview> movieReviews) {
+		this.movieReviews = movieReviews;
+	}
 
-    public MovieFavorite addMovieFavorite(MovieFavorite movieFavorite) {
-        getMovieFavorites().add(movieFavorite);
-        movieFavorite.setMovie(this);
+	public MovieReview addMovieReview(MovieReview movieReview) {
+		getMovieReviews().add(movieReview);
+		movieReview.setMovie(this);
 
-        return movieFavorite;
-    }
+		return movieReview;
+	}
 
-    public MovieFavorite removeMovieFavorite(MovieFavorite movieFavorite) {
-        getMovieFavorites().remove(movieFavorite);
-        movieFavorite.setMovie(null);
+	public MovieReview removeMovieReview(MovieReview movieReview) {
+		getMovieReviews().remove(movieReview);
+		movieReview.setMovie(null);
 
-        return movieFavorite;
-    }
+		return movieReview;
+	}
 
-    public List<MovieReview> getMovieReviews() {
-        return this.movieReviews;
-    }
+	public NowPlayingMovie getNowPlayingMovie() {
+		return this.nowPlayingMovie;
+	}
 
-    public void setMovieReviews(List<MovieReview> movieReviews) {
-        this.movieReviews = movieReviews;
-    }
+	public void setNowPlayingMovie(NowPlayingMovie nowPlayingMovie) {
+		this.nowPlayingMovie = nowPlayingMovie;
+	}
 
-    public MovieReview addMovieReview(MovieReview movieReview) {
-        getMovieReviews().add(movieReview);
-        movieReview.setMovie(this);
+	public UpcomingMovie getUpcomingMovie() {
+		return this.upcomingMovie;
+	}
 
-        return movieReview;
-    }
+	public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
+		this.upcomingMovie = upcomingMovie;
+	}
 
-    public MovieReview removeMovieReview(MovieReview movieReview) {
-        getMovieReviews().remove(movieReview);
-        movieReview.setMovie(null);
+	public List<MovieImage> getMovieImages() {
+		return this.movieImages;
+	}
 
-        return movieReview;
-    }
+	public void setMovieImages(List<MovieImage> movieImages) {
+		this.movieImages = movieImages;
+	}
 
-    public NowPlayingMovie getNowPlayingMovie() {
-        return this.nowPlayingMovie;
-    }
+	public MovieImage addMovieImage(MovieImage movieImage) {
+		getMovieImages().add(movieImage);
+		movieImage.setMovie(this);
 
-    public void setNowPlayingMovie(NowPlayingMovie nowPlayingMovie) {
-        this.nowPlayingMovie = nowPlayingMovie;
-    }
+		return movieImage;
+	}
 
-    public UpcomingMovie getUpcomingMovie() {
-        return this.upcomingMovie;
-    }
+	public MovieImage removeMovieImages(MovieImage movieImage) {
+		getMovieImages().remove(movieImage);
+		movieImage.setMovie(null);
 
-    public void setUpcomingMovie(UpcomingMovie upcomingMovie) {
-        this.upcomingMovie = upcomingMovie;
-    }
-    
-    public List<MovieImage> getMovieImages() {
-        return this.movieImages;
-    }
-
-    public void setMovieImages(List<MovieImage> movieImages) {
-        this.movieImages = movieImages;
-    }
-
-    public MovieImage addMovieImage(MovieImage movieImage) {
-        getMovieImages().add(movieImage);
-        movieImage.setMovie(this);
-
-        return movieImage;
-    }
-
-    public MovieImage removeMovieImages(MovieImage movieImage) {
-        getMovieImages().remove(movieImage);
-        movieImage.setMovie(null);
-
-        return movieImage;
-    }
+		return movieImage;
+	}
 
 	/** Count our average rating based on ratings and comments only in our app **/
-    public double getAverageRating(){
-        double rating = 0.0;
-        double averageRating;
-        if(movieReviews == null){
-            averageRating=0.0;
-        } else {
-            for(int i=0;i<movieReviews.size();i++){
-                rating = rating + ((List<MovieReview>)movieReviews).get(i).getRating();
-            }
-            averageRating = rating/movieReviews.size();
-        }
-        return averageRating;
-    }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-    
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof Movie)) {
-            return false;
-        }
-        Movie other = (Movie) object;
+	public double getAverageRating() {
+		double rating = 0.0;
+		double averageRating;
+		if (movieReviews == null) {
+			averageRating = 0.0;
+		} else {
+			for (int i = 0; i < movieReviews.size(); i++) {
+				rating = rating + ((List<MovieReview>) movieReviews).get(i).getRating();
+			}
+			averageRating = rating / movieReviews.size();
+		}
+		return averageRating;
+	}
 
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-    
-    /** Default compareTo, sorting based on our rating **/
-    @Override
-    public int compareTo(Movie movie) {
-        Double averageRating = this.getAverageRating();
-        Double otherAverageRating = movie.getAverageRating();
-        return  -averageRating.compareTo(otherAverageRating);
-    }
-    
-    /** Compare and sort movies based on vote average of the movie db **/
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object == null) {
+			return false;
+		}
+		if (!(object instanceof Movie)) {
+			return false;
+		}
+		Movie other = (Movie) object;
+
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}
+
+	/** Default compareTo, sorting based on our rating **/
+	@Override
+	public int compareTo(Movie movie) {
+		Double averageRating = this.getAverageRating();
+		Double otherAverageRating = movie.getAverageRating();
+		return -averageRating.compareTo(otherAverageRating);
+	}
+
+	/** Compare and sort movies based on vote average of the movie db **/
 	public static Comparator<Movie> VoteAverageComparator = new Comparator<Movie>() {
 
-        @Override
-        public int compare(Movie movie1, Movie movie2) {
-            return movie1.getVoteAverage().compareTo(movie2.getVoteAverage());
-        }
-    };
+		@Override
+		public int compare(Movie movie1, Movie movie2) {
+			return movie1.getVoteAverage().compareTo(movie2.getVoteAverage());
+		}
+	};
 }

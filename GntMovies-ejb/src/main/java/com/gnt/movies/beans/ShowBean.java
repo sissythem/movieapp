@@ -1,6 +1,7 @@
 package com.gnt.movies.beans;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -15,9 +16,9 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.ShowDao;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Show;
-import com.gnt.movies.entities.ShowGenre;
 import com.gnt.movies.entities.ShowImage;
 import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
@@ -40,9 +41,6 @@ public class ShowBean implements DataProviderHolder{
 	
 	@EJB
 	GenreBean genreBean;
-	
-	@EJB
-	ShowGenreBean showGenreBean;
 	
 	@EJB
 	ShowImageBean showImageBean;
@@ -83,26 +81,34 @@ public class ShowBean implements DataProviderHolder{
     	show.setCast(gson.toJson(showDetails.getCast()));
     	show.setCrew(gson.toJson(showDetails.getCrew()));
     	showDetails.setAllImages(showDetails.getApiImages());
-    	showDetails.getGenresAPI().stream().forEach(apiGenre->{
-    		Genre genre = genreBean.findGenreByName(apiGenre.getName());
-			ShowGenre showGenre = new ShowGenre(show,genre);
-			show.addShowGenre(showGenre);
-    	});
-    	showDetails.getAllImages().stream().forEach(apiImage->{
+//    	for (Genre apiGenre : showDetails.getGenresAPI()) {
+//			Genre genre = genreBean.findGenreByName(apiGenre.getName());
+//			ShowGenre showGenre = new ShowGenre(show,genre);
+//			show.addShowGenre(showGenre);
+//		}
+    	
+    	for (ApiPostersBackdrops apiImage : showDetails.getAllImages()) {
     		ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
     		show.addShowImage(showImage);
-    	});
+    	}
 	}
     
     public Show addNewShow(ApiNewShow showApi) {
 		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
 		Show show = createShowFromAPI(showApi);
+		
 		ApiShowDetails showDetails = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
-		genreBean.updateGenres(showDetails.getGenresAPI());
+		HashSet<Genre> set = new HashSet<Genre>();
+//		set.addAll(showDetails.getGenresAPI());
+		
 		updateShowWithDetails(show, showDetails);
 		addShow(show);
-		show.getShowGenres().stream().forEach(showGenre->showGenreBean.addShowGenre(showGenre));
-		show.getShowImages().stream().forEach(showImage->showImageBean.addShowImage(showImage));
+//		for (ShowGenre showGenre : show.getShowGenres()) {
+//			showGenreBean.addShowGenre(showGenre);
+//		}
+		for (ShowImage showImage : show.getShowImages()) {
+			showImageBean.addShowImage(showImage);
+		}
 		return show;
     }
     

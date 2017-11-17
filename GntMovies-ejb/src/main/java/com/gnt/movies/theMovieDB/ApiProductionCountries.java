@@ -25,5 +25,4 @@ public class ApiProductionCountries {
 	public String toString() {
 		return "ApiProductionCountries [name=" + name + "]";
 	}
-	
 }

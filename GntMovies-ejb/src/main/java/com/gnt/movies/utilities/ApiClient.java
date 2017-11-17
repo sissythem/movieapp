@@ -51,7 +51,7 @@ public class ApiClient {
 		}
 	}
 	private static void checkNumCalls(String url) {
-		if (counter.incrementAndGet() >= 20) {
+		if (counter.incrementAndGet() >= 30) {
 			try {
 				logger.info(Thread.currentThread().getId() + ":Will wait before making a new request.");
 				synchronized (counter) {

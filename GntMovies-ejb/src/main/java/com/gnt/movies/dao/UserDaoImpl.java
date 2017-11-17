@@ -15,14 +15,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 	@Override
 	public boolean UsernameExists(DataProviderHolder dataProviderHolder, String username) {
-		Long result = (Long) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_CHECK_USERNAME,
+		Integer result = (Integer) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_CHECK_USERNAME,
 				"username", username);
 		return (result == null ? false : true);
 	}
 
 	@Override
 	public boolean EmailExists(DataProviderHolder dataProviderHolder, String email) {
-		Long result = (Long) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_CHECK_EMAIL,
+		Integer result = (Integer) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_CHECK_EMAIL,
 				"email", email);
 		return (result == null ? false : true);
 	}
@@ -66,22 +66,22 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 	@Override
 	public ArrayList<User> findByAge(DataProviderHolder dataProviderHolder, int age) {
-		ArrayList<User> list = new ArrayList<>();
-		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.USER_FIND_BY_AGE)
+		ArrayList<User> usersByAge = new ArrayList<>();
+		usersByAge.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.USER_FIND_BY_AGE)
 				.setParameter("age", age).getResultList());
-		return list ;
+		return usersByAge;
 	}
 
 	@Override
 	public boolean checkCredentials(DataProviderHolder dataProviderHolder, String username, String password) {
-		Long result = (Long) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN, username,
+		Integer result = (Integer) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN, username,
 				password);
 		return (result == null ? false : true);
 	}
 
 	@Override
 	public boolean checkToken(DataProviderHolder dataProviderHolder, String token) {
-		Long result = (Long) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN_TOKEN, "token", token);
+		Integer result = (Integer) getSingleResult(dataProviderHolder.getEntityManager(), Utils.USER_LOGIN_TOKEN, token);
 		return (result == null ? false : true);
 	}
 

@@ -1,11 +1,12 @@
 package com.gnt.movies.beans;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -15,7 +16,6 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.GenreDao;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.entities.Genre;
-import com.gnt.movies.theMovieDB.ApiGenre;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
@@ -28,70 +28,62 @@ public class GenreBean implements DataProviderHolder {
 	private static final Logger logger = LoggerFactory.getLogger(GenreBean.class);
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Inject
 	@JpaDao
 	@Named("GenreDaoImpl")
 	GenreDao genreDao;
-	
+
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
 	}
-	
-	static ConcurrentHashMap<String,Genre> genres = new ConcurrentHashMap<>();
 
-    public GenreBean() {
-        
-    }
-    
-    public Genre findGenreByName(String name) {
-    	return genreDao.findGenreByName(this, name);
-    }
+	// static ConcurrentHashMap<String, Genre> genres;
 
-    public synchronized void addGenre(Genre genre) {
-    	logger.info("addGenre genre with name="+genre.getName());
-    	genreDao.createGenre(this, genre);
-    }
-    
-    public List<?> getAllGenres(){
-    	return genreDao.findAllGenres(this);
-    }
-	
-	public synchronized void updateGenres(ArrayList<ApiGenre> genresApi) {
-		Genre g;
-		for (Object o : getAllGenres()) {
-			g= (Genre)o;
-			genres.put(g.getName(),g);
-		}
-		
-		for (ApiGenre apiGenre : genresApi) {
-			if (!genreExists(apiGenre)) {
-				Genre genre = addGenre(apiGenre);
-				genres.put(genre.getName(),genre);
-			}
-		}
+	public GenreBean() {
+
 	}
 
-	private synchronized boolean genreExists(ApiGenre apiGenre) {
-		if (!genres.contains(apiGenre.getName()))
+	public static void init() {
+		// genres = new ConcurrentHashMap<>();
+	}
+
+	public Genre findGenreByName(String name) {
+		return genreDao.findGenreByName(this, name);
+	}
+
+	public synchronized void addGenre(Genre genre) {
+		logger.info("addGenre genre with name=" + genre.getName());
+		genreDao.createGenre(this, genre);
+	}
+
+	public List<?> getAllGenres() {
+		return genreDao.findAllGenres(this);
+	}
+
+	private synchronized boolean genreExists(Genre genre) {
+		if (findGenreByName(genre.getName())!=null)
 			return false;
 		else
 			return true;
 	}
 
-	//@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	private synchronized Genre addGenre(ApiGenre genreAPI) {
-		Genre genre = new Genre(genreAPI.getName());
-		addGenre(genre);
-		return genre;
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void addGenres(Set<Genre> genres) {
+		Genre g;
+		for (Genre genre : genres) {
+			g = findGenreByName(genre.getName());
+			if (g == null) {
+				addGenre(genre);
+			} else {
+				genres.add(g);
+			}
+		}
 	}
 
-	public Genre getGenre(String name) {
-		return genres.get(name);
-	}
-	
-	public synchronized void editGenre(Genre genre) {
+	private void editGenre(Genre genre) {
 		genreDao.updateGenre(this, genre);
 	}
+
 }

@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -34,7 +35,7 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 	@Named("NowPlayingMovieDaoImpl")
 	NowPlayingMovieDao nowPlayingMovieDao;
 
-	private static HashSet<Integer> allIdTmdb;
+	private static ConcurrentHashMap<Integer, Boolean> allIdTmdb;
 
 	@EJB
 	private MovieBean movieBean;
@@ -46,7 +47,10 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 	public EntityManager getEntityManager() {
 		return em;
 	}
-
+	
+	public static void init() {
+		allIdTmdb = new ConcurrentHashMap<>();
+	}
 	public void addNowPlayingMovie(NowPlayingMovie nowPlayingMovie) {
 		nowPlayingMovieDao.createNowPlayingMovie(this, nowPlayingMovie);
 	}
@@ -64,11 +68,14 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 	}
 
 	public void findAllIdTmdb() {
-		allIdTmdb = (HashSet<Integer>) nowPlayingMovieDao.getAllIdTmdb(this);
+		for (Object o : nowPlayingMovieDao.getAllIdTmdb(this)) {
+			allIdTmdb.put((Integer) o, true);
+		}
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void checkNowPlayingMovie(ApiNewMovie apiNewMovie) {
+		
 		if (allIdTmdb.contains(apiNewMovie.getId()))
 			return;
 		logger.info("Adding movie with tmdbId=" + apiNewMovie.getId());
@@ -76,7 +83,7 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 		Movie movie = movieBean.getMovie(apiNewMovie);
 		nowPlayingMovie.setMovie(movie);
 		addNowPlaying(nowPlayingMovie);
-		allIdTmdb.add(nowPlayingMovie.getIdTmdb());
+		allIdTmdb.put(nowPlayingMovie.getIdTmdb(),true);
 	}
 
 	public boolean addNowPlaying(NowPlayingMovie nowPlayingMovie) {
@@ -95,9 +102,9 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 			allIdTmdb.remove(apiNewMovie.getId());
 		}
 
-		for (Integer idtmdb : allIdTmdb) {
-			logger.info("removing now playing movie with tmdbId=" + idtmdb);
-			nowPlayingMovieDao.deleteNowPlayingMovieByIdTmdb(this, idtmdb);
-		}
+		allIdTmdb.forEachKey(10, e -> {
+			logger.info("removing movie with tmdbId=" + e);
+			nowPlayingMovieDao.deleteNowPlayingMovieByIdTmdb(this, e);
+		});
 	}
 }

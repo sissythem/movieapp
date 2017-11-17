@@ -2,6 +2,7 @@ package com.gnt.movies.theMovieDB;
 
 import java.util.ArrayList;
 
+import com.gnt.movies.entities.Genre;
 import com.google.gson.annotations.SerializedName;
 
 public class ApiShowDetails {
@@ -11,7 +12,7 @@ public class ApiShowDetails {
 	@SerializedName("first_air_date")
 	private String firstAirDate;
 	@SerializedName("genres")
-	private ArrayList<ApiGenre> apiGenre;
+	private ArrayList<Genre> genres;
 	@SerializedName("homepage")
 	private String homepage;
 	@SerializedName("id")
@@ -71,11 +72,11 @@ public class ApiShowDetails {
 	public void setFirstAirDate(String firstAirDate) {
 		this.firstAirDate = firstAirDate;
 	}
-	public ArrayList<ApiGenre> getGenresAPI() {
-		return apiGenre;
+	public ArrayList<Genre> getGenresAPI() {
+		return genres;
 	}
-	public void setGenres(ArrayList<ApiGenre> genres) {
-		this.apiGenre = genres;
+	public void setGenres(ArrayList<Genre> genres) {
+		this.genres = genres;
 	}
 	public String getHomepage() {
 		return homepage;

@@ -3,6 +3,8 @@ package com.gnt.movies.utilities;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import com.gnt.movies.entities.Genre;
+import com.gnt.movies.theMovieDB.ApiGenres;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovieResults;
@@ -12,14 +14,36 @@ import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.google.gson.Gson;
 
 public class ApiCalls {
+	
+	private static ArrayList<ApiClientRunnable> runnables;
+	private static ArrayList<Thread> threads;
+	
 	/**
 	 * Get new Movies and Shows from API using threads for getting all pages from API
 	 * ==============================================================================
 	 **/
+	public static HashSet<Genre> getGenres() {
+		HashSet<Genre> set = new HashSet<>();
+		
+		set.addAll(getMovieGenres());
+		set.addAll(getShowGenres());
+		return set;
+	}
 	
-	private static ArrayList<ApiClientRunnable> runnables;
-	private static ArrayList<Thread> threads;
+	private static ArrayList<Genre> getMovieGenres() {
+		StringBuilder sb = new StringBuilder(Utils.MOVIE_GENRES).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL);
+		String result = ApiClient.getResultFromTMDB(sb.toString());
+		ApiGenres apiGenres = new Gson().fromJson(result, ApiGenres.class);
+		return apiGenres.getGenres();
+	}
 
+	private static ArrayList<Genre> getShowGenres() {
+		StringBuilder sb = new StringBuilder(Utils.SHOW_GENRES).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL);
+		String result = ApiClient.getResultFromTMDB(sb.toString());
+		ApiGenres apiGenres = new Gson().fromJson(result, ApiGenres.class);
+		return apiGenres.getGenres();
+	}
+	
 	public static HashSet<ApiNewMovie> getUpcomingMovies() {
 
 		StringBuilder sb = new StringBuilder(Utils.UPCOMING_MOVIES_URL).append(Utils.API_KEY)

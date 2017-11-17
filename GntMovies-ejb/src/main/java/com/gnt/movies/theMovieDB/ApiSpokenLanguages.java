@@ -21,7 +21,4 @@ public class ApiSpokenLanguages {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-
 }

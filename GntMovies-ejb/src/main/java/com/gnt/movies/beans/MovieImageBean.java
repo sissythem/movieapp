@@ -35,7 +35,7 @@ public class MovieImageBean implements DataProviderHolder {
 	public MovieImageBean() {
 	}
 
-	public void addMovieImage(MovieImage movieImage) {
+	public synchronized void addMovieImage(MovieImage movieImage) {
 
 		movieImageDao.createMovieImage(this, movieImage);
 		logger.info("addMovieImage with movieId=" + movieImage.getMovie().getIdTmdb());
