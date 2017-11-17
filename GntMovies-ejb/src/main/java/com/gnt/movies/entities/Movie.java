@@ -383,33 +383,6 @@ public class Movie implements Serializable, Comparable<Movie> {
 
         return movieImage;
     }
-    
-    @Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Movie [id=");
-		builder.append(id);
-		builder.append(", adult=");
-		builder.append(adult);
-		builder.append(", originalTitle=");
-		builder.append(originalTitle);
-		builder.append(", overview=");
-		builder.append(overview);
-		builder.append(", releaseDate=");
-		builder.append(releaseDate);
-		builder.append(", runtime=");
-		builder.append(runtime);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append(", title=");
-		builder.append(title);
-		builder.append(", voteAverage=");
-		builder.append(voteAverage);
-		builder.append(", voteCount=");
-		builder.append(voteCount);
-		builder.append("]");
-		return builder.toString();
-	}
 
 	/** Count our average rating based on ratings and comments only in our app **/
     public double getAverageRating(){

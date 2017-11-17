@@ -53,7 +53,7 @@ public class SchedulerBean implements DataProviderHolder
 
 	private static boolean flag = false;
 	
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",persistent=false)
+//	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",persistent=false)
 	public void update() {
 		logger.info("Scheduler updating database!");
 		ApiClient.setTimer();
