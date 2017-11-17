@@ -17,7 +17,7 @@ import com.gnt.movies.beans.UserBean;
 import com.gnt.movies.entities.User;
 
 @RunWith(Arquillian.class)
-public class EnterpriseTester 
+public class UserTester 
 {
 	@Deployment
 	public static JavaArchive createDeployment() throws IOException 
