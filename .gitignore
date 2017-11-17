@@ -36,3 +36,4 @@ release.properties
 pom.xml.releaseBackup
 pom.xml.tag
 GntMovies-ear/src/main/application/META-INF
+GntMoviesTesting/src/test/resources
