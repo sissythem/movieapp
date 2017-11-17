@@ -17,7 +17,7 @@ public class ApiCalls {
 	 * ==============================================================================
 	 **/
 	
-	private static ArrayList<APIClientRunnable> runnables;
+	private static ArrayList<ApiClientRunnable> runnables;
 	private static ArrayList<Thread> threads;
 
 	public static HashSet<ApiNewMovie> getUpcomingMovies() {
@@ -55,23 +55,23 @@ public class ApiCalls {
 	public static ApiMovieDetails getMovieDetailsFromAPI(int id) {
 		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
 				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-		return new Gson().fromJson(APIClient.getResultFromTMDB(url.toString()), ApiMovieDetails.class);
+		return new Gson().fromJson(ApiClient.getResultFromTMDB(url.toString()), ApiMovieDetails.class);
 	}
 
 	public static ApiShowDetails getShowDetailsFromAPI(int id) {
 		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
 				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-		return new Gson().fromJson(APIClient.getResultFromTMDB(url.toString()), ApiShowDetails.class);
+		return new Gson().fromJson(ApiClient.getResultFromTMDB(url.toString()), ApiShowDetails.class);
 	}
 
 	private static HashSet<?> getAllResults(String url, String type) {
-		APIClientRunnable runnable = firstThreadRun(url);
+		ApiClientRunnable runnable = firstThreadRun(url);
 		int pages = getTotalNumPages(type, runnable);
 		runRemainingThreads(url,pages);
 		return getResultsFromPages(type);
 	}
 	
-	private static int getTotalNumPages(String type, APIClientRunnable runnable) {
+	private static int getTotalNumPages(String type, ApiClientRunnable runnable) {
 		int pages = 0;
 		if (type == "movie") {
 			pages = new Gson().fromJson(runnable.getResult(), ApiNewMovieResults.class).getTotalPages();
@@ -81,12 +81,12 @@ public class ApiCalls {
 		return pages;
 	}
 	
-	private static APIClientRunnable firstThreadRun(String url) {
+	private static ApiClientRunnable firstThreadRun(String url) {
 		runnables = new ArrayList<>();
 		threads = new ArrayList<>();
 
 		StringBuilder sb = new StringBuilder(url).append("1");
-		APIClientRunnable runnable = new APIClientRunnable(sb.toString());
+		ApiClientRunnable runnable = new ApiClientRunnable(sb.toString());
 		Thread thread = new Thread(runnable);
 		
 		runnables.add(runnable);
@@ -104,7 +104,7 @@ public class ApiCalls {
 	private static void runRemainingThreads(String url, int pages) {
 		for (int page = 2; page <= pages; page++) {
 			StringBuilder sb = new StringBuilder(url).append(page);
-			APIClientRunnable runnable = new APIClientRunnable(sb.toString());
+			ApiClientRunnable runnable = new ApiClientRunnable(sb.toString());
 			runnables.add(runnable);
 			Thread thread = new Thread(runnable);
 			threads.add(thread);

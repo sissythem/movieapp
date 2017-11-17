@@ -21,20 +21,20 @@ import okhttp3.OkHttpClient.Builder;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class APIClient {
-	private static final Logger logger = LoggerFactory.getLogger(APIClient.class);
+public class ApiClient {
+	private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
 	private static AtomicInteger counter = new AtomicInteger(0);
 	private static Timer timer;
 	private static OkHttpClient client;
 	
 	public static synchronized void setTimer() {
 		if (timer == null) {
-			System.out.println("timer created");
+			logger.info("timer created");
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new TimerTask() {
 				@Override
 				public void run() {
-					System.out.println("Hi from Apiclient timer!!!");
+					logger.info("Timer is running");;
 					synchronized (counter) {
 						counter.set(0);
 						counter.notifyAll();
@@ -86,9 +86,9 @@ public class APIClient {
 	private static void checkForReachingCallsLimit(Response response, String url) {
 		if (response.code() == 429) {
 			try {
-				System.out.println(Thread.currentThread().getId() + ":sleeping");
+				logger.info(Thread.currentThread().getId() + ":sleeping");
 				Thread.sleep(1500);
-				System.out.println(Thread.currentThread().getId() + ":will try again");
+				logger.info(Thread.currentThread().getId() + ":will try again");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

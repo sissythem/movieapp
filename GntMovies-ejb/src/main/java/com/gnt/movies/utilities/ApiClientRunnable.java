@@ -1,16 +1,16 @@
 package com.gnt.movies.utilities;
 
-public class APIClientRunnable implements Runnable {
+public class ApiClientRunnable implements Runnable {
 	
 	private String urlApi;
 	private String result;
 	
 	@Override
 	public void run() {
-		result = APIClient.getResultFromTMDB(urlApi);
+		result = ApiClient.getResultFromTMDB(urlApi);
 	}
 
-	public APIClientRunnable(String urlApi) {
+	public ApiClientRunnable(String urlApi) {
 		super();
 		this.urlApi = urlApi;
 	}

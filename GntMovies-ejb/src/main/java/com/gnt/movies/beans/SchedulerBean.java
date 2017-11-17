@@ -15,7 +15,7 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewShow;
-import com.gnt.movies.utilities.APIClient;
+import com.gnt.movies.utilities.ApiClient;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -56,12 +56,12 @@ public class SchedulerBean implements DataProviderHolder
 	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",persistent=false)
 	public void update() {
 		logger.info("Scheduler updating database!");
-		APIClient.setTimer();
+		ApiClient.setTimer();
 		getUpcomingMovies();
 		getNowPlayingMovies();
 		getOnTheAirShows();
 		getAir2dayShows();
-		APIClient.unsetTimer();
+		ApiClient.unsetTimer();
 		logger.info("Scheduler finished updating database!");
 	}
 	
