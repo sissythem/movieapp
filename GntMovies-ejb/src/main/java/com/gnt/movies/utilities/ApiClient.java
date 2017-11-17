@@ -1,20 +1,10 @@
 package com.gnt.movies.utilities;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import com.gnt.movies.beans.SchedulerBean;
-import com.gnt.movies.theMovieDB.ApiMovieDetails;
-import com.gnt.movies.theMovieDB.ApiNewMovie;
-import com.gnt.movies.theMovieDB.ApiNewMovieResults;
-import com.gnt.movies.theMovieDB.ApiNewShow;
-import com.gnt.movies.theMovieDB.ApiNewShowResults;
-import com.gnt.movies.theMovieDB.ApiShowDetails;
-import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
 import okhttp3.OkHttpClient.Builder;
