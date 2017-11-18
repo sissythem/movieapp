@@ -72,7 +72,7 @@ public class ApiShowDetails {
 	public void setFirstAirDate(String firstAirDate) {
 		this.firstAirDate = firstAirDate;
 	}
-	public ArrayList<Genre> getGenresAPI() {
+	public ArrayList<Genre> getGenres() {
 		return genres;
 	}
 	public void setGenres(ArrayList<Genre> genres) {
