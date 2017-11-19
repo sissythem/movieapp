@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -38,7 +39,7 @@ public class OnTheAirShowBean implements DataProviderHolder {
 	@Named("OnTheAirShowDaoImpl")
 	OnTheAirShowDao onTheAirShowDao;
 
-	private static HashSet<Integer> allIdTmdb;
+	private static ConcurrentHashMap<Integer, Boolean> allIdTmdb;
 
 	@EJB
 	ShowBean showBean;
@@ -49,6 +50,11 @@ public class OnTheAirShowBean implements DataProviderHolder {
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
+	}
+	
+	public static void init() {
+		allIdTmdb = new ConcurrentHashMap<>();
+		
 	}
 
 	public void addOnTheAirShow(OnTheAirShow onTheAirShow) {
@@ -67,12 +73,10 @@ public class OnTheAirShowBean implements DataProviderHolder {
 		return (ArrayList<OnTheAirShow>) onTheAirShowDao.findAll(this);
 	}
 
-	public static HashSet<Integer> getAllIdTmdb() {
-		return allIdTmdb;
-	}
-
 	public void findAllIdTmdb() {
-		allIdTmdb = (HashSet<Integer>) onTheAirShowDao.getAllIdTmdb(this);
+		for (Object o : onTheAirShowDao.getAllIdTmdb(this)) {
+			allIdTmdb.put((Integer) o, true);
+		}
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -84,7 +88,7 @@ public class OnTheAirShowBean implements DataProviderHolder {
 		Show show = showBean.getShow(apiNewShow);
 		onTheAirShow.setShow(show);
 		addOnTheAirShow(onTheAirShow);
-		allIdTmdb.add(onTheAirShow.getIdTmdb());
+		allIdTmdb.put(onTheAirShow.getIdTmdb(), true);
 	}
 
 	public boolean addOnTheAir(OnTheAirShow onTheAirShow) {
@@ -103,9 +107,9 @@ public class OnTheAirShowBean implements DataProviderHolder {
 			allIdTmdb.remove(apiNewShow.getId());
 		}
 
-		for (Integer idtmdb : allIdTmdb) {
-			logger.info("removing On the air show with tmdbId=" + idtmdb);
-			onTheAirShowDao.deleteOnTheAirShowByIdTmdb(this, idtmdb);
-		}
+		allIdTmdb.forEachKey(10, e -> {
+			logger.info("removing movie with tmdbId=" + e);
+			onTheAirShowDao.deleteOnTheAirShowByIdTmdb(this, e);
+		});
 	}
 }

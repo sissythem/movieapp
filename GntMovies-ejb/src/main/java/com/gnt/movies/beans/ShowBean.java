@@ -18,7 +18,6 @@ import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.ShowImage;
 import com.gnt.movies.theMovieDB.ApiNewShow;
-import com.gnt.movies.theMovieDB.ApiPostersBackdrops;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
@@ -81,34 +80,25 @@ public class ShowBean implements DataProviderHolder{
     	show.setCast(gson.toJson(showDetails.getCast()));
     	show.setCrew(gson.toJson(showDetails.getCrew()));
     	showDetails.setAllImages(showDetails.getApiImages());
-//    	for (Genre apiGenre : showDetails.getGenresAPI()) {
-//			Genre genre = genreBean.findGenreByName(apiGenre.getName());
-//			ShowGenre showGenre = new ShowGenre(show,genre);
-//			show.addShowGenre(showGenre);
-//		}
-    	
-    	for (ApiPostersBackdrops apiImage : showDetails.getAllImages()) {
+    	showDetails.getGenres().stream().forEach(apiGenre->{
+    		Genre genre = genreBean.findGenreByName(apiGenre.getName());
+    		show.addGenre(genre);
+    	});
+    	showDetails.getAllImages().stream().forEach(apiImage->{
     		ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
+    		showImageBean.addShowImage(showImage);
     		show.addShowImage(showImage);
-    	}
+    	});
 	}
     
     public Show addNewShow(ApiNewShow showApi) {
 		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
 		Show show = createShowFromAPI(showApi);
-		
 		ApiShowDetails showDetails = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
 		HashSet<Genre> set = new HashSet<Genre>();
-//		set.addAll(showDetails.getGenresAPI());
-		
+		set.addAll(showDetails.getGenres());
 		updateShowWithDetails(show, showDetails);
 		addShow(show);
-//		for (ShowGenre showGenre : show.getShowGenres()) {
-//			showGenreBean.addShowGenre(showGenre);
-//		}
-		for (ShowImage showImage : show.getShowImages()) {
-			showImageBean.addShowImage(showImage);
-		}
 		return show;
     }
     

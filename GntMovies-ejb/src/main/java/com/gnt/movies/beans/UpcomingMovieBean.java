@@ -41,7 +41,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	@EJB
 	private MovieBean movieBean;
 
-	static ConcurrentHashMap<Integer, Boolean> allIdTmdb;
+	private static ConcurrentHashMap<Integer, Boolean> allIdTmdb;
 
 	public UpcomingMovieBean() {
 	}

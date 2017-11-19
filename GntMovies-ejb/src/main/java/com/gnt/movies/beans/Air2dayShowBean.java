@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -18,6 +19,7 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.entities.Air2dayShow;
 import com.gnt.movies.entities.Show;
+import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -33,7 +35,7 @@ public class Air2dayShowBean implements DataProviderHolder{
 	@PersistenceContext
 	private EntityManager em;
 	
-	static HashSet<Integer> allIdTmdb;
+	private static ConcurrentHashMap<Integer, Boolean> allIdTmdb;
 
 	@Inject
 	@JpaDao
@@ -51,6 +53,11 @@ public class Air2dayShowBean implements DataProviderHolder{
 		return em;
 	}
     
+    public static void init() {
+		allIdTmdb = new ConcurrentHashMap<>();
+		
+	}
+    
     public void addAir2dayShow(Air2dayShow air2dayShow) {
     	air2dayShowDao.createAir2dayShow(this, air2dayShow);
     }
@@ -66,12 +73,10 @@ public class Air2dayShowBean implements DataProviderHolder{
     public ArrayList<Air2dayShow> getAllAir2dayShows() {
     	return (ArrayList<Air2dayShow>) air2dayShowDao.findAll(this);
     }
-    public static HashSet<Integer> getAllIdTmdb() {
-		return allIdTmdb;
-	}
-
-	public void findAllIdTmdb() {
-		allIdTmdb = (HashSet<Integer>) air2dayShowDao.getAllIdTmdb(this);
+    public void findAllIdTmdb() {
+		for (Object o : air2dayShowDao.getAllIdTmdb(this)) {
+			allIdTmdb.put((Integer) o, true);
+		}
 	}
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -83,7 +88,7 @@ public class Air2dayShowBean implements DataProviderHolder{
 		Show show = showBean.getShow(newShowAPI);
 		air2dayShow.setShow(show);
 		addAir2day(air2dayShow);
-		allIdTmdb.add(air2dayShow.getIdTmdb());
+		allIdTmdb.put(air2dayShow.getIdTmdb(), true);
     }
     
     public boolean addAir2day(Air2dayShow air2dayShow) {
@@ -99,12 +104,12 @@ public class Air2dayShowBean implements DataProviderHolder{
     
     public void removeOldNotAir2dayShow(HashSet<ApiNewShow> air2dayShowsAPI) {
     	for (ApiNewShow apiNewShow : air2dayShowsAPI) {
-    		allIdTmdb.remove(apiNewShow.getId());
-    	}
-    	
-    	for (Integer idtmdb : allIdTmdb) {
-    		logger.info("removing air today show with tmdbId=" + idtmdb);
-    		air2dayShowDao.deleteAir2dayShowByIdTmdb(this, idtmdb);
-    	} 
+			allIdTmdb.remove(apiNewShow.getId());
+		}
+
+		allIdTmdb.forEachKey(10, e -> {
+			logger.info("removing movie with tmdbId=" + e);
+			air2dayShowDao.deleteAir2dayShowByIdTmdb(this, e);
+		}); 
     }
 }
