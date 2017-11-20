@@ -70,15 +70,21 @@ public class MovieBean implements DataProviderHolder {
 		movie.setStatus(movieDetails.getStatus());
 		movie.setTitle(movieDetails.getTitle());
 		movie.setImdbId(movieDetails.getImdbId());
-		movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
-		movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
+		if (movieDetails.getApiCredits() != null) {
+			if (movieDetails.getApiCredits().getCast() != null) {
+				movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
+			}
+			if (movieDetails.getApiCredits().getCrew() != null) {
+				movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
+			}
+		}
 		movieDetails.setAllImages(movieDetails.getApiImages());
-		
-		movieDetails.getGenres().stream().forEach(apiGenre->{
+
+		movieDetails.getGenres().stream().forEach(apiGenre -> {
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
 			movie.addGenre(genre);
 		});
-		movieDetails.getAllImages().stream().forEach(apiImage->{
+		movieDetails.getAllImages().stream().forEach(apiImage -> {
 			MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
 			movieImageBean.addMovieImage(movieImage);
 			movie.addMovieImage(movieImage);
