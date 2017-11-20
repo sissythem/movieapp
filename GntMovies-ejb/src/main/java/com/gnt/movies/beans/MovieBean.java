@@ -90,8 +90,6 @@ public class MovieBean implements DataProviderHolder {
 		logger.info("addNewMovieWithGenres movie with tmdbId=" + movieApi.getId());
 		Movie movie = createMovieFromAPI(movieApi);
 		ApiMovieDetails movieDetails = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
-		HashSet<Genre> set = new HashSet<Genre>();
-		set.addAll(movieDetails.getGenres());
 		updateMovieWithDetails(movie, movieDetails);
 		addMovie(movie);
 		return movie;

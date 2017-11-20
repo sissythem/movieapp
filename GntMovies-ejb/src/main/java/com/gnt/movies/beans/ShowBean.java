@@ -95,8 +95,6 @@ public class ShowBean implements DataProviderHolder{
 		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
 		Show show = createShowFromAPI(showApi);
 		ApiShowDetails showDetails = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
-		HashSet<Genre> set = new HashSet<Genre>();
-		set.addAll(showDetails.getGenres());
 		updateShowWithDetails(show, showDetails);
 		addShow(show);
 		return show;
