@@ -102,10 +102,7 @@ public class MovieBean implements DataProviderHolder {
 		ApiMovieDetails movieDetails = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
 		updateMovieWithDetails(movie, movieDetails);
 		addMovie(movie);
-		
-		for(MovieImage movieImage : movie.getMovieImages()){
-			movieImageBean.addMovieImage(movieImage);
-		}
+		movie.getMovieImages().stream().forEach(movieImage->movieImageBean.addMovieImage(movieImage));
 		return movie;
 	}
 
