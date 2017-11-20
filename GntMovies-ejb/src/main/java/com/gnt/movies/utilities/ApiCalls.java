@@ -20,9 +20,8 @@ public class ApiCalls {
 	private static ArrayList<Thread> threads;
 
 	/**
-	 * Get new Movies and Shows from API using threads for getting all pages from
-	 * API
-	 * ==============================================================================
+	 * Calls to MovieDB API
+	 * ====================
 	 **/
 	public static HashSet<Genre> getGenres() {
 		HashSet<Genre> set = new HashSet<>();
@@ -92,6 +91,9 @@ public class ApiCalls {
 		return new Gson().fromJson(ApiClient.getResultFromTMDB(url.toString()), ApiShowDetails.class);
 	}
 
+	/** Get results from calls to the MovieDB API
+	 * ==========================================
+	 * **/
 	private static HashSet<?> getAllResults(String url, String type) {
 		ApiClientRunnable runnable = firstThreadRun(url);
 		int pages = getTotalNumPages(type, runnable);

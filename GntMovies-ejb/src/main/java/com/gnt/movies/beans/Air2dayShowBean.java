@@ -81,7 +81,7 @@ public class Air2dayShowBean implements DataProviderHolder{
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void checkAir2dayShow(ApiNewShow newShowAPI) {
-		if (allIdTmdb.contains(newShowAPI.getId()))
+		if (allIdTmdb.containsKey(newShowAPI.getId()))
 			return;
 		logger.info("Adding show with tmdbId=" + newShowAPI.getId());
 		Air2dayShow air2dayShow = createAir2dayShowFromAPI(newShowAPI);

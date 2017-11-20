@@ -38,7 +38,7 @@ public class ShowImageBean implements DataProviderHolder {
 	public void addShowImage(ShowImage showImage) {
 
 		showImageDao.createShowImage(this, showImage);
-		logger.info("addShowImage with movieId=" + showImage.getShow().getIdTmdb());
+		logger.info("addShowImage with showId=" + showImage.getShow().getIdTmdb());
 	}
 
 }
