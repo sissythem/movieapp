@@ -37,7 +37,7 @@ public class GenreTester {
 	public void testProximity() {
 		Genre genre = genreBean.findGenreByName("Action");
 		assertEquals(genre.getName(), "Action");
-		genreBean.editGenre(genre);
+//		genreBean.editGenre(genre);
 		assertEquals(genre.getName(), "Action");
 	}
 }
