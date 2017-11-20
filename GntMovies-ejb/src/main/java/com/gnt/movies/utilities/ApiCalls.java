@@ -133,7 +133,9 @@ public class ApiCalls {
 			Thread thread = new Thread(runnable);
 			threads.add(thread);
 		}
-		threads.stream().forEach(thread->thread.start());
+		for(int i=1; i<threads.size();i++) {
+			threads.get(i).start();
+		}
 		for (int i = 1; i < threads.size(); i++) {
 			try {
 				threads.get(i).join();

@@ -83,6 +83,8 @@ public class SchedulerBean implements DataProviderHolder
 		GenreBean.init();
 		UpcomingMovieBean.init();
 		NowPlayingMovieBean.init();
+		Air2dayShowBean.init();
+		OnTheAirShowBean.init();
 	}
 	
 	private void getUpcomingMovies() {

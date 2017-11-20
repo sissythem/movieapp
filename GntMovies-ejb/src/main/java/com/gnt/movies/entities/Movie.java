@@ -93,12 +93,6 @@ public class Movie implements Serializable, Comparable<Movie> {
 
 	private int voteCount;
 
-//	@ManyToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
-//	@JoinTable(name = "movie_genres", joinColumns = {
-//			@JoinColumn(name = "movieId", referencedColumnName = "id") }, inverseJoinColumns = {
-//					@JoinColumn(name = "genreId", referencedColumnName = "id") }
-//
-//	)
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name = "movie_genres", joinColumns = {
 			@JoinColumn(name = "movieId", referencedColumnName = "id") }, inverseJoinColumns = {

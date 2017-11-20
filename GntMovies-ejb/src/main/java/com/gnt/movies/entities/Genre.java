@@ -47,11 +47,6 @@ public class Genre implements Serializable {
     @ManyToMany(fetch=FetchType.LAZY)
     private List<Movie> movies;
 
-    
-    
-//    @OneToMany(mappedBy="genre")
-//    private List<ShowGenre> showGenres;
-
     public List<Movie> getMovies() {
 		return movies;
 	}

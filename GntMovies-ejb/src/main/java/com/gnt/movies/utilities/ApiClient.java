@@ -15,7 +15,7 @@ public class ApiClient {
 	private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
 	private static AtomicInteger counter = new AtomicInteger(0);
 	private static Timer timer;
-	private static OkHttpClient client;
+	private static OkHttpClient client = new OkHttpClient();
 	
 	public static synchronized void setTimer() {
 		if (timer == null) {
