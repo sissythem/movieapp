@@ -78,17 +78,21 @@ public class MovieBean implements DataProviderHolder {
 				movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
 			}
 		}
-		movieDetails.setAllImages(movieDetails.getApiImages());
+		if (movieDetails.getApiImages() != null) {
+			movieDetails.setAllImages(movieDetails.getApiImages());
+			movieDetails.getAllImages().stream().forEach(apiImage -> {
+				MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
+				movieImageBean.addMovieImage(movieImage);
+				movie.addMovieImage(movieImage);
+			});
+		}
+		if (movieDetails.getGenres() != null) {
+			movieDetails.getGenres().stream().forEach(apiGenre -> {
+				Genre genre = genreBean.findGenreByName(apiGenre.getName());
+				movie.addGenre(genre);
+			});
+		}
 
-		movieDetails.getGenres().stream().forEach(apiGenre -> {
-			Genre genre = genreBean.findGenreByName(apiGenre.getName());
-			movie.addGenre(genre);
-		});
-		movieDetails.getAllImages().stream().forEach(apiImage -> {
-			MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
-			movieImageBean.addMovieImage(movieImage);
-			movie.addMovieImage(movieImage);
-		});
 	}
 
 	private Movie addNewMovie(ApiNewMovie movieApi) {
