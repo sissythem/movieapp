@@ -1,19 +1,20 @@
 package com.gnt.movies.dto;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import com.gnt.movies.entities.Movie;
 
-public class MovieListItemDto implements Serializable {
+public class MovieListItemDto implements Serializable, Comparable<MovieListItemDto> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private Integer id;
 	private String originalTitle;
 	private String posterPath;
-	private double voteAverage;
+	private Double voteAverage;
     private int voteCount;
-    private double averageRating;
+    private Double averageRating;
     
     public MovieListItemDto() {
     	
@@ -37,7 +38,7 @@ public class MovieListItemDto implements Serializable {
 		this.voteCount = movie.getVoteCount();
 		this.averageRating = movie.getAverageRating();
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -55,7 +56,7 @@ public class MovieListItemDto implements Serializable {
 	public void setPosterPath(String posterPath) {
 		this.posterPath = posterPath;
 	}
-	public double getVoteAverage() {
+	public Double getVoteAverage() {
 		return voteAverage;
 	}
 	public void setVoteAverage(double voteAverage) {
@@ -68,7 +69,7 @@ public class MovieListItemDto implements Serializable {
 		this.voteCount = voteCount;
 	}
 
-	public double getAverageRating() {
+	public Double getAverageRating() {
 		return averageRating;
 	}
 
@@ -94,4 +95,44 @@ public class MovieListItemDto implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object == null) {
+			return false;
+		}
+		if (!(object instanceof Movie)) {
+			return false;
+		}
+		MovieListItemDto other = (MovieListItemDto) object;
+
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}
+
+	/** Default compareTo, sorting based on our rating **/
+	@Override
+	public int compareTo(MovieListItemDto movie) {
+		Double averageRating = this.getAverageRating();
+		Double otherAverageRating = movie.getAverageRating();
+		return -averageRating.compareTo(otherAverageRating);
+	}
+
+	/** Compare and sort movies based on vote average of the movie db **/
+	public static Comparator<MovieListItemDto> VoteAverageComparator = new Comparator<MovieListItemDto>() {
+
+		@Override
+		public int compare(MovieListItemDto movie1, MovieListItemDto movie2) {
+			return movie1.getVoteAverage().compareTo(movie2.getVoteAverage());
+		}
+	};
 }

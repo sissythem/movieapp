@@ -10,7 +10,6 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.jboss.ejb3.annotation.TransactionTimeout;
 
@@ -18,8 +17,8 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewShow;
-import com.gnt.movies.utilities.ApiClient;
 import com.gnt.movies.utilities.ApiCalls;
+import com.gnt.movies.utilities.ApiClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
