@@ -110,9 +110,7 @@ public class ShowBean implements DataProviderHolder {
 		ApiShowDetails showDetails = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
 		updateShowWithDetails(show, showDetails);
 		addShow(show);
-		show.getShowImages().stream().forEach(image -> {
-			showImageBean.addShowImage(image);
-		});
+		show.getShowImages().stream().forEach(image -> showImageBean.addShowImage(image));
 		return show;
 	}
 
