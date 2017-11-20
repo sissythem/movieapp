@@ -22,7 +22,6 @@ public class MyUI extends UI {
 	private static final long serialVersionUID = 1L;
 
 	@Inject private UserBean userBean;
-	@Inject private SchedulerBean schedulerBean;
 	
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -37,9 +36,7 @@ public class MyUI extends UI {
 	public UserBean getUserBean() {
 		return userBean;
 	}
-	public SchedulerBean getSchedulerBean() {
-		return schedulerBean;
-	}
+	
 
 //    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 //    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
