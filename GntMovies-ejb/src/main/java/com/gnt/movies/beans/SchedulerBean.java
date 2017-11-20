@@ -80,7 +80,6 @@ public class SchedulerBean implements DataProviderHolder
 	
 	@PostConstruct
 	private void init() {
-		GenreBean.init();
 		UpcomingMovieBean.init();
 		NowPlayingMovieBean.init();
 		Air2dayShowBean.init();
