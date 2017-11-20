@@ -82,17 +82,16 @@ public class MovieBean implements DataProviderHolder {
 			movieDetails.setAllImages(movieDetails.getApiImages());
 			movieDetails.getAllImages().stream().forEach(apiImage -> {
 				MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
-				movieImageBean.addMovieImage(movieImage);
 				movie.addMovieImage(movieImage);
 			});
 		}
-		if (movieDetails.getGenres() != null) {
+		if(movieDetails.getGenres()!=null) {
 			movieDetails.getGenres().stream().forEach(apiGenre -> {
 				Genre genre = genreBean.findGenreByName(apiGenre.getName());
 				movie.addGenre(genre);
 			});
 		}
-
+		
 	}
 
 	private Movie addNewMovie(ApiNewMovie movieApi) {
@@ -101,6 +100,10 @@ public class MovieBean implements DataProviderHolder {
 		ApiMovieDetails movieDetails = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
 		updateMovieWithDetails(movie, movieDetails);
 		addMovie(movie);
+		
+		for(MovieImage movieImage : movie.getMovieImages()){
+			movieImageBean.addMovieImage(movieImage);
+		}
 		return movie;
 	}
 
