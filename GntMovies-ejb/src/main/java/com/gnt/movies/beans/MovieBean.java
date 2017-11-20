@@ -1,7 +1,5 @@
 package com.gnt.movies.beans;
 
-import java.util.HashSet;
-
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;

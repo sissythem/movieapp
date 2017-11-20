@@ -1,7 +1,6 @@
 package com.gnt.movies.beans;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;

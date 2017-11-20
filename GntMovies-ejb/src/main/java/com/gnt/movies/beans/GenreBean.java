@@ -79,5 +79,4 @@ public class GenreBean implements DataProviderHolder {
 	private void editGenre(Genre genre) {
 		genreDao.updateGenre(this, genre);
 	}
-
 }
