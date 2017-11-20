@@ -46,7 +46,7 @@ public class ApiClient {
 			checkForReachingCallsLimit(response, url);
 			return response.body().string();
 		} catch (IOException e) {
-			logger.error("Couldn't get the responce", e);
+			logger.error("Couldn't get the response", e);
 			return getResultFromTMDB(url);
 		}
 	}

@@ -49,6 +49,7 @@ public class MovieBean implements DataProviderHolder {
 	}
 
 	private Movie createMovieFromAPI(ApiNewMovie upcomingMovie) {
+		logger.info("createMovieFromAPI movie with tmdbId=" + upcomingMovie.getId());
 		byte adult;
 		if (upcomingMovie.isAdult())
 			adult = 1;
@@ -61,6 +62,7 @@ public class MovieBean implements DataProviderHolder {
 	}
 
 	private synchronized void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
+		logger.info("updateMovieWithDetails tmdbId=" + movie.getIdTmdb());
 		Gson gson = new Gson();
 		movie.setBudget(movieDetails.getBudget());
 		movie.setHomepage(movieDetails.getHomepage());
@@ -108,6 +110,7 @@ public class MovieBean implements DataProviderHolder {
 	}
 
 	public synchronized Movie getMovie(ApiNewMovie apiNewMovie) {
+		logger.info("getMovie movie with tmdbId=" + apiNewMovie.getId());
 		Movie movie = findMovieByIdTmdb(apiNewMovie.getId());
 		if (movie == null)
 			movie = addNewMovie(apiNewMovie);

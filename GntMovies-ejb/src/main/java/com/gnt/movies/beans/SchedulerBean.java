@@ -64,8 +64,8 @@ public class SchedulerBean implements DataProviderHolder
 		logger.info("Scheduler updating database!");
 		ApiClient.setTimer();
 		getGenres();
-		getUpcomingMovies();
-		getNowPlayingMovies();
+//		getUpcomingMovies();
+//		getNowPlayingMovies();
 		getOnTheAirShows();
 		getAir2dayShows();
 		ApiClient.unsetTimer();
