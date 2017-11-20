@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ejb.EJB;
@@ -102,7 +103,8 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 			allIdTmdb.remove(apiNewMovie.getId());
 		}
 
-		allIdTmdb.forEachKey(10, e -> {
+		Set<Integer>allidtmd = allIdTmdb.keySet();
+		allidtmd.stream().forEach(e->{
 			logger.info("removing movie with tmdbId=" + e);
 			nowPlayingMovieDao.deleteNowPlayingMovieByIdTmdb(this, e);
 		});

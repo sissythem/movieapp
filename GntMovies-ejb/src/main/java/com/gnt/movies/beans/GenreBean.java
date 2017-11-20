@@ -39,14 +39,8 @@ public class GenreBean implements DataProviderHolder {
 		return em;
 	}
 
-	// static ConcurrentHashMap<String, Genre> genres;
-
 	public GenreBean() {
 
-	}
-
-	public static void init() {
-		// genres = new ConcurrentHashMap<>();
 	}
 
 	public Genre findGenreByName(String name) {
@@ -85,5 +79,4 @@ public class GenreBean implements DataProviderHolder {
 	private void editGenre(Genre genre) {
 		genreDao.updateGenre(this, genre);
 	}
-
 }

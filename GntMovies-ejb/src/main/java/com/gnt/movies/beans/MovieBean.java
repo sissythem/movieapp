@@ -1,7 +1,5 @@
 package com.gnt.movies.beans;
 
-import java.util.HashSet;
-
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -75,6 +73,7 @@ public class MovieBean implements DataProviderHolder {
 		movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
 		movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
 		movieDetails.setAllImages(movieDetails.getApiImages());
+		
 		movieDetails.getGenres().stream().forEach(apiGenre->{
 			Genre genre = genreBean.findGenreByName(apiGenre.getName());
 			movie.addGenre(genre);
@@ -90,9 +89,7 @@ public class MovieBean implements DataProviderHolder {
 		logger.info("addNewMovieWithGenres movie with tmdbId=" + movieApi.getId());
 		Movie movie = createMovieFromAPI(movieApi);
 		ApiMovieDetails movieDetails = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
-		HashSet<Genre> set = new HashSet<Genre>();
-		//set.addAll(movieDetails.getGenres());
-		//updateMovieWithDetails(movie, movieDetails);
+		updateMovieWithDetails(movie, movieDetails);
 		addMovie(movie);
 		return movie;
 	}

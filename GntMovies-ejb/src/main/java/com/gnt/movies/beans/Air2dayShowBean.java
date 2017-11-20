@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ejb.EJB;
@@ -19,7 +20,6 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.entities.Air2dayShow;
 import com.gnt.movies.entities.Show;
-import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -107,9 +107,10 @@ public class Air2dayShowBean implements DataProviderHolder{
 			allIdTmdb.remove(apiNewShow.getId());
 		}
 
-		allIdTmdb.forEachKey(10, e -> {
+    	Set<Integer>allidtmd = allIdTmdb.keySet();
+		allidtmd.stream().forEach(e->{
 			logger.info("removing movie with tmdbId=" + e);
 			air2dayShowDao.deleteAir2dayShowByIdTmdb(this, e);
-		}); 
+		});
     }
 }

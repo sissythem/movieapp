@@ -10,6 +10,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.jboss.ejb3.annotation.TransactionTimeout;
 
@@ -80,7 +81,6 @@ public class SchedulerBean implements DataProviderHolder
 	
 	@PostConstruct
 	private void init() {
-		GenreBean.init();
 		UpcomingMovieBean.init();
 		NowPlayingMovieBean.init();
 		Air2dayShowBean.init();
