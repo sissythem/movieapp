@@ -3,8 +3,9 @@ package com.gnt.movies.utilities;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import okhttp3.OkHttpClient;
 import okhttp3.OkHttpClient.Builder;
@@ -13,45 +14,70 @@ import okhttp3.Response;
 
 public class ApiClient {
 	private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
-	private static AtomicInteger counter = new AtomicInteger(0);
+//	private static AtomicInteger counter = new AtomicInteger(0);
+	private static AtomicLong counter = new AtomicLong(0);
 	private static Timer timer;
+	private static Timer timer1;
 	private static OkHttpClient client = new OkHttpClient();
+	
+	private static ConcurrentHashMap<Long, ApiEntry> map;
+	
+	public static synchronized void init() {
+		map = new ConcurrentHashMap<>();
+	}
 	
 	public static synchronized void setTimer() {
 		if (timer == null) {
 			logger.info("timer created");
-			timer = new Timer();
-			timer.scheduleAtFixedRate(new TimerTask() {
+//			timer = new Timer();
+//			timer.scheduleAtFixedRate(new TimerTask() {
+//				@Override
+//				public void run() {
+//					logger.info("Timer is running!");
+//					synchronized (counter) {
+//						counter.set(0);
+//						counter.notifyAll();
+//					}
+//					
+//				}
+//			}, 0, 15*1000);
+			timer1 = new Timer();
+			timer1.scheduleAtFixedRate(new TimerTask() {
 				@Override
 				public void run() {
-					logger.info("Timer is running");;
-					synchronized (counter) {
-						counter.set(0);
-						counter.notifyAll();
-					}
+					logger.info("Big Timer is running, total requests:"+counter.get()+" active requests:"+map.size());
 				}
-			}, 0, 15*1000);
+			}, 0, 1*1000);
 		}
 	}
 
 	public static synchronized void unsetTimer() {
-		timer = null;
+//		timer = null;
+		timer1.cancel();
+		timer1=null;
 	}
 
 	public static String getResultFromTMDB(String url) {
 		checkNumCalls(url);
+		ApiEntry entry = null;
 		try {
+			Long l =counter.getAndIncrement(); 
+			entry = new ApiEntry(l);
+			
+			map.put(l, entry);
 			Response response = client.newCall(buildRequest(url)).execute();
+			entry.setTimer();
 			logger.info(Thread.currentThread().getId() + ":" + response.code());
 			checkForReachingCallsLimit(response, url);
 			return response.body().string();
 		} catch (IOException e) {
 			logger.error("Couldn't get the response", e);
+			entry.setTimer();
 			return getResultFromTMDB(url);
 		}
 	}
-	private static void checkNumCalls(String url) {
-		if (counter.incrementAndGet() >= 30) {
+	private static synchronized void checkNumCalls(String url) {
+		if (map.size() >= 30) {
 			try {
 				logger.info(Thread.currentThread().getId() + ":Will wait before making a new request.");
 				synchronized (counter) {
@@ -85,4 +111,15 @@ public class ApiClient {
 			getResultFromTMDB(url);
 		}
 	}
+
+	public static ConcurrentHashMap<Long, ApiEntry> getMap() {
+		return map;
+	}
+
+	public static void notifyCounter() {
+		synchronized (counter) {
+			counter.notify();
+		}
+	}
+
 }
