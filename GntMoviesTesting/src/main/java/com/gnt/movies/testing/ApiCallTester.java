@@ -1,7 +1,5 @@
 package com.gnt.movies.testing;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -30,7 +28,7 @@ public class ApiCallTester {
 	@Deployment
 	public static WebArchive createDeployment() throws IOException {
 		
-		return ShrinkWrap.create(WebArchive.class, "test.war")
+		return ShrinkWrap.create(WebArchive.class, "testApiCalls.war")
 				.addPackages(true, "com.gnt.movies")
 				.addAsLibraries(
 						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())

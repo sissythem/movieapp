@@ -23,6 +23,24 @@ public class ApiNewMovie {
 	private String overview;
 	@SerializedName("release_date")
 	private String releaseDate;
+	
+	public ApiNewMovie() {
+		
+	}
+	public ApiNewMovie(int voteCount, int id, double voteAverage, String title, String poster_path,
+			String originalLanguage, String originalTitle, boolean adult, String overview, String releaseDate) {
+		super();
+		this.voteCount = voteCount;
+		this.id = id;
+		this.voteAverage = voteAverage;
+		this.title = title;
+		this.poster_path = poster_path;
+		this.originalLanguage = originalLanguage;
+		this.originalTitle = originalTitle;
+		this.adult = adult;
+		this.overview = overview;
+		this.releaseDate = releaseDate;
+	}
 
 	public int getVoteCount() {
 		return voteCount;

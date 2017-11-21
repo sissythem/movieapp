@@ -25,15 +25,13 @@ public class UserTester
 	public static JavaArchive createDeployment() throws IOException 
 	{
 		// You can use war packaging...
-        WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
-            .addPackage(UserBean.class.getPackage())
-            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-            .addAsWebInfResource("wildfly-ds.xml")
-            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+		WebArchive war = ShrinkWrap.create(WebArchive.class, "testUserBean.war").addPackages(true, "com.gnt.movies")
+				.addAsResource("test-persistence.xml", "META-INF/persistence.xml").addAsWebInfResource("wildfly-ds.xml")
+				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         // or jar packaging...
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
-            .addPackage(UserBean.class.getPackage())
+            .addPackages(true, "com.gnt.movies")
             .addAsManifestResource("test-persistence.xml", "persistence.xml")
             .addAsManifestResource("wildfly-ds.xml")
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");

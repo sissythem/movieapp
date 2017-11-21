@@ -51,6 +51,40 @@ public class ApiMovieDetails {
 	private ApiCredits apiCredits;
 	
 	private ArrayList<ApiPostersBackdrops> allImages;
+	
+	public ApiMovieDetails() {
+		
+	}
+	public ApiMovieDetails(boolean adult, double budget, ArrayList<Genre> genres, String homepage, int id,
+			String imdbId, String originalLanguage, String originalTitle, String overview,
+			ArrayList<ApiProductionCompanies> apiProductionCompanies,
+			ArrayList<ApiProductionCountries> apiProductionCountries, String releaseDate, double revenue, int runtime,
+			ArrayList<ApiSpokenLanguages> spokenLanguages, String status, String title, double voteAverage,
+			int voteCount, ApiImages apiImages, ApiCredits apiCredits, ArrayList<ApiPostersBackdrops> allImages) {
+		super();
+		this.adult = adult;
+		this.budget = budget;
+		this.genres = genres;
+		this.homepage = homepage;
+		this.id = id;
+		this.imdbId = imdbId;
+		this.originalLanguage = originalLanguage;
+		this.originalTitle = originalTitle;
+		this.overview = overview;
+		this.apiProductionCompanies = apiProductionCompanies;
+		this.apiProductionCountries = apiProductionCountries;
+		this.releaseDate = releaseDate;
+		this.revenue = revenue;
+		this.runtime = runtime;
+		this.spokenLanguages = spokenLanguages;
+		this.status = status;
+		this.title = title;
+		this.voteAverage = voteAverage;
+		this.voteCount = voteCount;
+		this.apiImages = apiImages;
+		this.apiCredits = apiCredits;
+		this.allImages = allImages;
+	}
 
 	public boolean getAdult() {
 		return adult;
