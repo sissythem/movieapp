@@ -35,3 +35,5 @@ build/
 release.properties
 pom.xml.releaseBackup
 pom.xml.tag
+
+/src/main/application/META-INF/GntMovies-ds.xml
