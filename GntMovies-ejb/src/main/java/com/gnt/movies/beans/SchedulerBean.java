@@ -8,6 +8,8 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -59,6 +61,7 @@ public class SchedulerBean implements DataProviderHolder
 	private static boolean flag = false;
 	
 	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",persistent=false)
+	@TransactionAttribute(TransactionAttributeType.NEVER)
 	public void update() {
 		logger.info("Scheduler updating database!");
 		ApiClient.setTimer();
@@ -80,6 +83,7 @@ public class SchedulerBean implements DataProviderHolder
 	
 	@PostConstruct
 	private void init() {
+		ApiClient.init();
 		UpcomingMovieBean.init();
 		NowPlayingMovieBean.init();
 		Air2dayShowBean.init();

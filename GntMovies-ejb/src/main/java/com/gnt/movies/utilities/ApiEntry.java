@@ -3,7 +3,6 @@ package com.gnt.movies.utilities;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class ApiEntry {
 	private static final Logger logger = LoggerFactory.getLogger(ApiEntry.class);
 	private Long l;
@@ -28,3 +27,4 @@ public class ApiEntry {
 		}, 10 * 1000);
 	}
 }
+
