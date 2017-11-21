@@ -80,6 +80,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>com.squareup.okio</groupId>
 			<artifactId>okio</artifactId>
 			<version>1.13.0</version>
@@ -111,13 +117,13 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
-        </dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Optional, but highly recommended -->
 		<!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA) 
@@ -176,43 +182,52 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>${version.surefire.plugin}</version>
 						<configuration>
-							<skip>true</skip>
+							<skip>false</skip>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
-
-		<!-- <profile> -->
 		<!-- An optional Arquillian testing profile that executes tests in your 
-			WildFly instance -->
-		<!-- This profile will start a new WildFly instance, and execute the test, -->
-		<!-- shutting it down when done -->
-		<!-- Run with: mvn clean test -Parq-wildfly-managed -->
-		<!-- <id>arq-wildfly-managed</id> -->
-		<!-- <dependencies> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.wildfly</groupId> -->
-		<!-- <artifactId>wildfly-arquillian-container-managed</artifactId> -->
-		<!-- <scope>test</scope> -->
-		<!-- </dependency> -->
-		<!-- </dependencies> -->
-		<!-- </profile> -->
-
-		<!-- <profile> -->
+			WildFly instance This profile will start a new WildFly instance, and execute 
+			the test, shutting it down when done Run with: mvn clean test -Parq-wildfly-managed -->
+		<!-- <profile>
+			<id>arq-wildfly-managed</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+        		<testResources>
+           			<testResource>
+                		<directory>src/test/resources</directory>
+            		</testResource>
+        		</testResources>
+    		</build>
+		</profile> -->
+		
 		<!-- An optional Arquillian testing profile that executes tests in a remote 
-			WildFly instance -->
-		<!-- Run with: mvn clean test -Parq-wildfly-remote -->
-		<!-- <id>arq-wildfly-remote</id> -->
-		<!-- <dependencies> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.wildfly</groupId> -->
-		<!-- <artifactId>wildfly-arquillian-container-remote</artifactId> -->
-		<!-- <scope>test</scope> -->
-		<!-- </dependency> -->
-		<!-- </dependencies> -->
-		<!-- </profile> -->
-
+			WildFly instance Run with: mvn clean test -Parq-wildfly-remote -->
+		<profile>
+			<id>arq-wildfly-remote</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-arquillian-container-remote</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+        		<testResources>
+           			<testResource>
+                		<directory>src/test/resources</directory>
+            		</testResource>
+        		</testResources>
+    		</build>
+		</profile>
 	</profiles>
 
 </project>

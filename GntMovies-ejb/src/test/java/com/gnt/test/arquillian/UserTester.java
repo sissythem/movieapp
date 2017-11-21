@@ -1,4 +1,4 @@
-package com.gnt.movies.testing;
+package com.gnt.test.arquillian;
 
 import static org.junit.Assert.assertEquals;
 

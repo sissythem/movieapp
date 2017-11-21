@@ -1,4 +1,4 @@
-package com.gnt.movies.testing;
+package com.gnt.test.arquillian;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -21,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.gnt.movies.beans.GenreBean;
 import com.gnt.movies.beans.MovieBean;
 import com.gnt.movies.beans.UpcomingMovieBean;
 import com.gnt.movies.entities.Movie;
@@ -30,6 +30,7 @@ import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 
 @RunWith(Arquillian.class)
+@RunAsClient
 public class MovieTester {
 	@PersistenceContext
 	EntityManager em;
@@ -42,8 +43,8 @@ public class MovieTester {
 	{
 		WebArchive war = ShrinkWrap.create(WebArchive.class, "testMovieBean.war")
 				.addPackages(true, "com.gnt.movies")
-	            .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-	            .addAsWebInfResource("META-INF/wildfly-ds.xml")
+	            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+	            .addAsWebInfResource("test-ds.xml")
 	            .addAsLibraries(
 						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())
 				.addAsLibraries(
