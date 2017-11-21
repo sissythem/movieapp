@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -55,7 +54,7 @@ public class MovieTester {
 		JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
 				.addPackages(true, "com.gnt.movies")
 	            .addAsManifestResource("test-persistence.xml", "persistence.xml")
-	            .addAsManifestResource("wildfly-ds.xml")
+	            .addAsManifestResource("test-ds.xml")
 	            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 		return war;
 //		return ShrinkWrap.create(WebArchive.class, "testMovieBean.war").addPackages(true, "com.gnt.movies")
