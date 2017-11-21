@@ -182,7 +182,7 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>${version.surefire.plugin}</version>
 						<configuration>
-							<skip>false</skip>
+							<skip>true</skip>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -211,7 +211,7 @@
 		
 		<!-- An optional Arquillian testing profile that executes tests in a remote 
 			WildFly instance Run with: mvn clean test -Parq-wildfly-remote -->
-		<profile>
+<!-- 		<profile>
 			<id>arq-wildfly-remote</id>
 			<dependencies>
 				<dependency>
@@ -227,7 +227,7 @@
             		</testResource>
         		</testResources>
     		</build>
-		</profile>
+		</profile> -->
 	</profiles>
 
 </project>
