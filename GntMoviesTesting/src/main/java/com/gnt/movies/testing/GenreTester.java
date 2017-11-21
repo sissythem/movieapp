@@ -23,32 +23,27 @@ public class GenreTester {
 
 	@EJB
 	GenreBean genreBean;
-	
-	@Deployment
-	public static JavaArchive createDeployment() throws IOException 
-	{
-		// You can use war packaging...
-        WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
-            .addPackage(GenreBean.class.getPackage())
-            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-            .addAsWebInfResource("wildfly-ds.xml")
-            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
-        // or jar packaging...
-        JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
-            .addPackage(GenreBean.class.getPackage())
-            .addAsManifestResource("test-persistence.xml", "persistence.xml")
-            .addAsManifestResource("wildfly-ds.xml")
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-        return jar;
+	@Deployment
+	public static JavaArchive createDeployment() throws IOException {
+		// You can use war packaging...
+		WebArchive war = ShrinkWrap.create(WebArchive.class, "testGenreBean.war").addPackages(true, "com.gnt.movies")
+				.addAsResource("test-persistence.xml", "META-INF/persistence.xml").addAsWebInfResource("wildfly-ds.xml")
+				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+
+		// or jar packaging...
+		JavaArchive jar = ShrinkWrap.create(JavaArchive.class).addPackages(true, "com.gnt.movies")
+				.addAsManifestResource("test-persistence.xml", "persistence.xml")
+				.addAsManifestResource("wildfly-ds.xml").addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+		return jar;
 	}
-	
+
 	@Test
-//	@InSequence(1)
+	// @InSequence(1)
 	public void testProximity() {
 		Genre genre = genreBean.findGenreByName("Action");
 		assertEquals(genre.getName(), "Action");
-//		genreBean.editGenre(genre);
+		// genreBean.editGenre(genre);
 		assertEquals(genre.getName(), "Action");
 	}
 }
