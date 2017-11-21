@@ -3,7 +3,6 @@ package com.gnt.movies.utilities;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import com.gnt.movies.beans.MovieBean;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.theMovieDB.ApiGenres;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;

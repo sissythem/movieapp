@@ -1,7 +1,5 @@
 package com.gnt.movies.testing;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +9,6 @@ import javax.ejb.EJB;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Assert;
@@ -33,9 +29,9 @@ public class GenreTester {
 	@EJB
 	SchedulerBean sb;
 	
-	@Deployment
-	public static WebArchive createDeployment() throws IOException 
-	{
+//	@Deployment
+//	public static WebArchive createDeployment() throws IOException 
+//	{
 /*		// You can use war packaging...
         WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
             .addPackage(GenreBean.class.getPackage())
@@ -51,16 +47,16 @@ public class GenreTester {
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         return jar;*/
         
-        return ShrinkWrap.create(WebArchive.class, "test.war")
-				.addPackages(true, "com.gnt.movies")
-				.addAsLibraries(
-						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())
-				.addAsLibraries(
-						Maven.resolver().resolve("com.squareup.okio:okio:1.13.0").withoutTransitivity().asFile())
-				.addAsLibraries(
-						Maven.resolver().resolve("com.squareup.okhttp3:okhttp:3.9.0").withoutTransitivity().asFile())
-				.addAsResource("META-INF/persistence.xml");
-	}
+//        return ShrinkWrap.create(WebArchive.class, "test.war")
+//				.addPackages(true, "com.gnt.movies")
+//				.addAsLibraries(
+//						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())
+//				.addAsLibraries(
+//						Maven.resolver().resolve("com.squareup.okio:okio:1.13.0").withoutTransitivity().asFile())
+//				.addAsLibraries(
+//						Maven.resolver().resolve("com.squareup.okhttp3:okhttp:3.9.0").withoutTransitivity().asFile())
+//				.addAsResource("META-INF/persistence.xml");
+//	}
 	
 	@Before
 	public void initialize() {

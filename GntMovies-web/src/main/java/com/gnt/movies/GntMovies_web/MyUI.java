@@ -2,7 +2,6 @@ package com.gnt.movies.GntMovies_web;
 
 import javax.inject.Inject;
 
-import com.gnt.movies.beans.SchedulerBean;
 import com.gnt.movies.beans.UserBean;
 import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;

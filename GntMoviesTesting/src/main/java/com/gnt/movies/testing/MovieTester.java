@@ -51,8 +51,8 @@ public class MovieTester {
 
 		// or jar packaging...
 		JavaArchive jar = ShrinkWrap.create(JavaArchive.class).addPackages(true, "com.gnt.movies")
-				.addAsManifestResource("test-persistence.xml", "persistence.xml")
-				.addAsManifestResource("wildfly-ds.xml").addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+				.addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+				.addAsResource("wildfly-ds.xml").addAsResource(EmptyAsset.INSTANCE, "beans.xml");
 
 		// choose your packaging here
 		return jar;
