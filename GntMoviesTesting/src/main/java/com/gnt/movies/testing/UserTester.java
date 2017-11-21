@@ -9,7 +9,9 @@ import javax.ejb.EJB;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,11 +24,20 @@ public class UserTester
 	@Deployment
 	public static JavaArchive createDeployment() throws IOException 
 	{
-		JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
-				.addPackages(true, "com.gnt")
-				.addAsResource("META-INF/persistence.xml");
-				System.out.println(jar.toString(true));
-				return jar;
+		// You can use war packaging...
+        WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
+            .addPackage(UserBean.class.getPackage())
+            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+            .addAsWebInfResource("wildfly-ds.xml")
+            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+
+        // or jar packaging...
+        JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
+            .addPackage(UserBean.class.getPackage())
+            .addAsManifestResource("test-persistence.xml", "persistence.xml")
+            .addAsManifestResource("wildfly-ds.xml")
+            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        return jar;
 	}
 	
 	// Declare your beans here

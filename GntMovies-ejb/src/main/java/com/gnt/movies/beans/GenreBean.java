@@ -1,6 +1,6 @@
 package com.gnt.movies.beans;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.ejb.LocalBean;
@@ -52,7 +52,7 @@ public class GenreBean implements DataProviderHolder {
 		genreDao.createGenre(this, genre);
 	}
 
-	public List<?> getAllGenres() {
+	public ArrayList<Genre> getAllGenres() {
 		return genreDao.findAllGenres(this);
 	}
 
