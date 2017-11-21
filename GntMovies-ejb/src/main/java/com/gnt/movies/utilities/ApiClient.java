@@ -14,56 +14,42 @@ import okhttp3.Response;
 
 public class ApiClient {
 	private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
-//	private static AtomicInteger counter = new AtomicInteger(0);
 	private static AtomicLong counter = new AtomicLong(0);
 	private static Timer timer;
-	private static Timer timer1;
 	private static OkHttpClient client = new OkHttpClient();
-	
+
 	private static ConcurrentHashMap<Long, ApiEntry> map;
-	
+
 	public static synchronized void init() {
 		map = new ConcurrentHashMap<>();
 	}
-	
+
 	public static synchronized void setTimer() {
 		if (timer == null) {
-			logger.info("timer created");
-//			timer = new Timer();
-//			timer.scheduleAtFixedRate(new TimerTask() {
-//				@Override
-//				public void run() {
-//					logger.info("Timer is running!");
-//					synchronized (counter) {
-//						counter.set(0);
-//						counter.notifyAll();
-//					}
-//					
-//				}
-//			}, 0, 15*1000);
-			timer1 = new Timer();
-			timer1.scheduleAtFixedRate(new TimerTask() {
+			timer = new Timer();
+			timer.scheduleAtFixedRate(new TimerTask() {
 				@Override
 				public void run() {
-					logger.info("Big Timer is running, total requests:"+counter.get()+" active requests:"+map.size());
+					logger.info(
+							"Total requests:" + counter.get() + ", temporal active requests:" + map.size());
 				}
-			}, 0, 1*1000);
+			}, 0, 2 * 1000);//0 delay, every 2 seconds
 		}
 	}
 
 	public static synchronized void unsetTimer() {
-//		timer = null;
-		timer1.cancel();
-		timer1=null;
+		timer.cancel();
+		counter.set(0l);
+		timer = null;
 	}
 
 	public static String getResultFromTMDB(String url) {
 		checkNumCalls(url);
 		ApiEntry entry = null;
 		try {
-			Long l =counter.getAndIncrement(); 
+			Long l = counter.getAndIncrement();
 			entry = new ApiEntry(l);
-			
+
 			map.put(l, entry);
 			Response response = client.newCall(buildRequest(url)).execute();
 			entry.setTimer();
@@ -76,8 +62,9 @@ public class ApiClient {
 			return getResultFromTMDB(url);
 		}
 	}
+
 	private static synchronized void checkNumCalls(String url) {
-		if (map.size() >= 30) {
+		if (map.size() >= 12) {
 			try {
 				logger.info(Thread.currentThread().getId() + ":Will wait before making a new request.");
 				synchronized (counter) {
@@ -91,14 +78,14 @@ public class ApiClient {
 			getResultFromTMDB(url);
 		}
 	}
-	
-	private static Request buildRequest (String url) {
+
+	private static Request buildRequest(String url) {
 		Builder b = new Builder();
 		b.readTimeout(15, TimeUnit.SECONDS);
 		client = b.build();
 		return new Request.Builder().url(url).get().build();
 	}
-	
+
 	private static void checkForReachingCallsLimit(Response response, String url) {
 		if (response.code() == 429) {
 			try {
