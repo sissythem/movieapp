@@ -77,8 +77,6 @@ public class SchedulerBean implements DataProviderHolder
 	private void getGenres() {
 		HashSet<Genre> genres = ApiCalls.getGenres();
 		genreBean.addGenres(genres);
-		logger.info("Availabe genres:");
-		genres.stream().forEach(g->logger.info(g.getName()));
 	}
 	
 	@PostConstruct

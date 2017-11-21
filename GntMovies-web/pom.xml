@@ -144,6 +144,19 @@
 					<scanIntervalSeconds>2</scanIntervalSeconds>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				
+						<configuration>
+							<classpathScope>compile</classpathScope>
+							<mainClass>com.vaadin.sass.SassCompiler</mainClass>
+							<arguments>
+								<argument>src/main/webapp/VAADIN/themes/mytheme/styles.scss</argument>
+							</arguments>
+						</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

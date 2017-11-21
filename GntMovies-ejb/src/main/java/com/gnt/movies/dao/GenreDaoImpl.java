@@ -1,13 +1,14 @@
 package com.gnt.movies.dao;
 
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
 import com.gnt.movies.entities.Genre;
+import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.utilities.Utils;
 
 @JpaDao
@@ -41,9 +42,13 @@ public class GenreDaoImpl extends AbstractDao implements GenreDao {
 	}
 
 	@Override
-	public List<?> findAllGenres(DataProviderHolder dataProviderHolder) {
-		return  dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL).getResultList();
+	public ArrayList<Genre> findAllGenres(DataProviderHolder dataProviderHolder) {
+		ArrayList<Genre> allGenres = new ArrayList<>();
+		
+		allGenres.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL).getResultList());
+		return allGenres;
 	}
+	
 	@Override
 	public ConcurrentHashMap<Integer,String> findAllGenreNames(DataProviderHolder dataProviderHolder) {
 		ConcurrentHashMap<Integer,String> map = new ConcurrentHashMap<>();
