@@ -30,7 +30,6 @@ import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 
 @RunWith(Arquillian.class)
-@RunAsClient
 public class MovieTester {
 	@PersistenceContext
 	EntityManager em;
