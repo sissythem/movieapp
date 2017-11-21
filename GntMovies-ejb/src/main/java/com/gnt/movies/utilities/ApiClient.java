@@ -16,11 +16,10 @@ public class ApiClient {
 	private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
 	private static AtomicLong counter = new AtomicLong(0);
 	private static Timer timer;
-	private static Timer timer1;
 	private static OkHttpClient client = new OkHttpClient();
-	
+
 	private static ConcurrentHashMap<Long, ApiEntry> map;
-	
+
 	public static synchronized void init() {
 		map = new ConcurrentHashMap<>();
 	}
@@ -28,31 +27,14 @@ public class ApiClient {
 	public static synchronized void setTimer() {
 		if (timer == null) {
 			logger.info("timer created");
-//			timer = new Timer();
-//			timer.scheduleAtFixedRate(new TimerTask() {
-//				@Override
-//				public void run() {
-//					logger.info("Timer is running!");
-//					synchronized (counter) {
-//						counter.set(0);
-//						counter.notifyAll();
-//					}
-//					
-//				}
-//			}, 0, 15*1000);
-			timer1 = new Timer();
-			timer1.scheduleAtFixedRate(new TimerTask() {
-			
+
+			timer = new Timer();
+			timer.scheduleAtFixedRate(new TimerTask() {
 				@Override
 				public void run() {
-
-					logger.info("Big Timer is running, total requests:"+counter.get()+" active requests:"+map.size());
-					logger.info(
-							"Total requests:" + counter.get() + ", temporal active requests:" + map.size());
-
+					logger.info("Total requests:" + counter.get() + ", temporal active requests:" + map.size());
 				}
-
-			}, 0, 1*1000);
+			}, 0, 2 * 1000);
 		}
 	}
 
@@ -80,7 +62,7 @@ public class ApiClient {
 			return getResultFromTMDB(url);
 		}
 	}
-	
+
 	private static synchronized void checkNumCalls(String url) {
 		if (map.size() >= 12) {
 			try {
