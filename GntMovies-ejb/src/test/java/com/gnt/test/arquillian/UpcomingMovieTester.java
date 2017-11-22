@@ -72,7 +72,6 @@ public class UpcomingMovieTester {
 			}
 		}
 		
-		
 		Assert.assertTrue(upcomingMoviesNumberInDatabase == upcomingMoviesFromApi.size());
 	}
 }
