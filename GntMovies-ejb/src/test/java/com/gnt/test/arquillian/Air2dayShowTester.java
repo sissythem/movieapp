@@ -12,11 +12,13 @@ import javax.ejb.EJB;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.gnt.movies.beans.Air2dayShowBean;
 import com.gnt.movies.beans.GenreBean;
+import com.gnt.movies.beans.UpcomingMovieBean;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.ApiCalls;
@@ -31,7 +33,6 @@ public class Air2dayShowTester {
 		WebArchive archive = MyDeployment.getWar();
 		archive.addClass(MyDeployment.class);
 		return archive;
-		
 	}
 	
 	@EJB
@@ -40,14 +41,17 @@ public class Air2dayShowTester {
 	@EJB
 	Air2dayShowBean air2dayShowBean;
 	
-	@Test
-	public void testGetAir2dayShows() {
+	@Before
+	public void initialize() {
 		ApiClient.init();
 		Air2dayShowBean.init();
 		HashSet<Genre> genres = ApiCalls.getGenres();
 		genreBean.addGenres(genres);
 		air2dayShowBean.findAllIdTmdb();
-		
+	}
+	
+	@Test
+	public void testGetAir2dayShows() {
 		HashSet<ApiNewShow> air2dayShowsAPI = ApiCalls.getAir2dayShows();
 		assertNotNull(air2dayShowsAPI);
 		
@@ -61,6 +65,5 @@ public class Air2dayShowTester {
 		testAir2dayShowsAPI.stream().parallel().forEach(e->air2dayShowBean.checkAir2dayShow(e));
 		assertEquals(testAir2dayShowsAPI.size(), air2dayShowBean.getAllAir2dayShows().size());
 		air2dayShowBean.removeOldNotAir2dayShow(testAir2dayShowsAPI);
-		
 	}
 }

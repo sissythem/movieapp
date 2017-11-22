@@ -32,16 +32,9 @@ public class UpcomingMovieTester {
 
 	@Deployment
 	public static WebArchive createDeployment() throws IOException {
-
-		return ShrinkWrap.create(WebArchive.class, "test.war")
-				.addPackages(true, "com.gnt.movies")
-				.addAsLibraries(
-						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())
-				.addAsLibraries(
-						Maven.resolver().resolve("com.squareup.okio:okio:1.13.0").withoutTransitivity().asFile())
-				.addAsLibraries(
-						Maven.resolver().resolve("com.squareup.okhttp3:okhttp:3.9.0").withoutTransitivity().asFile())
-				.addAsResource("META-INF/persistence.xml"); 
+		WebArchive archive = MyDeployment.getWar();
+		archive.addClass(MyDeployment.class);
+		return archive;
 	}
 	@PersistenceContext
 	EntityManager em;
