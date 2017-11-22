@@ -21,7 +21,9 @@ public class UserTester
 	@Deployment
 	public static WebArchive createDeployment() throws IOException 
 	{	 
-		return MyDeployment.getWar("UserTester");
+		WebArchive archive = MyDeployment.getWar();
+		archive.addClass(MyDeployment.class);
+		return archive;
 	}
 	
 	@EJB

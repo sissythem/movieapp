@@ -44,7 +44,9 @@ public class MovieTester {
 	@Deployment
 	public static WebArchive createDeployment() throws IOException 
 	{
-		return MyDeployment.getWar("MovieTester");
+		WebArchive archive = MyDeployment.getWar();
+		archive.addClass(MyDeployment.class);
+		return archive;
 	}
 	
 	@Before

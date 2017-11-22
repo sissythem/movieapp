@@ -33,7 +33,9 @@ public class GenreTester {
 	@Deployment
 	public static WebArchive createDeployment() throws IOException 
 	{
-		return MyDeployment.getWar("GenreTester");
+		WebArchive archive = MyDeployment.getWar();
+		archive.addClass(MyDeployment.class);
+		return archive;
 	}
 	
 	@Before

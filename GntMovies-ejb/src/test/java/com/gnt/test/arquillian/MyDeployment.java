@@ -1,6 +1,5 @@
 package com.gnt.test.arquillian;
 
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -9,9 +8,8 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
 public class MyDeployment {
 	
-	@Deployment
-	public static WebArchive getWar(String name) {
-		return ShrinkWrap.create(WebArchive.class, name+".war")
+	public static WebArchive getWar() {
+		return ShrinkWrap.create(WebArchive.class)
 				.addPackages(true, "com.gnt.movies")
 	            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
 	            .addAsWebInfResource("test-ds.xml")
@@ -24,7 +22,6 @@ public class MyDeployment {
 	            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
-	@Deployment
 	public static JavaArchive getJar() {
 		return ShrinkWrap.create(JavaArchive.class)
 				.addPackages(true, "com.gnt.movies")
@@ -34,3 +31,4 @@ public class MyDeployment {
 	}
 
 }
+

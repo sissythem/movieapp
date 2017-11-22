@@ -25,9 +25,9 @@ public class ApiCallTester {
 	
 	@Deployment
 	public static WebArchive createDeployment() throws IOException {
-		
-		return MyDeployment.getWar("ApiCallTester");
-		
+		WebArchive archive = MyDeployment.getWar();
+		archive.addClass(MyDeployment.class);
+		return archive;
 	}
 	
 	@Before

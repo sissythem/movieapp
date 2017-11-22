@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -30,11 +28,11 @@ public class Air2dayShowTester {
 	@Deployment
 	public static WebArchive createDeployment() throws IOException 
 	{
-		return MyDeployment.getWar("Air2dayShowTester");
+		WebArchive archive = MyDeployment.getWar();
+		archive.addClass(MyDeployment.class);
+		return archive;
+		
 	}
-	
-	@PersistenceContext
-	EntityManager em;
 	
 	@EJB
 	GenreBean genreBean;
@@ -44,7 +42,7 @@ public class Air2dayShowTester {
 	
 	@Test
 	public void testGetAir2dayShows() {
-		ApiClient.init();		
+		ApiClient.init();
 		Air2dayShowBean.init();
 		HashSet<Genre> genres = ApiCalls.getGenres();
 		genreBean.addGenres(genres);
