@@ -39,24 +39,28 @@ public class MovieTester {
 	@Deployment
 	public static WebArchive createDeployment() throws IOException 
 	{
-		WebArchive war = ShrinkWrap.create(WebArchive.class, "testMovieBean.war")
-				.addPackages(true, "com.gnt.movies")
-	            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-	            .addAsWebInfResource("test-ds.xml")
-	            .addAsLibraries(
-						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())
-				.addAsLibraries(
-						Maven.resolver().resolve("com.squareup.okio:okio:1.13.0").withoutTransitivity().asFile())
-				.addAsLibraries(
-						Maven.resolver().resolve("com.squareup.okhttp3:okhttp:3.9.0").withoutTransitivity().asFile())
-	            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 		
-		JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
-				.addPackages(true, "com.gnt.movies")
-	            .addAsManifestResource("test-persistence.xml", "persistence.xml")
-	            .addAsManifestResource("test-ds.xml")
-	            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-		return war;
+		WebArchive archive = MyDeployment.getWar();
+		archive.addClass(MyDeployment.class);
+		return archive;
+//		WebArchive war = ShrinkWrap.create(WebArchive.class, "testMovieBean.war")
+//				.addPackages(true, "com.gnt.movies")
+//	            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+//	            .addAsWebInfResource("test-ds.xml")
+//	            .addAsLibraries(
+//						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())
+//				.addAsLibraries(
+//						Maven.resolver().resolve("com.squareup.okio:okio:1.13.0").withoutTransitivity().asFile())
+//				.addAsLibraries(
+//						Maven.resolver().resolve("com.squareup.okhttp3:okhttp:3.9.0").withoutTransitivity().asFile())
+//	            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+//		
+//		JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
+//				.addPackages(true, "com.gnt.movies")
+//	            .addAsManifestResource("test-persistence.xml", "persistence.xml")
+//	            .addAsManifestResource("test-ds.xml")
+//	            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+//		return war;
 //		return ShrinkWrap.create(WebArchive.class, "testMovieBean.war").addPackages(true, "com.gnt.movies")
 //				.addAsLibraries(
 //						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())

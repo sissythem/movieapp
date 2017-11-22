@@ -37,7 +37,7 @@ public class UpcomingMovieTester {
 						Maven.resolver().resolve("com.squareup.okio:okio:1.13.0").withoutTransitivity().asFile())
 				.addAsLibraries(
 						Maven.resolver().resolve("com.squareup.okhttp3:okhttp:3.9.0").withoutTransitivity().asFile())
-				.addAsResource("META-INF/persistence.xml");
+				.addAsResource("META-INF/persistence.xml"); 
 	}
 	
 	@EJB
