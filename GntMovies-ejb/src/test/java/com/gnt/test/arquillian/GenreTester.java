@@ -9,10 +9,7 @@ import javax.ejb.EJB;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,18 +33,7 @@ public class GenreTester {
 	@Deployment
 	public static WebArchive createDeployment() throws IOException 
 	{
-		WebArchive war = ShrinkWrap.create(WebArchive.class, "testGenreBean.war")
-				.addPackages(true, "com.gnt.movies")
-	            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-	            .addAsWebInfResource("test-ds.xml")
-	            .addAsLibraries(
-						Maven.resolver().resolve("com.google.code.gson:gson:2.8.2").withoutTransitivity().asFile())
-				.addAsLibraries(
-						Maven.resolver().resolve("com.squareup.okio:okio:1.13.0").withoutTransitivity().asFile())
-				.addAsLibraries(
-						Maven.resolver().resolve("com.squareup.okhttp3:okhttp:3.9.0").withoutTransitivity().asFile())
-	            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-		return war;
+		return MyDeployment.getWar("GenreTester");
 	}
 	
 	@Before

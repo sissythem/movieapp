@@ -1,9 +1,10 @@
 package com.gnt.movies.GntMovies_web.Rest;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -24,16 +25,16 @@ import com.gnt.movies.entities.Movie;
 @Path("/movie")
 public class MovieRest {
 
-	@Inject
+	@EJB
 	private MovieBean movieBean;
 
-	@Inject
+	@EJB
 	private UserBean userBean;
 
-	@Inject
+	@EJB
 	private MovieFavoriteBean movieFavoriteBean;
 
-	@Inject
+	@EJB
 	private MovieReviewBean movieReviewBean;
 
 	@GET
@@ -67,7 +68,7 @@ public class MovieRest {
 		return false;
 	}
 
-	@POST
+	@DELETE
 	@Path("/removeMovieFav")
 	@Consumes(MediaType.TEXT_PLAIN)
 	public boolean removeMovieFavorite(@HeaderParam("token") String token, Integer movieId,
@@ -107,7 +108,7 @@ public class MovieRest {
 		return false;
 	}
 
-	@POST
+	@DELETE
 	@Path("/removeMovieReview")
 	@Consumes(MediaType.TEXT_PLAIN)
 	public boolean removeMovieReview(@HeaderParam("token") String token, Integer movieId, @Context HttpServletRequest request) {

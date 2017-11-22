@@ -56,13 +56,6 @@ public class GenreBean implements DataProviderHolder {
 		return genreDao.findAllGenres(this);
 	}
 
-	private synchronized boolean genreExists(Genre genre) {
-		if (findGenreByName(genre.getName())!=null)
-			return false;
-		else
-			return true;
-	}
-
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void addGenres(Set<Genre> genres) {
 		Genre g;
@@ -74,9 +67,5 @@ public class GenreBean implements DataProviderHolder {
 				genres.add(g);
 			}
 		}
-	}
-
-	private void editGenre(Genre genre) {
-		genreDao.updateGenre(this, genre);
 	}
 }
