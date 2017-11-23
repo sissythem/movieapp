@@ -4,14 +4,21 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.HashSet;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.ApiCalls;
+import com.gnt.movies.utilities.ApiClient;
 
 public class TestApiCalls {
+	
+	@Before
+	public void init() {
+		ApiClient.init();
+	}
 
 	@Test
 	public void testGetGenres() {
