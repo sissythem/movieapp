@@ -87,6 +87,22 @@ public class ScheduledJobsTester {
 	}
 	
 	@Test
+	public void testGetNowPlayingMovies() {
+		HashSet<ApiNewMovie> nowPlayingMovie = ApiCalls.getNowPlayingMovies();
+		assertNotNull(nowPlayingMovie);	
+		HashSet<ApiNewMovie> testNowPlayingMovie = new HashSet<>();
+		Iterator<ApiNewMovie> it = nowPlayingMovie.iterator();
+		for(int i=0;i<10;i++) {
+			if(it.hasNext())
+				testNowPlayingMovie.add(it.next());
+		}
+		assertNotNull(testNowPlayingMovie);
+		testNowPlayingMovie.stream().parallel().forEach(e->nowPlayingMovieBean.checkNowPlayingMovie(e));
+		assertEquals(testNowPlayingMovie.size(), nowPlayingMovieBean.getAllNowPlayingMovies().size());
+		nowPlayingMovieBean.removeOldNotNowPlayingMovies(testNowPlayingMovie);
+	}
+	
+	@Test
 	public void testGetAir2dayShows() {
 		HashSet<ApiNewShow> air2dayShowsAPI = ApiCalls.getAir2dayShows();
 		assertNotNull(air2dayShowsAPI);
@@ -103,4 +119,20 @@ public class ScheduledJobsTester {
 		air2dayShowBean.removeOldNotAir2dayShow(testAir2dayShowsAPI);
 	}
 	
+	@Test
+	public void testGetOnTheAirShows() {
+		HashSet<ApiNewShow> onTheAirShows = ApiCalls.getOnTheAirShows();
+		assertNotNull(onTheAirShows);
+		
+		HashSet<ApiNewShow> testOnTheAirShows =new HashSet<>();
+		Iterator<ApiNewShow> it = onTheAirShows.iterator();
+		for(int i=0;i<10;i++) {
+			if(it.hasNext())
+				testOnTheAirShows.add(it.next());
+		}
+		assertNotNull(testOnTheAirShows);
+		testOnTheAirShows.stream().parallel().forEach(e->onTheAirShowBean.checkOnTheAirShow(e));
+		assertEquals(testOnTheAirShows.size(), onTheAirShowBean.getAllOnTheAirShows().size());
+		onTheAirShowBean.removeOldNotOnTheAirShows(testOnTheAirShows);
+	}
 }
