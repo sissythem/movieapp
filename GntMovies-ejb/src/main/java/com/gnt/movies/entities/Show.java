@@ -117,14 +117,14 @@ public class Show implements Serializable, Comparable<Show> {
 	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
 	private List<ShowImage> showImages;
 
-	@OneToMany(mappedBy = "show")
-	private List<OnTheAirShow> onTheAirShows;
-
 	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
 	private List<ShowFavorite> showFavorites;
 
 	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
 	private List<ShowReview> showReviews;
+	
+	@Transient
+	private OnTheAirShow onTheAirShows;
 
 	@Transient
 	private Air2dayShow air2dayShow;
@@ -359,26 +359,12 @@ public class Show implements Serializable, Comparable<Show> {
 		getGenres().remove(genre);
 	}
 
-	public List<OnTheAirShow> getOnTheAirShows() {
+	public OnTheAirShow getOnTheAirShows() {
 		return this.onTheAirShows;
 	}
 
-	public void setOnTheAirShows(List<OnTheAirShow> onTheAirShows) {
+	public void setOnTheAirShows(OnTheAirShow onTheAirShows) {
 		this.onTheAirShows = onTheAirShows;
-	}
-
-	public OnTheAirShow addOnTheAirShow(OnTheAirShow onTheAirShow) {
-		getOnTheAirShows().add(onTheAirShow);
-		onTheAirShow.setShow(this);
-
-		return onTheAirShow;
-	}
-
-	public OnTheAirShow removeOnTheAirShow(OnTheAirShow onTheAirShow) {
-		getOnTheAirShows().remove(onTheAirShow);
-		onTheAirShow.setShow(null);
-
-		return onTheAirShow;
 	}
 
 	public List<ShowFavorite> getShowFavorites() {

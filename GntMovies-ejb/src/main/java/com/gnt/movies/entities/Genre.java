@@ -46,12 +46,21 @@ public class Genre implements Serializable {
     
     @ManyToMany(fetch=FetchType.LAZY)
     private List<Movie> movies;
+    
+    @ManyToMany(fetch=FetchType.LAZY)
+    private List<Show> shows;
 
     public List<Movie> getMovies() {
 		return movies;
 	}
 	public void setMovies(List<Movie> movies) {
 		this.movies = movies;
+	}
+	public List<Show> getShows() {
+		return shows;
+	}
+	public void setShows(List<Show> shows) {
+		this.shows = shows;
 	}
 	public Genre() {
     }

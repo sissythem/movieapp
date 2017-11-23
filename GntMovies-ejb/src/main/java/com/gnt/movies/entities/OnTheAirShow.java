@@ -27,7 +27,7 @@ public class OnTheAirShow implements Serializable {
 
     private int idTmdb;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="showId")
     private Show show;
 
