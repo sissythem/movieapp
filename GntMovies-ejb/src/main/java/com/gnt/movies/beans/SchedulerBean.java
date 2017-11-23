@@ -141,7 +141,4 @@ public class SchedulerBean implements DataProviderHolder
 		logger.info("Done checking for air2day shows");
 		flag = false;
 	}
-	
-	
-	
 }
