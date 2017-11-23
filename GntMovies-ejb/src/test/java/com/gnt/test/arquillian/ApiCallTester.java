@@ -42,39 +42,39 @@ public class ApiCallTester {
 	HashSet<ApiNewMovie> upmovies = new HashSet<>();
 
 	@Test
-	public void test() {
+	public void testUpcomingMovieApiCall() {
 		
-		Assert.assertTrue(upmovies.size() > 10);
-		System.out.println("Upcoming movies are: "+ upmovies.size() + " movies.");
+		Assert.assertTrue(upmovies.size() != 0);
+		System.out.println("############################################ Upcoming movies are: "+ upmovies.size() + " movies.");
 
 	}
 	
 	public HashSet<ApiNewMovie> getUpcomingMoviesTest() {
 		HashSet<ApiNewMovie> newUpcomingMovies = new HashSet<>();
 
-		ApiNewMovieResults upcomingMovieResults = getPagesForMovies(1, Utils.UPCOMING_MOVIES_URL);
+		ApiNewMovieResults upcomingMovieResults = getPagesForMoviesTest(1, Utils.UPCOMING_MOVIES_URL);
 		newUpcomingMovies.addAll(upcomingMovieResults.getResults());
 
 		for (int page = 2; page <= upcomingMovieResults.getTotalPages(); page++) {
-			upcomingMovieResults = getPagesForMovies(page, Utils.UPCOMING_MOVIES_URL);
+			upcomingMovieResults = getPagesForMoviesTest(page, Utils.UPCOMING_MOVIES_URL);
 			newUpcomingMovies.addAll(upcomingMovieResults.getResults());
 		}
 		return newUpcomingMovies;
 	}
 
-	public ApiNewMovieResults getPagesForMovies(int page, String typeOfMovieUrl) {
+	public ApiNewMovieResults getPagesForMoviesTest(int page, String typeOfMovieUrl) {
 
 		StringBuilder url = new StringBuilder(typeOfMovieUrl).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL)
 				.append(Utils.NUMBER_PAGE_FOR_URL).append(Integer.toString(page));
 
-		String resultJson = getResultFromTMDB(url.toString());
+		String resultJson = getResultFromTMDBTest(url.toString());
 
 		ApiNewMovieResults upcomingMovieResults = new Gson().fromJson(resultJson, ApiNewMovieResults.class);
 
 		return upcomingMovieResults;
 	}
 
-	public String getResultFromTMDB(String url) {
+	public String getResultFromTMDBTest(String url) {
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder().url(url).get().build();
 
