@@ -61,7 +61,7 @@ public class MovieTester {
 	}
 
 	@Test
-	public void testProximity() {
+	public void testAddAndFindMovie() {
 		Movie movie = new Movie((byte) 0, 120, "2000-05-28", "English", "Lord of the Rings", "Lord of the Rings",
 				"Lord of the Rings", 9.5, 100, "image.png");
 		movieBean.addMovie(movie);
@@ -71,14 +71,5 @@ public class MovieTester {
 		upcomingMovieBean.addUpcomingMovie(lorMovie);
 		assertEquals(movieBean.findMovieByIdTmdb(120).getTitle(), "Lord of the Rings");
 		assertNotNull(movieBean.findMovieByIdTmdb(120));
-	}
-	
-	@Test
-	public void getUpcomingMoviesTest() {
-		HashSet<Genre> genres = ApiCalls.getGenres();
-		genreBean.addGenres(genres);
-		HashSet<ApiNewMovie> newUpcomingMovies = ApiCalls.getUpcomingMovies();
-		assertNotNull(newUpcomingMovies);
-		upcomingMovieBean.checkUpcomingMovie(newUpcomingMovies.iterator().next());
 	}
 }

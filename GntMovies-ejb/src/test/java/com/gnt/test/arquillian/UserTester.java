@@ -33,7 +33,7 @@ public class UserTester
 	UserBean userBean;
 
 	@Test
-	public void testProximity() {
+	public void testAddAndFindUser() {
 		User user = new User(20, "email@email.com", "firstname", "lastname", "password", "username");
 		assertEquals(userBean.registerUser(user), true);
 		assertEquals(userBean.findUserByUsername("username").getUsername(), "username");
