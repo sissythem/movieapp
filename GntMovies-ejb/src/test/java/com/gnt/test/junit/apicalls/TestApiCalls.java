@@ -1,4 +1,4 @@
-package com.gnt.test.apicalls;
+package com.gnt.test.junit.apicalls;
 
 import static org.junit.Assert.assertNotNull;
 

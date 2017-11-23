@@ -1,4 +1,4 @@
-package com.gnt.test.beans;
+package com.gnt.test.junit.beans;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
