@@ -9,17 +9,13 @@ import javax.ejb.EJB;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.gnt.movies.beans.GenreBean;
-import com.gnt.movies.beans.SchedulerBean;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
@@ -29,9 +25,6 @@ public class GenreTester {
 
 	@EJB
 	GenreBean genreBean;
-	
-	@EJB
-	SchedulerBean sb;
 	
 	@Deployment
 	public static WebArchive createDeployment() throws IOException 
@@ -50,7 +43,7 @@ public class GenreTester {
 	}
 
 	@Test
-	public void testProximity() {
+	public void testIfGenresAddedOnce() {
 /*		Genre genre = genreBean.findGenreByName("Action");
 		assertEquals(genre.getName(), "Action");
 		genreBean.editGenre(genre);
