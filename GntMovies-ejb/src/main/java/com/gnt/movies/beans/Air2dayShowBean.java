@@ -66,8 +66,8 @@ public class Air2dayShowBean implements DataProviderHolder{
     	return air2dayShowDao.findByIdTmdb(this, idTmdb);
     }
     
-    public Air2dayShow createAir2dayShowFromAPI(ApiNewShow newShowAPI) {
-    	return new Air2dayShow(newShowAPI.getId());
+    public Air2dayShow createAir2dayShowFromAPI(Show show) {
+    	return new Air2dayShow(show.getIdTmdb());
     }
     
     public ArrayList<Air2dayShow> getAllAir2dayShows() {
@@ -80,12 +80,12 @@ public class Air2dayShowBean implements DataProviderHolder{
 	}
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void checkAir2dayShow(ApiNewShow newShowAPI) {
-		if (allIdTmdb.containsKey(newShowAPI.getId()))
+    public void checkAir2dayShow(Show show) {
+		if (allIdTmdb.containsKey(show.getIdTmdb()))
 			return;
-		logger.info("Adding show with tmdbId=" + newShowAPI.getId());
-		Air2dayShow air2dayShow = createAir2dayShowFromAPI(newShowAPI);
-		Show show = showBean.getShow(newShowAPI);
+		logger.info("Adding show with tmdbId=" + show.getIdTmdb());
+		Air2dayShow air2dayShow = createAir2dayShowFromAPI(show);
+		show = showBean.getShow(show);
 		air2dayShow.setShow(show);
 		addAir2day(air2dayShow);
 		allIdTmdb.put(air2dayShow.getIdTmdb(), true);
@@ -94,7 +94,7 @@ public class Air2dayShowBean implements DataProviderHolder{
     public boolean addAir2day(Air2dayShow air2dayShow) {
     	try {
     		air2dayShowDao.createAir2dayShow(this, air2dayShow);
-    		logger.info(" air2dayShow id:" + air2dayShow.getId());
+    		logger.info(" air2dayShow id:" + air2dayShow.getIdTmdb());
     		return true;
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -102,9 +102,9 @@ public class Air2dayShowBean implements DataProviderHolder{
     	}
     }
     
-    public void removeOldNotAir2dayShow(HashSet<ApiNewShow> air2dayShowsAPI) {
-    	for (ApiNewShow apiNewShow : air2dayShowsAPI) {
-			allIdTmdb.remove(apiNewShow.getId());
+    public void removeOldNotAir2dayShow(HashSet<Show> shows) {
+    	for (Show show : shows) {
+			allIdTmdb.remove(show.getIdTmdb());
 		}
 
     	Set<Integer>allidtmd = allIdTmdb.keySet();

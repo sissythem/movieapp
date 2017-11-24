@@ -6,14 +6,14 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
-import com.gnt.movies.theMovieDB.ApiNewMovie;
+import com.gnt.movies.entities.Movie;
 import com.gnt.movies.utilities.ApiCalls;
 
 public class TestApiCalls {
 
 	@Test
 	public void testUpcomingMoviesCall() {
-		HashSet<ApiNewMovie> upcomingMovies = ApiCalls.getUpcomingMovies();
+		HashSet<Movie> upcomingMovies = ApiCalls.getUpcomingMovies();
 		assertNotNull(upcomingMovies);
 	}
 

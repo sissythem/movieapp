@@ -13,9 +13,7 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.MovieDao;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
-import com.gnt.movies.entities.MovieImage;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
-import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -38,7 +36,7 @@ public class MovieBean implements DataProviderHolder {
 	GenreBean genreBean;
 
 	@EJB
-	MovieImageBean movieImageBean;
+	ImageBean imageBean;
 
 	public MovieBean() {
 	}
@@ -46,19 +44,6 @@ public class MovieBean implements DataProviderHolder {
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
-	}
-
-	private Movie createMovieFromAPI(ApiNewMovie upcomingMovie) {
-		logger.info("createMovieFromAPI movie with tmdbId=" + upcomingMovie.getId());
-		byte adult;
-		if (upcomingMovie.isAdult())
-			adult = 1;
-		else
-			adult = 0;
-		return new Movie(adult, upcomingMovie.getId(), upcomingMovie.getReleaseDate(),
-				upcomingMovie.getOriginalLanguage(), upcomingMovie.getOriginalTitle(), upcomingMovie.getOverview(),
-				upcomingMovie.getTitle(), upcomingMovie.getVoteAverage(), upcomingMovie.getVoteCount(),
-				upcomingMovie.getPoster_path());
 	}
 
 	private synchronized void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
@@ -72,6 +57,9 @@ public class MovieBean implements DataProviderHolder {
 		movie.setStatus(movieDetails.getStatus());
 		movie.setTitle(movieDetails.getTitle());
 		movie.setImdbId(movieDetails.getImdbId());
+		movie.setAdult(movieDetails.isAdult());
+		movie.setAdult(true);
+		
 		if (movieDetails.getApiCredits() != null) {
 			if (movieDetails.getApiCredits().getCast() != null) {
 				movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
@@ -82,39 +70,36 @@ public class MovieBean implements DataProviderHolder {
 		}
 		if (movieDetails.getApiImages() != null) {
 			movieDetails.setAllImages(movieDetails.getApiImages());
-			movieDetails.getAllImages().stream().forEach(apiImage -> {
-				MovieImage movieImage = new MovieImage(movie, apiImage.getFilePath());
-				movie.addMovieImage(movieImage);
-			});
+			movieDetails.getAllImages().stream().forEach(image ->movie.addImage(image));
 		}
-		if(movieDetails.getGenres()!=null) {
+		if (movieDetails.getGenres() != null) {
 			movieDetails.getGenres().stream().forEach(apiGenre -> {
 				Genre genre = genreBean.findGenreByName(apiGenre.getName());
 				movie.addGenre(genre);
 			});
 		}
-		
+
 	}
 
-	private Movie addNewMovie(ApiNewMovie movieApi) {
-		logger.info("addNewMovieWithGenres movie with tmdbId=" + movieApi.getId());
-		Movie movie = createMovieFromAPI(movieApi);
+	public synchronized Movie getMovie(Movie movie) {
+		logger.info("getMovie movie with tmdbId=" + movie.getIdTmdb());
+		Movie movieFromDb = findMovieByIdTmdb(movie.getIdTmdb());
+		if (movieFromDb == null)
+			movieFromDb = addNewMovie(movie);
+		return movieFromDb;
+	}
+
+	private Movie addNewMovie(Movie movie) {
+		logger.info("addNewMovieWithGenres movie with tmdbId=" + movie.getIdTmdb());
 		ApiMovieDetails movieDetails = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
 		updateMovieWithDetails(movie, movieDetails);
-		addMovie(movie);
-		movie.getMovieImages().stream().forEach(movieImage->movieImageBean.addMovieImage(movieImage));
+		
+		movie.getImages().stream().forEach(image -> imageBean.addImage(image));
+		insertMovieToDb(movie);
 		return movie;
 	}
 
-	public synchronized Movie getMovie(ApiNewMovie apiNewMovie) {
-		logger.info("getMovie movie with tmdbId=" + apiNewMovie.getId());
-		Movie movie = findMovieByIdTmdb(apiNewMovie.getId());
-		if (movie == null)
-			movie = addNewMovie(apiNewMovie);
-		return movie;
-	}
-
-	public void addMovie(Movie movie) {
+	private void insertMovieToDb(Movie movie) {
 		logger.info("addMovie movie with tmdbId=" + movie.getIdTmdb());
 		movieDao.createMovie(this, movie);
 	}

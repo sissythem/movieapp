@@ -3,6 +3,7 @@ package com.gnt.movies.theMovieDB;
 import java.util.ArrayList;
 
 import com.gnt.movies.entities.Genre;
+import com.gnt.movies.entities.Image;
 import com.google.gson.annotations.SerializedName;
 
 public class ApiMovieDetails {
@@ -50,7 +51,7 @@ public class ApiMovieDetails {
 	@SerializedName("credits")
 	private ApiCredits apiCredits;
 	
-	private ArrayList<ApiPostersBackdrops> allImages;
+	private ArrayList<Image> allImages;
 	
 	public ApiMovieDetails() {
 		
@@ -60,7 +61,7 @@ public class ApiMovieDetails {
 			ArrayList<ApiProductionCompanies> apiProductionCompanies,
 			ArrayList<ApiProductionCountries> apiProductionCountries, String releaseDate, double revenue, int runtime,
 			ArrayList<ApiSpokenLanguages> spokenLanguages, String status, String title, double voteAverage,
-			int voteCount, ApiImages apiImages, ApiCredits apiCredits, ArrayList<ApiPostersBackdrops> allImages) {
+			int voteCount, ApiImages apiImages, ApiCredits apiCredits, ArrayList<Image> allImages) {
 		super();
 		this.adult = adult;
 		this.budget = budget;
@@ -86,7 +87,7 @@ public class ApiMovieDetails {
 		this.allImages = allImages;
 	}
 
-	public boolean getAdult() {
+	public boolean isAdult() {
 		return adult;
 	}
 
@@ -270,12 +271,12 @@ public class ApiMovieDetails {
 		this.apiImages = apiImages;
 	}
 
-	public ArrayList<ApiPostersBackdrops> getAllImages() {
+	public ArrayList<Image> getAllImages() {
 		return allImages;
 	}
 
 	public void setAllImages(ApiImages apiImages) {
 		this.allImages = apiImages.getApiBackdrops();
-		this.allImages = apiImages.getApiPosters();
+		this.allImages.addAll( apiImages.getApiPosters());
 	}
 }

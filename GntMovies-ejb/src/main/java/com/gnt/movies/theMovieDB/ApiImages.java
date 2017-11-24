@@ -2,25 +2,26 @@ package com.gnt.movies.theMovieDB;
 
 import java.util.ArrayList;
 
+import com.gnt.movies.entities.Image;
 import com.google.gson.annotations.SerializedName;
 
 public class ApiImages {
 
 	@SerializedName("backdrops")
-	private ArrayList<ApiPostersBackdrops> apiPostersBackdrops;
+	private ArrayList<Image> image;
 	@SerializedName("posters")
-	private ArrayList<ApiPostersBackdrops> apiPosters;
+	private ArrayList<Image> apiPosters;
 	
-	public ArrayList<ApiPostersBackdrops> getApiBackdrops() {
-		return apiPostersBackdrops;
+	public ArrayList<Image> getApiBackdrops() {
+		return image;
 	}
-	public void setApiBackdrops(ArrayList<ApiPostersBackdrops> apiPostersBackdrops) {
-		this.apiPostersBackdrops = apiPostersBackdrops;
+	public void setApiBackdrops(ArrayList<Image> image) {
+		this.image = image;
 	}
-	public ArrayList<ApiPostersBackdrops> getApiPosters() {
+	public ArrayList<Image> getApiPosters() {
 		return apiPosters;
 	}
-	public void setApiPosters(ArrayList<ApiPostersBackdrops> apiPosters) {
+	public void setApiPosters(ArrayList<Image> apiPosters) {
 		this.apiPosters = apiPosters;
 	}
 }

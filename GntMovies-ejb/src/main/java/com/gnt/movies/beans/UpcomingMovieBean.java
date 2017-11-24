@@ -61,7 +61,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		logger.info("addUpcomingMovie movie with tmdbId=" + upcomingMovie.getIdTmdb());
 		try {
 			upcomingMovieDao.createUpcomingMovie(this, upcomingMovie);
-			logger.info(" upcommingMovie id:" + upcomingMovie.getId());
+			logger.info(" upcommingMovie id:" + upcomingMovie.getIdTmdb());
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,8 +79,8 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		return upcomingMovieDao.findByIdTmdb(this, id);
 	}
 
-	public UpcomingMovie createUpcomingMovieFromAPI(ApiNewMovie upcomingMovie) {
-		return new UpcomingMovie(upcomingMovie.getId());
+	public UpcomingMovie createUpcomingMovieFromAPI(Movie upcomingMovie) {
+		return new UpcomingMovie(upcomingMovie.getIdTmdb());
 	}
 
 	public ArrayList<UpcomingMovie> getAllUpcomingMovies() {
@@ -88,22 +88,22 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void checkUpcomingMovie(ApiNewMovie movieAPI) {
+	public void checkUpcomingMovie(Movie movie) {
 		logger.info("Thread id:" + Thread.currentThread().getId());
-		if (allIdTmdb.containsKey(movieAPI.getId()))
+		if (allIdTmdb.containsKey(movie.getIdTmdb()))
 			return;
-		logger.info("Adding movie with tmdbId=" + movieAPI.getId());
-		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movieAPI);
-		Movie movie = movieBean.getMovie(movieAPI);
+		logger.info("Adding movie with tmdbId=" + movie.getIdTmdb());
+		UpcomingMovie upcomingMovie = createUpcomingMovieFromAPI(movie);
+		movie = movieBean.getMovie(movie);
 		upcomingMovie.setMovie(movie);
 		addUpcomingMovie(upcomingMovie);
 		allIdTmdb.put(upcomingMovie.getIdTmdb(), true);
 	}
 
-	public void removeOldNotUpMovies(HashSet<ApiNewMovie> apiNewMovieArrayList) {
+	public void removeOldNotUpMovies(HashSet<Movie> movies) {
 
-		for (ApiNewMovie apiNewMovie : apiNewMovieArrayList) {
-			allIdTmdb.remove(apiNewMovie.getId());
+		for (Movie movie : movies) {
+			allIdTmdb.remove(movie.getIdTmdb());
 		}
 		Set<Integer>allidtmd = allIdTmdb.keySet();
 		allidtmd.stream().forEach(e->{

@@ -1,8 +1,10 @@
 package com.gnt.movies.theMovieDB;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.gnt.movies.entities.Genre;
+import com.gnt.movies.entities.Image;
 import com.google.gson.annotations.SerializedName;
 
 public class ApiShowDetails {
@@ -10,7 +12,7 @@ public class ApiShowDetails {
 	@SerializedName("created_by")
 	private ArrayList<ApiCreator> createdBy;
 	@SerializedName("first_air_date")
-	private String firstAirDate;
+	private LocalDate firstAirDate;
 	@SerializedName("genres")
 	private ArrayList<Genre> genres;
 	@SerializedName("homepage")
@@ -22,7 +24,7 @@ public class ApiShowDetails {
 	@SerializedName("languages")
 	private ArrayList<String> languages;
 	@SerializedName("last_air_date")
-	private String lastAirDate;
+	private LocalDate lastAirDate;
 	@SerializedName("name")
 	private String name;
 	@SerializedName("networks")
@@ -58,7 +60,7 @@ public class ApiShowDetails {
 	@SerializedName("credits")
 	private ApiCredits apiCredits;
 
-	private ArrayList<ApiPostersBackdrops> allImages;
+	private ArrayList<Image> allImages;
 
 	public ArrayList<ApiCreator> getCreatedBy() {
 		return createdBy;
@@ -68,11 +70,11 @@ public class ApiShowDetails {
 		this.createdBy = createdBy;
 	}
 
-	public String getFirstAirDate() {
+	public LocalDate getFirstAirDate() {
 		return firstAirDate;
 	}
 
-	public void setFirstAirDate(String firstAirDate) {
+	public void setFirstAirDate(LocalDate firstAirDate) {
 		this.firstAirDate = firstAirDate;
 	}
 
@@ -116,11 +118,11 @@ public class ApiShowDetails {
 		this.languages = languages;
 	}
 
-	public String getLastAirDate() {
+	public LocalDate getLastAirDate() {
 		return lastAirDate;
 	}
 
-	public void setLastAirDate(String lastAirDate) {
+	public void setLastAirDate(LocalDate lastAirDate) {
 		this.lastAirDate = lastAirDate;
 	}
 
@@ -285,13 +287,13 @@ public class ApiShowDetails {
 		this.runtime = runtime;
 	}
 
-	public ArrayList<ApiPostersBackdrops> getAllImages() {
+	public ArrayList<Image> getAllImages() {
 		return allImages;
 	}
 
 	public void setAllImages(ApiImages apiImages) {
 		this.allImages = apiImages.getApiBackdrops();
-		this.allImages = apiImages.getApiPosters();
+		this.allImages.addAll( apiImages.getApiPosters());
 	}
 
 }

@@ -15,8 +15,6 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.ShowDao;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Show;
-import com.gnt.movies.entities.ShowImage;
-import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.Logger;
@@ -40,7 +38,7 @@ public class ShowBean implements DataProviderHolder {
 	GenreBean genreBean;
 
 	@EJB
-	ShowImageBean showImageBean;
+	ImageBean imageBean;
 
 	public ShowBean() {
 	}
@@ -50,30 +48,15 @@ public class ShowBean implements DataProviderHolder {
 		return em;
 	}
 
-	public Show createShowFromAPI(ApiNewShow apiNewShow) {
-
-		return new Show(apiNewShow.getFirstAirDate(), apiNewShow.getId(), apiNewShow.getName(),
-				apiNewShow.getOriginalLanguage(), apiNewShow.getOriginalName(),
-				apiNewShow.getOriginCountry().toString(), apiNewShow.getOverview(), apiNewShow.getVoteAverage(),
-				apiNewShow.getVoteCount(), apiNewShow.getPoster_path());
-	}
-
 	private void updateShowWithDetails(Show show, ApiShowDetails showDetails) {
 		logger.info("updateShowWithDetails tmdbId=" + show.getIdTmdb());
 		Gson gson = new Gson();
 		show.setCreatedBy(gson.toJson(showDetails.getCreatedBy()));
 		show.setHomepage(showDetails.getHomepage());
-
-		byte inProduction;
-		if (showDetails.isInProduction())
-			inProduction = 1;
-		else
-			inProduction = 0;
-		show.setInProduction(inProduction);
-
-		if (showDetails.getLastAirDate() != null && showDetails.getLastAirDate().length() > 0)
-			show.setLastAirDate(LocalDate.parse(showDetails.getLastAirDate()));
-
+		show.setInProduction(showDetails.isInProduction());
+		
+		show.setLastAirDate(showDetails.getLastAirDate());
+		
 		show.setNetworks(gson.toJson(showDetails.getNetworks()));
 		show.setNumOfEpisodes(showDetails.getEpisodesNum());
 		show.setNumOfSeasons(showDetails.getEpisodesNum());
@@ -90,10 +73,9 @@ public class ShowBean implements DataProviderHolder {
 		}
 		if (showDetails.getApiImages() != null) {
 			showDetails.setAllImages(showDetails.getApiImages());
-			showDetails.getAllImages().stream().forEach(apiImage -> {
-				ShowImage showImage = new ShowImage(show, apiImage.getFilePath());
-				show.addShowImage(showImage);
-			});
+			showDetails.getAllImages().stream().forEach(image -> 
+				show.addImage(image)
+			);
 		}
 		if (showDetails.getGenres() != null) {
 			showDetails.getGenres().stream().forEach(apiGenre -> {
@@ -104,24 +86,25 @@ public class ShowBean implements DataProviderHolder {
 
 	}
 
-	public Show addNewShow(ApiNewShow showApi) {
-		logger.info("addNewShowWithGenres show with tmdbId=" + showApi.getId());
-		Show show = createShowFromAPI(showApi);
+	
+
+	public Show getShow(Show show) {
+		Show showFromDb = findShowByIdTmdb(show.getIdTmdb());
+		if (showFromDb == null)
+			showFromDb = addNewShow(show);
+		return showFromDb;
+	}
+	
+	public Show addNewShow(Show show) {
+		logger.info("addNewShowWithGenres show with tmdbId=" + show.getIdTmdb());
 		ApiShowDetails showDetails = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
 		updateShowWithDetails(show, showDetails);
-		addShow(show);
-		show.getShowImages().stream().forEach(image -> showImageBean.addShowImage(image));
+		
+		show.getImages().stream().forEach(image -> imageBean.addImage(image));
+		insertShowToDb(show);
 		return show;
 	}
-
-	public Show getShow(ApiNewShow apiNewShow) {
-		Show show = findShowByIdTmdb(apiNewShow.getId());
-		if (show == null)
-			show = addNewShow(apiNewShow);
-		return show;
-	}
-
-	public void addShow(Show show) {
+	public void insertShowToDb(Show show) {
 		logger.info("addShow show with tmdbId=" + show.getIdTmdb());
 		showDao.createShow(this, show);
 	}
