@@ -64,7 +64,7 @@ public class ApiClient {
 	}
 
 	private static synchronized void checkNumCalls(String url) {
-		if (map.size() >= 12) {
+		if (map.size() >= 38) {
 			try {
 				logger.info(Thread.currentThread().getId() + ":Will wait before making a new request.");
 				synchronized (counter) {

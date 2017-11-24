@@ -7,9 +7,13 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 
+<<<<<<< HEAD
+import com.gnt.movies.entities.Movie;
+=======
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewShow;
+>>>>>>> branch 'master' of https://gitlab.com/gnt-training/Gnt-Movies.git
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 
@@ -28,7 +32,7 @@ public class TestApiCalls {
 	
 	@Test
 	public void testUpcomingMoviesCall() {
-		HashSet<ApiNewMovie> upcomingMovies = ApiCalls.getUpcomingMovies();
+		HashSet<Movie> upcomingMovies = ApiCalls.getUpcomingMovies();
 		assertNotNull(upcomingMovies);
 	}
 	

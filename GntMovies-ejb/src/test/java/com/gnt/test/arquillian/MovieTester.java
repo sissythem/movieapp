@@ -61,10 +61,15 @@ public class MovieTester {
 	}
 
 	@Test
+<<<<<<< HEAD
+	public void testProximity() {
+		Movie movie = new Movie(false, 120, "2000-05-28", "English", "Lord of the Rings", "Lord of the Rings",
+=======
 	public void testAddAndFindMovie() {
 		Movie movie = new Movie((byte) 0, 120, "2000-05-28", "English", "Lord of the Rings", "Lord of the Rings",
+>>>>>>> branch 'master' of https://gitlab.com/gnt-training/Gnt-Movies.git
 				"Lord of the Rings", 9.5, 100, "image.png");
-		movieBean.addMovie(movie);
+//		movieBean.addMovie(movie);
 		UpcomingMovie lorMovie = new UpcomingMovie();
 		lorMovie.setIdTmdb(120);
 		lorMovie.setMovie(movie);
@@ -72,4 +77,16 @@ public class MovieTester {
 		assertEquals(movieBean.findMovieByIdTmdb(120).getTitle(), "Lord of the Rings");
 		assertNotNull(movieBean.findMovieByIdTmdb(120));
 	}
+<<<<<<< HEAD
+	
+	@Test
+	public void getUpcomingMoviesTest() {
+		HashSet<Genre> genres = ApiCalls.getGenres();
+		genreBean.addGenres(genres);
+		HashSet<Movie> newUpcomingMovies = ApiCalls.getUpcomingMovies();
+		assertNotNull(newUpcomingMovies);
+		upcomingMovieBean.checkUpcomingMovie(newUpcomingMovies.iterator().next());
+	}
+=======
+>>>>>>> branch 'master' of https://gitlab.com/gnt-training/Gnt-Movies.git
 }

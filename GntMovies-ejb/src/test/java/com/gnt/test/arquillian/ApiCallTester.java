@@ -5,14 +5,13 @@ import java.util.HashSet;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.gnt.movies.entities.Movie;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovieResults;
 import com.gnt.movies.utilities.Utils;
@@ -39,7 +38,7 @@ public class ApiCallTester {
 
 	}
 
-	HashSet<ApiNewMovie> upmovies = new HashSet<>();
+	HashSet<Movie> upmovies = new HashSet<>();
 
 	@Test
 	public void testUpcomingMovieApiCall() {
@@ -49,8 +48,8 @@ public class ApiCallTester {
 
 	}
 	
-	public HashSet<ApiNewMovie> getUpcomingMoviesTest() {
-		HashSet<ApiNewMovie> newUpcomingMovies = new HashSet<>();
+	public HashSet<Movie> getUpcomingMoviesTest() {
+		HashSet<Movie> newUpcomingMovies = new HashSet<>();
 
 		ApiNewMovieResults upcomingMovieResults = getPagesForMoviesTest(1, Utils.UPCOMING_MOVIES_URL);
 		newUpcomingMovies.addAll(upcomingMovieResults.getResults());

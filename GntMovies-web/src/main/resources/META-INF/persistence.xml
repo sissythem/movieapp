@@ -6,22 +6,6 @@
 		transaction-type="JTA">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<jta-data-source>java:/jdbc/GntMoviesDS</jta-data-source>
-		<class>com.gnt.movies.entities.Air2dayShow</class>
-		<class>com.gnt.movies.entities.Genre</class>
-		<class>com.gnt.movies.entities.Movie</class>
-		<class>com.gnt.movies.entities.MovieFavorite</class>
-		<class>com.gnt.movies.entities.MovieReview</class>
-		<class>com.gnt.movies.entities.NowPlayingMovie</class>
-		<class>com.gnt.movies.entities.OnTheAirShow</class>
-		<class>com.gnt.movies.entities.Show</class>
-		<class>com.gnt.movies.entities.ShowFavorite</class>
-		<class>com.gnt.movies.entities.ShowReview</class>
-		<class>com.gnt.movies.entities.UpcomingMovie</class>
-		<class>com.gnt.movies.entities.User</class>
-		<class>com.gnt.movies.utilities.LocalDateAttributeConverter</class>
-		<class>com.gnt.movies.utilities.LocalDateTimeAttributeConverter</class>
-		<class>com.gnt.movies.entities.ShowImage</class>
-		<class>com.gnt.movies.entities.MovieImage</class>
 
 		<properties>
 			<property name="eclipselink.target-server" value="JBoss" />

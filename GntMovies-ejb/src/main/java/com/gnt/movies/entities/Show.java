@@ -23,6 +23,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.google.gson.JsonArray;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * The persistent class for the shows database table.
  *
@@ -46,7 +49,7 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "Show.findByOriginalLanguage", query = "SELECT s FROM Show s WHERE s.originalLanguage = :originalLanguage"),
 		@NamedQuery(name = "Show.findByCreatedBy", query = "SELECT s FROM Show s WHERE s.createdBy = :createdBy"),
 		@NamedQuery(name = "Show.findByNetworks", query = "SELECT s FROM Show s WHERE s.networks = :networks"),
-		@NamedQuery(name = "Show.findByOriginCountries", query = "SELECT s FROM Show s WHERE s.originCountries = :originCountries"),
+//		@NamedQuery(name = "Show.findByOriginCountries", query = "SELECT s FROM Show s WHERE s.originCountries = :originCountries"),
 		@NamedQuery(name = "Show.findByProductionCountries", query = "SELECT s FROM Show s WHERE s.productionCountries = :productionCountries"),
 		@NamedQuery(name = "Show.findByInProduction", query = "SELECT s FROM Show s WHERE s.inProduction = :inProduction"),
 		@NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type") 
@@ -54,8 +57,14 @@ import javax.persistence.Transient;
 public class Show implements Serializable, Comparable<Show> {
 	private static final long serialVersionUID = 1L;
 
+	
+	@SerializedName("poster_path")
+	private String poster_path;
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SerializedName("myid")
 	private Integer id;
 
 	@Lob
@@ -65,17 +74,17 @@ public class Show implements Serializable, Comparable<Show> {
 
 	@Lob
 	private String crew;
-
+	@SerializedName("first_air_date")
 	private LocalDate firstAirDate;
 	@Lob
 	private String homepage;
-
+	@SerializedName("id")
 	private int idTmdb;
 
-	private byte inProduction;
+	private boolean inProduction;
 
 	private LocalDate lastAirDate;
-
+	@SerializedName("name")
 	private String name;
 
 	private String networks;
@@ -83,14 +92,16 @@ public class Show implements Serializable, Comparable<Show> {
 	private int numOfEpisodes;
 
 	private int numOfSeasons;
-
+	
+	@SerializedName("original_language")
 	private String originalLanguage;
-
+	@SerializedName("original_name")
 	private String originalName;
-
-	private String originCountries;
+	@SerializedName("origin_country")
+	private JsonArray originCountries;
 
 	@Lob
+	@SerializedName("overview")
 	private String overview;
 
 	private String posterPath;
@@ -102,9 +113,9 @@ public class Show implements Serializable, Comparable<Show> {
 	private String status;
 
 	private String type;
-
+	@SerializedName("vote_average")
 	private Double voteAverage;
-
+	@SerializedName("vote_count")
 	private int voteCount;
 
 	@ManyToMany(fetch=FetchType.LAZY)
@@ -114,9 +125,13 @@ public class Show implements Serializable, Comparable<Show> {
 	)
 	private Set<Genre> genres;
 
-	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
-	private List<ShowImage> showImages;
-
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "show_images", joinColumns = {
+			@JoinColumn(name = "showId", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "imageId", referencedColumnName = "id") }
+	)
+	private List<Image> images;
+	
 	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
 	private List<ShowFavorite> showFavorites;
 
@@ -132,12 +147,10 @@ public class Show implements Serializable, Comparable<Show> {
 	public Show() {
 	}
 
-	public Show(String firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
-			String originCountries, String overview, double voteAverage, int voteCount, String posterPath) {
+	public Show(LocalDate firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
+			JsonArray originCountries, String overview, double voteAverage, int voteCount, String posterPath) {
 		super();
-		if (firstAirDate.length() > 0) {
-			this.firstAirDate = LocalDate.parse(firstAirDate);
-		}
+		this.firstAirDate = firstAirDate;
 		this.idTmdb = idTmdb;
 		this.name = name;
 		this.originalLanguage = originalLanguage;
@@ -148,7 +161,7 @@ public class Show implements Serializable, Comparable<Show> {
 		this.voteCount = voteCount;
 		this.posterPath = posterPath;
 		this.genres = new HashSet<>();
-		this.showImages = new ArrayList<>();
+		this.images = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -207,11 +220,11 @@ public class Show implements Serializable, Comparable<Show> {
 		this.idTmdb = idTmdb;
 	}
 
-	public byte getInProduction() {
+	public boolean getInProduction() {
 		return this.inProduction;
 	}
 
-	public void setInProduction(byte inProduction) {
+	public void setInProduction(Boolean inProduction) {
 		this.inProduction = inProduction;
 	}
 
@@ -271,11 +284,11 @@ public class Show implements Serializable, Comparable<Show> {
 		this.originalName = originalName;
 	}
 
-	public String getOriginCountries() {
+	public JsonArray getOriginCountries() {
 		return this.originCountries;
 	}
 
-	public void setOriginCountries(String originCountries) {
+	public void setOriginCountries(JsonArray originCountries) {
 		this.originCountries = originCountries;
 	}
 
@@ -419,26 +432,23 @@ public class Show implements Serializable, Comparable<Show> {
 		this.air2dayShow = air2dayShow;
 	}
 
-	public List<ShowImage> getShowImages() {
-		return this.showImages;
+	public List<Image> getImages() {
+		if(images ==null) {
+			images = new ArrayList<>();
+		}
+		return this.images;
 	}
 
-	public void setShowImages(List<ShowImage> showImages) {
-		this.showImages = showImages;
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
-	public ShowImage addShowImage(ShowImage showImage) {
-		getShowImages().add(showImage);
-		showImage.setShow(this);
+	public void addImage(Image image) {
+		getImages().add(image);
+			}
 
-		return showImage;
-	}
-
-	public ShowImage removeShowImage(ShowImage showImage) {
-		getShowImages().remove(showImage);
-		showImage.setShow(null);
-
-		return showImage;
+	public void removeImage(Image image) {
+		getImages().remove(image);
 	}
 
 	public double getAverageRating() {
@@ -455,26 +465,27 @@ public class Show implements Serializable, Comparable<Show> {
 		return averageRating;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + idTmdb;
+		return result;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (object == null) {
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		if (!(object instanceof Movie)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		Show other = (Show) object;
-
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		Show other = (Show) obj;
+		if (idTmdb != other.idTmdb)
 			return false;
-		}
 		return true;
 	}
 

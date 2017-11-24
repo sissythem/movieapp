@@ -23,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * The persistent class for the movies database table.
  *
@@ -47,12 +49,14 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId") })
 public class Movie implements Serializable, Comparable<Movie> {
 	private static final long serialVersionUID = 1L;
-
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SerializedName("myid")
 	private Integer id;
-
-	private byte adult;
+	@SerializedName("adult")
+	private boolean adult;
 
 	private double budget;
 
@@ -63,22 +67,23 @@ public class Movie implements Serializable, Comparable<Movie> {
 	private String crew;
 	@Lob
 	private String homepage;
-
+	@SerializedName("id")
 	private int idTmdb;
 
 	private String imdbId;
-
+	@SerializedName("original_language")
 	private String originalLanguage;
-
+	@SerializedName("original_title")
 	private String originalTitle;
 
 	@Lob
+	@SerializedName("overview")
 	private String overview;
-
+	@SerializedName("poster_path")
 	private String posterPath;
 
 	private String productionCountries;
-
+	@SerializedName("release_date")
 	private LocalDate releaseDate;
 
 	private double revenue;
@@ -86,11 +91,11 @@ public class Movie implements Serializable, Comparable<Movie> {
 	private int runtime;
 
 	private String status;
-
+	@SerializedName("title")
 	private String title;
-
+	@SerializedName("vote_average")
 	private Double voteAverage;
-
+	@SerializedName("vote_count")
 	private int voteCount;
 
 	@ManyToMany(fetch=FetchType.LAZY)
@@ -100,8 +105,12 @@ public class Movie implements Serializable, Comparable<Movie> {
 	)
 	private Set<Genre> genres;
 
-	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
-	private List<MovieImage> movieImages;
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "movie_images", joinColumns = {
+			@JoinColumn(name = "movieId", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "imageId", referencedColumnName = "id") }
+	)
+	private List<Image> images;
 
 	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
 	private List<MovieFavorite> movieFavorites;
@@ -118,7 +127,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 	public Movie() {
 	}
 
-	public Movie(byte adult, int idTmdb, String releaseDate, String originalLanguage, String originalTitle,
+	public Movie(Boolean adult, int idTmdb, String releaseDate, String originalLanguage, String originalTitle,
 			String overview, String title, double voteAverage, int voteCount, String posterPath) {
 		super();
 		this.adult = adult;
@@ -132,7 +141,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.voteCount = voteCount;
 		this.posterPath = posterPath;
 		this.genres = new HashSet<>();
-		this.movieImages = new ArrayList<>();
+		this.images = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -143,11 +152,11 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.id = id;
 	}
 
-	public byte getAdult() {
+	public boolean getAdult() {
 		return this.adult;
 	}
 
-	public void setAdult(byte adult) {
+	public void setAdult(boolean adult) {
 		this.adult = adult;
 	}
 
@@ -296,6 +305,9 @@ public class Movie implements Serializable, Comparable<Movie> {
 	}
 
 	public Set<Genre> getGenres() {
+		if(genres==null) {
+			genres=new HashSet<>();
+		}
 		return this.genres;
 	}
 
@@ -312,6 +324,9 @@ public class Movie implements Serializable, Comparable<Movie> {
 	}
 
 	public List<MovieFavorite> getMovieFavorites() {
+		if(movieFavorites==null) {
+			movieFavorites = new ArrayList<>();
+		}
 		return this.movieFavorites;
 	}
 
@@ -334,6 +349,9 @@ public class Movie implements Serializable, Comparable<Movie> {
 	}
 
 	public List<MovieReview> getMovieReviews() {
+		if(movieReviews==null) {
+			movieReviews = new ArrayList<>();
+		}
 		return this.movieReviews;
 	}
 
@@ -371,26 +389,23 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.upcomingMovie = upcomingMovie;
 	}
 
-	public List<MovieImage> getMovieImages() {
-		return this.movieImages;
+	public List<Image> getImages() {
+		if(images==null) {
+			images = new ArrayList<>();
+		}
+		return images;
 	}
 
-	public void setMovieImages(List<MovieImage> movieImages) {
-		this.movieImages = movieImages;
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
-	public MovieImage addMovieImage(MovieImage movieImage) {
-		getMovieImages().add(movieImage);
-		movieImage.setMovie(this);
-
-		return movieImage;
+	public void addImage(Image image) {
+		getImages().add(image);
 	}
 
-	public MovieImage removeMovieImages(MovieImage movieImage) {
-		getMovieImages().remove(movieImage);
-		movieImage.setMovie(null);
-
-		return movieImage;
+	public void removeImages(Image image) {
+		getImages().remove(image);
 	}
 
 	/** Count our average rating based on ratings and comments only in our app **/
@@ -410,24 +425,23 @@ public class Movie implements Serializable, Comparable<Movie> {
 
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + idTmdb;
+		return result;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (object == null) {
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		if (!(object instanceof Movie)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		Movie other = (Movie) object;
-
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		Movie other = (Movie) obj;
+		if (idTmdb != other.idTmdb)
 			return false;
-		}
 		return true;
 	}
 

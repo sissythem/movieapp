@@ -17,8 +17,8 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Genre;
-import com.gnt.movies.theMovieDB.ApiNewMovie;
-import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.entities.Movie;
+import com.gnt.movies.entities.Show;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 import com.gnt.movies.utilities.Logger;
@@ -66,8 +66,8 @@ public class SchedulerBean implements DataProviderHolder
 		logger.info("Scheduler updating database!");
 		ApiClient.setTimer();
 		getGenres();
-		getUpcomingMovies();
-		getNowPlayingMovies();
+//		getUpcomingMovies();
+//		getNowPlayingMovies();
 		getOnTheAirShows();
 		getAir2dayShows();
 		ApiClient.unsetTimer();
@@ -82,8 +82,8 @@ public class SchedulerBean implements DataProviderHolder
 	@PostConstruct
 	private void init() {
 		ApiClient.init();
-		UpcomingMovieBean.init();
-		NowPlayingMovieBean.init();
+//		UpcomingMovieBean.init();
+//		NowPlayingMovieBean.init();
 		Air2dayShowBean.init();
 		OnTheAirShowBean.init();
 	}
@@ -94,7 +94,7 @@ public class SchedulerBean implements DataProviderHolder
 		flag=true;
 		upcomingMovieBean.findAllIdTmdb();
 		logger.info("Scheduler checking for upcomming movies");
-		HashSet<ApiNewMovie> upcomingMoviesAPI = ApiCalls.getUpcomingMovies();
+		HashSet<Movie> upcomingMoviesAPI = ApiCalls.getUpcomingMovies();
 		upcomingMoviesAPI.stream().parallel().forEach(e->upcomingMovieBean.checkUpcomingMovie(e));
 		upcomingMovieBean.removeOldNotUpMovies(upcomingMoviesAPI);
 		logger.info("Done checking for upcomming movies");
@@ -108,7 +108,7 @@ public class SchedulerBean implements DataProviderHolder
 		flag=true;
 		nowPlayingMovieBean.findAllIdTmdb();
 		logger.info("Scheduler checking for now playing movies");
-		HashSet<ApiNewMovie> nowPlayingMoviesAPI = ApiCalls.getNowPlayingMovies();
+		HashSet<Movie> nowPlayingMoviesAPI = ApiCalls.getNowPlayingMovies();
 		nowPlayingMoviesAPI.stream().parallel().forEach(e->nowPlayingMovieBean.checkNowPlayingMovie(e));
 		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
 		logger.info("Done checking for now playing movies");
@@ -122,9 +122,9 @@ public class SchedulerBean implements DataProviderHolder
 		flag=true;
 		onTheAirShowBean.findAllIdTmdb();
 		logger.info("Scheduler checking for on the air shows");
-		HashSet<ApiNewShow> onTheAirShowsAPI = ApiCalls.getOnTheAirShows();
-		onTheAirShowsAPI.stream().parallel().forEach(e->onTheAirShowBean.checkOnTheAirShow(e));
-		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShowsAPI);
+		HashSet<Show> onTheAirShows = ApiCalls.getOnTheAirShows();
+		onTheAirShows.stream().parallel().forEach(e->onTheAirShowBean.checkOnTheAirShow(e));
+		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShows);
 		logger.info("Done checking for on the air shows");
 		flag = false;
 	}
@@ -135,7 +135,7 @@ public class SchedulerBean implements DataProviderHolder
 		flag=true;
 		air2dayShowBean.findAllIdTmdb();
 		logger.info("Scheduler checking for air today shows");
-		HashSet<ApiNewShow> air2dayShowsAPI = ApiCalls.getAir2dayShows();
+		HashSet<Show> air2dayShowsAPI = ApiCalls.getAir2dayShows();
 		air2dayShowsAPI.stream().parallel().forEach(e->air2dayShowBean.checkAir2dayShow(e));
 		air2dayShowBean.removeOldNotAir2dayShow(air2dayShowsAPI);
 		logger.info("Done checking for air2day shows");

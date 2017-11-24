@@ -20,6 +20,7 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.NowPlayingMovieDao;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.NowPlayingMovie;
+import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
@@ -60,8 +61,8 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 		return nowPlayingMovieDao.findNowPlayingMovieByIdTmdb(this, id);
 	}
 
-	public NowPlayingMovie createNowPlayingMovieFromAPI(ApiNewMovie upcomingMovie) {
-		return new NowPlayingMovie(upcomingMovie.getId());
+	public NowPlayingMovie createNowPlayingMovieFromAPI(Movie movie) {
+		return new NowPlayingMovie(movie.getIdTmdb());
 	}
 
 	public ArrayList<NowPlayingMovie> getAllNowPlayingMovies() {
@@ -75,13 +76,13 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void checkNowPlayingMovie(ApiNewMovie apiNewMovie) {
+	public void checkNowPlayingMovie(Movie movie) {
 		
-		if (allIdTmdb.containsKey(apiNewMovie.getId()))
+		if (allIdTmdb.containsKey(movie.getIdTmdb()))
 			return;
-		logger.info("Adding movie with tmdbId=" + apiNewMovie.getId());
-		NowPlayingMovie nowPlayingMovie = createNowPlayingMovieFromAPI(apiNewMovie);
-		Movie movie = movieBean.getMovie(apiNewMovie);
+		logger.info("Adding movie with tmdbId=" + movie.getIdTmdb());
+		NowPlayingMovie nowPlayingMovie = createNowPlayingMovieFromAPI(movie);
+		movie = movieBean.getMovie(movie);
 		nowPlayingMovie.setMovie(movie);
 		addNowPlaying(nowPlayingMovie);
 		allIdTmdb.put(nowPlayingMovie.getIdTmdb(),true);
@@ -90,7 +91,7 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 	public boolean addNowPlaying(NowPlayingMovie nowPlayingMovie) {
 		try {
 			nowPlayingMovieDao.createNowPlayingMovie(this, nowPlayingMovie);
-			logger.info(" nowPlayingMovie id:" + nowPlayingMovie.getId());
+			logger.info(" nowPlayingMovie id:" + nowPlayingMovie.getIdTmdb());
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,9 +99,9 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 		}
 	}
 
-	public void removeOldNotNowPlayingMovies(HashSet<ApiNewMovie> nowPlayingMoviesAPI) {
-		for (ApiNewMovie apiNewMovie : nowPlayingMoviesAPI) {
-			allIdTmdb.remove(apiNewMovie.getId());
+	public void removeOldNotNowPlayingMovies(HashSet<Movie> movies) {
+		for (Movie movie : movies) {
+			allIdTmdb.remove(movie.getIdTmdb());
 		}
 
 		Set<Integer>allidtmd = allIdTmdb.keySet();
