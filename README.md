@@ -144,13 +144,13 @@ To:
 
 In this section, the hole procedure in creating the project is presented, however it is important to firstly present our project's structure. There is an external project containing our three sub-projects: the EAR, EJB and Web projects. The way of creating an EAR Project in Eclipse, which will automatically create the ejb and web projects as well, is to go to the add new project choice in the menu, select Maven project and from the archetypes to choose the below(wildfly-javaee7-webapp-ear-blank-archetype):
 
-![Maven archetype for EAR Project](./images/earProjectCreation.JPG)
+![Maven archetype for EAR Project](/images/earProjectCreation.JPG)
 
 ### Replace Web Project
 
 In this way three projects will be created: an EAR, an EJB and a WEB. Since Vaadin will be used in the UI, web project should be deleted and a new Maven project should be created by selecting Vaadin archetype as per below screenshot:
 
-![Maven archetype for Vaadin Project](./images/vaadinProject.JPG)
+![Maven archetype for Vaadin Project](/images/vaadinProject.JPG)
 
 This project should be added it to the EAR, by going to the EAR's Deployment Descriptor and by right clicking on Modules and selecting to add another project. Therefore now we have the external project which contains the EAR, EJB and Vaadin projects.
 
@@ -160,7 +160,7 @@ Since both archetypes use Java7, we can change Java version from project's facet
 
 Finally, in the pom.xml file of the external project it is necessary to also change the Java version from 1.7 to 1.8 as shown in below image:
 
-![Change Java version to pom.xml - External Project](./images/pomJavaVersion.JPG)
+![Change Java version to pom.xml - External Project](/images/pomJavaVersion.JPG)
 
 ## EJB Project
 
@@ -174,11 +174,11 @@ In summary, although the entities creation was made automatically in Eclipse, th
 
 Some examples of the JPA Relationship Annotations:
 
-@OneToOne
-@JoinColumn(name="showId")
-private Show show;
-
 ```
+	@OneToOne
+	@JoinColumn(name="showId")
+	private Show show;
+
 	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
 	private List<ShowImage> showImages;
 	\end{lstlisting}
@@ -376,17 +376,17 @@ When EJB Project was created, automatically under test/resources path some files
 
 We have used the profile wildfly-remote for the integration test. This choice has to be mentioned in arquillian.xml file which is presented below:
 
-![The arquillian.xml file](./images/arquillian.JPG)
+![The arquillian.xml file](/images/arquillian.JPG)
 
 As already mentioned, we didn't want to use the project's database for testing, therefore it is required to add two xml files in order to use server's database. Below these files are presented, the test-ds.xml and test-persistence.xml. Please note that these files should be used in the integration test at the @Deployment function, as we will mention in a while.
 
-![The test-ds.xml file](./images/test-ds.JPG)
+![The test-ds.xml file](/images/test-ds.JPG)
 
-![The test-persistence.xml file](./images/test-persistence.JPG)
+![The test-persistence.xml file](/images/test-persistence.JPG)
 
 After having mentioned all the configurations required for the tests, we will now explain the MyDeployment.java file and as an example one test class, the MovieTester.java, since the same logic is followed to the remaining files as well. First of all, in the first file we have two static functions creating a war and a jar file respectively, using the above xml files (highlighted on the image) as presented below:
 
-![The MyDeployment.java file](./images/deployment.JPG)
+![The MyDeployment.java file](/images/deployment.JPG)
 
 In order to test the API calls we have to explicitly refer the three required libraries in the static WebArchive getWar method.
 
