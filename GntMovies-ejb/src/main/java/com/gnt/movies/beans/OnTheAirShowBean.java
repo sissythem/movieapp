@@ -20,7 +20,6 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.OnTheAirShowDao;
 import com.gnt.movies.entities.OnTheAirShow;
 import com.gnt.movies.entities.Show;
-import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 

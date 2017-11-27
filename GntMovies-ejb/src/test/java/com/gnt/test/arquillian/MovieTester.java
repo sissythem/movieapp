@@ -12,11 +12,7 @@ import javax.persistence.PersistenceContext;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +23,6 @@ import com.gnt.movies.beans.UpcomingMovieBean;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
-import com.gnt.movies.theMovieDB.ApiNewMovie;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 

@@ -9,7 +9,6 @@ import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.theMovieDB.ApiGenres;
-import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovieResults;
 import com.gnt.movies.theMovieDB.ApiNewShowResults;
 import com.google.gson.Gson;
@@ -92,12 +91,12 @@ public class ApiCalls {
 		return (HashSet<Show>) getAllResults(sb.toString(), "show");
 	}
 
-	public static ApiMovieDetails getMovieDetailsFromAPI(int id) {
+	public static String getMovieDetailsFromAPI(int id) {
 		logger.info("getMovieDetailsFromAPI movie with tmdbId=" + id);
 		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
 				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
 		 
-		return gson.fromJson(ApiClient.getResultFromTMDB(url.toString()), ApiMovieDetails.class);
+		return ApiClient.getResultFromTMDB(url.toString());
 	}
 
 	public static String getShowDetailsFromAPI(int id) {

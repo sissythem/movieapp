@@ -66,9 +66,9 @@ public class SchedulerBean implements DataProviderHolder
 		logger.info("Scheduler updating database!");
 		ApiClient.setTimer();
 		getGenres();
-//		getUpcomingMovies();
+		getUpcomingMovies();
 //		getNowPlayingMovies();
-		getOnTheAirShows();
+//		getOnTheAirShows();
 		getAir2dayShows();
 		ApiClient.unsetTimer();
 		logger.info("Scheduler finished updating database!");
@@ -82,8 +82,8 @@ public class SchedulerBean implements DataProviderHolder
 	@PostConstruct
 	private void init() {
 		ApiClient.init();
-//		UpcomingMovieBean.init();
-//		NowPlayingMovieBean.init();
+		UpcomingMovieBean.init();
+		NowPlayingMovieBean.init();
 		Air2dayShowBean.init();
 		OnTheAirShowBean.init();
 	}

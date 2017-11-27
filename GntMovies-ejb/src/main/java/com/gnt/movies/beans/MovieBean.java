@@ -12,12 +12,15 @@ import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.MovieDao;
 import com.gnt.movies.entities.Genre;
+import com.gnt.movies.entities.Image;
 import com.gnt.movies.entities.Movie;
-import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.utilities.ApiCalls;
+import com.gnt.movies.utilities.JsonUtils;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 @Stateless
 @LocalBean
@@ -46,40 +49,72 @@ public class MovieBean implements DataProviderHolder {
 		return em;
 	}
 
-	private synchronized void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
+	private synchronized void updateMovieWithDetails(Movie movie, String movieDetails) {
 		logger.info("updateMovieWithDetails tmdbId=" + movie.getIdTmdb());
 		Gson gson = new Gson();
-		movie.setBudget(movieDetails.getBudget());
-		movie.setHomepage(movieDetails.getHomepage());
-		movie.setProductionCountries(gson.toJson(movieDetails.getApiProductionCountries()));
-		movie.setRevenue(movieDetails.getRevenue());
-		movie.setRuntime(movieDetails.getRuntime());
-		movie.setStatus(movieDetails.getStatus());
-		movie.setTitle(movieDetails.getTitle());
-		movie.setImdbId(movieDetails.getImdbId());
-		movie.setAdult(movieDetails.isAdult());
-		movie.setAdult(true);
+		JsonObject jo = JsonUtils.getJsonObjectFromString(movieDetails);
+		movie.setBudget(JsonUtils.getDoubleFromJson("budget", jo));
+		movie.setHomepage(JsonUtils.getStringFromJson("homepage", jo));
+		movie.setProductionCountries(JsonUtils.getJsonArrayFromJson("production_countries", jo));
+		movie.setRevenue(JsonUtils.getIntegerFromJson("revenue", jo));
+		movie.setRuntime(JsonUtils.getIntegerFromJson("runtime", jo));
+		movie.setStatus(JsonUtils.getStringFromJson("status", jo));
+		movie.setTitle(JsonUtils.getStringFromJson("title", jo));
+		movie.setImdbId(JsonUtils.getStringFromJson("imdb_id", jo));
+		movie.setAdult(JsonUtils.getBooleanFromJson("adult", jo));
+		JsonElement credits = jo.get("credits");
+		movie.setCast(JsonUtils.getJsonArrayFromJson("cast", credits.getAsJsonObject()));
+		movie.setCrew(JsonUtils.getJsonArrayFromJson("crew", credits.getAsJsonObject()));
+		JsonElement images = jo.get("images");
 		
-		if (movieDetails.getApiCredits() != null) {
-			if (movieDetails.getApiCredits().getCast() != null) {
-				movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
-			}
-			if (movieDetails.getApiCredits().getCrew() != null) {
-				movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
-			}
-		}
-		if (movieDetails.getApiImages() != null) {
-			movieDetails.setAllImages(movieDetails.getApiImages());
-			movieDetails.getAllImages().stream().forEach(image ->movie.addImage(image));
-		}
-		if (movieDetails.getGenres() != null) {
-			movieDetails.getGenres().stream().forEach(apiGenre -> {
-				Genre genre = genreBean.findGenreByName(apiGenre.getName());
-				movie.addGenre(genre);
-			});
-		}
 
+		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("backdrops", images.getAsJsonObject()),
+				Image[].class)) {
+			movie.addImage(image);
+		}
+		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("posters", images.getAsJsonObject()),
+				Image[].class)) {
+			movie.addImage(image);
+		}
+		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
+			Genre g = genreBean.findGenreByName(genre.getName());
+			movie.addGenre(g);
+		}
 	}
+//	private synchronized void updateMovieWithDetails(Movie movie, ApiMovieDetails movieDetails) {
+//		logger.info("updateMovieWithDetails tmdbId=" + movie.getIdTmdb());
+//		Gson gson = new Gson();
+//		movie.setBudget(movieDetails.getBudget());
+//		movie.setHomepage(movieDetails.getHomepage());
+//		movie.setProductionCountries(gson.toJson(movieDetails.getApiProductionCountries()));
+//		movie.setRevenue(movieDetails.getRevenue());
+//		movie.setRuntime(movieDetails.getRuntime());
+//		movie.setStatus(movieDetails.getStatus());
+//		movie.setTitle(movieDetails.getTitle());
+//		movie.setImdbId(movieDetails.getImdbId());
+//		movie.setAdult(movieDetails.isAdult());
+//		movie.setAdult(true);
+//		
+//		if (movieDetails.getApiCredits() != null) {
+//			if (movieDetails.getApiCredits().getCast() != null) {
+//				movie.setCast(gson.toJson(movieDetails.getApiCredits().getCast()));
+//			}
+//			if (movieDetails.getApiCredits().getCrew() != null) {
+//				movie.setCrew(gson.toJson(movieDetails.getApiCredits().getCrew()));
+//			}
+//		}
+//		if (movieDetails.getApiImages() != null) {
+//			movieDetails.setAllImages(movieDetails.getApiImages());
+//			movieDetails.getAllImages().stream().forEach(image ->movie.addImage(image));
+//		}
+//		if (movieDetails.getGenres() != null) {
+//			movieDetails.getGenres().stream().forEach(apiGenre -> {
+//				Genre genre = genreBean.findGenreByName(apiGenre.getName());
+//				movie.addGenre(genre);
+//			});
+//		}
+//		
+//	}
 
 	public synchronized Movie getMovie(Movie movie) {
 		logger.info("getMovie movie with tmdbId=" + movie.getIdTmdb());
@@ -91,8 +126,8 @@ public class MovieBean implements DataProviderHolder {
 
 	private Movie addNewMovie(Movie movie) {
 		logger.info("addNewMovieWithGenres movie with tmdbId=" + movie.getIdTmdb());
-		ApiMovieDetails movieDetails = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
-		updateMovieWithDetails(movie, movieDetails);
+		String movieDetailsJson = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
+		updateMovieWithDetails(movie, movieDetailsJson);
 		
 		movie.getImages().stream().forEach(image -> imageBean.addImage(image));
 		insertMovieToDb(movie);

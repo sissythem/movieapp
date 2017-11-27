@@ -23,8 +23,6 @@ import com.gnt.movies.beans.OnTheAirShowBean;
 import com.gnt.movies.beans.UpcomingMovieBean;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
-import com.gnt.movies.theMovieDB.ApiNewMovie;
-import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 

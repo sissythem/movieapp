@@ -31,6 +31,14 @@ public class JsonUtils {
 		return result;
 	}
 
+	public static Double getDoubleFromJson(String field, JsonObject jo) {
+		Double result = null;
+		JsonElement je = jo.get(field);
+		if (je != null && !je.isJsonNull())
+			result = je.getAsDouble();
+		return result;
+	}
+	
 	public static Boolean getBooleanFromJson(String field, JsonObject jo) {
 		Boolean result = false;
 		JsonElement je = jo.get(field);

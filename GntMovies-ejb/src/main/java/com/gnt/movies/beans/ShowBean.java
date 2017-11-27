@@ -67,8 +67,9 @@ public class ShowBean implements DataProviderHolder {
 		show.setRuntime(JsonUtils.getJsonArrayFromJson("episode_run_time", jo));
 		show.setStatus(JsonUtils.getStringFromJson("status", jo));
 		show.setType(JsonUtils.getStringFromJson("type", jo));
-		show.setCast(JsonUtils.getJsonArrayFromJson("cast", jo));
-		show.setCrew(JsonUtils.getJsonArrayFromJson("crew", jo));
+		JsonElement credits = jo.get("credits");
+		show.setCast(JsonUtils.getJsonArrayFromJson("cast", credits.getAsJsonObject()));
+		show.setCrew(JsonUtils.getJsonArrayFromJson("crew", credits.getAsJsonObject()));
 		String date = JsonUtils.getStringFromJson("last_air_date", jo);
 		if (date.length() > 9)
 			show.setLastAirDate(LocalDate.parse(date));

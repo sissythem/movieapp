@@ -1,10 +1,8 @@
 package com.gnt.test.arquillian;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import javax.ejb.EJB;
 
@@ -17,9 +15,6 @@ import org.junit.runner.RunWith;
 
 import com.gnt.movies.beans.GenreBean;
 import com.gnt.movies.beans.MovieBean;
-import com.gnt.movies.entities.Movie;
-import com.gnt.movies.theMovieDB.ApiNewMovie;
-import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 
 @RunWith(Arquillian.class)
@@ -30,7 +25,6 @@ public class TestMovieBean {
 	@EJB
 	GenreBean genreBean;
 	
-	private ApiNewMovie apiNewMovie;
 	
 	
 	@Deployment

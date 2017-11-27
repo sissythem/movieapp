@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -44,7 +45,7 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Movie.findByVoteAverage", query = "SELECT m FROM Movie m WHERE m.voteAverage = :voteAverage"),
 		@NamedQuery(name = "Movie.findByVoteCount", query = "SELECT m FROM Movie m WHERE m.voteCount = :voteCount"),
 		@NamedQuery(name = "Movie.findByOriginalLanguage", query = "SELECT m FROM Movie m WHERE m.originalLanguage = :originalLanguage"),
-		@NamedQuery(name = "Movie.findByProductionCountries", query = "SELECT m FROM Movie m WHERE m.productionCountries = :productionCountries"),
+//		@NamedQuery(name = "Movie.findByProductionCountries", query = "SELECT m FROM Movie m WHERE m.productionCountries = :productionCountries"),
 		@NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
 		@NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId") })
 public class Movie implements Serializable, Comparable<Movie> {
@@ -56,19 +57,19 @@ public class Movie implements Serializable, Comparable<Movie> {
 	@SerializedName("myid")
 	private Integer id;
 	@SerializedName("adult")
-	private boolean adult;
+	private Boolean adult;
 
-	private double budget;
-
-	@Lob
-	private String cast;
+	private Double budget;
 
 	@Lob
-	private String crew;
+	private JsonElement cast;
+
+	@Lob
+	private JsonElement crew;
 	@Lob
 	private String homepage;
 	@SerializedName("id")
-	private int idTmdb;
+	private Integer idTmdb;
 
 	private String imdbId;
 	@SerializedName("original_language")
@@ -82,13 +83,13 @@ public class Movie implements Serializable, Comparable<Movie> {
 	@SerializedName("poster_path")
 	private String posterPath;
 
-	private String productionCountries;
+	private JsonElement productionCountries;
 	@SerializedName("release_date")
 	private LocalDate releaseDate;
 
 	private double revenue;
 
-	private int runtime;
+	private Integer runtime;
 
 	private String status;
 	@SerializedName("title")
@@ -96,7 +97,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 	@SerializedName("vote_average")
 	private Double voteAverage;
 	@SerializedName("vote_count")
-	private int voteCount;
+	private Integer voteCount;
 
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name = "movie_genres", joinColumns = {
@@ -127,8 +128,8 @@ public class Movie implements Serializable, Comparable<Movie> {
 	public Movie() {
 	}
 
-	public Movie(Boolean adult, int idTmdb, String releaseDate, String originalLanguage, String originalTitle,
-			String overview, String title, double voteAverage, int voteCount, String posterPath) {
+	public Movie(Boolean adult, Integer idTmdb, String releaseDate, String originalLanguage, String originalTitle,
+			String overview, String title, double voteAverage, Integer voteCount, String posterPath) {
 		super();
 		this.adult = adult;
 		this.idTmdb = idTmdb;
@@ -144,43 +145,43 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.images = new ArrayList<>();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public boolean getAdult() {
+	public Boolean getAdult() {
 		return this.adult;
 	}
 
-	public void setAdult(boolean adult) {
+	public void setAdult(Boolean adult) {
 		this.adult = adult;
 	}
 
-	public double getBudget() {
+	public Double getBudget() {
 		return this.budget;
 	}
 
-	public void setBudget(double budget) {
+	public void setBudget(Double budget) {
 		this.budget = budget;
 	}
 
-	public String getCast() {
+	public JsonElement getCast() {
 		return this.cast;
 	}
 
-	public void setCast(String cast) {
+	public void setCast(JsonElement cast) {
 		this.cast = cast;
 	}
 
-	public String getCrew() {
+	public JsonElement getCrew() {
 		return this.crew;
 	}
 
-	public void setCrew(String crew) {
+	public void setCrew(JsonElement crew) {
 		this.crew = crew;
 	}
 
@@ -192,11 +193,11 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.homepage = homepage;
 	}
 
-	public int getIdTmdb() {
+	public Integer getIdTmdb() {
 		return this.idTmdb;
 	}
 
-	public void setIdTmdb(int idTmdb) {
+	public void setIdTmdb(Integer idTmdb) {
 		this.idTmdb = idTmdb;
 	}
 
@@ -240,11 +241,11 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.posterPath = posterPath;
 	}
 
-	public String getProductionCountries() {
+	public JsonElement getProductionCountries() {
 		return this.productionCountries;
 	}
 
-	public void setProductionCountries(String productionCountries) {
+	public void setProductionCountries(JsonElement productionCountries) {
 		this.productionCountries = productionCountries;
 	}
 
@@ -264,11 +265,11 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.revenue = revenue;
 	}
 
-	public int getRuntime() {
+	public Integer getRuntime() {
 		return this.runtime;
 	}
 
-	public void setRuntime(int runtime) {
+	public void setRuntime(Integer runtime) {
 		this.runtime = runtime;
 	}
 
@@ -296,11 +297,11 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.voteAverage = voteAverage;
 	}
 
-	public int getVoteCount() {
+	public Integer getVoteCount() {
 		return this.voteCount;
 	}
 
-	public void setVoteCount(int voteCount) {
+	public void setVoteCount(Integer voteCount) {
 		this.voteCount = voteCount;
 	}
 
