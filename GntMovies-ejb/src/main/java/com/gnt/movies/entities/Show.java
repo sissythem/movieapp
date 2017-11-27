@@ -68,12 +68,12 @@ public class Show implements Serializable, Comparable<Show> {
 	@SerializedName("myid")
 	private Integer id;
 
-	@Lob
+	
 	private JsonElement cast;
 
 	private JsonElement createdBy;
 
-	@Lob
+	
 	private JsonElement crew;
 	@SerializedName("first_air_date")
 	private LocalDate firstAirDate;

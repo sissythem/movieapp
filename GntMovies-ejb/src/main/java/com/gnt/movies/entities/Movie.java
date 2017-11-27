@@ -61,12 +61,12 @@ public class Movie implements Serializable, Comparable<Movie> {
 
 	private Double budget;
 
-	@Lob
+	
 	private JsonElement cast;
 
-	@Lob
+	
 	private JsonElement crew;
-	@Lob
+	
 	private String homepage;
 	@SerializedName("id")
 	private Integer idTmdb;
@@ -77,7 +77,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 	@SerializedName("original_title")
 	private String originalTitle;
 
-	@Lob
+	
 	@SerializedName("overview")
 	private String overview;
 	@SerializedName("poster_path")
