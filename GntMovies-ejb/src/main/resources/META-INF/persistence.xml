@@ -21,6 +21,7 @@
 		<class>com.gnt.movies.utilities.BooleanAttributeConverter</class>
 		<class>com.gnt.movies.utilities.LocalDateAttributeConverter</class>
 		<class>com.gnt.movies.utilities.LocalDateTimeAttributeConverter</class>
+		<class>com.gnt.movies.utilities.JsonAttributeConverter</class>
 		
 
 		<properties>

@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -38,7 +39,7 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Show.findByOriginalName", query = "SELECT s FROM Show s WHERE s.originalName = :originalName"),
 		@NamedQuery(name = "Show.findByIdTmdb", query = "SELECT s FROM Show s WHERE s.idTmdb = :idTmdb"),
 		@NamedQuery(name = "Show.findByHomepage", query = "SELECT s FROM Show s WHERE s.homepage = :homepage"),
-		@NamedQuery(name = "Show.findByRuntime", query = "SELECT s FROM Show s WHERE s.runtime = :runtime"),
+//		@NamedQuery(name = "Show.findByRuntime", query = "SELECT s FROM Show s WHERE s.runtime = :runtime"),
 		@NamedQuery(name = "Show.findByStatus", query = "SELECT s FROM Show s WHERE s.status = :status"),
 		@NamedQuery(name = "Show.findByFirstAirDate", query = "SELECT s FROM Show s WHERE s.firstAirDate = :firstAirDate"),
 		@NamedQuery(name = "Show.findByLastAirDate", query = "SELECT s FROM Show s WHERE s.lastAirDate = :lastAirDate"),
@@ -47,10 +48,10 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Show.findByNumOfEpisodes", query = "SELECT s FROM Show s WHERE s.numOfEpisodes = :numOfEpisodes"),
 		@NamedQuery(name = "Show.findByNumOfSeasons", query = "SELECT s FROM Show s WHERE s.numOfSeasons = :numOfSeasons"),
 		@NamedQuery(name = "Show.findByOriginalLanguage", query = "SELECT s FROM Show s WHERE s.originalLanguage = :originalLanguage"),
-		@NamedQuery(name = "Show.findByCreatedBy", query = "SELECT s FROM Show s WHERE s.createdBy = :createdBy"),
-		@NamedQuery(name = "Show.findByNetworks", query = "SELECT s FROM Show s WHERE s.networks = :networks"),
+//		@NamedQuery(name = "Show.findByCreatedBy", query = "SELECT s FROM Show s WHERE s.createdBy = :createdBy"),
+//		@NamedQuery(name = "Show.findByNetworks", query = "SELECT s FROM Show s WHERE s.networks = :networks"),
 //		@NamedQuery(name = "Show.findByOriginCountries", query = "SELECT s FROM Show s WHERE s.originCountries = :originCountries"),
-		@NamedQuery(name = "Show.findByProductionCountries", query = "SELECT s FROM Show s WHERE s.productionCountries = :productionCountries"),
+		
 		@NamedQuery(name = "Show.findByInProduction", query = "SELECT s FROM Show s WHERE s.inProduction = :inProduction"),
 		@NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type") 
 })
@@ -59,7 +60,7 @@ public class Show implements Serializable, Comparable<Show> {
 
 	
 	@SerializedName("poster_path")
-	private String poster_path;
+	private String posterPath;
 	
 	
 	@Id
@@ -68,18 +69,18 @@ public class Show implements Serializable, Comparable<Show> {
 	private Integer id;
 
 	@Lob
-	private String cast;
+	private JsonElement cast;
 
-	private String createdBy;
+	private JsonElement createdBy;
 
 	@Lob
-	private String crew;
+	private JsonElement crew;
 	@SerializedName("first_air_date")
 	private LocalDate firstAirDate;
 	@Lob
 	private String homepage;
 	@SerializedName("id")
-	private int idTmdb;
+	private Integer idTmdb;
 
 	private boolean inProduction;
 
@@ -87,28 +88,24 @@ public class Show implements Serializable, Comparable<Show> {
 	@SerializedName("name")
 	private String name;
 
-	private String networks;
+	private JsonElement networks;
 
-	private int numOfEpisodes;
+	private Integer numOfEpisodes;
 
-	private int numOfSeasons;
+	private Integer numOfSeasons;
 	
 	@SerializedName("original_language")
 	private String originalLanguage;
 	@SerializedName("original_name")
 	private String originalName;
 	@SerializedName("origin_country")
-	private JsonArray originCountries;
+	private JsonElement originCountries;
 
 	@Lob
 	@SerializedName("overview")
 	private String overview;
 
-	private String posterPath;
-
-	private String productionCountries;
-
-	private int runtime;
+	private JsonElement runtime;
 
 	private String status;
 
@@ -116,7 +113,7 @@ public class Show implements Serializable, Comparable<Show> {
 	@SerializedName("vote_average")
 	private Double voteAverage;
 	@SerializedName("vote_count")
-	private int voteCount;
+	private Integer voteCount;
 
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name = "show_genres", joinColumns = {
@@ -147,8 +144,8 @@ public class Show implements Serializable, Comparable<Show> {
 	public Show() {
 	}
 
-	public Show(LocalDate firstAirDate, int idTmdb, String name, String originalLanguage, String originalName,
-			JsonArray originCountries, String overview, double voteAverage, int voteCount, String posterPath) {
+	public Show(LocalDate firstAirDate, Integer idTmdb, String name, String originalLanguage, String originalName,
+			JsonArray originCountries, String overview, double voteAverage, Integer voteCount, String posterPath) {
 		super();
 		this.firstAirDate = firstAirDate;
 		this.idTmdb = idTmdb;
@@ -164,35 +161,35 @@ public class Show implements Serializable, Comparable<Show> {
 		this.images = new ArrayList<>();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getCast() {
+	public JsonElement getCast() {
 		return this.cast;
 	}
 
-	public void setCast(String cast) {
+	public void setCast(JsonElement cast) {
 		this.cast = cast;
 	}
 
-	public String getCreatedBy() {
+	public JsonElement getCreatedBy() {
 		return this.createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(JsonElement createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public String getCrew() {
+	public JsonElement getCrew() {
 		return this.crew;
 	}
 
-	public void setCrew(String crew) {
+	public void setCrew(JsonElement crew) {
 		this.crew = crew;
 	}
 
@@ -212,11 +209,11 @@ public class Show implements Serializable, Comparable<Show> {
 		this.homepage = homepage;
 	}
 
-	public int getIdTmdb() {
+	public Integer getIdTmdb() {
 		return this.idTmdb;
 	}
 
-	public void setIdTmdb(int idTmdb) {
+	public void setIdTmdb(Integer idTmdb) {
 		this.idTmdb = idTmdb;
 	}
 
@@ -244,27 +241,27 @@ public class Show implements Serializable, Comparable<Show> {
 		this.name = name;
 	}
 
-	public String getNetworks() {
+	public JsonElement getNetworks() {
 		return this.networks;
 	}
 
-	public void setNetworks(String networks) {
+	public void setNetworks(JsonElement networks) {
 		this.networks = networks;
 	}
 
-	public int getNumOfEpisodes() {
+	public Integer getNumOfEpisodes() {
 		return this.numOfEpisodes;
 	}
 
-	public void setNumOfEpisodes(int numOfEpisodes) {
+	public void setNumOfEpisodes(Integer numOfEpisodes) {
 		this.numOfEpisodes = numOfEpisodes;
 	}
 
-	public int getNumOfSeasons() {
+	public Integer getNumOfSeasons() {
 		return this.numOfSeasons;
 	}
 
-	public void setNumOfSeasons(int numOfSeasons) {
+	public void setNumOfSeasons(Integer numOfSeasons) {
 		this.numOfSeasons = numOfSeasons;
 	}
 
@@ -284,7 +281,7 @@ public class Show implements Serializable, Comparable<Show> {
 		this.originalName = originalName;
 	}
 
-	public JsonArray getOriginCountries() {
+	public JsonElement getOriginCountries() {
 		return this.originCountries;
 	}
 
@@ -308,19 +305,11 @@ public class Show implements Serializable, Comparable<Show> {
 		this.posterPath = posterPath;
 	}
 
-	public String getProductionCountries() {
-		return this.productionCountries;
-	}
-
-	public void setProductionCountries(String productionCountries) {
-		this.productionCountries = productionCountries;
-	}
-
-	public int getRuntime() {
+	public JsonElement getRuntime() {
 		return this.runtime;
 	}
 
-	public void setRuntime(int runtime) {
+	public void setRuntime(JsonElement runtime) {
 		this.runtime = runtime;
 	}
 
@@ -348,15 +337,18 @@ public class Show implements Serializable, Comparable<Show> {
 		this.voteAverage = voteAverage;
 	}
 
-	public int getVoteCount() {
+	public Integer getVoteCount() {
 		return this.voteCount;
 	}
 
-	public void setVoteCount(int voteCount) {
+	public void setVoteCount(Integer voteCount) {
 		this.voteCount = voteCount;
 	}
 
 	public Set<Genre> getGenres() {
+		if(genres==null) {
+			genres = new HashSet<>();
+		}
 		return this.genres;
 	}
 
@@ -457,7 +449,7 @@ public class Show implements Serializable, Comparable<Show> {
 		if (showReviews == null) {
 			averageRating = 0.0;
 		} else {
-			for (int i = 0; i < showReviews.size(); i++) {
+			for (Integer i = 0; i < showReviews.size(); i++) {
 				rating = rating + ((List<ShowReview>) showReviews).get(i).getRating();
 			}
 			averageRating = rating / showReviews.size();
@@ -469,8 +461,8 @@ public class Show implements Serializable, Comparable<Show> {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
+		final Integer prime = 31;
+		Integer result = 1;
 		result = prime * result + idTmdb;
 		return result;
 	}

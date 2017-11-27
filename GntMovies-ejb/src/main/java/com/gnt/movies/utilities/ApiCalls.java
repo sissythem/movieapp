@@ -11,9 +11,7 @@ import com.gnt.movies.entities.Show;
 import com.gnt.movies.theMovieDB.ApiGenres;
 import com.gnt.movies.theMovieDB.ApiMovieDetails;
 import com.gnt.movies.theMovieDB.ApiNewMovieResults;
-import com.gnt.movies.theMovieDB.ApiNewShow;
 import com.gnt.movies.theMovieDB.ApiNewShowResults;
-import com.gnt.movies.theMovieDB.ApiShowDetails;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -102,12 +100,18 @@ public class ApiCalls {
 		return gson.fromJson(ApiClient.getResultFromTMDB(url.toString()), ApiMovieDetails.class);
 	}
 
-	public static ApiShowDetails getShowDetailsFromAPI(int id) {
+	public static String getShowDetailsFromAPI(int id) {
 		logger.info("getShowDetailsFromAPI movie with tmdbId=" + id);
 		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
 				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-		return gson.fromJson(ApiClient.getResultFromTMDB(url.toString()), ApiShowDetails.class);
+		return ApiClient.getResultFromTMDB(url.toString());
 	}
+//	public static ApiShowDetails getShowDetailsFromAPI(int id) {
+//		logger.info("getShowDetailsFromAPI movie with tmdbId=" + id);
+//		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
+//				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
+//		return gson.fromJson(ApiClient.getResultFromTMDB(url.toString()), ApiShowDetails.class);
+//	}
 
 	/** Get results from calls to the MovieDB API
 	 * ==========================================
