@@ -15,11 +15,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.gnt.movies.beans.GenreBean;
 import com.gnt.movies.beans.Air2dayShowBean;
-import com.gnt.movies.entities.Genre;
+import com.gnt.movies.beans.GenreBean;
 import com.gnt.movies.entities.Air2dayShow;
-import com.gnt.movies.theMovieDB.ApiNewShow;
+import com.gnt.movies.entities.Genre;
+import com.gnt.movies.entities.Show;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 
@@ -50,7 +50,7 @@ public class Air2dayShowTester {
 		genreBean.addGenres(genres);
 		
 		air2dayShowBeanTest.findAllIdTmdb();
-		HashSet<ApiNewShow> air2dayShows = ApiCalls.getAir2dayShows();
+		HashSet<Show> air2dayShows = ApiCalls.getAir2dayShows();
 		
 		air2dayShows.stream().parallel().forEach(e->air2dayShowBeanTest.checkAir2dayShow(e));
 		air2dayShowBeanTest.removeOldNotAir2dayShow(air2dayShows);

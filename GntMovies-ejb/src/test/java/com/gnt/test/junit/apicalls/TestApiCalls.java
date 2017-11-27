@@ -7,13 +7,10 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 
-<<<<<<< HEAD
-import com.gnt.movies.entities.Movie;
-=======
 import com.gnt.movies.entities.Genre;
-import com.gnt.movies.theMovieDB.ApiNewMovie;
-import com.gnt.movies.theMovieDB.ApiNewShow;
->>>>>>> branch 'master' of https://gitlab.com/gnt-training/Gnt-Movies.git
+import com.gnt.movies.entities.Movie;
+import com.gnt.movies.entities.Show;
+//gitlab.com/gnt-training/Gnt-Movies.git
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 
@@ -38,19 +35,19 @@ public class TestApiCalls {
 	
 	@Test
 	public void testNowPlayingMoviesCall() {
-		HashSet<ApiNewMovie> nowPlayingMovies = ApiCalls.getNowPlayingMovies();
+		HashSet<Movie> nowPlayingMovies = ApiCalls.getNowPlayingMovies();
 		assertNotNull(nowPlayingMovies);
 	}
 	
 	@Test
 	public void testOnTheAirShowsCall() {
-		HashSet<ApiNewShow> onTheAirShows = ApiCalls.getOnTheAirShows();
+		HashSet<Show> onTheAirShows = ApiCalls.getOnTheAirShows();
 		assertNotNull(onTheAirShows);
 	}
 	
 	@Test
 	public void testAir2dayShowsCall() {
-		HashSet<ApiNewShow> air2dayShows = ApiCalls.getAir2dayShows();
+		HashSet<Show> air2dayShows = ApiCalls.getAir2dayShows();
 		assertNotNull(air2dayShows);
 	}
 }
