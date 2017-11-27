@@ -15,6 +15,18 @@ public class JsonUtils {
 		return result;
 	}
 
+	public static JsonArray getJsonArrayFromJson(String field, JsonElement jsonElement) {
+		JsonArray result = null;
+		JsonObject jo = jsonElement.getAsJsonObject();
+		if (jo != null && !jo.isJsonNull()) {
+			JsonElement je = jo.get(field);
+			if (je != null && !je.isJsonNull()) {
+				result = je.getAsJsonArray();
+			}
+		}
+		return result;
+	}
+
 	public static String getStringFromJson(String field, JsonObject jo) {
 		String result = null;
 		JsonElement je = jo.get(field);
@@ -38,7 +50,7 @@ public class JsonUtils {
 			result = je.getAsDouble();
 		return result;
 	}
-	
+
 	public static Boolean getBooleanFromJson(String field, JsonObject jo) {
 		Boolean result = false;
 		JsonElement je = jo.get(field);

@@ -87,7 +87,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 	@SerializedName("release_date")
 	private LocalDate releaseDate;
 
-	private double revenue;
+	private Double revenue;
 
 	private Integer runtime;
 
@@ -257,11 +257,11 @@ public class Movie implements Serializable, Comparable<Movie> {
 		this.releaseDate = releaseDate;
 	}
 
-	public double getRevenue() {
+	public Double getRevenue() {
 		return this.revenue;
 	}
 
-	public void setRevenue(double revenue) {
+	public void setRevenue(Double revenue) {
 		this.revenue = revenue;
 	}
 

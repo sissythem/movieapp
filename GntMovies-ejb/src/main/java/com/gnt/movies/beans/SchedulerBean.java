@@ -63,6 +63,9 @@ public class SchedulerBean implements DataProviderHolder
 	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1",persistent=false)
 	@TransactionAttribute(TransactionAttributeType.NEVER)
 	private void update() {
+		if(flag)
+			return;
+		flag=true;
 		logger.info("Scheduler updating database!");
 		ApiClient.setTimer();
 		getGenres();
@@ -72,6 +75,7 @@ public class SchedulerBean implements DataProviderHolder
 		getAir2dayShows();
 		ApiClient.unsetTimer();
 		logger.info("Scheduler finished updating database!");
+		flag=false;
 	}
 	
 	private void getGenres() {
@@ -89,9 +93,9 @@ public class SchedulerBean implements DataProviderHolder
 	}
 	
 	private void getUpcomingMovies() {
-		if(flag)
-			return;
-		flag=true;
+//		if(flag)
+//			return;
+//		flag=true;
 		upcomingMovieBean.findAllIdTmdb();
 		logger.info("Scheduler checking for upcomming movies");
 		HashSet<Movie> upcomingMoviesAPI = ApiCalls.getUpcomingMovies();
@@ -99,13 +103,13 @@ public class SchedulerBean implements DataProviderHolder
 		upcomingMovieBean.removeOldNotUpMovies(upcomingMoviesAPI);
 		logger.info("Done checking for upcomming movies");
 		
-		flag = false;
+//		flag = false;
 	}
 	
 	private void  getNowPlayingMovies() {
-		if(flag)
-			return;
-		flag=true;
+//		if(flag)
+//			return;
+//		flag=true;
 		nowPlayingMovieBean.findAllIdTmdb();
 		logger.info("Scheduler checking for now playing movies");
 		HashSet<Movie> nowPlayingMoviesAPI = ApiCalls.getNowPlayingMovies();
@@ -113,32 +117,32 @@ public class SchedulerBean implements DataProviderHolder
 		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
 		logger.info("Done checking for now playing movies");
 		
-		flag = false;
+//		flag = false;
 	}
 	
 	private void getOnTheAirShows() {
-		if(flag)
-			return;
-		flag=true;
+//		if(flag)
+//			return;
+//		flag=true;
 		onTheAirShowBean.findAllIdTmdb();
 		logger.info("Scheduler checking for on the air shows");
 		HashSet<Show> onTheAirShows = ApiCalls.getOnTheAirShows();
 		onTheAirShows.stream().parallel().forEach(e->onTheAirShowBean.checkOnTheAirShow(e));
 		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShows);
 		logger.info("Done checking for on the air shows");
-		flag = false;
+//		flag = false;
 	}
 	
 	private void getAir2dayShows() {
-		if(flag)
-			return;
-		flag=true;
+//		if(flag)
+//			return;
+//		flag=true;
 		air2dayShowBean.findAllIdTmdb();
 		logger.info("Scheduler checking for air today shows");
 		HashSet<Show> air2dayShowsAPI = ApiCalls.getAir2dayShows();
 		air2dayShowsAPI.stream().parallel().forEach(e->air2dayShowBean.checkAir2dayShow(e));
 		air2dayShowBean.removeOldNotAir2dayShow(air2dayShowsAPI);
 		logger.info("Done checking for air2day shows");
-		flag = false;
+//		flag = false;
 	}
 }

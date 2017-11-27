@@ -56,7 +56,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		
 	}
 
-	public boolean addUpcomingMovie(UpcomingMovie upcomingMovie) {
+	public Boolean addUpcomingMovie(UpcomingMovie upcomingMovie) {
 		logger.info("addUpcomingMovie movie with tmdbId=" + upcomingMovie.getIdTmdb());
 		try {
 			upcomingMovieDao.createUpcomingMovie(this, upcomingMovie);

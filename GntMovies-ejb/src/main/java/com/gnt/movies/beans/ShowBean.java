@@ -51,9 +51,25 @@ public class ShowBean implements DataProviderHolder {
 		return em;
 	}
 
-	private void updateShowWithDetails(Show show, String showDetailsJson) {
-		logger.info("updateShowWithDetails show id:" + show.getIdTmdb() + " " + showDetailsJson);
+	public Show getShow(Show show) {
+		Show showFromDb = findShowByIdTmdb(show.getIdTmdb());
+		if (showFromDb == null)
+			showFromDb = addNewShow(show);
+		return showFromDb;
+	}
+
+	public Show addNewShow(Show show) {
+		logger.info("addNewShowWithGenres show with tmdbId=" + show.getIdTmdb());
+		updateShowWithDetails(show);
+		saveShowImages(show);
+		insertShowToDb(show);
+		return show;
+	}
+
+	private void updateShowWithDetails(Show show) {
+		logger.info("updateShowWithDetails show id:" + show.getIdTmdb());
 		Gson gson = new Gson();
+		String showDetailsJson = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
 		JsonObject jo = JsonUtils.getJsonObjectFromString(showDetailsJson);
 
 		show.setCreatedBy(JsonUtils.getJsonArrayFromJson("created_by", jo));
@@ -76,11 +92,11 @@ public class ShowBean implements DataProviderHolder {
 
 		JsonElement images = jo.get("images");
 
-		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("backdrops", images.getAsJsonObject()),
+		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("backdrops", images),
 				Image[].class)) {
 			show.addImage(image);
 		}
-		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("posters", images.getAsJsonObject()),
+		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("posters", images),
 				Image[].class)) {
 			show.addImage(image);
 		}
@@ -91,21 +107,8 @@ public class ShowBean implements DataProviderHolder {
 
 	}
 
-	public Show getShow(Show show) {
-		Show showFromDb = findShowByIdTmdb(show.getIdTmdb());
-		if (showFromDb == null)
-			showFromDb = addNewShow(show);
-		return showFromDb;
-	}
-
-	public Show addNewShow(Show show) {
-		logger.info("addNewShowWithGenres show with tmdbId=" + show.getIdTmdb());
-		String showDetailsJson = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
-		updateShowWithDetails(show, showDetailsJson);
-
+	private void saveShowImages(Show show) {
 		show.getImages().stream().forEach(image -> imageBean.addImage(image));
-		insertShowToDb(show);
-		return show;
 	}
 
 	public void insertShowToDb(Show show) {
@@ -113,7 +116,7 @@ public class ShowBean implements DataProviderHolder {
 		showDao.createShow(this, show);
 	}
 
-	public Show findShowByIdTmdb(int idTmdb) {
+	public Show findShowByIdTmdb(Integer idTmdb) {
 		return showDao.findShowByIdTmdb(this, idTmdb);
 	}
 
@@ -121,7 +124,7 @@ public class ShowBean implements DataProviderHolder {
 		return showDao.findShowByName(this, name);
 	}
 
-	public Show findShowById(int id) {
+	public Show findShowById(Integer id) {
 		return showDao.findShowById(this, id);
 	}
 }

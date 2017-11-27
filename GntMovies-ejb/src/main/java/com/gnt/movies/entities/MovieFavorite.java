@@ -21,7 +21,7 @@ public class MovieFavorite implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name="movieid")
@@ -39,11 +39,11 @@ public class MovieFavorite implements Serializable {
     	this.movie=movie;
     }
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

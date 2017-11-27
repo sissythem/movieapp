@@ -63,8 +63,6 @@ public class GenreBean implements DataProviderHolder {
 			g = findGenreByName(genre.getName());
 			if (g == null) {
 				addGenre(genre);
-			} else {
-				genres.add(g);
 			}
 		}
 	}

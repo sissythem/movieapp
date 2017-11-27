@@ -23,9 +23,9 @@ public class OnTheAirShow implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private int idTmdb;
+    private Integer idTmdb;
 
     @OneToOne
     @JoinColumn(name="showId")
@@ -34,23 +34,23 @@ public class OnTheAirShow implements Serializable {
     public OnTheAirShow() {
     }
     
-    public OnTheAirShow(int idTmdb) {
+    public OnTheAirShow(Integer idTmdb) {
     	this.idTmdb = idTmdb;
     }
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getIdTmdb() {
+    public Integer getIdTmdb() {
         return this.idTmdb;
     }
 
-    public void setIdTmdb(int idTmdb) {
+    public void setIdTmdb(Integer idTmdb) {
         this.idTmdb = idTmdb;
     }
 

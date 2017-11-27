@@ -22,12 +22,12 @@ public class ShowReview implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Lob
     private String comment;
 
-    private int rating;
+    private Integer rating;
 
     @ManyToOne
     @JoinColumn(name="showId")
@@ -45,11 +45,11 @@ public class ShowReview implements Serializable {
     	this.show = show;
     }
 
-	public int getId() {
+	public Integer getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -61,11 +61,11 @@ public class ShowReview implements Serializable {
         this.comment = comment;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return this.rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 

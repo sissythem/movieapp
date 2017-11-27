@@ -86,7 +86,7 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 		allIdTmdb.put(nowPlayingMovie.getIdTmdb(),true);
 	}
 
-	public boolean addNowPlaying(NowPlayingMovie nowPlayingMovie) {
+	public Boolean addNowPlaying(NowPlayingMovie nowPlayingMovie) {
 		try {
 			nowPlayingMovieDao.createNowPlayingMovie(this, nowPlayingMovie);
 			logger.info(" nowPlayingMovie id:" + nowPlayingMovie.getIdTmdb());

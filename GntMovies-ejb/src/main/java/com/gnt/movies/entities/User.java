@@ -37,9 +37,9 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
-	private int age;
+	private Integer age;
 
 	private LocalDate birthdate;
 
@@ -74,7 +74,7 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(int age, LocalDate birthdate, String email, String firstname, String lastname, String password,
+	public User(Integer age, LocalDate birthdate, String email, String firstname, String lastname, String password,
 			String photo, LocalDate registrationDate, String username, List<MovieFavorite> movieFavorites,
 			List<MovieReview> movieReviews, List<ShowFavorite> showFavorites, List<ShowReview> showReviews) {
 		super();
@@ -93,7 +93,7 @@ public class User implements Serializable {
 		this.showReviews = null;
 	}
 
-	public User(int age, String email, String firstname, String lastname, String password, String username) {
+	public User(Integer age, String email, String firstname, String lastname, String password, String username) {
 		super();
 		this.age = age;
 		this.email = email;
@@ -103,19 +103,19 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getAge() {
+	public Integer getAge() {
 		return this.age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 
@@ -231,7 +231,6 @@ public class User implements Serializable {
 	public MovieReview removeMovieReview(MovieReview movieReview) {
 		getMovieReviews().remove(movieReview);
 		movieReview.setUser(null);
-
 		return movieReview;
 	}
 
@@ -253,7 +252,6 @@ public class User implements Serializable {
 	public ShowFavorite removeShowFavorite(ShowFavorite showFavorite) {
 		getShowFavorites().remove(showFavorite);
 		showFavorite.setUser(null);
-
 		return showFavorite;
 	}
 
@@ -268,14 +266,12 @@ public class User implements Serializable {
 	public ShowReview addShowReview(ShowReview showReview) {
 		getShowReviews().add(showReview);
 		showReview.setUser(this);
-
 		return showReview;
 	}
 
 	public ShowReview removeShowReview(ShowReview showReview) {
 		getShowReviews().remove(showReview);
 		showReview.setUser(null);
-
 		return showReview;
 	}
 

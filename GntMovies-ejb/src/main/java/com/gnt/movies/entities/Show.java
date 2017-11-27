@@ -82,7 +82,7 @@ public class Show implements Serializable, Comparable<Show> {
 	@SerializedName("id")
 	private Integer idTmdb;
 
-	private boolean inProduction;
+	private Boolean inProduction;
 
 	private LocalDate lastAirDate;
 	@SerializedName("name")
@@ -145,7 +145,7 @@ public class Show implements Serializable, Comparable<Show> {
 	}
 
 	public Show(LocalDate firstAirDate, Integer idTmdb, String name, String originalLanguage, String originalName,
-			JsonArray originCountries, String overview, double voteAverage, Integer voteCount, String posterPath) {
+			JsonArray originCountries, String overview, Double voteAverage, Integer voteCount, String posterPath) {
 		super();
 		this.firstAirDate = firstAirDate;
 		this.idTmdb = idTmdb;
@@ -217,7 +217,7 @@ public class Show implements Serializable, Comparable<Show> {
 		this.idTmdb = idTmdb;
 	}
 
-	public boolean getInProduction() {
+	public Boolean getInProduction() {
 		return this.inProduction;
 	}
 
@@ -333,7 +333,7 @@ public class Show implements Serializable, Comparable<Show> {
 		return this.voteAverage;
 	}
 
-	public void setVoteAverage(double voteAverage) {
+	public void setVoteAverage(Double voteAverage) {
 		this.voteAverage = voteAverage;
 	}
 
@@ -443,9 +443,9 @@ public class Show implements Serializable, Comparable<Show> {
 		getImages().remove(image);
 	}
 
-	public double getAverageRating() {
-		double rating = 0.0;
-		double averageRating;
+	public Double getAverageRating() {
+		Double rating = 0.0;
+		Double averageRating;
 		if (showReviews == null) {
 			averageRating = 0.0;
 		} else {

@@ -26,26 +26,26 @@ public class Image implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose(deserialize = false)
     @Column(name="id")
-    private int id;
+    private Integer id;
 	@SerializedName("file_path")
 	@Column(name="filePath")
 	private String filePath;
 	@SerializedName("aspect_ratio")
 	@Column(name="aspectRatio")
-	private double aspectRatio;
+	private Double aspectRatio;
 	@SerializedName("height")
 	@Column(name="height")
-	private int height;
+	private Integer height;
 	@SerializedName("width")
 	@Column(name="width")
-	private int width;
+	private Integer width;
 		
 	public Image() {
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getFilePath() {
@@ -54,22 +54,22 @@ public class Image implements Serializable{
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
-	public double getAspectRatio() {
+	public Double getAspectRatio() {
 		return aspectRatio;
 	}
-	public void setAspectRatio(double aspectRatio) {
+	public void setAspectRatio(Double aspectRatio) {
 		this.aspectRatio = aspectRatio;
 	}
-	public int getHeight() {
+	public Integer getHeight() {
 		return height;
 	}
-	public void setHeight(int height) {
+	public void setHeight(Integer height) {
 		this.height = height;
 	}
-	public int getWidth() {
+	public Integer getWidth() {
 		return width;
 	}
-	public void setWidth(int width) {
+	public void setWidth(Integer width) {
 		this.width = width;
 	}
 	

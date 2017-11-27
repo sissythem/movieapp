@@ -24,9 +24,9 @@ public class UpcomingMovie implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private int idTmdb;
+    private Integer idTmdb;
 
     @OneToOne
     @JoinColumn(name="movieId")
@@ -35,27 +35,27 @@ public class UpcomingMovie implements Serializable {
     public UpcomingMovie() {
     }
     
-    public UpcomingMovie(int idTmdb) {
+    public UpcomingMovie(Integer idTmdb) {
     	this.idTmdb=idTmdb;
     }
-    public UpcomingMovie(int idTmdb, Movie movie) {
+    public UpcomingMovie(Integer idTmdb, Movie movie) {
     	this.idTmdb=idTmdb;
     	this.movie=movie;
     }
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getIdTmdb() {
+    public Integer getIdTmdb() {
         return this.idTmdb;
     }
 
-    public void setIdTmdb(int idTmdb) {
+    public void setIdTmdb(Integer idTmdb) {
         this.idTmdb = idTmdb;
     }
 

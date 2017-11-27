@@ -8,7 +8,6 @@ import java.util.HashSet;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.Show;
-import com.gnt.movies.theMovieDB.ApiGenres;
 import com.gnt.movies.theMovieDB.ApiNewMovieResults;
 import com.gnt.movies.theMovieDB.ApiNewShowResults;
 import com.google.gson.Gson;
@@ -16,47 +15,57 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class ApiCalls {
 	private static final Logger logger = LoggerFactory.getLogger(ApiCalls.class);
 	private static ArrayList<ApiClientRunnable> runnables;
 	private static ArrayList<Thread> threads;
-	private static Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
-	    
-		@Override
-	    public LocalDate deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) {
-	        String s = json.getAsJsonPrimitive().getAsString();
-	        if(s.length()>9)
-	        return LocalDate.parse(s);
-	        else
-	        	return null;
-	    }
-		
-	}).create();	
+	private static Gson gson = new GsonBuilder()
+			.registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
+
+				@Override
+				public LocalDate deserialize(JsonElement json, Type type,
+						JsonDeserializationContext jsonDeserializationContext) {
+					String s = json.getAsJsonPrimitive().getAsString();
+					if (s.length() > 9)
+						return LocalDate.parse(s);
+					else
+						return null;
+				}
+
+			}).create();
+
 	/**
-	 * Calls to MovieDB API
-	 * ====================
+	 * Calls to MovieDB API ====================
 	 **/
 	public static HashSet<Genre> getGenres() {
 		HashSet<Genre> set = new HashSet<>();
 
-		set.addAll(getMovieGenres());
-		set.addAll(getShowGenres());
+		addMovieGenres(set);
+		addShowGenres(set);
 		return set;
 	}
 
-	private static ArrayList<Genre> getMovieGenres() {
+	private static void addMovieGenres(HashSet<Genre> set) {
 		StringBuilder sb = new StringBuilder(Utils.MOVIE_GENRES).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL);
 		String result = ApiClient.getResultFromTMDB(sb.toString());
-		ApiGenres apiGenres = new Gson().fromJson(result, ApiGenres.class);
-		return apiGenres.getGenres();
+		JsonObject jo = JsonUtils.getJsonObjectFromString(result);
+
+		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
+			set.add(genre);
+		}
+
 	}
 
-	private static ArrayList<Genre> getShowGenres() {
+	private static void addShowGenres(HashSet<Genre> set) {
 		StringBuilder sb = new StringBuilder(Utils.SHOW_GENRES).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL);
 		String result = ApiClient.getResultFromTMDB(sb.toString());
-		ApiGenres apiGenres = new Gson().fromJson(result, ApiGenres.class);
-		return apiGenres.getGenres();
+		JsonObject jo = JsonUtils.getJsonObjectFromString(result);
+
+		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
+			set.add(genre);
+		}
 	}
 
 	public static HashSet<Movie> getUpcomingMovies() {
@@ -95,7 +104,7 @@ public class ApiCalls {
 		logger.info("getMovieDetailsFromAPI movie with tmdbId=" + id);
 		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
 				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-		 
+
 		return ApiClient.getResultFromTMDB(url.toString());
 	}
 
@@ -105,16 +114,19 @@ public class ApiCalls {
 				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
 		return ApiClient.getResultFromTMDB(url.toString());
 	}
-//	public static ApiShowDetails getShowDetailsFromAPI(int id) {
-//		logger.info("getShowDetailsFromAPI movie with tmdbId=" + id);
-//		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
-//				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-//		return gson.fromJson(ApiClient.getResultFromTMDB(url.toString()), ApiShowDetails.class);
-//	}
+	// public static ApiShowDetails getShowDetailsFromAPI(int id) {
+	// logger.info("getShowDetailsFromAPI movie with tmdbId=" + id);
+	// StringBuilder url = new
+	// StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
+	// .append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
+	// return gson.fromJson(ApiClient.getResultFromTMDB(url.toString()),
+	// ApiShowDetails.class);
+	// }
 
-	/** Get results from calls to the MovieDB API
+	/**
+	 * Get results from calls to the MovieDB API
 	 * ==========================================
-	 * **/
+	 **/
 	private static HashSet<?> getAllResults(String url, String type) {
 		ApiClientRunnable runnable = firstThreadRun(url);
 		int pages = getTotalNumPages(type, runnable);
@@ -179,23 +191,24 @@ public class ApiCalls {
 				String result = apiClientRunnable.getResult();
 				logger.info(Thread.currentThread().getId() + ": Result:" + result);
 				ApiNewMovieResults apiNewMovieResults = gson.fromJson(result, ApiNewMovieResults.class);
-				if(result.contains("status_code\":25")) {
+				if (result.contains("status_code\":25")) {
 					logger.info(Thread.currentThread().getId() + ": Result:" + result);
 				}
-				if (apiNewMovieResults != null && apiNewMovieResults.getResults()!=null)
+				if (apiNewMovieResults != null && apiNewMovieResults.getResults() != null)
 					movies.addAll(apiNewMovieResults.getResults());
 			});
 			return movies;
 		} else {
 			HashSet<Show> shows = new HashSet<>();
-			runnables.stream().forEach(apiClientRunnable ->{
+			runnables.stream().forEach(apiClientRunnable -> {
 				String result = apiClientRunnable.getResult();
 				ApiNewShowResults apiNewShowResults = gson.fromJson(result, ApiNewShowResults.class);
-				if(result.contains("status_code\":25")) {
+				if (result.contains("status_code\":25")) {
 					logger.info(Thread.currentThread().getId() + ": Result:" + result);
 				}
-				if (apiNewShowResults != null && apiNewShowResults.getResults()!=null)
-				shows.addAll(apiNewShowResults.getResults());});
+				if (apiNewShowResults != null && apiNewShowResults.getResults() != null)
+					shows.addAll(apiNewShowResults.getResults());
+			});
 			return shows;
 		}
 	}

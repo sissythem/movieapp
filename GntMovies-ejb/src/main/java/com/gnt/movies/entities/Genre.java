@@ -37,12 +37,12 @@ public class Genre implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Expose(deserialize = false)
     @Column(name="id")
-    private int myid;
+    private Integer myid;
     @SerializedName("name")
     private String name;
     
     @SerializedName("id")
-    private int idm;
+    private Integer idm;
     
     @ManyToMany(fetch=FetchType.LAZY)
     private List<Movie> movies;
@@ -67,15 +67,15 @@ public class Genre implements Serializable {
     public Genre(String name) {
     	this.name=name;
     }
-    public Genre(String name,int idm) {
+    public Genre(String name,Integer idm) {
     	this.name=name;
     	this.idm=idm;
     }
-    public int getId() {
+    public Integer getId() {
         return this.myid;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.myid = id;
     }
 
@@ -87,11 +87,11 @@ public class Genre implements Serializable {
         this.name = name;
     }
     
-	public int getIdm() {
+	public Integer getIdm() {
 		return idm;
 	}
 	
-	public void setIdm(int idm) {
+	public void setIdm(Integer idm) {
 		this.idm = idm;
 	}
 	@Override
