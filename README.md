@@ -140,6 +140,25 @@ To:
 <default-bindings context-service="java:jboss/ee/concurrency/context/default" datasource="java:/jdbc/GntMoviesDS" managed-executor-service="java:jboss/ee/concurrency/executor/default" managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" managed-thread-factory="java:jboss/ee/concurrency/factory/default"/>
 ```
 
+As it is explained in detail in the next session, calls to the MovieDB API are executed in parallel by using an executor each time. Moreover, as mentioned above, the connection to the database is performed in the server and not inside the project. In order to avoid runtime errors, due to executors, which will try to establish parallel connections to the database, datasource in the standalone.xml file should be configured as follows, so as to have pool configuration (max pool size should have similar value as the fixed pool size of the executor)
+
+```
+	<datasource jta="true" jndi-name="java:/jdbc/GntMoviesDS" pool-name="GntMoviesDS" enabled="true" use-ccm="true">
+		  <connection-url>jdbc:mysql://localhost:3306/gntmoviedb</connection-url>
+		  <driver>mysql</driver>
+		  <pool>
+		  <min-pool-size>3</min-pool-size>
+		  <initial-pool-size>5</initial-pool-size>
+		  <max-pool-size>50</max-pool-size>
+		  <flush-strategy>IdleConnections</flush-strategy>
+		  </pool>
+		  <security>
+		  <user-name>root</user-name>
+		  <password>root</password>
+		  </security>
+	</datasource>
+```
+
 ## EAR Project
 
 ### Create EAR Project
@@ -235,7 +254,7 @@ As already mentioned, one important requirement of our application is to populat
 
 The MovieDB API applies a limitation of 40 requests every 10 seconds per IP Address either by being burstable to 40 in a single second, or as an average of 4 requests/second. The timer will reset 10 seconds from your first request within the current 10 second "bucket". This means that if you trigger the limit you will have to wait up to 9 seconds before the timer resets but depending where you are within the 10 second window, it could be the very next second.
 
-In order to prevent triggering the APIs limit we created a ConcurrentHashMap to act as a bucket of the current temporal active requests. After sending a request to the API we put to the bucket an entry with its unique key. Each entry has its own timer and after 10 seconds it will remove itself from the bucket. All this implementation can be found in the ApiClient and ApiEntry classes. 
+In order to prevent triggering the APIs limit we created a ConcurrentHashMap to act as a bucket of the current temporal active requests. After sending a request to the API we put to the bucket an entry with its unique key. Each entry has its own timer and after 10 seconds it will remove itself from the bucket. All this implementation can be found in the ApiClient and ApiEntry classes. For the same purpose, as additional call's execution control, ExecutorService was used, having the same fixed thread pool size as in SchedulerBean.
 
 In the ApiCalls class in com.gnt.movies.utilities package there are the methods that make the calls to the MovieDB Api in order to retrieve the genres, latest upcoming and now playing movies, on the air and airing today shows. To increase performance, the calls run in parallel as new threads. The  results are returned as HashSets in order to avoid duplicates due to inconsistencies of the API from call to call.
 
