@@ -53,17 +53,7 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		
 	}
 
-	public Boolean addUpcomingMovie(UpcomingMovie upcomingMovie) {
-		logger.info("addUpcomingMovie movie with tmdbId=" + upcomingMovie.getIdTmdb());
-		try {
-			upcomingMovieDao.createUpcomingMovie(this, upcomingMovie);
-			logger.info(" upcommingMovie id:" + upcomingMovie.getIdTmdb());
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+	
 
 	public void findAllIdTmdb() {
 		for (Object o : upcomingMovieDao.getAllIdTmdb(this)) {
@@ -85,7 +75,6 @@ public class UpcomingMovieBean implements DataProviderHolder {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void checkUpcomingMovie(Movie movie) {
-		logger.info("Thread id:" + Thread.currentThread().getId());
 		if (allIdTmdb.containsKey(movie.getIdTmdb()))
 			return;
 		logger.info("Adding movie with tmdbId=" + movie.getIdTmdb());
@@ -96,6 +85,18 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		allIdTmdb.put(upcomingMovie.getIdTmdb(), true);
 	}
 
+	public Boolean addUpcomingMovie(UpcomingMovie upcomingMovie) {
+		logger.info("addUpcomingMovie movie with tmdbId=" + upcomingMovie.getIdTmdb());
+		try {
+			upcomingMovieDao.createUpcomingMovie(this, upcomingMovie);
+			logger.info(" upcommingMovie id:" + upcomingMovie.getIdTmdb());
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public void removeOldNotUpMovies(HashSet<Movie> movies) {
 
 		for (Movie movie : movies) {

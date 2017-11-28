@@ -55,11 +55,15 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence -->
+		<!-- <dependency> <groupId>org.eclipse.persistence</groupId> <artifactId>javax.persistence</artifactId> 
+			<version>2.1.0</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>javax.persistence</artifactId>
-			<version>2.1.0</version>
+			<artifactId>eclipselink</artifactId>
+			<version>2.7.0</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
@@ -191,20 +195,13 @@
 		<!-- An optional Arquillian testing profile that executes tests in your 
 			WildFly instance This profile will start a new WildFly instance, and execute 
 			the test, shutting it down when done Run with: mvn clean test -Parq-wildfly-managed -->
-		<!-- <profile>
-			<id>arq-wildfly-managed</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.wildfly</groupId>
-					<artifactId>wildfly-arquillian-container-managed</artifactId>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-		</profile> -->
-		
+		<!-- <profile> <id>arq-wildfly-managed</id> <dependencies> <dependency> 
+			<groupId>org.wildfly</groupId> <artifactId>wildfly-arquillian-container-managed</artifactId> 
+			<scope>test</scope> </dependency> </dependencies> </profile> -->
+
 		<!-- An optional Arquillian testing profile that executes tests in a remote 
 			WildFly instance Run with: mvn clean test -Parq-wildfly-remote -->
- 		<profile>
+		<profile>
 			<id>arq-wildfly-remote</id>
 			<dependencies>
 				<dependency>
@@ -213,7 +210,7 @@
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
-		</profile>  
+		</profile>
 		<profile>
 			<id>widlfly-remote</id>
 			<activation>
@@ -233,7 +230,7 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		
+
 	</profiles>
 
 </project>

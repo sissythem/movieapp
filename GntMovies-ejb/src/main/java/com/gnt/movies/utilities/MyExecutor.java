@@ -16,7 +16,7 @@ public class MyExecutor {
 		try {
 			executor.awaitTermination(1, TimeUnit.HOURS);
 		} catch (InterruptedException e1) {
-			logger.info("GetUpcomingMovies: Executor interrupted ");
+			logger.info("Executor interrupted ");
 			e1.printStackTrace();
 		}
 		logger.info("Finished all Executors threads");
