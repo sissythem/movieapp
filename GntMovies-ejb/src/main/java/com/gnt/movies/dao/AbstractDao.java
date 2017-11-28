@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -63,7 +65,13 @@ public abstract class AbstractDao {
 		for (Object obj : parameters)
 			q.setParameter(i++, obj);
 	}
+	
+	public List getResultsFromNamedQuery(EntityManager em, String query) {
 
+		Query q = em.createNamedQuery(query);
+		
+		return q.getResultList();
+	}
 	// public DbEntity createEntityAndReturn(EntityManager em, DbEntity dbEntity) {
 	// em.persist(dbEntity);
 	// return dbEntity;

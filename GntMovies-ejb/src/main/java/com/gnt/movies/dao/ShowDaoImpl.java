@@ -20,7 +20,7 @@ public class ShowDaoImpl extends AbstractDao implements ShowDao {
 	public void updateShow(DataProviderHolder dataProviderHolder, Show show) {
 		updateEntity(dataProviderHolder.getEntityManager(), show);
 	}
-
+ 
 	@Override
 	public void deleteShow(DataProviderHolder dataProviderHolder, Show show) {
 		removeEntity(dataProviderHolder.getEntityManager(), show);

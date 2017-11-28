@@ -94,6 +94,7 @@ public class Utils
 	public static String ON_THE_AIR_DELETE_BY_IDTMDB = "OnTheAirShow.deleteByIdTmdb";
 	
 	/** Movie named queries**/
+	public static String MOVIE_FIND_ALL = "Movie.findAll";
 	public static String MOVIE_FIND_BY_ID = "Movie.findById";
 	public static String MOVIE_FIND_BY_TITLE = "Movie.findByTitle";
 	public static String MOVIE_FIND_BY_IDTMDB = "Movie.findByIdTmdb";

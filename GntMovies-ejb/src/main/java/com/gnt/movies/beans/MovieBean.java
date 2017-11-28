@@ -1,5 +1,8 @@
 package com.gnt.movies.beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -49,6 +52,10 @@ public class MovieBean implements DataProviderHolder {
 		return em;
 	}
 
+	public List<Movie> getMovies(){
+		return movieDao.getAll(this);
+	}
+	
 	public synchronized Movie getMovie(Movie movie) {
 		logger.info("getMovie movie with tmdbId=" + movie.getIdTmdb());
 		Movie movieFromDb = findMovieByIdTmdb(movie.getIdTmdb());

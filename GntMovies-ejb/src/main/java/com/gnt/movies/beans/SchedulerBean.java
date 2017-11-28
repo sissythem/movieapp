@@ -68,7 +68,7 @@ public class SchedulerBean implements DataProviderHolder {
 		OnTheAirShowBean.init();
 	}
 
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1", persistent = false)
+//	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1", persistent = false)
 	@TransactionAttribute(TransactionAttributeType.NEVER)
 	private void update() {
 		if (flag)

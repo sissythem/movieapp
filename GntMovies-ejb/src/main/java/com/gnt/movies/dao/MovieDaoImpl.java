@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.List;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
@@ -24,6 +26,12 @@ public class MovieDaoImpl extends AbstractDao implements MovieDao {
 	@Override
 	public void deleteMovie(DataProviderHolder dataProviderHolder, Movie movie) {
 		removeEntity(dataProviderHolder.getEntityManager(), movie);
+	}
+
+	@Override
+	public List<Movie> getAll(DataProviderHolder dataProviderHolder) {
+		
+		return getResultsFromNamedQuery(dataProviderHolder.getEntityManager(),Utils.MOVIE_FIND_ALL);
 	}
 
 	@Override
