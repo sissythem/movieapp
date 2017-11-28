@@ -102,7 +102,9 @@ public class ShowBean implements DataProviderHolder {
 		}
 		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
 			Genre g = genreBean.findGenreByName(genre.getName());
-			show.addGenre(g);
+			if (g != null) {
+				show.addGenre(g);
+			}
 		}
 
 	}

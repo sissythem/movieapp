@@ -21,7 +21,7 @@ public class ApiEntry {
 			@Override
 			public void run() {
 				ApiClient.getMap().remove(l);
-				logger.info("ApiEntry timer:" + l + " map size:" + ApiClient.getMap().size());
+//				logger.info("ApiEntry timer:" + l + " map size:" + ApiClient.getMap().size());
 				ApiClient.notifyCounter();
 			}
 		}, 10 * 1000);

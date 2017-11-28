@@ -44,24 +44,24 @@ public class Genre implements Serializable {
     @SerializedName("id")
     private Integer idm;
     
-//    @ManyToMany(fetch=FetchType.LAZY)
-//    private List<Movie> movies;
-//    
-//    @ManyToMany(fetch=FetchType.LAZY)
-//    private List<Show> shows;
+    @ManyToMany(fetch=FetchType.LAZY)
+    private List<Movie> movies;
+    
+    @ManyToMany(fetch=FetchType.LAZY)
+    private List<Show> shows;
 
-//    public List<Movie> getMovies() {
-//		return movies;
-//	}
-//	public void setMovies(List<Movie> movies) {
-//		this.movies = movies;
-//	}
-//	public List<Show> getShows() {
-//		return shows;
-//	}
-//	public void setShows(List<Show> shows) {
-//		this.shows = shows;
-//	}
+    public List<Movie> getMovies() {
+		return movies;
+	}
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
+	}
+	public List<Show> getShows() {
+		return shows;
+	}
+	public void setShows(List<Show> shows) {
+		this.shows = shows;
+	}
 	public Genre() {
     }
     public Genre(String name) {

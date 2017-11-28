@@ -47,11 +47,6 @@ public class GenreBean implements DataProviderHolder {
 		return genreDao.findGenreByName(this, name);
 	}
 
-	public synchronized void addGenre(Genre genre) {
-		logger.info("addGenre genre with name=" + genre.getName());
-		genreDao.createGenre(this, genre);
-	}
-
 	public ArrayList<Genre> getAllGenres() {
 		return genreDao.findAllGenres(this);
 	}
@@ -65,5 +60,10 @@ public class GenreBean implements DataProviderHolder {
 				addGenre(genre);
 			}
 		}
+	}
+	
+	private synchronized void addGenre(Genre genre) {
+		logger.info("addGenre genre with name=" + genre.getName());
+		genreDao.createGenre(this, genre);
 	}
 }

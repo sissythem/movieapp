@@ -85,17 +85,17 @@ public class MovieBean implements DataProviderHolder {
 		movie.setCrew(JsonUtils.getJsonArrayFromJson("crew", credits));
 		JsonElement images = jo.get("images");
 
-		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("backdrops", images),
-				Image[].class)) {
+		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("backdrops", images), Image[].class)) {
 			movie.addImage(image);
 		}
-		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("posters", images),
-				Image[].class)) {
+		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("posters", images), Image[].class)) {
 			movie.addImage(image);
 		}
 		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
 			Genre g = genreBean.findGenreByName(genre.getName());
-			movie.addGenre(g);
+			if (g != null) {
+				movie.addGenre(g);
+			}
 		}
 	}
 

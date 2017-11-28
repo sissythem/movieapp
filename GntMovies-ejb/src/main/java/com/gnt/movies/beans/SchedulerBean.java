@@ -31,7 +31,7 @@ import com.gnt.movies.utilities.MyExecutor;
 
 @LocalBean
 @Singleton
-@TransactionTimeout(value = 1, unit = TimeUnit.HOURS)
+//@TransactionTimeout(value = 1, unit = TimeUnit.HOURS)
 public class SchedulerBean implements DataProviderHolder {
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerBean.class);
 
