@@ -94,11 +94,13 @@ public class Genre implements Serializable {
 	public void setIdm(Integer idm) {
 		this.idm = idm;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idm;
+		result = prime * result + ((idm == null) ? 0 : idm.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 	@Override
@@ -110,10 +112,20 @@ public class Genre implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Genre other = (Genre) obj;
-		if (idm != other.idm)
+		if (idm == null) {
+			if (other.idm != null)
+				return false;
+		} else if (!idm.equals(other.idm))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
+	
+	
 
     
 }

@@ -457,13 +457,11 @@ public class Show implements Serializable, Comparable<Show> {
 		return averageRating;
 	}
 
-	
-
 	@Override
 	public int hashCode() {
-		final Integer prime = 31;
-		Integer result = 1;
-		result = prime * result + idTmdb;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idTmdb == null) ? 0 : idTmdb.hashCode());
 		return result;
 	}
 
@@ -476,7 +474,10 @@ public class Show implements Serializable, Comparable<Show> {
 		if (getClass() != obj.getClass())
 			return false;
 		Show other = (Show) obj;
-		if (idTmdb != other.idTmdb)
+		if (idTmdb == null) {
+			if (other.idTmdb != null)
+				return false;
+		} else if (!idTmdb.equals(other.idTmdb))
 			return false;
 		return true;
 	}

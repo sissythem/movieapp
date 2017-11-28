@@ -6,9 +6,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -25,9 +27,10 @@ import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
+import com.gnt.movies.utilities.MyExecutor;
 
-@Stateless
 @LocalBean
+@Singleton
 @TransactionTimeout(value = 1, unit = TimeUnit.HOURS)
 public class SchedulerBean implements DataProviderHolder {
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerBean.class);
@@ -50,6 +53,8 @@ public class SchedulerBean implements DataProviderHolder {
 	@EJB
 	private Air2dayShowBean air2dayShowBean;
 
+	private static boolean flag = false;
+
 	public SchedulerBean() {
 
 	}
@@ -59,7 +64,14 @@ public class SchedulerBean implements DataProviderHolder {
 		return em;
 	}
 
-	private static boolean flag = false;
+	
+	private void init() {
+		ApiClient.init();
+		UpcomingMovieBean.init();
+		NowPlayingMovieBean.init();
+		Air2dayShowBean.init();
+		OnTheAirShowBean.init();
+	}
 
 	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1", persistent = false)
 	@TransactionAttribute(TransactionAttributeType.NEVER)
@@ -67,14 +79,15 @@ public class SchedulerBean implements DataProviderHolder {
 		if (flag)
 			return;
 		flag = true;
+		init();
 		logger.info("Scheduler updating database!");
 		ApiClient.setTimer();
 		getGenres();
 		getUpcomingMovies();
-		// getNowPlayingMovies();
-		// getOnTheAirShows();
+		getNowPlayingMovies();
+		getOnTheAirShows();
 		getAir2dayShows();
-		ApiClient.unsetTimer();
+		cleanUp();
 		logger.info("Scheduler finished updating database!");
 		flag = false;
 	}
@@ -84,24 +97,11 @@ public class SchedulerBean implements DataProviderHolder {
 		genreBean.addGenres(genres);
 	}
 
-	@PostConstruct
-	private void init() {
-		ApiClient.init();
-		UpcomingMovieBean.init();
-		NowPlayingMovieBean.init();
-		Air2dayShowBean.init();
-		OnTheAirShowBean.init();
-	}
-
 	private void getUpcomingMovies() {
-		// if(flag)
-		// return;
-		// flag=true;
 		upcomingMovieBean.findAllIdTmdb();
 		logger.info("Scheduler checking for upcomming movies");
 		HashSet<Movie> upcomingMoviesAPI = ApiCalls.getUpcomingMovies();
-
-		ExecutorService executor = Executors.newFixedThreadPool(40);
+		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (Movie movie : upcomingMoviesAPI) {
 
 			Runnable worker = () -> {
@@ -109,102 +109,49 @@ public class SchedulerBean implements DataProviderHolder {
 			};
 			executor.execute(worker);
 		}
-
-		// This will make the executor accept no new threads
-		// and finish all existing threads in the queue
-		executor.shutdown();
-		// Wait until all threads are finish
-		try {
-			executor.awaitTermination(1, TimeUnit.HOURS);
-		} catch (InterruptedException e1) {
-			logger.info("GetUpcomingMovies: Executor interrupted ");
-			e1.printStackTrace();
-		}
-		System.out.println("Finished all Executors threads");
-
+		MyExecutor.terminateExecutor(executor);
 		upcomingMovieBean.removeOldNotUpMovies(upcomingMoviesAPI);
 		logger.info("Done checking for upcomming movies");
 
-		// flag = false;
 	}
 
 	private void getNowPlayingMovies() {
-		// if(flag)
-		// return;
-		// flag=true;
 		nowPlayingMovieBean.findAllIdTmdb();
 		logger.info("Scheduler checking for now playing movies");
 		HashSet<Movie> nowPlayingMoviesAPI = ApiCalls.getNowPlayingMovies();
-//		nowPlayingMoviesAPI.stream().parallel().forEach(e -> nowPlayingMovieBean.checkNowPlayingMovie(e));
-		ExecutorService executor = Executors.newFixedThreadPool(40);
+		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (Movie movie : nowPlayingMoviesAPI) {
-
 			Runnable worker = () -> {
 				nowPlayingMovieBean.checkNowPlayingMovie(movie);
 			};
 			executor.execute(worker);
 		}
-
-		// This will make the executor accept no new threads
-		// and finish all existing threads in the queue
-		executor.shutdown();
-		// Wait until all threads are finish
-		try {
-			executor.awaitTermination(1, TimeUnit.HOURS);
-		} catch (InterruptedException e1) {
-			logger.info("GetUpcomingMovies: Executor interrupted ");
-			e1.printStackTrace();
-		}
-		System.out.println("Finished all Executors threads");
+		MyExecutor.terminateExecutor(executor);
 		nowPlayingMovieBean.removeOldNotNowPlayingMovies(nowPlayingMoviesAPI);
 		logger.info("Done checking for now playing movies");
-
-		// flag = false;
 	}
 
 	private void getOnTheAirShows() {
-		// if(flag)
-		// return;
-		// flag=true;
 		onTheAirShowBean.findAllIdTmdb();
 		logger.info("Scheduler checking for on the air shows");
 		HashSet<Show> onTheAirShows = ApiCalls.getOnTheAirShows();
-		onTheAirShows.stream().parallel().forEach(e -> onTheAirShowBean.checkOnTheAirShow(e));
-		ExecutorService executor = Executors.newFixedThreadPool(40);
+		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (Show show : onTheAirShows) {
-
 			Runnable worker = () -> {
 				onTheAirShowBean.checkOnTheAirShow(show);
 			};
 			executor.execute(worker);
 		}
-
-		// This will make the executor accept no new threads
-		// and finish all existing threads in the queue
-		executor.shutdown();
-		// Wait until all threads are finish
-		try {
-			executor.awaitTermination(1, TimeUnit.HOURS);
-		} catch (InterruptedException e1) {
-			logger.info("GetUpcomingMovies: Executor interrupted ");
-			e1.printStackTrace();
-		}
-		System.out.println("Finished all Executors threads");
-
+		MyExecutor.terminateExecutor(executor);
 		onTheAirShowBean.removeOldNotOnTheAirShows(onTheAirShows);
 		logger.info("Done checking for on the air shows");
-		// flag = false;
 	}
 
 	private void getAir2dayShows() {
-		// if(flag)
-		// return;
-		// flag=true;
 		air2dayShowBean.findAllIdTmdb();
 		logger.info("Scheduler checking for air today shows");
 		HashSet<Show> air2dayShowsAPI = ApiCalls.getAir2dayShows();
-//		air2dayShowsAPI.stream().parallel().forEach(e -> air2dayShowBean.checkAir2dayShow(e));
-		ExecutorService executor = Executors.newFixedThreadPool(40);
+		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (Show show : air2dayShowsAPI) {
 
 			Runnable worker = () -> {
@@ -212,21 +159,12 @@ public class SchedulerBean implements DataProviderHolder {
 			};
 			executor.execute(worker);
 		}
-
-		// This will make the executor accept no new threads
-		// and finish all existing threads in the queue
-		executor.shutdown();
-		// Wait until all threads are finish
-		try {
-			executor.awaitTermination(1, TimeUnit.HOURS);
-		} catch (InterruptedException e1) {
-			logger.info("GetUpcomingMovies: Executor interrupted ");
-			e1.printStackTrace();
-		}
-		System.out.println("Finished all Executors threads");
-
+		MyExecutor.terminateExecutor(executor);
 		air2dayShowBean.removeOldNotAir2dayShow(air2dayShowsAPI);
 		logger.info("Done checking for air2day shows");
-		// flag = false;
+	}
+
+	private void cleanUp() {
+		ApiClient.unsetTimer();
 	}
 }

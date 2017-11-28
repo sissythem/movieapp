@@ -4,7 +4,11 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import com.gnt.movies.beans.SchedulerBean;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.Show;
@@ -20,7 +24,6 @@ import com.google.gson.JsonObject;
 public class ApiCalls {
 	private static final Logger logger = LoggerFactory.getLogger(ApiCalls.class);
 	private static ArrayList<ApiClientRunnable> runnables;
-	private static ArrayList<Thread> threads;
 	private static Gson gson = new GsonBuilder()
 			.registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
 
@@ -41,15 +44,14 @@ public class ApiCalls {
 	 **/
 	public static HashSet<Genre> getGenres() {
 		HashSet<Genre> set = new HashSet<>();
-
 		addMovieGenres(set);
 		addShowGenres(set);
 		return set;
 	}
 
 	private static void addMovieGenres(HashSet<Genre> set) {
-		StringBuilder sb = new StringBuilder(Utils.MOVIE_GENRES).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL);
-		String result = ApiClient.getResultFromTMDB(sb.toString());
+		String url = createUrl(Utils.MOVIE_GENRES, Utils.API_KEY, Utils.LANGUAGE_FOR_URL);
+		String result = ApiClient.getResultFromTMDB(url);
 		JsonObject jo = JsonUtils.getJsonObjectFromString(result);
 
 		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
@@ -59,8 +61,8 @@ public class ApiCalls {
 	}
 
 	private static void addShowGenres(HashSet<Genre> set) {
-		StringBuilder sb = new StringBuilder(Utils.SHOW_GENRES).append(Utils.API_KEY).append(Utils.LANGUAGE_FOR_URL);
-		String result = ApiClient.getResultFromTMDB(sb.toString());
+		String url = createUrl(Utils.SHOW_GENRES, Utils.API_KEY, Utils.LANGUAGE_FOR_URL);
+		String result = ApiClient.getResultFromTMDB(url);
 		JsonObject jo = JsonUtils.getJsonObjectFromString(result);
 
 		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
@@ -69,68 +71,44 @@ public class ApiCalls {
 	}
 
 	public static HashSet<Movie> getUpcomingMovies() {
-
-		StringBuilder sb = new StringBuilder(Utils.UPCOMING_MOVIES_URL).append(Utils.API_KEY)
-				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
-
-		return (HashSet<Movie>) getAllResults(sb.toString(), "movie");
+		return (HashSet<Movie>) getAllResults(Utils.UPCOMING_MOVIES_URL, "movie");
 	}
 
 	public static HashSet<Movie> getNowPlayingMovies() {
-
-		StringBuilder sb = new StringBuilder(Utils.NOW_PLAYING_MOVIES_URL).append(Utils.API_KEY)
-				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
-
-		return (HashSet<Movie>) getAllResults(sb.toString(), "movie");
+		return (HashSet<Movie>) getAllResults(Utils.NOW_PLAYING_MOVIES_URL, "movie");
 	}
 
 	public static HashSet<Show> getOnTheAirShows() {
-
-		StringBuilder sb = new StringBuilder(Utils.ON_THE_AIR_SHOWS_URL).append(Utils.API_KEY)
-				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
-
-		return (HashSet<Show>) getAllResults(sb.toString(), "show");
+		return (HashSet<Show>) getAllResults(Utils.ON_THE_AIR_SHOWS_URL, "show");
 	}
 
 	public static HashSet<Show> getAir2dayShows() {
-
-		StringBuilder sb = new StringBuilder(Utils.AIR2DAY_SHOWS_URL).append(Utils.API_KEY)
-				.append(Utils.LANGUAGE_FOR_URL).append(Utils.NUMBER_PAGE_FOR_URL);
-
-		return (HashSet<Show>) getAllResults(sb.toString(), "show");
+		return (HashSet<Show>) getAllResults(Utils.AIR2DAY_SHOWS_URL, "show");
 	}
 
 	public static String getMovieDetailsFromAPI(int id) {
 		logger.info("getMovieDetailsFromAPI movie with tmdbId=" + id);
-		StringBuilder url = new StringBuilder(Utils.GENERAL_MOVIE_URL).append(Integer.toString(id))
-				.append(Utils.API_KEY).append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-
-		return ApiClient.getResultFromTMDB(url.toString());
+		String url = createUrl(Utils.GENERAL_MOVIE_URL, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL,
+				Utils.CREW_CAST_URL);
+		return ApiClient.getResultFromTMDB(url);
 	}
 
 	public static String getShowDetailsFromAPI(int id) {
 		logger.info("getShowDetailsFromAPI movie with tmdbId=" + id);
-		StringBuilder url = new StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
-				.append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
+		String url = createUrl(Utils.GENERAL_SHOW_URL, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL,
+				Utils.CREW_CAST_URL);
 		return ApiClient.getResultFromTMDB(url.toString());
 	}
-	// public static ApiShowDetails getShowDetailsFromAPI(int id) {
-	// logger.info("getShowDetailsFromAPI movie with tmdbId=" + id);
-	// StringBuilder url = new
-	// StringBuilder(Utils.GENERAL_SHOW_URL).append(Integer.toString(id)).append(Utils.API_KEY)
-	// .append(Utils.IMAGES_URL).append(Utils.CREW_CAST_URL);
-	// return gson.fromJson(ApiClient.getResultFromTMDB(url.toString()),
-	// ApiShowDetails.class);
-	// }
 
 	/**
 	 * Get results from calls to the MovieDB API
 	 * ==========================================
 	 **/
 	private static HashSet<?> getAllResults(String url, String type) {
-		ApiClientRunnable runnable = firstThreadRun(url);
+		String urlComplete = createUrl(url, Utils.API_KEY, Utils.LANGUAGE_FOR_URL, Utils.NUMBER_PAGE_FOR_URL);
+		ApiClientRunnable runnable = firstThreadRun(urlComplete);
 		int pages = getTotalNumPages(type, runnable);
-		runRemainingThreads(url, pages);
+		runRemainingThreads(urlComplete, pages);
 		return getResultsFromPages(type);
 	}
 
@@ -146,42 +124,24 @@ public class ApiCalls {
 
 	private static ApiClientRunnable firstThreadRun(String url) {
 		runnables = new ArrayList<>();
-		threads = new ArrayList<>();
-
-		StringBuilder sb = new StringBuilder(url).append("1");
-		ApiClientRunnable runnable = new ApiClientRunnable(sb.toString());
-		Thread thread = new Thread(runnable);
-
+		String newUrl = createUrl(url, "1");
+		ApiClientRunnable runnable = new ApiClientRunnable(newUrl);
+		ExecutorService executor = MyExecutor.getNewExecutor();
 		runnables.add(runnable);
-		threads.add(thread);
-
-		thread.start();
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		executor.execute(runnable);
+		MyExecutor.terminateExecutor(executor);
 		return runnable;
 	}
 
 	private static void runRemainingThreads(String url, int pages) {
+		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (int page = 2; page <= pages; page++) {
 			StringBuilder sb = new StringBuilder(url).append(page);
 			ApiClientRunnable runnable = new ApiClientRunnable(sb.toString());
 			runnables.add(runnable);
-			Thread thread = new Thread(runnable);
-			threads.add(thread);
+			executor.execute(runnable);
 		}
-		for (int i = 1; i < threads.size(); i++) {
-			threads.get(i).start();
-		}
-		for (int i = 1; i < threads.size(); i++) {
-			try {
-				threads.get(i).join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		MyExecutor.terminateExecutor(executor);
 	}
 
 	private static HashSet<?> getResultsFromPages(String type) {
@@ -211,5 +171,13 @@ public class ApiCalls {
 			});
 			return shows;
 		}
+	}
+
+	public static String createUrl(String... str) {
+		StringBuilder sb = new StringBuilder();
+		for (String string : str) {
+			sb.append(string);
+		}
+		return sb.toString();
 	}
 }

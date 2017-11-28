@@ -428,7 +428,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idTmdb;
+		result = prime * result + ((idTmdb == null) ? 0 : idTmdb.hashCode());
 		return result;
 	}
 
@@ -441,7 +441,10 @@ public class Movie implements Serializable, Comparable<Movie> {
 		if (getClass() != obj.getClass())
 			return false;
 		Movie other = (Movie) obj;
-		if (idTmdb != other.idTmdb)
+		if (idTmdb == null) {
+			if (other.idTmdb != null)
+				return false;
+		} else if (!idTmdb.equals(other.idTmdb))
 			return false;
 		return true;
 	}
