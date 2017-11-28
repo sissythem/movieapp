@@ -2,16 +2,12 @@ package com.gnt.movies.beans;
 
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;

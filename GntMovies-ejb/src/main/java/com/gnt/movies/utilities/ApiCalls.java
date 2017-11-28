@@ -5,10 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
-import com.gnt.movies.beans.SchedulerBean;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.Show;
