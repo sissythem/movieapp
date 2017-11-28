@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.concurrent.ExecutorService;
 
 import javax.ejb.EJB;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.ApiClient;
+import com.gnt.movies.utilities.MyExecutor;
 
 @RunWith(Arquillian.class)
 public class Air2dayShowTester {
@@ -45,6 +48,7 @@ public class Air2dayShowTester {
 	public void initialize() {
 		ApiClient.init();
 		Air2dayShowBean.init();
+		ApiClient.setTimer();
 		
 		HashSet<Genre> genres = ApiCalls.getGenres();
 		genreBean.addGenres(genres);
@@ -52,11 +56,21 @@ public class Air2dayShowTester {
 		air2dayShowBeanTest.findAllIdTmdb();
 		HashSet<Show> air2dayShows = ApiCalls.getAir2dayShows();
 		
-		air2dayShows.stream().parallel().forEach(e->air2dayShowBeanTest.checkAir2dayShow(e));
+		ExecutorService executor = MyExecutor.getNewExecutor();
+		for (Show show : air2dayShows) {
+			Runnable worker = () -> {
+				air2dayShowBeanTest.checkAir2dayShow(show);
+			};
+			executor.execute(worker);
+		}
+		MyExecutor.terminateExecutor(executor);
 		air2dayShowBeanTest.removeOldNotAir2dayShow(air2dayShows);
 		
-		
-		
+	}
+	
+	@After
+	public void clenaUp() {
+		ApiClient.unsetTimer();
 	}
 	
 	@Test
