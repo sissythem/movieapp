@@ -3,64 +3,61 @@ package com.gnt.movies.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the movie_favorites database table.
  *
  */
 @Entity
-@Table(name="movie_favorites")
-@NamedQueries({
-        @NamedQuery(name = "MovieFavorite.findAll", query = "SELECT m FROM MovieFavorite m"),
-        @NamedQuery(name = "MovieFavorite.findById", query = "SELECT m FROM MovieFavorite m WHERE m.id = :id"),
-        @NamedQuery(name = "MovieFavorite.findByUserId", query = "SELECT m FROM MovieFavorite m WHERE m.user.id = :userId"),
-        @NamedQuery(name = "MovieFavorite.findByMovieId", query = "SELECT m FROM MovieFavorite m WHERE m.movie.id = :movieId")
-})
+@Table(name = "movie_favorites")
+@NamedQueries({ @NamedQuery(name = "MovieFavorite.findAll", query = "SELECT m FROM MovieFavorite m"),
+		@NamedQuery(name = "MovieFavorite.findById", query = "SELECT m FROM MovieFavorite m WHERE m.id = :id"),
+		@NamedQuery(name = "MovieFavorite.findByUserId", query = "SELECT m FROM MovieFavorite m WHERE m.user.id = :userId"),
+		@NamedQuery(name = "MovieFavorite.findByMovieId", query = "SELECT m FROM MovieFavorite m WHERE m.movie.id = :movieId") })
 public class MovieFavorite implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name="movieid")
-    private Movie movie;
+	@ManyToOne
+	@JoinColumn(name = "movieid")
+	private Movie movie;
 
-    @ManyToOne
-    @JoinColumn(name="userId")
-    private User user;
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private User user;
 
-    public MovieFavorite() {
-    }
-    
-    public MovieFavorite(User user, Movie movie) {
-    	this.user=user;
-    	this.movie=movie;
-    }
+	public MovieFavorite() {
+	}
 
-    public Integer getId() {
-        return this.id;
-    }
+	public MovieFavorite(User user, Movie movie) {
+		this.user = user;
+		this.movie = movie;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return this.id;
+	}
 
-    public Movie getMovie() {
-        return this.movie;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
+	public Movie getMovie() {
+		return this.movie;
+	}
 
-    public User getUser() {
-        return this.user;
-    }
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 }

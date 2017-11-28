@@ -15,16 +15,15 @@ import com.gnt.movies.dao.MovieReviewDao;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.MovieReview;
 import com.gnt.movies.entities.User;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
-/**
- * Session Bean implementation class MovieReviewBean
- */
 @Stateless
 @LocalBean
 public class MovieReviewBean implements DataProviderHolder{
-
-
-	@PersistenceContext EntityManager em;
+	private static final Logger logger = LoggerFactory.getLogger(MovieReviewBean.class);
+	@PersistenceContext 
+	EntityManager em;
 	
 	@Inject
 	@JpaDao
@@ -42,6 +41,7 @@ public class MovieReviewBean implements DataProviderHolder{
 	}
 	
 	public void addMovieReview(User user, Movie movie) {
+		logger.info("Adding movie review in the database for movie: " + movie.getId() + " and for user: " + user.getId());
 		movieReviewDao.createMovieReview(this, new MovieReview(user, movie));
 	}
 	

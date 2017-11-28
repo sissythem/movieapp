@@ -12,11 +12,13 @@ import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.UserDao;
 import com.gnt.movies.dto.UserSessionDto;
 import com.gnt.movies.entities.User;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
 @Stateless
 @LocalBean
 public class UserBean implements DataProviderHolder {
-
+	private static final Logger logger = LoggerFactory.getLogger(UserBean.class);
 	@PersistenceContext
 	private EntityManager em;
 
@@ -33,6 +35,7 @@ public class UserBean implements DataProviderHolder {
 	}
 
 	public boolean registerUser(User user) {
+		logger.info("Register user");
 		if (userDao.UsernameExists(this, user.getUsername()) || userDao.EmailExists(this, user.getEmail())) {
 			return false;
 		} else {
@@ -47,6 +50,7 @@ public class UserBean implements DataProviderHolder {
 	}
 
 	public boolean loginUser(String username, String password) {
+		logger.info("Login user using credentials");
 		if (userDao.checkCredentials(this, username,password)) {
 			return true;
 		} else {
@@ -55,6 +59,7 @@ public class UserBean implements DataProviderHolder {
 	}
 	
 	public boolean loginToken(String token) {
+		logger.info("Login user using token");
 		if (userDao.checkToken(this, token)) {
 			return true;
 		} else {
@@ -70,7 +75,6 @@ public class UserBean implements DataProviderHolder {
 		return new UserSessionDto(findUserByUsername(username));
 	}
 	
-
 	@Override
 	public EntityManager getEntityManager() {
 		return em;

@@ -23,9 +23,6 @@ import com.gnt.movies.entities.Show;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
-/**
- * Session Bean implementation class OnTheAirShowBean
- */
 @Stateless
 @LocalBean
 public class OnTheAirShowBean implements DataProviderHolder {

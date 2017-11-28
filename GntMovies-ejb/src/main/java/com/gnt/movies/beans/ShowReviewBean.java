@@ -15,14 +15,13 @@ import com.gnt.movies.dao.ShowReviewDao;
 import com.gnt.movies.entities.Show;
 import com.gnt.movies.entities.ShowReview;
 import com.gnt.movies.entities.User;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
-/**
- * Session Bean implementation class ShowReviewBean
- */
 @Stateless
 @LocalBean
 public class ShowReviewBean implements DataProviderHolder {
-
+	private static final Logger logger = LoggerFactory.getLogger(ShowReviewBean.class);
 	@PersistenceContext
 	EntityManager em;
 
@@ -41,6 +40,7 @@ public class ShowReviewBean implements DataProviderHolder {
 	}
 
 	public void addShowReview(User user, Show show) {
+		logger.info("Adding show review in the database for show: " + show.getId() + " and for user: " + user.getId());
 		showReviewDao.createShowReview(this, new ShowReview(user, show));
 	}
 	

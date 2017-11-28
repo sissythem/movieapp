@@ -19,9 +19,6 @@ import com.gnt.movies.entities.Genre;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
-/**
- * Session Bean implementation class GenreBean
- */
 @Stateless
 @LocalBean
 public class GenreBean implements DataProviderHolder {

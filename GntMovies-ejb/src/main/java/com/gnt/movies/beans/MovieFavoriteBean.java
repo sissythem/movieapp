@@ -15,15 +15,13 @@ import com.gnt.movies.dao.MovieFavoriteDao;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.MovieFavorite;
 import com.gnt.movies.entities.User;
+import com.gnt.movies.utilities.Logger;
+import com.gnt.movies.utilities.LoggerFactory;
 
-/**
- * Session Bean implementation class FavoriteMovieBean
- */
 @Stateless
 @LocalBean
 public class MovieFavoriteBean implements DataProviderHolder{
-
-
+	private static final Logger logger = LoggerFactory.getLogger(MovieFavoriteBean.class);
 	@PersistenceContext EntityManager em;
 	
 	@Inject
@@ -41,6 +39,7 @@ public class MovieFavoriteBean implements DataProviderHolder{
 	}
     
     public void addMovieFavorite(User user, Movie movie) {
+		logger.info("Adding movie favorite in the database for movie: " + movie.getId() + " and for user: " + user.getId());
     	movieFavoriteDao.createMovieFavorite(this, new MovieFavorite(user, movie));
     }
     

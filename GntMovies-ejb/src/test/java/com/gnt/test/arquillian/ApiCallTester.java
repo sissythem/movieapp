@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.gnt.movies.entities.Movie;
-import com.gnt.movies.theMovieDB.ApiNewMovieResults;
+import com.gnt.movies.utilities.ApiNewMovieResults;
 import com.gnt.movies.utilities.Utils;
 import com.google.gson.Gson;
 

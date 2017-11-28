@@ -10,12 +10,10 @@ public class MyExecutor {
 	public static ExecutorService getNewExecutor() {
 		return Executors.newFixedThreadPool(40);
 	}
-	
-	
+
 	public static void terminateExecutor(ExecutorService executor) {
 		executor.shutdown();
-		try 
-		{
+		try {
 			executor.awaitTermination(1, TimeUnit.HOURS);
 		} catch (InterruptedException e1) {
 			logger.info("GetUpcomingMovies: Executor interrupted ");
@@ -23,9 +21,5 @@ public class MyExecutor {
 		}
 		logger.info("Finished all Executors threads");
 	}
-	
-	
-	
-	
-	
+
 }

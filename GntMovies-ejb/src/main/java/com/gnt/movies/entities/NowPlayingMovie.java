@@ -3,63 +3,56 @@ package com.gnt.movies.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the now_playing_movies database table.
- *
- */
 @Entity
-@Table(name="now_playing_movies")
-@NamedQueries({
-        @NamedQuery(name = "NowPlayingMovie.findAll", query = "SELECT n FROM NowPlayingMovie n"),
-        @NamedQuery(name = "NowPlayingMovie.findById", query = "SELECT n FROM NowPlayingMovie n WHERE n.id = :id"),
-        @NamedQuery(name = "NowPlayingMovie.findByIdTmdb", query = "SELECT n FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb"),
-        @NamedQuery(name = "NowPlayingMovie.getAllIdTmdb", query = "SELECT n.idTmdb FROM NowPlayingMovie n"),
-        @NamedQuery(name = "NowPlayingMovie.findByMovieId", query = "SELECT n FROM NowPlayingMovie n WHERE n.movie.id = :movieId"),
-        @NamedQuery(name = "NowPlayingMovie.deleteByIdTmdb", query = "DELETE FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb")
-})
+@Table(name = "now_playing_movies")
+@NamedQueries({ @NamedQuery(name = "NowPlayingMovie.findAll", query = "SELECT n FROM NowPlayingMovie n"),
+		@NamedQuery(name = "NowPlayingMovie.findById", query = "SELECT n FROM NowPlayingMovie n WHERE n.id = :id"),
+		@NamedQuery(name = "NowPlayingMovie.findByIdTmdb", query = "SELECT n FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb"),
+		@NamedQuery(name = "NowPlayingMovie.getAllIdTmdb", query = "SELECT n.idTmdb FROM NowPlayingMovie n"),
+		@NamedQuery(name = "NowPlayingMovie.findByMovieId", query = "SELECT n FROM NowPlayingMovie n WHERE n.movie.id = :movieId"),
+		@NamedQuery(name = "NowPlayingMovie.deleteByIdTmdb", query = "DELETE FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb") })
 public class NowPlayingMovie implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    private Integer idTmdb;
+	private Integer idTmdb;
 
-    @OneToOne
-    @JoinColumn(name="movieId")
-    private Movie movie;
+	@OneToOne
+	@JoinColumn(name = "movieId")
+	private Movie movie;
 
-    public NowPlayingMovie() {
-    }
-    
-    public NowPlayingMovie(Integer idTmdb) {
-    	this.idTmdb=idTmdb;
-    }
+	public NowPlayingMovie() {
+	}
 
-    public Integer getId() {
-        return this.id;
-    }
+	public NowPlayingMovie(Integer idTmdb) {
+		this.idTmdb = idTmdb;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return this.id;
+	}
 
-    public Integer getIdTmdb() {
-        return this.idTmdb;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setIdTmdb(Integer idTmdb) {
-        this.idTmdb = idTmdb;
-    }
+	public Integer getIdTmdb() {
+		return this.idTmdb;
+	}
 
-    public Movie getMovie() {
-        return this.movie;
-    }
+	public void setIdTmdb(Integer idTmdb) {
+		this.idTmdb = idTmdb;
+	}
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
+	public Movie getMovie() {
+		return this.movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
 
 }

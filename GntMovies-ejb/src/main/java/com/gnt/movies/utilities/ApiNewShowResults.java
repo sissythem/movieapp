@@ -1,25 +1,21 @@
-package com.gnt.movies.theMovieDB;
+package com.gnt.movies.utilities;
 
 import java.util.ArrayList;
 
-import com.gnt.movies.entities.Movie;
+import com.gnt.movies.entities.Show;
 import com.google.gson.annotations.SerializedName;
 
-public class ApiNewMovieResults {
-	@SerializedName("results")
-	private ArrayList<Movie> results;
+public class ApiNewShowResults {
+	
 	@SerializedName("page")
 	private int page;
 	@SerializedName("total_results")
 	private int totalResults;
 	@SerializedName("total_pages")
 	private int totalPages;
-	public ArrayList<Movie> getResults() {
-		return results;
-	}
-	public void setResults(ArrayList<Movie> results) {
-		this.results = results;
-	}
+	@SerializedName("results")
+	private ArrayList<Show> results;
+	
 	public int getPage() {
 		return page;
 	}
@@ -37,5 +33,11 @@ public class ApiNewMovieResults {
 	}
 	public void setTotalPages(int totalPages) {
 		this.totalPages = totalPages;
+	}
+	public ArrayList<Show> getResults() {
+		return results;
+	}
+	public void setResults(ArrayList<Show> results) {
+		this.results = results;
 	}
 }

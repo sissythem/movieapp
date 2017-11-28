@@ -18,11 +18,4 @@ public class ApiClientRunnable implements Runnable {
 	public String getResult() {
 		return result;
 	}
-	
-	
-	
-	
-	
-	
-
 }

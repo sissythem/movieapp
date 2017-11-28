@@ -44,52 +44,37 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Movie.findByVoteAverage", query = "SELECT m FROM Movie m WHERE m.voteAverage = :voteAverage"),
 		@NamedQuery(name = "Movie.findByVoteCount", query = "SELECT m FROM Movie m WHERE m.voteCount = :voteCount"),
 		@NamedQuery(name = "Movie.findByOriginalLanguage", query = "SELECT m FROM Movie m WHERE m.originalLanguage = :originalLanguage"),
-//		@NamedQuery(name = "Movie.findByProductionCountries", query = "SELECT m FROM Movie m WHERE m.productionCountries = :productionCountries"),
 		@NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
 		@NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId") })
 public class Movie implements Serializable, Comparable<Movie> {
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SerializedName("myid")
 	private Integer id;
 	@SerializedName("adult")
 	private Boolean adult;
-
 	private Double budget;
-
-	
 	private JsonElement cast;
-
-	
 	private JsonElement crew;
-	
 	private String homepage;
 	@SerializedName("id")
 	private Integer idTmdb;
-
 	private String imdbId;
 	@SerializedName("original_language")
 	private String originalLanguage;
 	@SerializedName("original_title")
 	private String originalTitle;
-
-	
 	@SerializedName("overview")
 	private String overview;
 	@SerializedName("poster_path")
 	private String posterPath;
-
 	private JsonElement productionCountries;
 	@SerializedName("release_date")
 	private LocalDate releaseDate;
-
 	private Double revenue;
-
 	private Integer runtime;
-
 	private String status;
 	@SerializedName("title")
 	private String title;
@@ -98,18 +83,16 @@ public class Movie implements Serializable, Comparable<Movie> {
 	@SerializedName("vote_count")
 	private Integer voteCount;
 
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "movie_genres", joinColumns = {
 			@JoinColumn(name = "movieId", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "genreId", referencedColumnName = "id") }
-	)
+					@JoinColumn(name = "genreId", referencedColumnName = "id") })
 	private Set<Genre> genres;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "movie_images", joinColumns = {
 			@JoinColumn(name = "movieId", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "imageId", referencedColumnName = "id") }
-	)
+					@JoinColumn(name = "imageId", referencedColumnName = "id") })
 	private List<Image> images;
 
 	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
@@ -305,8 +288,8 @@ public class Movie implements Serializable, Comparable<Movie> {
 	}
 
 	public Set<Genre> getGenres() {
-		if(genres==null) {
-			genres=new HashSet<>();
+		if (genres == null) {
+			genres = new HashSet<>();
 		}
 		return this.genres;
 	}
@@ -324,7 +307,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 	}
 
 	public List<MovieFavorite> getMovieFavorites() {
-		if(movieFavorites==null) {
+		if (movieFavorites == null) {
 			movieFavorites = new ArrayList<>();
 		}
 		return this.movieFavorites;
@@ -349,7 +332,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 	}
 
 	public List<MovieReview> getMovieReviews() {
-		if(movieReviews==null) {
+		if (movieReviews == null) {
 			movieReviews = new ArrayList<>();
 		}
 		return this.movieReviews;
@@ -390,7 +373,7 @@ public class Movie implements Serializable, Comparable<Movie> {
 	}
 
 	public List<Image> getImages() {
-		if(images==null) {
+		if (images == null) {
 			images = new ArrayList<>();
 		}
 		return images;

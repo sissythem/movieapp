@@ -23,9 +23,6 @@ import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
 
-/**
- * Session Bean implementation class UpcomingMovieBean
- */
 @Stateless
 @LocalBean
 public class UpcomingMovieBean implements DataProviderHolder {

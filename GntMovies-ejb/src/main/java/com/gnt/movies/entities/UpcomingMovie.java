@@ -3,11 +3,6 @@ package com.gnt.movies.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the upcoming_movies database table.
- *
- */
 @Entity
 @Table(name="upcoming_movies")
 @NamedQueries({

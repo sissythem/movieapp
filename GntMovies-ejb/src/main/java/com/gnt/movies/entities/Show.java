@@ -27,10 +27,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * The persistent class for the shows database table.
- *
- */
 @Entity
 @Table(name = "shows")
 @NamedQueries({ @NamedQuery(name = "Show.findAll", query = "SELECT s FROM Show s"),
@@ -39,7 +35,6 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Show.findByOriginalName", query = "SELECT s FROM Show s WHERE s.originalName = :originalName"),
 		@NamedQuery(name = "Show.findByIdTmdb", query = "SELECT s FROM Show s WHERE s.idTmdb = :idTmdb"),
 		@NamedQuery(name = "Show.findByHomepage", query = "SELECT s FROM Show s WHERE s.homepage = :homepage"),
-//		@NamedQuery(name = "Show.findByRuntime", query = "SELECT s FROM Show s WHERE s.runtime = :runtime"),
 		@NamedQuery(name = "Show.findByStatus", query = "SELECT s FROM Show s WHERE s.status = :status"),
 		@NamedQuery(name = "Show.findByFirstAirDate", query = "SELECT s FROM Show s WHERE s.firstAirDate = :firstAirDate"),
 		@NamedQuery(name = "Show.findByLastAirDate", query = "SELECT s FROM Show s WHERE s.lastAirDate = :lastAirDate"),
@@ -48,32 +43,23 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Show.findByNumOfEpisodes", query = "SELECT s FROM Show s WHERE s.numOfEpisodes = :numOfEpisodes"),
 		@NamedQuery(name = "Show.findByNumOfSeasons", query = "SELECT s FROM Show s WHERE s.numOfSeasons = :numOfSeasons"),
 		@NamedQuery(name = "Show.findByOriginalLanguage", query = "SELECT s FROM Show s WHERE s.originalLanguage = :originalLanguage"),
-//		@NamedQuery(name = "Show.findByCreatedBy", query = "SELECT s FROM Show s WHERE s.createdBy = :createdBy"),
-//		@NamedQuery(name = "Show.findByNetworks", query = "SELECT s FROM Show s WHERE s.networks = :networks"),
-//		@NamedQuery(name = "Show.findByOriginCountries", query = "SELECT s FROM Show s WHERE s.originCountries = :originCountries"),
-		
 		@NamedQuery(name = "Show.findByInProduction", query = "SELECT s FROM Show s WHERE s.inProduction = :inProduction"),
-		@NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type") 
-})
+		@NamedQuery(name = "Show.findByType", query = "SELECT s FROM Show s WHERE s.type = :type") })
 public class Show implements Serializable, Comparable<Show> {
 	private static final long serialVersionUID = 1L;
 
-	
 	@SerializedName("poster_path")
 	private String posterPath;
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SerializedName("myid")
 	private Integer id;
 
-	
 	private JsonElement cast;
 
 	private JsonElement createdBy;
 
-	
 	private JsonElement crew;
 	@SerializedName("first_air_date")
 	private LocalDate firstAirDate;
@@ -93,7 +79,7 @@ public class Show implements Serializable, Comparable<Show> {
 	private Integer numOfEpisodes;
 
 	private Integer numOfSeasons;
-	
+
 	@SerializedName("original_language")
 	private String originalLanguage;
 	@SerializedName("original_name")
@@ -115,26 +101,24 @@ public class Show implements Serializable, Comparable<Show> {
 	@SerializedName("vote_count")
 	private Integer voteCount;
 
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "show_genres", joinColumns = {
 			@JoinColumn(name = "showId", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "genreId", referencedColumnName = "id") }
-	)
+					@JoinColumn(name = "genreId", referencedColumnName = "id") })
 	private Set<Genre> genres;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "show_images", joinColumns = {
 			@JoinColumn(name = "showId", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "imageId", referencedColumnName = "id") }
-	)
+					@JoinColumn(name = "imageId", referencedColumnName = "id") })
 	private List<Image> images;
-	
+
 	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
 	private List<ShowFavorite> showFavorites;
 
 	@OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
 	private List<ShowReview> showReviews;
-	
+
 	@Transient
 	private OnTheAirShow onTheAirShows;
 
@@ -346,7 +330,7 @@ public class Show implements Serializable, Comparable<Show> {
 	}
 
 	public Set<Genre> getGenres() {
-		if(genres==null) {
+		if (genres == null) {
 			genres = new HashSet<>();
 		}
 		return this.genres;
@@ -425,7 +409,7 @@ public class Show implements Serializable, Comparable<Show> {
 	}
 
 	public List<Image> getImages() {
-		if(images ==null) {
+		if (images == null) {
 			images = new ArrayList<>();
 		}
 		return this.images;
@@ -437,7 +421,7 @@ public class Show implements Serializable, Comparable<Show> {
 
 	public void addImage(Image image) {
 		getImages().add(image);
-			}
+	}
 
 	public void removeImage(Image image) {
 		getImages().remove(image);
@@ -489,13 +473,14 @@ public class Show implements Serializable, Comparable<Show> {
 		Double otherAverageRating = show.getAverageRating();
 		return -averageRating.compareTo(otherAverageRating);
 	}
+
 	/** Compare and sort shows based on vote average of the movie db **/
 	public static Comparator<Show> VoteAverageComparator = new Comparator<Show>() {
 
-        @Override
-        public int compare(Show show1, Show show2) {
-            return show1.getVoteAverage().compareTo(show2.getVoteAverage());
-        }
-    };
+		@Override
+		public int compare(Show show1, Show show2) {
+			return show1.getVoteAverage().compareTo(show2.getVoteAverage());
+		}
+	};
 
 }

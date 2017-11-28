@@ -9,8 +9,6 @@ import java.util.concurrent.ExecutorService;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.Show;
-import com.gnt.movies.theMovieDB.ApiNewMovieResults;
-import com.gnt.movies.theMovieDB.ApiNewShowResults;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -37,7 +35,8 @@ public class ApiCalls {
 			}).create();
 
 	/**
-	 * Calls to MovieDB API ====================
+	 * Calls to MovieDB API 
+	 * ====================
 	 **/
 	public static HashSet<Genre> getGenres() {
 		HashSet<Genre> set = new HashSet<>();
@@ -50,18 +49,15 @@ public class ApiCalls {
 		String url = createUrl(Utils.MOVIE_GENRES, Utils.API_KEY, Utils.LANGUAGE_FOR_URL);
 		String result = ApiClient.getResultFromTMDB(url);
 		JsonObject jo = JsonUtils.getJsonObjectFromString(result);
-
 		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
 			set.add(genre);
 		}
-
 	}
 
 	private static void addShowGenres(HashSet<Genre> set) {
 		String url = createUrl(Utils.SHOW_GENRES, Utils.API_KEY, Utils.LANGUAGE_FOR_URL);
 		String result = ApiClient.getResultFromTMDB(url);
 		JsonObject jo = JsonUtils.getJsonObjectFromString(result);
-
 		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
 			set.add(genre);
 		}
@@ -85,15 +81,13 @@ public class ApiCalls {
 
 	public static String getMovieDetailsFromAPI(int id) {
 		logger.info("getMovieDetailsFromAPI movie with tmdbId=" + id);
-		String url = createUrl(Utils.GENERAL_MOVIE_URL, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL,
-				Utils.CREW_CAST_URL);
+		String url = createUrl(Utils.GENERAL_MOVIE_URL, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL, Utils.CREW_CAST_URL);
 		return ApiClient.getResultFromTMDB(url);
 	}
 
 	public static String getShowDetailsFromAPI(int id) {
 		logger.info("getShowDetailsFromAPI movie with tmdbId=" + id);
-		String url = createUrl(Utils.GENERAL_SHOW_URL, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL,
-				Utils.CREW_CAST_URL);
+		String url = createUrl(Utils.GENERAL_SHOW_URL, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL, Utils.CREW_CAST_URL);
 		return ApiClient.getResultFromTMDB(url.toString());
 	}
 

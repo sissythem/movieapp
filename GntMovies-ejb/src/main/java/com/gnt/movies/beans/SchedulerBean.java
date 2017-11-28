@@ -60,7 +60,6 @@ public class SchedulerBean implements DataProviderHolder {
 		return em;
 	}
 
-	
 	private void init() {
 		ApiClient.init();
 		UpcomingMovieBean.init();
@@ -99,16 +98,12 @@ public class SchedulerBean implements DataProviderHolder {
 		HashSet<Movie> upcomingMoviesAPI = ApiCalls.getUpcomingMovies();
 		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (Movie movie : upcomingMoviesAPI) {
-
-			Runnable worker = () -> {
-				upcomingMovieBean.checkUpcomingMovie(movie);
-			};
+			Runnable worker = () -> {upcomingMovieBean.checkUpcomingMovie(movie);};
 			executor.execute(worker);
 		}
 		MyExecutor.terminateExecutor(executor);
 		upcomingMovieBean.removeOldNotUpMovies(upcomingMoviesAPI);
 		logger.info("Done checking for upcomming movies");
-
 	}
 
 	private void getNowPlayingMovies() {
@@ -117,9 +112,7 @@ public class SchedulerBean implements DataProviderHolder {
 		HashSet<Movie> nowPlayingMoviesAPI = ApiCalls.getNowPlayingMovies();
 		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (Movie movie : nowPlayingMoviesAPI) {
-			Runnable worker = () -> {
-				nowPlayingMovieBean.checkNowPlayingMovie(movie);
-			};
+			Runnable worker = () -> {nowPlayingMovieBean.checkNowPlayingMovie(movie);};
 			executor.execute(worker);
 		}
 		MyExecutor.terminateExecutor(executor);
@@ -133,9 +126,7 @@ public class SchedulerBean implements DataProviderHolder {
 		HashSet<Show> onTheAirShows = ApiCalls.getOnTheAirShows();
 		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (Show show : onTheAirShows) {
-			Runnable worker = () -> {
-				onTheAirShowBean.checkOnTheAirShow(show);
-			};
+			Runnable worker = () -> {onTheAirShowBean.checkOnTheAirShow(show);};
 			executor.execute(worker);
 		}
 		MyExecutor.terminateExecutor(executor);
@@ -149,10 +140,7 @@ public class SchedulerBean implements DataProviderHolder {
 		HashSet<Show> air2dayShowsAPI = ApiCalls.getAir2dayShows();
 		ExecutorService executor = MyExecutor.getNewExecutor();
 		for (Show show : air2dayShowsAPI) {
-
-			Runnable worker = () -> {
-				air2dayShowBean.checkAir2dayShow(show);
-			};
+			Runnable worker = () -> {air2dayShowBean.checkAir2dayShow(show);};
 			executor.execute(worker);
 		}
 		MyExecutor.terminateExecutor(executor);

@@ -2,10 +2,11 @@ package com.gnt.movies.utilities;
 
 public class Utils 
 {
-
 	public static String API_KEY = "?api_key=eaf5fc7d22157774a158a75a3ed6fe9c";
 	
-	/** URLs for TheMovieDB**/
+	/** URLs for TheMovieDB
+	 * ====================
+	 * **/
 	
 	/** URL example for getting movie details: https://api.themoviedb.org/3/movie/120?api_key=eaf5fc7d22157774a158a75a3ed6fe9c**/
 	/** URL example for getting show details: https://api.themoviedb.org/3/tv/1418?api_key=eaf5fc7d22157774a158a75a3ed6fe9c**/
