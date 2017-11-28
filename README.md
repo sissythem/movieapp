@@ -34,6 +34,8 @@ In order to run the server properly and be able to use the .bat (or .sh) files u
 
 Wildfly does not have the MySQL Connector and EclipseLink library, so we decided to add them as modules. When adding a module to wildfly a module.xml file is required for the server to be able to load the the module. Below all server configurations are explicitly listed.
 
+An other configuration is to change the max pool size, from the server's page ("localhost:9990/"), to 50 in order to cope with our ExecutorService which uses a fixed thread pool size of 40. To change that value you must go to Configuration tab > Subsystems > Datasources > Non-XA > GntMoviesDS > View > Pool tab > Edit. Also set the min pool size to 3 and initial pool size to 5.
+
 ### MySQL Connector
 
 The .jar(*mysql-connector-java-5.1.44-bin.jar*) of the MySQL driver should be added under path: wildfly-9.0.2.Final\modules\system\layers\base\com\mysql\main. Moreover, the *module.xml* file should be edited as follows:
@@ -138,6 +140,25 @@ To:
 <default-bindings context-service="java:jboss/ee/concurrency/context/default" datasource="java:/jdbc/GntMoviesDS" managed-executor-service="java:jboss/ee/concurrency/executor/default" managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" managed-thread-factory="java:jboss/ee/concurrency/factory/default"/>
 ```
 
+As it is explained in detail in the next session, calls to the MovieDB API are executed in parallel by using an executor each time. Moreover, as mentioned above, the connection to the database is performed in the server and not inside the project. In order to avoid runtime errors, due to executors, which will try to establish parallel connections to the database, datasource in the standalone.xml file should be configured as follows, so as to have pool configuration (max pool size should have similar value as the fixed pool size of the executor)
+
+```
+	<datasource jta="true" jndi-name="java:/jdbc/GntMoviesDS" pool-name="GntMoviesDS" enabled="true" use-ccm="true">
+		  <connection-url>jdbc:mysql://localhost:3306/gntmoviedb</connection-url>
+		  <driver>mysql</driver>
+		  <pool>
+		  <min-pool-size>3</min-pool-size>
+		  <initial-pool-size>5</initial-pool-size>
+		  <max-pool-size>50</max-pool-size>
+		  <flush-strategy>IdleConnections</flush-strategy>
+		  </pool>
+		  <security>
+		  <user-name>root</user-name>
+		  <password>root</password>
+		  </security>
+	</datasource>
+```
+
 ## EAR Project
 
 ### Create EAR Project
@@ -215,7 +236,7 @@ These classes can be found in the com.gnt.movies.beans package which contains al
 
 * **GenreBean:** When our scheduled job starts (SchedulerBean, update() function), the first thing we do is to update our genres table in case the MovieDB API has new kinds of movies or shows. Therefore, two calls are made to the API, one for movie and one for show genres. All items retrieved are saved in a HashSet and using the genreBean we call the addGenres function which will check if a genre already exists before adding it in the database, in order to avoid duplicates.
 
-* **MovieBean & ShowBean:** Each time we add a new movie retrieved by the MovieDB API, it is necessary to check if the movie already exists in our database. Therefore, the function getMovie is call, which either creates a new movie or returns the existing one. The addition of the new movie is implemented by the addNewMovie function, which takes and upcoming or now playing movie from the API, makes use of some details providing (createMovieFromAPI function) but also makes a new call to add all missing details and updates the movie object (updateMovieWithDetails). Finally, the movie is added alongside with all the related images and genres (relationship between movies and genres is stored in the movie_genres table as already mentioned). Since the same logic is followed in the ShowBean as well, we will not make an extensive report for this class.
+* **MovieBean & ShowBean:** Each time we add a new movie retrieved by the MovieDB API, it is necessary to check if the movie already exists in our database. Therefore, the function getMovie is called, which either creates a new movie or returns the existing one. The addition of the new movie is implemented by the addNewMovie function, which takes an upcoming or now playing movie from the API, makes use of some details provided by the ApiResults (getUpcomingMovies,getNowPlayingMovies) but also makes a new call to add all missing details and updates the movie object (updateMovieWithDetails). Finally, the movie is added alongside with all the related images and genres (relationship between movies and genres is stored in the movie\_genres table as already mentioned). Since the same logic is followed in the ShowBean as well, we will not make an extensive report for this class.
 
 * **UpcomingMovieBean, NowPlayingMovieBean, OnTheAirShowBean & Air2dayShowBean:** Since the logic is pretty much the same for all those beans, we will refer only to UpcomingMovieBean class. In the SchedulerBean we call the checkUpcomingMovie function in order to find out if the specific upcoming movie is already stored in our database. If it concerns a completely new movie we first create a new UpcomingMovie object, then we call the getMovie function described in detail in the above bullet and then we create a correlation between the movie and the upcoming movie objects. Finally, the latter will be also stored in the database.
 
@@ -223,7 +244,7 @@ The remaining bean classes (related to our entities) implement the requirements 
 
 ### SchedulerBean
 
-In order to fetch data from the MovieDB Api we created a Scheduler in the beans section to update periodically the genres, the upcoming and now playing movies, the TV airing today and on the air shows once per day so the user will be able to see the latest changes about shows and movies. When the scheduler is triggered, the movies and shows beans check in parallel if some of the new data already exists in the database and add only the non existing. The old now playing movies, air today shows etc are removed from the tables but not from the Movies and Shows tables where we keep both new and the old ones.
+In order to fetch data from the MovieDB Api we created a Scheduler in the beans section to update periodically the genres, the upcoming and now playing movies, the TV airing today and on the air shows once per day so the user will be able to see the latest changes about shows and movies. When the scheduler is triggered, the movies and shows beans check in parallel with an ExecutorService class (using a fixed thread pool size of 40) if some of the new data already exists in the database and add only the non existing. The old now playing movies, air today shows etc are removed from the tables but not from the Movies and Shows tables where we keep both new and the old ones.
 
 The above business logic is implemented by using a stateless bean and the annotation @Schedule before the function which implements the required scheduled jobs. Moreover, the data processing is quite complicate therefore for each item we  start a separate transaction by using the annotation @TransactionAttribute. 
 
@@ -233,7 +254,7 @@ As already mentioned, one important requirement of our application is to populat
 
 The MovieDB API applies a limitation of 40 requests every 10 seconds per IP Address either by being burstable to 40 in a single second, or as an average of 4 requests/second. The timer will reset 10 seconds from your first request within the current 10 second "bucket". This means that if you trigger the limit you will have to wait up to 9 seconds before the timer resets but depending where you are within the 10 second window, it could be the very next second.
 
-In order to prevent triggering the APIs limit we created a ConcurrentHashMap to act as a bucket of the current temporal active requests. After sending a request to the API we put to the bucket an entry with its unique key. Each entry has its own timer and after 10 seconds it will remove itself from the bucket. All this implementation can be found in the ApiClient and ApiEntry classes. 
+In order to prevent triggering the APIs limit we created a ConcurrentHashMap to act as a bucket of the current temporal active requests. After sending a request to the API we put to the bucket an entry with its unique key. Each entry has its own timer and after 10 seconds it will remove itself from the bucket. All this implementation can be found in the ApiClient and ApiEntry classes. For the same purpose, as additional call's execution control, ExecutorService was used, having the same fixed thread pool size as in SchedulerBean.
 
 In the ApiCalls class in com.gnt.movies.utilities package there are the methods that make the calls to the MovieDB Api in order to retrieve the genres, latest upcoming and now playing movies, on the air and airing today shows. To increase performance, the calls run in parallel as new threads. The  results are returned as HashSets in order to avoid duplicates due to inconsistencies of the API from call to call.
 
