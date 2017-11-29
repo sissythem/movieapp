@@ -30,8 +30,12 @@ public class MovieDaoImpl extends AbstractDao implements MovieDao {
 
 	@Override
 	public List<Movie> getAll(DataProviderHolder dataProviderHolder) {
+		List<Movie> movies =dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList();
+		System.out.println("Found movies: ");
+		movies.stream().forEach(movie->System.out.println(movie.getId()+", "+movie.getOriginalTitle()));
 		
-		return getResultsFromNamedQuery(dataProviderHolder.getEntityManager(),Utils.MOVIE_FIND_ALL);
+		System.out.println("movies.size: "+movies.size());
+		return movies; 
 	}
 
 	@Override

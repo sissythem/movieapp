@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.gnt.movies.beans.UpcomingMovieBean;
-import com.gnt.movies.entities.UpcomingMovie;
+import com.gnt.movies.dto.MovieListItemDto;
 
 @Path("/upcoming")
 public class UpcomingMovieRest {
@@ -21,7 +21,7 @@ public class UpcomingMovieRest {
 	@GET
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<UpcomingMovie> getUpcomingMovies(@HeaderParam("token") String token) {
+	public ArrayList<MovieListItemDto> getUpcomingMovies(@HeaderParam("token") String token) {
 		return upcomingMovieBean.getAllUpcomingMovies();
 	}
 }

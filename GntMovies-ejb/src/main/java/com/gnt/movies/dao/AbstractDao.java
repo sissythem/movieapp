@@ -43,7 +43,6 @@ public abstract class AbstractDao {
 		Object object = null;
 		try {
 			object = getSingleResultFromNamedQueryWithParameters(em, query, parameters);
-			// object = getSingleResultFromNamedQueryWithParameters(em, query, parameters);
 		} catch (NoResultException e) {
 			logger.error("No result while fetching query: " + query + " with parameters " + parameters, e);
 			object = null;
@@ -66,7 +65,7 @@ public abstract class AbstractDao {
 			q.setParameter(i++, obj);
 	}
 	
-	public List getResultsFromNamedQuery(EntityManager em, String query) {
+	public List<?> getResultsFromNamedQuery(EntityManager em, String query) {
 
 		Query q = em.createNamedQuery(query);
 		

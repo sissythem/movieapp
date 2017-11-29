@@ -7,6 +7,7 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
+import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.utilities.Utils;
 
@@ -48,7 +49,13 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 	@Override
 	public ArrayList<UpcomingMovie> findAll(DataProviderHolder dataProviderHolder) {
 		ArrayList<UpcomingMovie> upcomingMovielist = new ArrayList<>();
-		
+		upcomingMovielist.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL).getResultList());
+		return upcomingMovielist;
+	}
+
+	@Override
+	public ArrayList<MovieListItemDto> findAllMovies(DataProviderHolder dataProviderHolder) {
+		ArrayList<MovieListItemDto> upcomingMovielist = new ArrayList<>();
 		upcomingMovielist.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL).getResultList());
 		return upcomingMovielist;
 	}
@@ -56,7 +63,6 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 	@Override
 	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder){
 		HashSet<Integer> set = new HashSet<>();
-		
 		set.addAll((List<Integer>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_GET_ALL_IDTMDB).getResultList());
 		return set;
 	}

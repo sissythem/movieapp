@@ -4,15 +4,12 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import javax.ejb.EJB;
-import javax.inject.Inject;
-
-import com.gnt.movies.beans.MovieBean;
 import com.gnt.movies.entities.Movie;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.data.provider.AbstractDataProvider;
 import com.vaadin.data.provider.Query;
 
+@CDIUI("")
 public class MovieDataProvider extends AbstractDataProvider<Movie, String> {
 	private static final long serialVersionUID = 1L;
 	
@@ -82,6 +79,8 @@ public class MovieDataProvider extends AbstractDataProvider<Movie, String> {
 		return (int) fetch(t).count();
 	}
 
+	
+	
 	@Override
     public Stream<Movie> fetch(Query<Movie, String> query) {
         if (filterText.isEmpty()) {

@@ -4,10 +4,10 @@ public class Utils
 {
 	public static String API_KEY = "?api_key=eaf5fc7d22157774a158a75a3ed6fe9c";
 	
-	/** URLs for TheMovieDB
+	/** 
+	 * URLs for TheMovieDB
 	 * ====================
-	 * **/
-	
+	 **/
 	/** URL example for getting movie details: https://api.themoviedb.org/3/movie/120?api_key=eaf5fc7d22157774a158a75a3ed6fe9c**/
 	/** URL example for getting show details: https://api.themoviedb.org/3/tv/1418?api_key=eaf5fc7d22157774a158a75a3ed6fe9c**/
 
@@ -51,6 +51,7 @@ public class Utils
 	public static String UPCOMING_MOVIE_FIND_BY_MOVIE_ID = "UpcomingMovie.findByMovieId";
 	public static String UPCOMING_MOVIE_FIND_BY_IDTMDB = "UpcomingMovie.findByIdTmdb";
 	public static String UPCOMING_MOVIE_FIND_ALL = "UpcomingMovie.findAll";
+	public static String UPCOMING_MOVIE_FIND_ALL_MOVIES = "UpcomingMovie.findAllMovies";
 	public static String UPCOMING_MOVIE_GET_ALL_IDTMDB = "UpcomingMovie.getAllIdTmdb";
 	public static String UPCOMING_MOVIE_DELETE_BY_IDTMDB = "UpcomingMovie.deleteByIdTmdb";
 	

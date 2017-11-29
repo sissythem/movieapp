@@ -27,13 +27,13 @@ public class MyUI extends UI {
 	
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
-        MainLayout layout = new MainLayout(this);
+        
         Responsive.makeResponsive(this);
         setLocale(vaadinRequest.getLocale());
         getPage().setTitle("Gnt-Movies");
         
         
-        setContent(layout);
+        setContent(new MainLayout(this));
     }
 
 	public static MyUI get(){

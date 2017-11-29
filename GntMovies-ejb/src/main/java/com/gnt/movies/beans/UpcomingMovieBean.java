@@ -18,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.UpcomingMovieDao;
+import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.UpcomingMovie;
 import com.gnt.movies.utilities.Logger;
@@ -50,7 +51,6 @@ public class UpcomingMovieBean implements DataProviderHolder {
 
 	public static void init() {
 		allIdTmdb = new ConcurrentHashMap<>();
-		
 	}
 
 	public void findAllIdTmdb() {
@@ -67,8 +67,8 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		return new UpcomingMovie(upcomingMovie.getIdTmdb());
 	}
 
-	public ArrayList<UpcomingMovie> getAllUpcomingMovies() {
-		return (ArrayList<UpcomingMovie>) upcomingMovieDao.findAll(this);
+	public ArrayList<MovieListItemDto> getAllUpcomingMovies() {
+		return (ArrayList<MovieListItemDto>) upcomingMovieDao.findAllMovies(this);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

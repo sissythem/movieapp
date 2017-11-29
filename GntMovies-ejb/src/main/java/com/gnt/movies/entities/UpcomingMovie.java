@@ -6,14 +6,14 @@ import javax.persistence.*;
 @Entity
 @Table(name="upcoming_movies")
 @NamedQueries({
-        @NamedQuery(name="UpcomingMovie.findAll", query="SELECT u FROM UpcomingMovie u"),
+        @NamedQuery(name="UpcomingMovie.findAll", query="SELECT u FROM UpcomingMovie u "),
+        @NamedQuery(name="UpcomingMovie.findAllMovies", query="SELECT u.movie FROM UpcomingMovie u "),
         @NamedQuery(name = "UpcomingMovie.findById", query = "SELECT u FROM UpcomingMovie u WHERE u.id = :id"),
         @NamedQuery(name = "UpcomingMovie.findByIdTmdb", query = "SELECT u FROM UpcomingMovie u WHERE u.idTmdb = :idTmdb"),
         @NamedQuery(name="UpcomingMovie.getAllIdTmdb", query = "SELECT u.idTmdb FROM UpcomingMovie u"),
         @NamedQuery(name="UpcomingMovie.findByMovieId", query = "SELECT u FROM UpcomingMovie u WHERE u.movie.id = :movieId"),
         @NamedQuery(name="UpcomingMovie.deleteByIdTmdb", query = "DELETE FROM UpcomingMovie u WHERE u.idTmdb = :idTmdb")
 })
-
 public class UpcomingMovie implements Serializable {
     private static final long serialVersionUID = 1L;
 

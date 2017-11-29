@@ -87,9 +87,8 @@ public class ApiCalls {
 	 **/
 	private static HashSet<?> getAllResults(String url, String type) {
 		String urlComplete = createUrl(url, Utils.API_KEY, Utils.LANGUAGE_FOR_URL, Utils.NUMBER_PAGE_FOR_URL);
-		ApiClientRunnable runnable = firstThreadRun(urlComplete);
-		int pages = getTotalNumPages(type, runnable);
-		runRemainingThreads(urlComplete, pages);
+		firstThreadRun(urlComplete);
+		runRemainingThreads(urlComplete, getTotalNumPages(type, runnables.get(0)));
 		return getResultsFromPages(type);
 	}
 
@@ -103,7 +102,7 @@ public class ApiCalls {
 		return pages;
 	}
 
-	private static ApiClientRunnable firstThreadRun(String url) {
+	private static void firstThreadRun(String url) {
 		runnables = new ArrayList<>();
 		String newUrl = createUrl(url, "1");
 		ApiClientRunnable runnable = new ApiClientRunnable(newUrl);
@@ -111,7 +110,6 @@ public class ApiCalls {
 		runnables.add(runnable);
 		executor.execute(runnable);
 		MyExecutor.terminateExecutor(executor);
-		return runnable;
 	}
 
 	private static void runRemainingThreads(String url, int pages) {
@@ -132,9 +130,6 @@ public class ApiCalls {
 				String result = apiClientRunnable.getResult();
 				logger.info(Thread.currentThread().getId() + ": Result:" + result);
 				ApiNewMovieResults apiNewMovieResults = gson.fromJson(result, ApiNewMovieResults.class);
-				if (result.contains("status_code\":25")) {
-					logger.info(Thread.currentThread().getId() + ": Result:" + result);
-				}
 				if (apiNewMovieResults != null && apiNewMovieResults.getResults() != null)
 					movies.addAll(apiNewMovieResults.getResults());
 			});
@@ -144,9 +139,6 @@ public class ApiCalls {
 			runnables.stream().forEach(apiClientRunnable -> {
 				String result = apiClientRunnable.getResult();
 				ApiNewShowResults apiNewShowResults = gson.fromJson(result, ApiNewShowResults.class);
-				if (result.contains("status_code\":25")) {
-					logger.info(Thread.currentThread().getId() + ": Result:" + result);
-				}
 				if (apiNewShowResults != null && apiNewShowResults.getResults() != null)
 					shows.addAll(apiNewShowResults.getResults());
 			});
