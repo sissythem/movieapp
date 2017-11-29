@@ -20,6 +20,7 @@ import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.JsonUtils;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
+import com.gnt.movies.utilities.Utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -69,7 +70,7 @@ public class ShowBean implements DataProviderHolder {
 	private void updateShowWithDetails(Show show) {
 		logger.info("updateShowWithDetails show id:" + show.getIdTmdb());
 		Gson gson = new Gson();
-		String showDetailsJson = ApiCalls.getShowDetailsFromAPI(show.getIdTmdb());
+		String showDetailsJson = ApiCalls.getDetailsFromAPI(show.getIdTmdb(), Utils.GENERAL_SHOW_URL);
 		JsonObject jo = JsonUtils.getJsonObjectFromString(showDetailsJson);
 
 		show.setCreatedBy(JsonUtils.getJsonArrayFromJson("created_by", jo));

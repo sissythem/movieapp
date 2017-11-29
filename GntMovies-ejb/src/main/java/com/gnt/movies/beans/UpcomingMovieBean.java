@@ -53,8 +53,6 @@ public class UpcomingMovieBean implements DataProviderHolder {
 		
 	}
 
-	
-
 	public void findAllIdTmdb() {
 		for (Object o : upcomingMovieDao.getAllIdTmdb(this)) {
 			allIdTmdb.put((Integer) o, true);

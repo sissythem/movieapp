@@ -35,33 +35,35 @@ public class ApiCalls {
 			}).create();
 
 	/**
-	 * Calls to MovieDB API 
-	 * ====================
+	 * Calls to MovieDB API for movie/show genres & movie/show details
+	 * ===============================================================
 	 **/
 	public static HashSet<Genre> getGenres() {
 		HashSet<Genre> set = new HashSet<>();
-		addMovieGenres(set);
-		addShowGenres(set);
+		getGenresFromAPI(set, Utils.MOVIE_GENRES);
+		getGenresFromAPI(set, Utils.SHOW_GENRES);
 		return set;
 	}
 
-	private static void addMovieGenres(HashSet<Genre> set) {
-		String url = createUrl(Utils.MOVIE_GENRES, Utils.API_KEY, Utils.LANGUAGE_FOR_URL);
+	private static void getGenresFromAPI(HashSet<Genre> set, String urlFirstPart) {
+		String url = createUrl(urlFirstPart, Utils.API_KEY, Utils.LANGUAGE_FOR_URL);
 		String result = ApiClient.getResultFromTMDB(url);
 		JsonObject jo = JsonUtils.getJsonObjectFromString(result);
 		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
 			set.add(genre);
 		}
 	}
-
-	private static void addShowGenres(HashSet<Genre> set) {
-		String url = createUrl(Utils.SHOW_GENRES, Utils.API_KEY, Utils.LANGUAGE_FOR_URL);
-		String result = ApiClient.getResultFromTMDB(url);
-		JsonObject jo = JsonUtils.getJsonObjectFromString(result);
-		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
-			set.add(genre);
-		}
+	
+	public static String getDetailsFromAPI(int id, String urlFirstPart) {
+		logger.info("getMovieDetailsFromAPI movie with tmdbId=" + id);
+		String url = createUrl(urlFirstPart, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL, Utils.CREW_CAST_URL);
+		return ApiClient.getResultFromTMDB(url);
 	}
+	
+	/** 
+	 * Calls for scheduled jobs
+	 * ========================
+	 **/
 
 	public static HashSet<Movie> getUpcomingMovies() {
 		return (HashSet<Movie>) getAllResults(Utils.UPCOMING_MOVIES_URL, "movie");
@@ -77,18 +79,6 @@ public class ApiCalls {
 
 	public static HashSet<Show> getAir2dayShows() {
 		return (HashSet<Show>) getAllResults(Utils.AIR2DAY_SHOWS_URL, "show");
-	}
-
-	public static String getMovieDetailsFromAPI(int id) {
-		logger.info("getMovieDetailsFromAPI movie with tmdbId=" + id);
-		String url = createUrl(Utils.GENERAL_MOVIE_URL, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL, Utils.CREW_CAST_URL);
-		return ApiClient.getResultFromTMDB(url);
-	}
-
-	public static String getShowDetailsFromAPI(int id) {
-		logger.info("getShowDetailsFromAPI movie with tmdbId=" + id);
-		String url = createUrl(Utils.GENERAL_SHOW_URL, Integer.toString(id), Utils.API_KEY, Utils.IMAGES_URL, Utils.CREW_CAST_URL);
-		return ApiClient.getResultFromTMDB(url.toString());
 	}
 
 	/**

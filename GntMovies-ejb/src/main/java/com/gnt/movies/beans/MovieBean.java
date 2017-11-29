@@ -1,6 +1,5 @@
 package com.gnt.movies.beans;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -21,6 +20,7 @@ import com.gnt.movies.utilities.ApiCalls;
 import com.gnt.movies.utilities.JsonUtils;
 import com.gnt.movies.utilities.Logger;
 import com.gnt.movies.utilities.LoggerFactory;
+import com.gnt.movies.utilities.Utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -76,7 +76,7 @@ public class MovieBean implements DataProviderHolder {
 	private synchronized void updateMovieWithDetails(Movie movie) {
 		logger.info("updateMovieWithDetails tmdbId=" + movie.getIdTmdb());
 		Gson gson = new Gson();
-		String movieDetailsJson = ApiCalls.getMovieDetailsFromAPI(movie.getIdTmdb());
+		String movieDetailsJson = ApiCalls.getDetailsFromAPI(movie.getIdTmdb(), Utils.GENERAL_MOVIE_URL);
 		JsonObject jo = JsonUtils.getJsonObjectFromString(movieDetailsJson);
 		movie.setBudget(JsonUtils.getDoubleFromJson("budget", jo));
 		movie.setHomepage(JsonUtils.getStringFromJson("homepage", jo));

@@ -2,18 +2,14 @@ package com.gnt.movies.beans;
 
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
-import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.entities.Genre;
