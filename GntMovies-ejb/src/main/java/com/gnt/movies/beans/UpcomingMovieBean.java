@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -48,7 +49,11 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	public EntityManager getEntityManager() {
 		return em;
 	}
-
+	
+	public List<MovieListItemDto> getMovies(){
+		return upcomingMovieDao.findAllMovies(this);
+	}
+	
 	public static void init() {
 		allIdTmdb = new ConcurrentHashMap<>();
 	}

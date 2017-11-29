@@ -2,6 +2,7 @@ package com.gnt.movies.beans;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,6 +19,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.NowPlayingMovieDao;
+import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.utilities.Logger;
@@ -46,6 +48,10 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
+	}
+	
+	public List<MovieListItemDto> getMovies(){
+		return nowPlayingMovieDao.findAllMovies(this);
 	}
 	
 	public static void init() {

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
+import javax.persistence.TypedQuery;
 
 import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.UpcomingMovie;
@@ -33,43 +34,54 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 
 	@Override
 	public UpcomingMovie findUpcomingMovieById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (UpcomingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_ID, "id", id);
+		return (UpcomingMovie) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_ID,
+				"id", id);
 	}
-	
+
 	@Override
 	public UpcomingMovie findByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		return (UpcomingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
+		return (UpcomingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),
+				Utils.UPCOMING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
 	}
 
 	@Override
 	public UpcomingMovie findByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		return (UpcomingMovie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.UPCOMING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
+		return (UpcomingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),
+				Utils.UPCOMING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
 
 	@Override
 	public ArrayList<UpcomingMovie> findAll(DataProviderHolder dataProviderHolder) {
 		ArrayList<UpcomingMovie> upcomingMovielist = new ArrayList<>();
-		upcomingMovielist.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL).getResultList());
+		upcomingMovielist.addAll(
+				dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL).getResultList());
 		return upcomingMovielist;
 	}
 
 	@Override
-	public ArrayList<MovieListItemDto> findAllMovies(DataProviderHolder dataProviderHolder) {
-		ArrayList<MovieListItemDto> upcomingMovielist = new ArrayList<>();
-		upcomingMovielist.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL).getResultList());
-		return upcomingMovielist;
+	public List<MovieListItemDto> findAllMovies(DataProviderHolder dataProviderHolder) {
+
+//		String query;
+//		List<MovieListItemDto> resultList = new ArrayList<MovieListItemDto>();
+//		query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM upcoming_movies as um join movies as m on um.movieId = m.id";
+//		resultList = dataProviderHolder.getEntityManager().createNativeQuery(query, "MovieListItemDto").getResultList();
+//		return resultList;
+		
+		return (List<MovieListItemDto>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL_MOVIES).getResultList();
 	}
-	
+
 	@Override
-	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder){
+	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
 		HashSet<Integer> set = new HashSet<>();
-		set.addAll((List<Integer>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_GET_ALL_IDTMDB).getResultList());
+		set.addAll((List<Integer>) dataProviderHolder.getEntityManager()
+				.createNamedQuery(Utils.UPCOMING_MOVIE_GET_ALL_IDTMDB).getResultList());
 		return set;
 	}
 
 	@Override
 	public void deleteUpcomingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_DELETE_BY_IDTMDB).setParameter("idTmdb", idTmdb).executeUpdate();
+		dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_DELETE_BY_IDTMDB)
+				.setParameter("idTmdb", idTmdb).executeUpdate();
 	}
-	
+
 }

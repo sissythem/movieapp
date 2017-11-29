@@ -1,8 +1,7 @@
 package com.gnt.movies.GntMovies_web;
 
+import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.Movie;
-import com.vaadin.data.provider.DataProvider;
-import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.NumberRenderer;
 
@@ -11,7 +10,7 @@ import com.vaadin.ui.renderers.NumberRenderer;
  * items. This version uses an in-memory data source that is suitable for small
  * data sets.
  */
-public class MovieGrid extends Grid<Movie> {
+public class MovieGrid extends Grid<MovieListItemDto> {
 	private static final long serialVersionUID = 1L;
 
 	
@@ -19,8 +18,8 @@ public class MovieGrid extends Grid<Movie> {
 	public MovieGrid() {
 		setSizeFull();
 
-		addColumn(Movie::getId, new NumberRenderer()).setCaption("Id");
-		addColumn(Movie::getOriginalTitle).setCaption("Movie Title");
+		addColumn(MovieListItemDto::getId, new NumberRenderer()).setCaption("Id");
+		addColumn(MovieListItemDto::getOriginalTitle).setCaption("Movie Title");
 	
 	}
 			

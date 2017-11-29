@@ -2,10 +2,12 @@ package com.gnt.movies.GntMovies_web;
 
 import java.awt.Menu;
 
+import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.Movie;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public class MainLayout extends VerticalLayout {
@@ -18,12 +20,27 @@ public class MainLayout extends VerticalLayout {
 		viewContainer.addStyleName("valo-content");
 		viewContainer.setSizeFull();
 		MovieGrid moviesGrid = new MovieGrid();
-		MovieGrid UpMoviesGrid = new MovieGrid();
-		MovieGrid NPMoviesGrid = new MovieGrid();
-		ListDataProvider<Movie> dataProvider = DataProvider.ofCollection(MyUI.get().getMovieBean().getMovies());
-		moviesGrid.setDataProvider(dataProvider);
+		MovieGrid upMoviesGrid = new MovieGrid();
+		MovieGrid nPMoviesGrid = new MovieGrid();
+		ListDataProvider<MovieListItemDto> movieProvider = DataProvider
+				.ofCollection(MyUI.get().getMovieBean().getMovies());
+		ListDataProvider<MovieListItemDto> upMovieProvider = DataProvider
+				.ofCollection(MyUI.get().getUpcomingMovieBean().getMovies());
+		ListDataProvider<MovieListItemDto> npMovieProvider = DataProvider
+				.ofCollection(MyUI.get().getNowPlayingMovieBean().getMovies());
+		moviesGrid.setDataProvider(movieProvider);
+		upMoviesGrid.setDataProvider(upMovieProvider);
+		nPMoviesGrid.setDataProvider(npMovieProvider);
+
+		Label l1 = new Label("All Movies " + movieProvider.getItems().size());
+		Label l2 = new Label("Upcoming Movies " + upMovieProvider.getItems().size());
+		Label l3 = new Label("Now Playing Movies " + npMovieProvider.getItems().size());
+		addComponent(l1);
 		addComponent(moviesGrid);
-		addComponent(UpMoviesGrid);
-//		setSizeFull();
+		addComponent(l2);
+		addComponent(upMoviesGrid);
+		addComponent(l3);
+		addComponent(nPMoviesGrid);
+		// setSizeFull();
 	}
 }

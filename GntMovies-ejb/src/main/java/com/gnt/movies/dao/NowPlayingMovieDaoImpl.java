@@ -7,6 +7,7 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
+import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.NowPlayingMovie;
 import com.gnt.movies.utilities.Utils;
 
@@ -55,6 +56,12 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 		return list;
 	}
 
+	@Override
+	public List<MovieListItemDto> findAllMovies(DataProviderHolder dataProviderHolder) {
+		
+		return (List<MovieListItemDto>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList();
+	}
+	
 	@Override
 	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
 		HashSet<Integer> set = new HashSet<>();

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
+import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.Movie;
 import com.gnt.movies.utilities.Utils;
 
@@ -29,8 +30,8 @@ public class MovieDaoImpl extends AbstractDao implements MovieDao {
 	}
 
 	@Override
-	public List<Movie> getAll(DataProviderHolder dataProviderHolder) {
-		List<Movie> movies =dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList();
+	public List<MovieListItemDto> getAll(DataProviderHolder dataProviderHolder) {
+		List<MovieListItemDto> movies =dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList();
 		System.out.println("Found movies: ");
 		movies.stream().forEach(movie->System.out.println(movie.getId()+", "+movie.getOriginalTitle()));
 		

@@ -4,13 +4,13 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import com.gnt.movies.entities.Movie;
+import com.gnt.movies.dto.MovieListItemDto;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.data.provider.AbstractDataProvider;
 import com.vaadin.data.provider.Query;
 
 @CDIUI("")
-public class MovieDataProvider extends AbstractDataProvider<Movie, String> {
+public class MovieDataProvider extends AbstractDataProvider<MovieListItemDto, String> {
 	private static final long serialVersionUID = 1L;
 	
 	/** Text filter that can be changed separately. */
@@ -63,7 +63,7 @@ public class MovieDataProvider extends AbstractDataProvider<Movie, String> {
 	}
 
 	@Override
-	public Integer getId(Movie movie) {
+	public Integer getId(MovieListItemDto movie) {
 		Objects.requireNonNull(movie, "Cannot provide an id for a null movie.");
 
 		return movie.getId();
@@ -75,21 +75,21 @@ public class MovieDataProvider extends AbstractDataProvider<Movie, String> {
 	}
 
 	@Override
-	public int size(Query<Movie, String> t) {
+	public int size(Query<MovieListItemDto, String> t) {
 		return (int) fetch(t).count();
 	}
 
 	
 	
 	@Override
-    public Stream<Movie> fetch(Query<Movie, String> query) {
+    public Stream<MovieListItemDto> fetch(Query<MovieListItemDto, String> query) {
         if (filterText.isEmpty()) {
             return MyUI.get().getMovieBean().getMovies().stream();
         }
         return MyUI.get().getMovieBean().getMovies().stream().filter(
                 movie -> passesFilter(movie.getOriginalTitle(), filterText)
-                        || passesFilter(movie.getTitle(), filterText)
-                        || passesFilter(movie.getGenres(), filterText));
+                        || passesFilter(movie.getOriginalTitle(), filterText)
+                        );
     	
 //    	return movieBean.getMovies().stream();
     }

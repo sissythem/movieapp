@@ -3,6 +3,8 @@ package com.gnt.movies.GntMovies_web;
 import javax.inject.Inject;
 
 import com.gnt.movies.beans.MovieBean;
+import com.gnt.movies.beans.NowPlayingMovieBean;
+import com.gnt.movies.beans.UpcomingMovieBean;
 import com.gnt.movies.beans.UserBean;
 import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
@@ -24,6 +26,8 @@ public class MyUI extends UI {
 
 	@Inject private UserBean userBean;
 	@Inject private MovieBean movieBean;
+	@Inject private UpcomingMovieBean upcomingMovieBean;
+	@Inject private NowPlayingMovieBean nowPlayingMovieBean;
 	
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -46,6 +50,14 @@ public class MyUI extends UI {
 
 	public MovieBean getMovieBean() {
 		return movieBean;
+	}
+
+	public UpcomingMovieBean getUpcomingMovieBean() {
+		return upcomingMovieBean;
+	}
+
+	public NowPlayingMovieBean getNowPlayingMovieBean() {
+		return nowPlayingMovieBean;
 	}
 
 }

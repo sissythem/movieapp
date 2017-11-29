@@ -2,6 +2,7 @@ package com.gnt.movies.dao;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.UpcomingMovie;
@@ -14,7 +15,7 @@ public interface UpcomingMovieDao {
 	UpcomingMovie findByMovieId(DataProviderHolder dataProviderHolder, Integer movieId);
 	UpcomingMovie findByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
 	ArrayList<UpcomingMovie> findAll(DataProviderHolder dataProviderHolder);
-	ArrayList<MovieListItemDto> findAllMovies(DataProviderHolder dataProviderHolder);
+	List<MovieListItemDto> findAllMovies(DataProviderHolder dataProviderHolder);
 	HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder);
 	void deleteUpcomingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
 }

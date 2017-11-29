@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,22 +18,29 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.gnt.movies.dto.MovieListItemDto;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * The persistent class for the movies database table.
- *
+ *	private Integer id;
+	private String originalTitle;
+
  */
 @Entity
 @Table(name = "movies")
-@NamedQueries({ @NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m"),
+@NamedQueries({ 
+//		@NamedQuery(name = "Movie.findAll", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM Movie m"),
 		@NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.id = :id"),
 		@NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title = :title"),
 		@NamedQuery(name = "Movie.findByOriginalTitle", query = "SELECT m FROM Movie m WHERE m.originalTitle = :originalTitle"),
@@ -46,6 +55,14 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Movie.findByOriginalLanguage", query = "SELECT m FROM Movie m WHERE m.originalLanguage = :originalLanguage"),
 		@NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
 		@NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId") })
+@NamedNativeQueries({@NamedNativeQuery(name = "Movie.findAll", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM movies as m", resultSetMapping = "MovieListItemDto")})
+
+@SqlResultSetMapping(name = "MovieListItemDto", classes = {
+		@ConstructorResult(targetClass = MovieListItemDto.class, columns = { @ColumnResult(name = "id"),
+				@ColumnResult(name = "originalTitle"), @ColumnResult(name = "posterPath"),
+				@ColumnResult(name = "voteAverage"), @ColumnResult(name = "voteCount") }) })
+
+
 public class Movie implements Serializable, Comparable<Movie> {
 	private static final long serialVersionUID = 1L;
 

@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import com.gnt.movies.dao.DataProviderHolder;
 import com.gnt.movies.dao.JpaDao;
 import com.gnt.movies.dao.MovieDao;
+import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Image;
 import com.gnt.movies.entities.Movie;
@@ -52,7 +53,7 @@ public class MovieBean implements DataProviderHolder {
 		return em;
 	}
 
-	public List<Movie> getMovies(){
+	public List<MovieListItemDto> getMovies(){
 		return movieDao.getAll(this);
 	}
 	

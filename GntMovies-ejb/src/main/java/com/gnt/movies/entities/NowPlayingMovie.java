@@ -5,12 +5,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "now_playing_movies")
-@NamedQueries({ @NamedQuery(name = "NowPlayingMovie.findAll", query = "SELECT n FROM NowPlayingMovie n"),
+@NamedQueries({ 
+//	@NamedQuery(name = "NowPlayingMovie.findAll", query = "SELECT n FROM NowPlayingMovie n"),
 		@NamedQuery(name = "NowPlayingMovie.findById", query = "SELECT n FROM NowPlayingMovie n WHERE n.id = :id"),
 		@NamedQuery(name = "NowPlayingMovie.findByIdTmdb", query = "SELECT n FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb"),
 		@NamedQuery(name = "NowPlayingMovie.getAllIdTmdb", query = "SELECT n.idTmdb FROM NowPlayingMovie n"),
 		@NamedQuery(name = "NowPlayingMovie.findByMovieId", query = "SELECT n FROM NowPlayingMovie n WHERE n.movie.id = :movieId"),
 		@NamedQuery(name = "NowPlayingMovie.deleteByIdTmdb", query = "DELETE FROM NowPlayingMovie n WHERE n.idTmdb = :idTmdb") })
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "NowPlayingMovie.findAll", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM now_playing_movies as npm inner join movies as m on npm.movieId = m.id", resultSetMapping = "MovieListItemDto")
+})
 public class NowPlayingMovie implements Serializable {
 	private static final long serialVersionUID = 1L;
 

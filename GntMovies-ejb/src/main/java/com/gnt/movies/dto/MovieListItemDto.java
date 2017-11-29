@@ -20,7 +20,9 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
     	
     }
     
-	public MovieListItemDto(int id, String originalTitle, String posterPath, double voteAverage, int voteCount) {
+    
+    
+	public MovieListItemDto(Integer id, String originalTitle, String posterPath, Double voteAverage, int voteCount) {
 		super();
 		this.id = id;
 		this.originalTitle = originalTitle;
@@ -98,26 +100,30 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
 	
 	@Override
 	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (object == null) {
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		if (!(object instanceof Movie)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		MovieListItemDto other = (MovieListItemDto) object;
-
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+		MovieListItemDto other = (MovieListItemDto) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
-		}
 		return true;
 	}
+
+
 
 	/** Default compareTo, sorting based on our rating **/
 	@Override
