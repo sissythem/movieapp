@@ -72,13 +72,11 @@ public class ShowBean implements DataProviderHolder {
 		Gson gson = new Gson();
 		String showDetailsJson = ApiCalls.getDetailsFromAPI(show.getIdTmdb(), Utils.GENERAL_SHOW_URL);
 		JsonObject jo = JsonUtils.getJsonObjectFromString(showDetailsJson);
-
+		
 		show.setCreatedBy(JsonUtils.getJsonArrayFromJson("created_by", jo));
 		show.setHomepage(JsonUtils.getStringFromJson("homepage", jo));
 		show.setInProduction(JsonUtils.getBooleanFromJson("in_production", jo));
 		show.setNetworks(JsonUtils.getJsonArrayFromJson("networks", jo));
-		logger.info("updateShowWithDetails show id:" + show.getIdTmdb() + " "
-				+ JsonUtils.getIntegerFromJson("number_of_episodes", jo));
 		show.setNumOfEpisodes(JsonUtils.getIntegerFromJson("number_of_episodes", jo));
 		show.setNumOfSeasons(JsonUtils.getIntegerFromJson("number_of_seasons", jo));
 		show.setRuntime(JsonUtils.getJsonArrayFromJson("episode_run_time", jo));
@@ -94,20 +92,17 @@ public class ShowBean implements DataProviderHolder {
 		JsonElement images = jo.get("images");
 
 		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("backdrops", images),
-				Image[].class)) {
+				Image[].class))
 			show.addImage(image);
-		}
 		for (Image image : gson.fromJson(JsonUtils.getJsonArrayFromJson("posters", images),
-				Image[].class)) {
+				Image[].class)) 
 			show.addImage(image);
-		}
 		for (Genre genre : gson.fromJson(JsonUtils.getJsonArrayFromJson("genres", jo), Genre[].class)) {
 			Genre g = genreBean.findGenreByName(genre.getName());
 			if (g != null) {
 				show.addGenre(g);
 			}
 		}
-
 	}
 
 	private void saveShowImages(Show show) {

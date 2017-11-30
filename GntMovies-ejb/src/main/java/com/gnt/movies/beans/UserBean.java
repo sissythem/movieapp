@@ -36,9 +36,9 @@ public class UserBean implements DataProviderHolder {
 
 	public boolean registerUser(User user) {
 		logger.info("Register user");
-		if (userDao.UsernameExists(this, user.getUsername()) || userDao.EmailExists(this, user.getEmail())) {
+		if (userDao.UsernameExists(this, user.getUsername()) || userDao.EmailExists(this, user.getEmail())) 
 			return false;
-		} else {
+		else {
 			try {
 				userDao.createUser(this, user);
 				return true;

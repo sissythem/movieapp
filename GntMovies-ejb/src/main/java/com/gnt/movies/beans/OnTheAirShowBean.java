@@ -100,14 +100,9 @@ public class OnTheAirShowBean implements DataProviderHolder {
 	}
 
 	public void removeOldNotOnTheAirShows(HashSet<Show> onTheAirShows) {
-		for (Show show : onTheAirShows) {
+		for (Show show : onTheAirShows)
 			allIdTmdb.remove(show.getIdTmdb());
-		}
-
 		Set<Integer>allidtmd = allIdTmdb.keySet();
-		allidtmd.stream().forEach(e->{
-			logger.info("removing movie with tmdbId=" + e);
-			onTheAirShowDao.deleteOnTheAirShowByIdTmdb(this, e);
-		});
+		allidtmd.stream().forEach(e-> onTheAirShowDao.deleteOnTheAirShowByIdTmdb(this, e));
 	}
 }

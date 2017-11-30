@@ -51,5 +51,4 @@ public class ShowReviewBean implements DataProviderHolder {
 	public ArrayList<ShowReview> getShowReviewsByShow(Show show){
 		return (ArrayList<ShowReview>) showReviewDao.findShowReviewByShowId(this, show.getId());
 	}
-
 }

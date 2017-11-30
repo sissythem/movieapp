@@ -93,9 +93,6 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 
 	public Boolean addNowPlaying(NowPlayingMovie nowPlayingMovie) {
 		try {
-			if(nowPlayingMovie.getIdTmdb()==88752) {
-				logger.info(" nowPlayingMovie id:" + nowPlayingMovie.getIdTmdb());
-			}
 			nowPlayingMovieDao.createNowPlayingMovie(this, nowPlayingMovie);
 			logger.info(" nowPlayingMovie id:" + nowPlayingMovie.getIdTmdb());
 			return true;
@@ -106,14 +103,9 @@ public class NowPlayingMovieBean implements DataProviderHolder {
 	}
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void removeOldNotNowPlayingMovies(HashSet<Movie> movies) {
-		for (Movie movie : movies) {
+		for (Movie movie : movies)
 			allIdTmdb.remove(movie.getIdTmdb());
-		}
-
 		Set<Integer>allidtmd = allIdTmdb.keySet();
-		allidtmd.stream().forEach(e->{
-			logger.info("removing movie with tmdbId=" + e);
-			nowPlayingMovieDao.deleteNowPlayingMovieByIdTmdb(this, e);
-		});
+		allidtmd.stream().forEach(e->nowPlayingMovieDao.deleteNowPlayingMovieByIdTmdb(this, e));
 	}
 }

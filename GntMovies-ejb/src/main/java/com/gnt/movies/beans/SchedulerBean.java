@@ -23,7 +23,6 @@ import com.gnt.movies.utilities.MyExecutor;
 
 @LocalBean
 @Singleton
-//@TransactionTimeout(value = 1, unit = TimeUnit.HOURS)
 public class SchedulerBean implements DataProviderHolder {
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerBean.class);
 
@@ -62,6 +61,7 @@ public class SchedulerBean implements DataProviderHolder {
 		NowPlayingMovieBean.init();
 		Air2dayShowBean.init();
 		OnTheAirShowBean.init();
+		ApiClient.setTimer();
 	}
 
 //	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1", persistent = false)
@@ -72,7 +72,6 @@ public class SchedulerBean implements DataProviderHolder {
 		flag = true;
 		init();
 		logger.info("Scheduler updating database!");
-		ApiClient.setTimer();
 		getGenres();
 		getUpcomingMovies();
 		getNowPlayingMovies();

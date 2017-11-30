@@ -36,7 +36,6 @@ public class ImageBean implements DataProviderHolder {
 	}
 
 	public synchronized void addImage(Image image) {
-
 		imageDao.createImage(this, image);
 		logger.info("addImage url:" + image.getFilePath());
 	}

@@ -90,7 +90,6 @@ public class Air2dayShowBean implements DataProviderHolder{
     public boolean addAir2day(Air2dayShow air2dayShow) {
     	try {
     		air2dayShowDao.createAir2dayShow(this, air2dayShow);
-    		logger.info(" air2dayShow id:" + air2dayShow.getIdTmdb());
     		return true;
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -99,14 +98,9 @@ public class Air2dayShowBean implements DataProviderHolder{
     }
     
     public void removeOldNotAir2dayShow(HashSet<Show> shows) {
-    	for (Show show : shows) {
+    	for (Show show : shows)
 			allIdTmdb.remove(show.getIdTmdb());
-		}
-
     	Set<Integer>allidtmd = allIdTmdb.keySet();
-		allidtmd.stream().forEach(e->{
-			logger.info("removing movie with tmdbId=" + e);
-			air2dayShowDao.deleteAir2dayShowByIdTmdb(this, e);
-		});
+		allidtmd.stream().forEach(e->air2dayShowDao.deleteAir2dayShowByIdTmdb(this, e));
     }
 }

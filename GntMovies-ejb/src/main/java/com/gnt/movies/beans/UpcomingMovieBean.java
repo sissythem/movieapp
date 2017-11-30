@@ -89,7 +89,6 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	}
 
 	public Boolean addUpcomingMovie(UpcomingMovie upcomingMovie) {
-		logger.info("addUpcomingMovie movie with tmdbId=" + upcomingMovie.getIdTmdb());
 		try {
 			upcomingMovieDao.createUpcomingMovie(this, upcomingMovie);
 			logger.info(" upcommingMovie id:" + upcomingMovie.getIdTmdb());
@@ -101,14 +100,9 @@ public class UpcomingMovieBean implements DataProviderHolder {
 	}
 	
 	public void removeOldNotUpMovies(HashSet<Movie> movies) {
-
-		for (Movie movie : movies) {
+		for (Movie movie : movies)
 			allIdTmdb.remove(movie.getIdTmdb());
-		}
 		Set<Integer>allidtmd = allIdTmdb.keySet();
-		allidtmd.stream().forEach(e->{
-			logger.info("removing movie with tmdbId=" + e);
-			upcomingMovieDao.deleteUpcomingMovieByIdTmdb(this, e);
-		});
+		allidtmd.stream().forEach(e->upcomingMovieDao.deleteUpcomingMovieByIdTmdb(this, e));
 	}
 }
