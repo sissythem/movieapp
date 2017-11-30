@@ -1,7 +1,5 @@
 package com.gnt.movies.GntMovies_web;
 
-import java.awt.Menu;
-
 import com.gnt.movies.dto.MovieListItemDto;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
@@ -12,7 +10,7 @@ import com.vaadin.ui.VerticalLayout;
 public class MainLayout extends VerticalLayout {
 
 	private static final long serialVersionUID = 1L;
-	private Menu menu;
+//	private Menu menu;
 
 	public MainLayout(MyUI ui) {
 		CssLayout viewContainer = new CssLayout();

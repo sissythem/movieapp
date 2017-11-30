@@ -29,13 +29,10 @@ public class MovieDaoImpl extends AbstractDao implements MovieDao {
 		removeEntity(dataProviderHolder.getEntityManager(), movie);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MovieListItemDto> getAll(DataProviderHolder dataProviderHolder) {
-		List<MovieListItemDto> movies = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList();
-		System.out.println("Found movies: ");
-		movies.stream().forEach(movie->System.out.println(movie.getId()+", "+movie.getOriginalTitle()));
-		System.out.println("movies.size: "+movies.size());
-		return movies; 
+		return (List<MovieListItemDto>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList(); 
 	}
 
 	@Override
