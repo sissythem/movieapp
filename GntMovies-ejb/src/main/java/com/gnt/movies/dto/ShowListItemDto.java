@@ -3,7 +3,6 @@ package com.gnt.movies.dto;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import com.gnt.movies.entities.Movie;
 import com.gnt.movies.entities.Show;
 
 public class ShowListItemDto implements Serializable, Comparable<ShowListItemDto> {
