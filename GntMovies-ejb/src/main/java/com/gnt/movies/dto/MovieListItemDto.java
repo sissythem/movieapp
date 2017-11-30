@@ -19,9 +19,7 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
     public MovieListItemDto() {
     	
     }
-    
-    
-    
+
 	public MovieListItemDto(Integer id, String originalTitle, String posterPath, Double voteAverage, int voteCount) {
 		super();
 		this.id = id;
@@ -122,8 +120,6 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
 			return false;
 		return true;
 	}
-
-
 
 	/** Default compareTo, sorting based on our rating **/
 	@Override

@@ -8,7 +8,7 @@ public class UserSessionDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private Integer id;
 
 	private String firstname;
 
@@ -22,7 +22,7 @@ public class UserSessionDto implements Serializable {
 		super();
 	}
 
-	public UserSessionDto(int id, String firstname, String password, String photo, String username) {
+	public UserSessionDto(Integer id, String firstname, String password, String photo, String username) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
