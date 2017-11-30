@@ -40,12 +40,10 @@ public class GenreDaoImpl extends AbstractDao implements GenreDao {
 		return (Genre)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.GENRE_FIND_BY_NAME, "name", name);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Genre> findAllGenres(DataProviderHolder dataProviderHolder) {
-		ArrayList<Genre> allGenres = new ArrayList<>();
-		
-		allGenres.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL).getResultList());
-		return allGenres;
+		return (ArrayList<Genre>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.GENRE_FIND_ALL).getResultList();
 	}
 	
 	@Override

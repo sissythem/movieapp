@@ -65,18 +65,22 @@ public class ApiCalls {
 	 * ========================
 	 **/
 
+	@SuppressWarnings("unchecked")
 	public static HashSet<Movie> getUpcomingMovies() {
 		return (HashSet<Movie>) getAllResults(Utils.UPCOMING_MOVIES_URL, "movie");
 	}
 
+	@SuppressWarnings("unchecked")
 	public static HashSet<Movie> getNowPlayingMovies() {
 		return (HashSet<Movie>) getAllResults(Utils.NOW_PLAYING_MOVIES_URL, "movie");
 	}
 
+	@SuppressWarnings("unchecked")
 	public static HashSet<Show> getOnTheAirShows() {
 		return (HashSet<Show>) getAllResults(Utils.ON_THE_AIR_SHOWS_URL, "show");
 	}
 
+	@SuppressWarnings("unchecked")
 	public static HashSet<Show> getAir2dayShows() {
 		return (HashSet<Show>) getAllResults(Utils.AIR2DAY_SHOWS_URL, "show");
 	}
@@ -93,19 +97,17 @@ public class ApiCalls {
 	}
 
 	private static int getTotalNumPages(String type, ApiClientRunnable runnable) {
-		int pages = 0;
-		if (type == "movie") {
-			pages = gson.fromJson(runnable.getResult(), ApiNewMovieResults.class).getTotalPages();
-		} else if (type == "show") {
-			pages = gson.fromJson(runnable.getResult(), ApiNewShowResults.class).getTotalPages();
-		}
-		return pages;
+		if (type == "movie") 
+			return gson.fromJson(runnable.getResult(), ApiNewMovieResults.class).getTotalPages();
+		else if (type == "show") 
+			return gson.fromJson(runnable.getResult(), ApiNewShowResults.class).getTotalPages();
+		else
+			return 0;
 	}
 
 	private static void firstThreadRun(String url) {
 		runnables = new ArrayList<>();
-		String newUrl = createUrl(url, "1");
-		ApiClientRunnable runnable = new ApiClientRunnable(newUrl);
+		ApiClientRunnable runnable = new ApiClientRunnable(createUrl(url, "1"));
 		ExecutorService executor = MyExecutor.getNewExecutor();
 		runnables.add(runnable);
 		executor.execute(runnable);
@@ -124,33 +126,38 @@ public class ApiCalls {
 	}
 
 	private static HashSet<?> getResultsFromPages(String type) {
-		if (type == "movie") {
-			HashSet<Movie> movies = new HashSet<>();
-			runnables.stream().forEach(apiClientRunnable -> {
-				String result = apiClientRunnable.getResult();
-				logger.info(Thread.currentThread().getId() + ": Result:" + result);
-				ApiNewMovieResults apiNewMovieResults = gson.fromJson(result, ApiNewMovieResults.class);
-				if (apiNewMovieResults != null && apiNewMovieResults.getResults() != null)
-					movies.addAll(apiNewMovieResults.getResults());
-			});
-			return movies;
-		} else {
-			HashSet<Show> shows = new HashSet<>();
-			runnables.stream().forEach(apiClientRunnable -> {
-				String result = apiClientRunnable.getResult();
-				ApiNewShowResults apiNewShowResults = gson.fromJson(result, ApiNewShowResults.class);
-				if (apiNewShowResults != null && apiNewShowResults.getResults() != null)
-					shows.addAll(apiNewShowResults.getResults());
-			});
-			return shows;
-		}
+		if (type == "movie")
+			return getMovieResultsFromPages();
+		else
+			return getShowResultsFromPages();
+	}
+	
+	private static HashSet<Movie> getMovieResultsFromPages(){
+		HashSet<Movie> movies = new HashSet<>();
+		runnables.stream().forEach(apiClientRunnable -> {
+			String result = apiClientRunnable.getResult();
+			ApiNewMovieResults apiNewMovieResults = gson.fromJson(result, ApiNewMovieResults.class);
+			if (apiNewMovieResults != null && apiNewMovieResults.getResults() != null)
+				movies.addAll(apiNewMovieResults.getResults());
+		});
+		return movies;
+	}
+	
+	private static HashSet<Show> getShowResultsFromPages(){
+		HashSet<Show> shows = new HashSet<>();
+		runnables.stream().forEach(apiClientRunnable -> {
+			String result = apiClientRunnable.getResult();
+			ApiNewShowResults apiNewShowResults = gson.fromJson(result, ApiNewShowResults.class);
+			if (apiNewShowResults != null && apiNewShowResults.getResults() != null)
+				shows.addAll(apiNewShowResults.getResults());
+		});
+		return shows;
 	}
 
 	public static String createUrl(String... str) {
 		StringBuilder sb = new StringBuilder();
-		for (String string : str) {
+		for (String string : str)
 			sb.append(string);
-		}
 		return sb.toString();
 	}
 }

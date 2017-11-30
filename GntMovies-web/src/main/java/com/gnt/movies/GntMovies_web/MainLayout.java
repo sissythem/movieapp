@@ -3,7 +3,6 @@ package com.gnt.movies.GntMovies_web;
 import java.awt.Menu;
 
 import com.gnt.movies.dto.MovieListItemDto;
-import com.gnt.movies.entities.Movie;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.CssLayout;

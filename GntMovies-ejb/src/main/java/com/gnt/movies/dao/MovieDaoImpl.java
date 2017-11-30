@@ -31,10 +31,9 @@ public class MovieDaoImpl extends AbstractDao implements MovieDao {
 
 	@Override
 	public List<MovieListItemDto> getAll(DataProviderHolder dataProviderHolder) {
-		List<MovieListItemDto> movies =dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList();
+		List<MovieListItemDto> movies = dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList();
 		System.out.println("Found movies: ");
 		movies.stream().forEach(movie->System.out.println(movie.getId()+", "+movie.getOriginalTitle()));
-		
 		System.out.println("movies.size: "+movies.size());
 		return movies; 
 	}
@@ -53,5 +52,4 @@ public class MovieDaoImpl extends AbstractDao implements MovieDao {
 	public Movie findMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
 		return (Movie)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
-
 }

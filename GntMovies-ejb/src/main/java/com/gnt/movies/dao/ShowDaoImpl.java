@@ -40,6 +40,4 @@ public class ShowDaoImpl extends AbstractDao implements ShowDao {
 	public Show findShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
 		return (Show)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
-	
-
 }

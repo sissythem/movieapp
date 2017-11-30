@@ -45,13 +45,13 @@ public class Air2dayShowDaoImpl extends AbstractDao implements Air2dayShowDao {
 		return (Air2dayShow)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.AIR2DAY_SHOW_FIND_BY_SHOW_ID, "showId", showId);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Air2dayShow> findAll(DataProviderHolder dataProviderHolder) {
-		ArrayList<Air2dayShow> allAir2dayShows = new ArrayList<>();
-		allAir2dayShows.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_FIND_ALL).getResultList());
-		return allAir2dayShows;
+		return (ArrayList<Air2dayShow>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.AIR2DAY_SHOW_FIND_ALL).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
 		HashSet<Integer> set = new HashSet<>();

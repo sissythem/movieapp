@@ -1,7 +1,6 @@
 package com.gnt.movies.GntMovies_web;
 
 import com.gnt.movies.dto.MovieListItemDto;
-import com.gnt.movies.entities.Movie;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.NumberRenderer;
 

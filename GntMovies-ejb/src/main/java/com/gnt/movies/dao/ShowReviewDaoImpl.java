@@ -33,26 +33,22 @@ public class ShowReviewDaoImpl extends AbstractDao implements ShowReviewDao {
 		return (ShowReview)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_REVIEW_FIND_BY_ID, "id", id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ShowReview> findShowReviewByShowId(DataProviderHolder dataProviderHolder, Integer showId) {
-		ArrayList<ShowReview> list = new ArrayList<>();
-		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_SHOW_ID).setParameter("showId", showId).getResultList());
-		return list ;
+		return (ArrayList<ShowReview>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_SHOW_ID).setParameter("showId", showId).getResultList() ;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ShowReview> findShowReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
-		ArrayList<ShowReview> list = new ArrayList<>();
-		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_USER_ID).setParameter("userId", userId).getResultList());
-
-		return list;
+		return (ArrayList<ShowReview>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_USER_ID).setParameter("userId", userId).getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ShowReview> findShowReviewByRating(DataProviderHolder dataProviderHolder, double rating) {
-		ArrayList<ShowReview> list = new ArrayList<>();
-		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_RATING).setParameter("rating", rating).getResultList());
-		return list;
+		return (ArrayList<ShowReview>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_REVIEW_FIND_BY_RATING).setParameter("rating", rating).getResultList();
 	}
 	
 }

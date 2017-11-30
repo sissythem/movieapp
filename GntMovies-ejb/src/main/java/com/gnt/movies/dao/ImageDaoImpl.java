@@ -30,5 +30,4 @@ public class ImageDaoImpl extends AbstractDao implements ImageDao {
 	public Image findImageById(DataProviderHolder dataProviderHolder, Integer id) {
 		return (Image) findSingleEntity(dataProviderHolder.getEntityManager(), Utils.IMAGE_FIND_BY_ID, "id", id);
 	}
-
 }

@@ -74,7 +74,6 @@ public class ApiClient {
 			} catch (InterruptedException e) {
 				logger.info(Thread.currentThread().getId() + ":interrupted");
 			}
-			logger.info(Thread.currentThread().getId() + ":making a new request.");
 			getResultFromTMDB(url);
 		}
 	}
@@ -89,9 +88,7 @@ public class ApiClient {
 	private static void checkForReachingCallsLimit(Response response, String url) {
 		if (response.code() == 429) {
 			try {
-				logger.info(Thread.currentThread().getId() + ":sleeping");
 				Thread.sleep(1500);
-				logger.info(Thread.currentThread().getId() + ":will try again");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

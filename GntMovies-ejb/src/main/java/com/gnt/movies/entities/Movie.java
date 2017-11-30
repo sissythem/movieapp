@@ -54,15 +54,17 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Movie.findByVoteCount", query = "SELECT m FROM Movie m WHERE m.voteCount = :voteCount"),
 		@NamedQuery(name = "Movie.findByOriginalLanguage", query = "SELECT m FROM Movie m WHERE m.originalLanguage = :originalLanguage"),
 		@NamedQuery(name = "Movie.findByAdult", query = "SELECT m FROM Movie m WHERE m.adult = :adult"),
-		@NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId") })
-@NamedNativeQueries({@NamedNativeQuery(name = "Movie.findAll", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM movies as m", resultSetMapping = "MovieListItemDto")})
-
+		@NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId") 
+})
+@NamedNativeQueries({
+	@NamedNativeQuery(name = "Movie.findAll", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM movies as m", resultSetMapping = "MovieListItemDto")
+})
 @SqlResultSetMapping(name = "MovieListItemDto", classes = {
 		@ConstructorResult(targetClass = MovieListItemDto.class, columns = { @ColumnResult(name = "id"),
 				@ColumnResult(name = "originalTitle"), @ColumnResult(name = "posterPath"),
-				@ColumnResult(name = "voteAverage"), @ColumnResult(name = "voteCount") }) })
-
-
+				@ColumnResult(name = "voteAverage"), @ColumnResult(name = "voteCount") 
+		}) 
+})
 public class Movie implements Serializable, Comparable<Movie> {
 	private static final long serialVersionUID = 1L;
 

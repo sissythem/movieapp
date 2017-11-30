@@ -33,20 +33,18 @@ public class MovieReviewDaoImpl extends AbstractDao implements MovieReviewDao {
 		return (MovieReview)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_REVIEW_FIND_BY_ID, "id", id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<MovieReview> findMovieReviewByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
-		ArrayList<MovieReview> movieReviews = new ArrayList<>();
-		movieReviews.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_USER_ID)
-				.setParameter("userId", userId).getResultList());
-		return movieReviews;
+		return (ArrayList<MovieReview>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_USER_ID)
+				.setParameter("userId", userId).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<MovieReview> findMovieReviewByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		ArrayList<MovieReview> movieReviews = new ArrayList<>();
-		movieReviews.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_MOVIE_ID)
-				.setParameter("movieId", movieId).getResultList());
-		return movieReviews;
+		return (ArrayList<MovieReview>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_REVIEW_FIND_BY_MOVIE_ID)
+				.setParameter("movieId", movieId).getResultList();
 	}
 	
 	@Override

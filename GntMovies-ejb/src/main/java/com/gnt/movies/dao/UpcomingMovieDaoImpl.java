@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
-import javax.persistence.TypedQuery;
 
 import com.gnt.movies.dto.MovieListItemDto;
 import com.gnt.movies.entities.UpcomingMovie;
@@ -50,14 +49,13 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 				Utils.UPCOMING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<UpcomingMovie> findAll(DataProviderHolder dataProviderHolder) {
-		ArrayList<UpcomingMovie> upcomingMovielist = new ArrayList<>();
-		upcomingMovielist.addAll(
-				dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL).getResultList());
-		return upcomingMovielist;
+		return (ArrayList<UpcomingMovie>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MovieListItemDto> findAllMovies(DataProviderHolder dataProviderHolder) {
 
@@ -70,6 +68,7 @@ public class UpcomingMovieDaoImpl extends AbstractDao implements UpcomingMovieDa
 		return (List<MovieListItemDto>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.UPCOMING_MOVIE_FIND_ALL_MOVIES).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
 		HashSet<Integer> set = new HashSet<>();

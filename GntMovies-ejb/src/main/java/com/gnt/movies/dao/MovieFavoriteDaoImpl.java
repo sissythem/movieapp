@@ -33,27 +33,24 @@ public class MovieFavoriteDaoImpl extends AbstractDao implements MovieFavoriteDa
 		return (MovieFavorite)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.MOVIE_FAVORITE_FIND_BY_ID, "id", id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<MovieFavorite> findMovieFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId) {
-		ArrayList<MovieFavorite> movieFavorites = new ArrayList<>();
-		movieFavorites.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_BY_USER_ID)
-				.setParameter(userId, userId).getResultList());
-		return movieFavorites;
+		return (ArrayList<MovieFavorite>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_BY_USER_ID)
+				.setParameter(userId, userId).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<MovieFavorite> findMovieFavoriteByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		ArrayList<MovieFavorite> movieFavorites = new ArrayList<>();
-		movieFavorites.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_BY_MOVIE_ID)
-				.setParameter(movieId, movieId).getResultList());
-		return movieFavorites;
+		return (ArrayList<MovieFavorite>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_BY_MOVIE_ID)
+				.setParameter(movieId, movieId).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<MovieFavorite> findAll(DataProviderHolder dataProviderHolder) {
-		ArrayList<MovieFavorite> movieFavorites = new ArrayList<>();
-		movieFavorites.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_ALL).getResultList());
-		return movieFavorites;
+		return (ArrayList<MovieFavorite>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FAVORITE_FIND_ALL).getResultList();
 	}
 
 }

@@ -33,19 +33,16 @@ public class ShowFavoriteDaoImpl extends AbstractDao implements ShowFavoriteDao 
 		return (ShowFavorite)findSingleEntity(dataProviderHolder.getEntityManager(),Utils.SHOW_FAVORITE_FIND_BY_ID, "id", id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ShowFavorite> findShowFavoriteByUserId(DataProviderHolder dataProviderHolder, Integer userId){
-		ArrayList<ShowFavorite> list = new ArrayList<>();
-		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_USER_ID)
-				.setParameter("userId", userId).getResultList());
-		return list;
+		return (ArrayList<ShowFavorite>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_USER_ID).setParameter("userId", userId).getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ShowFavorite> findShowFavoriteByShowId(DataProviderHolder dataProviderHolder, Integer showId){
-		ArrayList<ShowFavorite> list = new ArrayList<>();
-		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_SHOW_ID)
-				.setParameter("showId", showId).getResultList());
-		return list;
+		return (ArrayList<ShowFavorite>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FAVORITE_FIND_BY_SHOW_ID)
+				.setParameter("showId", showId).getResultList();
 	}
 }

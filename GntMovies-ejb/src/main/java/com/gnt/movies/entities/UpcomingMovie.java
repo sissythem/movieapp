@@ -1,9 +1,18 @@
 package com.gnt.movies.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-import com.gnt.movies.dto.MovieListItemDto;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "upcoming_movies")
@@ -20,7 +29,6 @@ import com.gnt.movies.dto.MovieListItemDto;
 	@NamedNativeQuery(name = "UpcomingMovie.findAllMovies", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM upcoming_movies as um inner join movies as m on um.movieId = m.id", resultSetMapping = "MovieListItemDto")
 
 })
-
 public class UpcomingMovie implements Serializable {
 	private static final long serialVersionUID = 1L;
 

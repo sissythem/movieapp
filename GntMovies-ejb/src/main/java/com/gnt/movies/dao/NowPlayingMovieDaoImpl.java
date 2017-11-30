@@ -33,47 +33,41 @@ public class NowPlayingMovieDaoImpl extends AbstractDao implements NowPlayingMov
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieById(DataProviderHolder dataProviderHolder, Integer id) {
-		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),
-				Utils.NOW_PLAYING_MOVIE_FIND_BY_ID, "id", id);
+		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),Utils.NOW_PLAYING_MOVIE_FIND_BY_ID, "id", id);
 	}
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),
-				Utils.NOW_PLAYING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
+		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),Utils.NOW_PLAYING_MOVIE_FIND_BY_IDTMDB, "idTmdb", idTmdb);
 	}
 
 	@Override
 	public NowPlayingMovie findNowPlayingMovieByMovieId(DataProviderHolder dataProviderHolder, Integer movieId) {
-		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),
-				Utils.NOW_PLAYING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
+		return (NowPlayingMovie) findSingleEntity(dataProviderHolder.getEntityManager(),Utils.NOW_PLAYING_MOVIE_FIND_BY_MOVIE_ID, "movieId", movieId);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<NowPlayingMovie> findAll(DataProviderHolder dataProviderHolder) {
-		ArrayList<NowPlayingMovie> list = new ArrayList<>();
-		list.addAll(dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList());
-		return list;
+		return (ArrayList<NowPlayingMovie>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MovieListItemDto> findAllMovies(DataProviderHolder dataProviderHolder) {
-		
 		return (List<MovieListItemDto>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_FIND_ALL).getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public HashSet<Integer> getAllIdTmdb(DataProviderHolder dataProviderHolder) {
 		HashSet<Integer> set = new HashSet<>();
-
-		set.addAll((List<Integer>) dataProviderHolder.getEntityManager()
-				.createNamedQuery(Utils.NOW_PLAYING_MOVIE_GET_ALL_IDTMDB).getResultList());
+		set.addAll((List<Integer>) dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_GET_ALL_IDTMDB).getResultList());
 		return set;
 	}
 
 	@Override
 	public void deleteNowPlayingMovieByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
-		dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_DELETE_BY_IDTMDB)
-				.setParameter("idTmdb", idTmdb).executeUpdate();
+		dataProviderHolder.getEntityManager().createNamedQuery(Utils.NOW_PLAYING_MOVIE_DELETE_BY_IDTMDB).setParameter("idTmdb", idTmdb).executeUpdate();
 	}
 }
