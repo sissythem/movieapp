@@ -31,16 +31,9 @@ import com.gnt.movies.dto.MovieListItemDto;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * The persistent class for the movies database table.
- *	private Integer id;
-	private String originalTitle;
-
- */
 @Entity
 @Table(name = "movies")
 @NamedQueries({ 
-//		@NamedQuery(name = "Movie.findAll", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM Movie m"),
 		@NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.id = :id"),
 		@NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title = :title"),
 		@NamedQuery(name = "Movie.findByOriginalTitle", query = "SELECT m FROM Movie m WHERE m.originalTitle = :originalTitle"),

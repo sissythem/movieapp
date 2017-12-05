@@ -26,6 +26,8 @@ public class UserRest {
 	@Inject
 	private UserBean userBean;
 
+	private static String CURRENT_CLASS_NAME = this.getClass().getSimpleName();
+
 	@Path("/login")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -46,7 +48,7 @@ public class UserRest {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean loginWithToken(@PathParam("token") String token) {
-		if (AuthenticationToken.isTokenValid(token, this.getClass().getSimpleName())) {
+		if (AuthenticationToken.isTokenValid(token, CURRENT_CLASS_NAME)) {
 			userBean.loginToken(token);
 
 			return true;
@@ -69,27 +71,16 @@ public class UserRest {
 		UserSessionDto user = null;
 		System.out.println("token:" + token);
 		System.out.println("Classname:" + this.getClass().getSimpleName());
-		if (AuthenticationToken.isTokenValid(token, this.getClass().getSimpleName())) {
+		if (AuthenticationToken.isTokenValid(token, CURRENT_CLASS_NAME)) {
 			user = userBean.findUserDtoByUsername(username);
 		}
 		return user;
 	}
 
-	@Path("/sayHi")
+	@Path("/checktoken")
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String sayHi(@HeaderParam("token") String token, @Context HttpServletRequest request) {
-		UserSessionDto user = null;
-		// System.out.println("token:"+token);
-		if (token != null) {
-			System.out.println("Classname:" + this.getClass().getSimpleName());
-			if (AuthenticationToken.isTokenValid(token, this.getClass().getSimpleName())) {
-				HttpSession session = request.getSession();
-				user = (UserSessionDto) session.getAttribute("userDto");
-				return "Hi " + user.getUsername();
-			}
-		}
-		return "Sorry Please log in...";
+	@Produces(MediaType.APPLICATION_JSON)
+	public Boolean checkToken(String token){
+		return AuthenticationToken.isTokenValid(String token, CURRENT_CLASS_NAME);
 	}
-
 }
