@@ -1,4 +1,4 @@
-package com.gnt.movies.GntMovies_web;
+package com.gnt.movies.GntMovies_web.classes;
 
 import com.gnt.movies.dto.MovieListItemDto;
 import com.vaadin.ui.Grid;

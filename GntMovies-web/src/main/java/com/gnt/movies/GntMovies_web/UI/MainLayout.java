@@ -1,5 +1,7 @@
-package com.gnt.movies.GntMovies_web;
+package com.gnt.movies.GntMovies_web.UI;
 
+import com.gnt.movies.GntMovies_web.classes.ApplicationLayout;
+import com.gnt.movies.GntMovies_web.classes.MovieGrid;
 import com.gnt.movies.dto.MovieListItemDto;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
@@ -13,9 +15,21 @@ public class MainLayout extends VerticalLayout {
 //	private Menu menu;
 
 	public MainLayout(MyUI ui) {
+		
 		CssLayout viewContainer = new CssLayout();
 		viewContainer.addStyleName("valo-content");
 		viewContainer.setSizeFull();
+		createApplicationLayout();
+		addMovieGrid();
+		
+	}
+	
+	private void createApplicationLayout() {
+		ApplicationLayout appLayout = new ApplicationLayout();
+		addComponent(appLayout);
+	}
+	
+	private void addMovieGrid() {
 		MovieGrid moviesGrid = new MovieGrid();
 		MovieGrid upMoviesGrid = new MovieGrid();
 		MovieGrid nPMoviesGrid = new MovieGrid();

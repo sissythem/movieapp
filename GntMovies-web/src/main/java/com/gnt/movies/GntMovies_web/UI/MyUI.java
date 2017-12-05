@@ -1,4 +1,4 @@
-package com.gnt.movies.GntMovies_web;
+package com.gnt.movies.GntMovies_web.UI;
 
 import javax.inject.Inject;
 

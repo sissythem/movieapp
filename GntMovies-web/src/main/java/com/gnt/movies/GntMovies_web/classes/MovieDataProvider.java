@@ -1,9 +1,10 @@
-package com.gnt.movies.GntMovies_web;
+package com.gnt.movies.GntMovies_web.classes;
 
 import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import com.gnt.movies.GntMovies_web.UI.MyUI;
 import com.gnt.movies.dto.MovieListItemDto;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.data.provider.AbstractDataProvider;
