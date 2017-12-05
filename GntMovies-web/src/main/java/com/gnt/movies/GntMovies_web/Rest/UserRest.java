@@ -26,7 +26,7 @@ public class UserRest {
 	@Inject
 	private UserBean userBean;
 
-	private static String CURRENT_CLASS_NAME = this.getClass().getSimpleName();
+	private String CURRENT_CLASS_NAME = this.getClass().getSimpleName();
 
 	@Path("/login")
 	@POST
@@ -81,6 +81,6 @@ public class UserRest {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Boolean checkToken(String token){
-		return AuthenticationToken.isTokenValid(String token, CURRENT_CLASS_NAME);
+		return AuthenticationToken.isTokenValid(token, CURRENT_CLASS_NAME);
 	}
 }
