@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gnt.moviesapp.HomeActivity">
-
-</android.support.constraint.ConstraintLayout>
+    android:layout_alignParentStart="true">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/menuToolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/height_of_footer"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:titleTextColor="@android:color/white">
+    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/recycler_main"
+        android:id="@+id/recyclermain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/height_of_footer"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+</RelativeLayout>
