@@ -17,7 +17,7 @@
     <include layout="@layout/recycler_main"
         android:id="@+id/recyclermain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/height_of_footer"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/menuToolbar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </RelativeLayout>

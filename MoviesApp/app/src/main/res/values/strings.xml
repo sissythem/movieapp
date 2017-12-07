@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">MoviesApp</string>
+
+    <!-- Menu of main toolbar -->
+    <string name="home">Home</string>
+    <string name="movies">Movies</string>
+    <string name="shows">Shows</string>
+    <string name="profile">User</string>
+
+    <string name="upcoming">Upcoming</string>
+    <string name="nowPlaying">Now Playing</string>
+    <string name="onTheAir">On The Air</string>
+    <string name="air2day">Airing Today</string>
+
 </resources>
