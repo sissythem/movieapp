@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 public class HomeActivity extends AppCompatActivity {
 
-
     private Toolbar toolbar;
 
     @Override
