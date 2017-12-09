@@ -1,0 +1,75 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbarLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="fill_horizontal"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/mainToolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/height_of_toolbar"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:titleTextColor="@android:color/white">
+        <LinearLayout
+            android:id="@+id/menuLayout"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            style="@android:style/ButtonBar"
+            android:titleTextColor="@android:color/white">
+
+            <ImageButton
+                android:id="@+id/home"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/home"
+                android:background="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_home" />
+
+            <ImageButton
+                android:id="@+id/movies"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/movies"
+                android:background="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_movie" />
+
+            <ImageButton
+                android:id="@+id/shows"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:text="@string/shows"
+                app:srcCompat="@drawable/ic_show" />
+
+            <ImageButton
+                android:id="@+id/user"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:text="@string/user"
+                app:srcCompat="@drawable/ic_user"/>
+
+            <!--<ImageButton
+                android:id="@+id/logout"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/logout"
+                android:background="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_logout_holo_dark"/>-->
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+</RelativeLayout>

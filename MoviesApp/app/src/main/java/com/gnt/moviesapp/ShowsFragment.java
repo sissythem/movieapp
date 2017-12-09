@@ -33,6 +33,11 @@ public class ShowsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static ShowsFragment newInstance(){
+        ShowsFragment fragment = new ShowsFragment();
+        return fragment;
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

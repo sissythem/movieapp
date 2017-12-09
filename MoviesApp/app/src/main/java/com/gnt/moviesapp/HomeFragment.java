@@ -33,6 +33,11 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static HomeFragment newInstance(){
+        HomeFragment fragment = new HomeFragment();
+        return fragment;
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

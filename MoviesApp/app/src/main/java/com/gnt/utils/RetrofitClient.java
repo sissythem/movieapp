@@ -51,6 +51,12 @@ public class RetrofitClient {
 
             }).create();
 
+    /** Token works correctly when we reset the client **/
+    public static void resetClient()
+    {
+        retrofit = null;
+    }
+
     /** RestClient for HTTP GET requests, where token is provided for each call **/
     public static Retrofit getClient(String token) {
         if (retrofit==null) {

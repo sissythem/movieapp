@@ -5,7 +5,7 @@
     <string name="home">Home</string>
     <string name="movies">Movies</string>
     <string name="shows">Shows</string>
-    <string name="profile">User</string>
+    <string name="user">User</string>
 
     <string name="upcoming">Upcoming</string>
     <string name="nowPlaying">Now Playing</string>

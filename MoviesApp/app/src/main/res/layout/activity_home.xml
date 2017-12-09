@@ -4,20 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentStart="true">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/menuToolbar"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/height_of_footer"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
-        android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize"
-        android:titleTextColor="@android:color/white">
-    </android.support.v7.widget.Toolbar>
-    <include layout="@layout/recycler_main"
-        android:id="@+id/recyclermain"
-        android:layout_width="match_parent"
+    <include layout="@layout/main_toolbar"
+        android:id="@+id/menuToolbar"/>
+    <FrameLayout
+        android:id="@+id/fragmentLayout"
+        android:visibility="gone"
+        android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_height="match_parent"
-        android:layout_below="@+id/menuToolbar"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:layout_width="match_parent"
+        android:layout_below="@+id/mainToolbar"/>
+
 </RelativeLayout>

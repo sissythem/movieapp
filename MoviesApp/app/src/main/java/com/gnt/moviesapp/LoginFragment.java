@@ -33,6 +33,11 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static LoginFragment newInstance(){
+        LoginFragment fragment = new LoginFragment();
+        return fragment;
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
