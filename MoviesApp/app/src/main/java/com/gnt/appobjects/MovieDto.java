@@ -1,7 +1,9 @@
 package com.gnt.appobjects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 
 /**
  * Created by sissy on 12/9/17.
@@ -16,19 +18,22 @@ public class MovieDto implements Serializable, Comparable<MovieDto> {
     private String posterPath;
     private Double voteAverage;
     private int voteCount;
-    private Double averageRating;
+    private double averageRating;
+    private HashSet<Genre> genres;
+    private String overview;
 
     public MovieDto() {
 
     }
 
-    public MovieDto(Integer id, String originalTitle, String posterPath, Double voteAverage, int voteCount) {
+    public MovieDto(Integer id, String originalTitle, String posterPath, Double voteAverage, int voteCount, String overview) {
         super();
         this.id = id;
         this.originalTitle = originalTitle;
         this.posterPath = posterPath;
         this.voteAverage = voteAverage;
         this.voteCount = voteCount;
+        this.overview = overview;
     }
 
     public MovieDto(Movie movie) {
@@ -39,6 +44,8 @@ public class MovieDto implements Serializable, Comparable<MovieDto> {
         this.voteAverage = movie.getVoteAverage();
         this.voteCount = movie.getVoteCount();
         this.averageRating = movie.getAverageRating();
+        this.genres = movie.getGenres();
+        this.overview = movie.getOverview();
     }
     public Integer getId() {
         return id;
@@ -70,13 +77,27 @@ public class MovieDto implements Serializable, Comparable<MovieDto> {
     public void setVoteCount(int voteCount) {
         this.voteCount = voteCount;
     }
-
-    public Double getAverageRating() {
+    public double getAverageRating() {
         return averageRating;
     }
-
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public HashSet<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(HashSet<Genre> genres) {
+        this.genres = genres;
     }
 
     @Override

@@ -3,10 +3,10 @@
     <color name="colorPrimary">#235675</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000080</color>
-    <color name="airbnb">#ff9999</color>
+    <color name="pink">#ff9999</color>
 
     <color name="emphasis">#31b6e7</color>
-    <color name="bg_gray">#cecbce</color>
+    <color name="bg_gray">#A6A6A6</color>
 
     <color name="black">#000000</color>
     <color name="jet">#222222</color>
@@ -17,4 +17,6 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+    <color name="indico">#8093FF</color>
+    <color name="green">#648C35</color>
 </resources>

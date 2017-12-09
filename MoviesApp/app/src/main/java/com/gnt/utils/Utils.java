@@ -1,11 +1,10 @@
 package com.gnt.utils;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.gnt.moviesapp.HomeActivity;
 
@@ -14,7 +13,8 @@ import com.gnt.moviesapp.HomeActivity;
  */
 
 public class Utils {
-    public static String USER_LOGIN_PREFERENCES         = "login_preferences";
+    public static String USER_LOGIN_PREFERENCES = "login_preferences";
+
     public static boolean isTokenExpired(String token) {
         RetrofitCalls retrofitCalls = new RetrofitCalls();
         boolean isExpired = retrofitCalls.isTokenExpired(token);
@@ -56,5 +56,9 @@ public class Utils {
         editor.commit();
 
         return sessionData;
+    }
+
+    public static void loadPoster(Context context, ImageView photo, String posterPath){
+
     }
 }
