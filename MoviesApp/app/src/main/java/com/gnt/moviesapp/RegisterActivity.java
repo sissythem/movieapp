@@ -14,37 +14,40 @@ import android.widget.Toast;
 
 import com.gnt.appobjects.User;
 import com.gnt.utils.RetrofitCalls;
-import com.gnt.utils.Session;
+import com.gnt.utils.UserSessionManager;
 import com.gnt.utils.Utils;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    String token;
-    Context c;
+    boolean success;
+    private Context c;
 
-    EditText firstname, lastname, age, email, username, password, confirmpassword;
-    TextView birthdate, loginlink;
-    ImageButton btnBirthDate;
-    Button bregister;
-    Calendar cal;
+    private EditText firstname, lastname, age, email, username, password, confirmpassword;
+    private TextView birthdate, loginlink;
+    private ImageButton btnBirthDate;
+    private Button bregister;
+    private Calendar cal;
     private int mYear, mMonth, mDay;
-    Session sessionData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        c = this;
         setContentView(R.layout.activity_register);
+        initRegisterForm();
+    }
 
+    private void initRegisterForm(){
+        c = this;
         /** Mandatory fields to be completed by user in order to register **/
         firstname = findViewById(R.id.firstname);
         lastname = findViewById(R.id.lastname);
         birthdate = findViewById(R.id.tvBirthDate);
         btnBirthDate = findViewById(R.id.btnBirthDate);
         age = findViewById(R.id.age);
-        email = findViewById(R.id.email);
+        email = findViewById(R.id.username);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         confirmpassword = findViewById(R.id.confirmpassword);
@@ -59,12 +62,21 @@ public class RegisterActivity extends AppCompatActivity {
         password.setSelected(false);
         confirmpassword.setSelected(false);
 
+        linkToLoginActivity();
+        addListenerForCalendar();
+        //when register button is clicked, data are sent to be stored to the database
+        bregister.setOnClickListener((v) -> registerUser());
+    }
+
+    private void linkToLoginActivity(){
         //link the text view loginlink to the LoginActivity in case user has already an account
         loginlink.setOnClickListener((l) -> {
             Intent loginintent = new Intent(RegisterActivity.this, LoginActivity.class);
             RegisterActivity.this.startActivity(loginintent);
         });
+    }
 
+    private void addListenerForCalendar(){
         btnBirthDate.setOnClickListener((v) -> {
             if (v == btnBirthDate) {
                 // Get Current Date
@@ -73,18 +85,12 @@ public class RegisterActivity extends AppCompatActivity {
                 mMonth = cal.get(Calendar.MONTH);
                 mDay = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(RegisterActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        birthdate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                    }
-                }, mYear, mMonth, mDay);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(RegisterActivity.this,
+                        (DatePicker view, int year, int monthOfYear, int dayOfMonth)->
+                                birthdate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year), mYear, mMonth, mDay);
                 datePickerDialog.show();
             }
         });
-
-        //when register button is clicked, data are sent to be stored to the database
-        bregister.setOnClickListener((v) -> registerUser());
     }
 
     private void registerUser() {
@@ -113,44 +119,27 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
         int age = Integer.parseInt(ageUser);
-        token = PostResult(firstName, lastName, Username, Password, Email, age, BirthDate);
+        LocalDate bdate = LocalDate.parse(BirthDate);
+        PostResult(firstName, lastName, Username, Password, Email, age, bdate);
         /** Check if user exists already **/
-        if (token.equals("username exists")) {
-            Toast.makeText(c, "Username already exists, please try again!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (token.equals("email exists")) {
-            Toast.makeText(c, "Email already exists, please try again!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        /** Successful POST request, user is redirected to the home activity and session data are stored in order user to remain logged in **/
-        if (token != null && !token.isEmpty() && (!token.equals("error"))) {
-            sessionData = new Session(token, Username, true);
-            Utils.updateSessionData(RegisterActivity.this, sessionData);
-            Intent homeintent = new Intent(RegisterActivity.this, HomeActivity.class);
-            try {
-                Bundle btoken = new Bundle();
-                homeintent.putExtras(btoken);
-                RegisterActivity.this.startActivity(homeintent);
-                finish();
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                ex.printStackTrace();
-            }
-        } else {
+        if(!success){
             Toast.makeText(c, "Registration failed, please try again!", Toast.LENGTH_SHORT).show();
-            return;
+        }
+        else{
+            /** Successful POST request, user is redirected to the home activity and session data are stored in order user to remain logged in **/
+            Toast.makeText(c, "You have been successfully registered, please login", Toast.LENGTH_SHORT).show();
+            RegisterActivity.this.startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
         }
     }
 
     /**
      * Send user input for posting in the database and create a new user
      **/
-    public String PostResult(String firstname, String lastname, String username, String password, String email, int age, String bdate) {
-        User UserParameters = new User(age, email, firstname, lastname, password, username);
+    public void PostResult(String firstname, String lastname, String username, String password, String email, int age, LocalDate bdate) {
+        User UserParameters = new User(age, email, firstname, lastname, password, username, bdate);
         RetrofitCalls retrofitCalls = new RetrofitCalls();
-        token = retrofitCalls.postUser(UserParameters);
-        return token;
+        success = retrofitCalls.postUser(UserParameters);
     }
 
     @Override

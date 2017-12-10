@@ -41,7 +41,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_credentials">Username or password are incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -59,6 +59,8 @@
     <string name="profile_date_of_birth">Birth Date</string>
     <string name="profile_save_changes">Save changes</string>
     <string name="user_image">Profile Image</string>
+    <string name="title_activity_login2">Sign in</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
 
 
 </resources>

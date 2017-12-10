@@ -49,7 +49,7 @@
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/signin"></activity>
+            android:label="@string/signin" />
     </application>
 
 </manifest>

@@ -28,7 +28,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Integer age, String email, String firstname, String lastname, String password, String username) {
+    public User(Integer age, String email, String firstname, String lastname, String password, String username, LocalDate bdate) {
         super();
         this.age = age;
         this.email = email;
@@ -36,6 +36,7 @@ public class User implements Serializable {
         this.lastname = lastname;
         this.password = password;
         this.username = username;
+        this.birthdate = bdate;
     }
 
     public Integer getId() {
