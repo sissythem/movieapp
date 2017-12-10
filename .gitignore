@@ -38,3 +38,4 @@ pom.xml.tag
 GntMovies-ear/src/main/application/META-INF/GntMovies-ds.xml
 utilities/
 /GntMoviesReport/
+changeGitname.sh
