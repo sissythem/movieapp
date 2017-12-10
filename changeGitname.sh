@@ -1,6 +1,6 @@
 #!/bin/sh
 
-git filter-branch --env-filter '
+git filter-branch -f --env-filter '
 OLD_NAME="usw071"          
 CORRECT_NAME="cthem"            
 CORRECT_EMAIL="c.themeli@gnt.gr"              
