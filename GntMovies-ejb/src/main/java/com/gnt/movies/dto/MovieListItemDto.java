@@ -2,33 +2,37 @@ package com.gnt.movies.dto;
 
 import java.io.Serializable;
 import java.util.Comparator;
-
+import java.util.HashSet;
 import com.gnt.movies.entities.Movie;
 
 public class MovieListItemDto implements Serializable, Comparable<MovieListItemDto> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer id;
 	private String originalTitle;
 	private String posterPath;
 	private Double voteAverage;
-    private int voteCount;
-    private Double averageRating;
-    
+  private int voteCount;
+  private Double averageRating;
+	private String overview;
+	private HashSet<Genre>genres;
+
     public MovieListItemDto() {
     	
     }
 
-	public MovieListItemDto(Integer id, String originalTitle, String posterPath, Double voteAverage, int voteCount) {
+	public MovieListItemDto(Integer id, String originalTitle, String posterPath, Double voteAverage, int voteCount, String overview, HashSet<Genre> genres) {
 		super();
 		this.id = id;
 		this.originalTitle = originalTitle;
 		this.posterPath = posterPath;
 		this.voteAverage = voteAverage;
 		this.voteCount = voteCount;
+		this.overview = overview;
+		this.genres = genres;
 	}
-	
+
 	public MovieListItemDto(Movie movie) {
 		super();
 		this.id = movie.getId();
@@ -37,6 +41,8 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
 		this.voteAverage = movie.getVoteAverage();
 		this.voteCount = movie.getVoteCount();
 		this.averageRating = movie.getAverageRating();
+		this.overview = movie.getOverview();
+		this.genres = movie.getGenres();
 	}
 	public Integer getId() {
 		return id;
@@ -77,6 +83,22 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
 		this.averageRating = averageRating;
 	}
 
+	public String getOverview(){
+		return this.overview;
+	}
+
+	public void setOverview(String overview){
+		this.overview = overview;
+	}
+
+	public HashSet<Genre> getGenres(){
+		return this.genres;
+	}
+
+	public void setGenres(HashSet<Genre> genres){
+		this.genres = genres;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -95,7 +117,7 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
