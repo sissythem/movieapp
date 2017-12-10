@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.gnt.appobjects.User;
 import com.gnt.utils.RetrofitCalls;
-import com.gnt.utils.UserSessionManager;
-import com.gnt.utils.Utils;
 
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -64,12 +62,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         linkToLoginActivity();
         addListenerForCalendar();
-        //when register button is clicked, data are sent to be stored to the database
         bregister.setOnClickListener((v) -> registerUser());
     }
 
     private void linkToLoginActivity(){
-        //link the text view loginlink to the LoginActivity in case user has already an account
         loginlink.setOnClickListener((l) -> {
             Intent loginintent = new Intent(RegisterActivity.this, LoginActivity.class);
             RegisterActivity.this.startActivity(loginintent);
@@ -94,43 +90,59 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
-        final String firstName = firstname.getText().toString();
-        final String lastName = lastname.getText().toString();
-        final String BirthDate = birthdate.getText().toString();
-        final String ageUser = this.age.getText().toString();
-        final String Email = email.getText().toString();
-        final String Username = username.getText().toString();
-        final String Password = password.getText().toString();
-        final String ConfirmPassword = confirmpassword.getText().toString();
 
-
-        //check if user has filled all fields of the registration form
-        if (Username.length() == 0 || firstName.length() == 0 || lastName.length() == 0 || age.length() == 0 || Email.length() == 0 || Password.length() == 0
-                || ConfirmPassword.length() == 0 || BirthDate.length() == 0) {
-            //if something is not filled in, user must fill again the form
+        String[] userInput = getUserInput();
+        boolean completed = completedMandatoryFields(userInput);
+        if(!completed) {
             Toast.makeText(c, "Please fill in all fields!", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        //check if password and confirmation of password are equal
-        if (!Password.equals(ConfirmPassword)) {
-            //if there is a mismatch a message appears and user must fill in again the fields
+        boolean passMatch = checkPasswordMatch(userInput[6], userInput[7]);
+        if(!passMatch){
             Toast.makeText(c, "Passwords do not match, please try again!", Toast.LENGTH_SHORT).show();
             return;
         }
-        int age = Integer.parseInt(ageUser);
-        LocalDate bdate = LocalDate.parse(BirthDate);
-        PostResult(firstName, lastName, Username, Password, Email, age, bdate);
+        int age = Integer.parseInt(userInput[3]);
+        LocalDate bdate = LocalDate.parse(userInput[2]);
+        PostResult(userInput[0], userInput[1], userInput[5], userInput[6], userInput[4], age, bdate);
         /** Check if user exists already **/
         if(!success){
             Toast.makeText(c, "Registration failed, please try again!", Toast.LENGTH_SHORT).show();
         }
         else{
-            /** Successful POST request, user is redirected to the home activity and session data are stored in order user to remain logged in **/
+            /** Successful POST request, user will be redirected to LoginActivity **/
             Toast.makeText(c, "You have been successfully registered, please login", Toast.LENGTH_SHORT).show();
             RegisterActivity.this.startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             finish();
         }
+    }
+
+    private String[] getUserInput(){
+        String[] userInput = new String[8];
+        userInput[0]       = firstname.getText().toString();
+        userInput[1]       = lastname.getText().toString();
+        userInput[2]       = birthdate.getText().toString();
+        userInput[3]       = age.getText().toString();
+        userInput[4]       = email.getText().toString();
+        userInput[5]       = username.getText().toString();
+        userInput[6]       = password.getText().toString();
+        userInput[7]       = confirmpassword.getText().toString();
+        return userInput;
+    }
+
+    private boolean completedMandatoryFields(String[] userInput){
+        if (userInput[5].length() == 0 || userInput[0].length() == 0 || userInput[1].length() == 0 || userInput[3].length() == 0
+                || userInput[4].length() == 0 || userInput[6].length() == 0 || userInput[7].length() == 0 || userInput[2].length() == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkPasswordMatch(String password, String confirmPass){
+        if (!password.equals(confirmPass)) {
+            return false;
+        }
+        return true;
     }
 
     /**
