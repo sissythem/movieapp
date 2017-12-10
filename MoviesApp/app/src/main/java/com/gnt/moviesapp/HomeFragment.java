@@ -79,6 +79,7 @@ public class HomeFragment extends Fragment {
             username = getArguments().getString(USERNAME);
             token = getArguments().getString(TOKEN);
         }
+
     }
 
     @Override
