@@ -3,6 +3,9 @@ package com.gnt.movies.dto;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Set;
+
+import com.gnt.movies.entities.Genre;
 import com.gnt.movies.entities.Movie;
 
 public class MovieListItemDto implements Serializable, Comparable<MovieListItemDto> {
@@ -16,7 +19,7 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
   private int voteCount;
   private Double averageRating;
 	private String overview;
-	private HashSet<Genre>genres;
+	private Set<Genre>genres;
 
     public MovieListItemDto() {
     	
@@ -91,7 +94,7 @@ public class MovieListItemDto implements Serializable, Comparable<MovieListItemD
 		this.overview = overview;
 	}
 
-	public HashSet<Genre> getGenres(){
+	public Set<Genre> getGenres(){
 		return this.genres;
 	}
 
