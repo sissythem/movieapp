@@ -15,8 +15,6 @@ import com.gnt.moviesapp.HomeActivity;
 public class Utils {
     public static String USER_LOGIN_PREFERENCES = "login_preferences";
 
-
-
     public static void loadPoster(Context context, ImageView photo, String posterPath){
 
     }

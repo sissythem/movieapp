@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.gnt.appobjects.MovieDto;
+import com.gnt.appobjects.UserDto;
 import com.gnt.moviesapp.R;
 
 import java.util.ArrayList;
@@ -21,12 +22,12 @@ import java.util.ArrayList;
 
 public class RecyclerAdapterMovies extends RecyclerView.Adapter<RecyclerAdapterMovies.MoviesCardHolder>{
 
-        Context context;
-        Boolean user;
-        ArrayList<MovieDto> movies = new ArrayList<>();
+        private Context context;
+        UserDto user;
+        private ArrayList<MovieDto> movies = new ArrayList<>();
         public void setSearchList(ArrayList<MovieDto> movies) {this.movies = movies;}
 
-        public RecyclerAdapterMovies(Context context, Boolean user, ArrayList<MovieDto> movies) {
+        public RecyclerAdapterMovies(Context context, UserDto user, ArrayList<MovieDto> movies) {
             this.context    = context;
             this.user       = user;
             this.movies     = movies;
