@@ -1631,6 +1631,27 @@ div.v-layout.v-horizontal.v-widget {
 	vertical-align: top;
 }
 
+@font-face {
+	font-family: "MaterialIcons";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Material Icons"), local("MaterialIcons-Regular"), url(../../../VAADIN/addons/materialicons/MaterialIcons-Regular.woff2) format("woff2"), url(../../../VAADIN/addons/materialicons/MaterialIcons-Regular.woff) format("woff"), url(../../../VAADIN/addons/materialicons/MaterialIcons-Regular.ttf) format("truetype");
+}
+
+.mytheme .MaterialIcons {
+	font-family: "MaterialIcons";
+	font-weight: normal;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+	font-feature-settings: "liga";
+}
+
 .mytheme.v-app, .mytheme.v-app-loading {
 	font: 300 16px/1.55 "Open Sans", sans-serif;
 	color: #464646;

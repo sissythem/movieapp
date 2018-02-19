@@ -1,5 +1,7 @@
 package com.gnt.movies.beans;
 
+import java.util.ArrayList;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -34,6 +36,18 @@ public class UserBean implements DataProviderHolder {
 		return userDao.UsernameExists(this, username);
 	}
 
+	public boolean emailExists(String email) {
+		return userDao.EmailExists(this, email);
+	}
+	
+	public User getUserByEmail(String email) {
+		return userDao.findUserByEmail(this, email);
+	}
+	
+	public User getUserByUsername(String username) {
+		return userDao.findUserByUsername(this, username);
+	}
+	
 	public boolean registerUser(User user) {
 		logger.info("Register user");
 		if (userDao.UsernameExists(this, user.getUsername()) || userDao.EmailExists(this, user.getEmail())) 
@@ -73,6 +87,10 @@ public class UserBean implements DataProviderHolder {
 	
 	public UserSessionDto findUserDtoByUsername(String username) {
 		return new UserSessionDto(findUserByUsername(username));
+	}
+	
+	public ArrayList<User> getUsers(){
+		return userDao.findAllUsers(this);
 	}
 	
 	@Override

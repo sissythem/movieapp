@@ -15,6 +15,7 @@ public interface UserDao {
 	User findUserByEmail(DataProviderHolder dataProviderHolder, String email);
 	User findUserByPassword(DataProviderHolder dataProviderHolder, String password);
 	ArrayList<User> findByAge(DataProviderHolder dataProviderHolder, int age);
+	ArrayList<User> findAllUsers(DataProviderHolder dataProviderHolder);
 	boolean checkCredentials(DataProviderHolder dataProviderHolder, String username, String password);
 	boolean checkToken(DataProviderHolder dataProviderHolder, String token);
 }

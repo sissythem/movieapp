@@ -2,6 +2,7 @@ package com.gnt.movies.GntMovies_web.UI;
 
 import javax.inject.Inject;
 
+import com.gnt.movies.GntMovies_web.UI.views.MainView;
 import com.gnt.movies.beans.MovieBean;
 import com.gnt.movies.beans.NowPlayingMovieBean;
 import com.gnt.movies.beans.UpcomingMovieBean;
@@ -34,10 +35,10 @@ public class MyUI extends UI {
         
         Responsive.makeResponsive(this);
         setLocale(vaadinRequest.getLocale());
-        getPage().setTitle("Gnt-Movies");
+        getPage().setTitle("MovieDB");
         
         
-        setContent(new MainLayout(this));
+        setContent(new MainView());
     }
 
 	public static MyUI get(){

@@ -83,4 +83,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 		return (result == null ? false : true);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<User> findAllUsers(DataProviderHolder dataProviderHolder) {
+		return (ArrayList<User>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.USER_FIND_ALL).getResultList();
+	}
+
 }
