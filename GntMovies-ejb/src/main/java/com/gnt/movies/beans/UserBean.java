@@ -31,6 +31,14 @@ public class UserBean implements DataProviderHolder {
 
 	public UserBean() {
 	}
+	
+	public void updateUser(User user) {
+		userDao.updateUser(this, user);
+	}
+	
+	public void deleteUser(User user) {
+		userDao.deleteUser(this, user);
+	}
 
 	public boolean usernameExists(String username) {
 		return userDao.UsernameExists(this, username);

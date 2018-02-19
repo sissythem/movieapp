@@ -34,6 +34,7 @@ import com.google.gson.annotations.SerializedName;
 @Entity
 @Table(name = "movies")
 @NamedQueries({ 
+		@NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m"),
 		@NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.id = :id"),
 		@NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title = :title"),
 		@NamedQuery(name = "Movie.findByOriginalTitle", query = "SELECT m FROM Movie m WHERE m.originalTitle = :originalTitle"),
@@ -50,7 +51,7 @@ import com.google.gson.annotations.SerializedName;
 		@NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbId = :imdbId") 
 })
 @NamedNativeQueries({
-	@NamedNativeQuery(name = "Movie.findAll", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM movies as m", resultSetMapping = "MovieListItemDto")
+	@NamedNativeQuery(name = "Movie.finddto", query = "SELECT m.id, m.originalTitle, m.posterPath, m.voteAverage, m.voteCount FROM movies as m", resultSetMapping = "MovieListItemDto")
 })
 @SqlResultSetMapping(name = "MovieListItemDto", classes = {
 		@ConstructorResult(targetClass = MovieListItemDto.class, columns = { @ColumnResult(name = "id"),

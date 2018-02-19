@@ -31,8 +31,8 @@ public class MovieDaoImpl extends AbstractDao implements MovieDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<MovieListItemDto> getAll(DataProviderHolder dataProviderHolder) {
-		return (List<MovieListItemDto>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList(); 
+	public List<Movie> getAll(DataProviderHolder dataProviderHolder) {
+		return (List<Movie>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.MOVIE_FIND_ALL).getResultList(); 
 	}
 
 	@Override

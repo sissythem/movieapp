@@ -100,6 +100,15 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
+	public User(String name, String lastname, int age, String email, String username, String password) {
+		this.firstname=name;
+		this.lastname=lastname;
+		this.age=age;
+		this.email=email;
+		this.username=username;
+		this.password=password;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}

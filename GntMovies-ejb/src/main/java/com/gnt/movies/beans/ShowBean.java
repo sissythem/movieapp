@@ -1,6 +1,7 @@
 package com.gnt.movies.beans;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -57,6 +58,14 @@ public class ShowBean implements DataProviderHolder {
 		if (showFromDb == null)
 			showFromDb = addNewShow(show);
 		return showFromDb;
+	}
+	
+	public ArrayList<Show> getShows(){
+		return (ArrayList<Show>)showDao.findAllShows(this);
+	}
+	
+	public void deleteShow(Show show) {
+		showDao.deleteShow(this, show);
 	}
 
 	public Show addNewShow(Show show) {
@@ -124,5 +133,9 @@ public class ShowBean implements DataProviderHolder {
 
 	public Show findShowById(Integer id) {
 		return showDao.findShowById(this, id);
+	}
+	
+	public void updateShowInDataBase(Show show) {
+		showDao.updateShow(this, show);
 	}
 }

@@ -23,7 +23,6 @@ public class UserForm extends VerticalLayout {
 	private TextField emailtf;
 	private PasswordField passwdtf;
 	private TextField agetf;
-	private TextField birthdatetf;
 
 	public UserForm(UserFormLayout userFormLayout) {
 		this.userFormLayout = userFormLayout;
@@ -31,7 +30,7 @@ public class UserForm extends VerticalLayout {
 		initFields();
 		addPlaceHolders();
 		addValidation();
-		addComponents(nametf, lastnametf, usernametf, emailtf, passwdtf, agetf, birthdatetf);
+		addComponents(nametf, lastnametf, usernametf, emailtf, passwdtf, agetf);
 		updateFields();
 	}
 
@@ -42,7 +41,6 @@ public class UserForm extends VerticalLayout {
 		emailtf = new TextField(Utilities.EMAIL_FIELD);
 		passwdtf = new PasswordField(Utilities.PASSWORD_FIELD);
 		agetf = new TextField(Utilities.AGE_FIELD);
-		birthdatetf = new TextField(Utilities.BIRTHDATE_FIELD);
 	}
 
 	private void addPlaceHolders() {
@@ -52,7 +50,6 @@ public class UserForm extends VerticalLayout {
 		emailtf.setPlaceholder(Utilities.EMAIL_FIELD);
 		passwdtf.setPlaceholder(Utilities.PASSWORD_FIELD);
 		agetf.setPlaceholder(Utilities.AGE_FIELD);
-		birthdatetf.setPlaceholder(Utilities.BIRTHDATE_FIELD);
 	}
 
 	private void addValidation() {
@@ -81,7 +78,6 @@ public class UserForm extends VerticalLayout {
 		emailtf.setWidth(FIELD_WIDTH);
 		passwdtf.setWidth(FIELD_WIDTH);
 		agetf.setWidth(FIELD_WIDTH);
-		birthdatetf.setWidth(FIELD_WIDTH);
 	}
 
 	private void addValueChangeListener() {
@@ -91,7 +87,6 @@ public class UserForm extends VerticalLayout {
 		emailtf.addValueChangeListener(event -> setFieldChanged(true));
 		passwdtf.addValueChangeListener(event -> setFieldChanged(true));
 		agetf.addValueChangeListener(event -> setFieldChanged(true));
-		birthdatetf.addValueChangeListener(event -> setFieldChanged(true));
 	}
 
 	private void setRequiredFields() {
@@ -110,7 +105,6 @@ public class UserForm extends VerticalLayout {
 		emailtf.clear();
 		passwdtf.clear();
 		agetf.clear();
-		birthdatetf.clear();
 	}
 
 	public TextField getNametf() {
@@ -167,14 +161,6 @@ public class UserForm extends VerticalLayout {
 
 	public void setAgetf(TextField agetf) {
 		this.agetf = agetf;
-	}
-
-	public TextField getBirthdatetf() {
-		return birthdatetf;
-	}
-
-	public void setBirthdatetf(TextField birthdatetf) {
-		this.birthdatetf = birthdatetf;
 	}
 
 	public boolean isFieldChanged() {

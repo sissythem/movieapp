@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.List;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 
@@ -39,5 +41,11 @@ public class ShowDaoImpl extends AbstractDao implements ShowDao {
 	@Override
 	public Show findShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb) {
 		return (Show)findSingleEntity(dataProviderHolder.getEntityManager(), Utils.SHOW_FIND_BY_IDTMDB, "idTmdb", idTmdb);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Show> findAllShows(DataProviderHolder dataProviderHolder) {
+		return (List<Show>)dataProviderHolder.getEntityManager().createNamedQuery(Utils.SHOW_FIND_ALL).getResultList(); 
 	}
 }

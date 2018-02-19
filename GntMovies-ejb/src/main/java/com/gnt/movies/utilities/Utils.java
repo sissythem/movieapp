@@ -3,6 +3,7 @@ package com.gnt.movies.utilities;
 public class Utils 
 {
 	public static String API_KEY = "?api_key=eaf5fc7d22157774a158a75a3ed6fe9c";
+	private static final Logger logger = LoggerFactory.getLogger("console");
 	
 	/** 
 	 * URLs for TheMovieDB
@@ -78,6 +79,7 @@ public class Utils
 	public static String SHOW_FIND_BY_ID = "Show.findById";
 	public static String SHOW_FIND_BY_NAME = "Show.findByName";
 	public static String SHOW_FIND_BY_IDTMDB = "Show.findByIdTmdb";
+	public static String SHOW_FIND_ALL = "Show.findAll";
 	
 	/** Air2day show named queries**/
 	public static String AIR2DAY_SHOW_FIND_BY_SHOW_ID = "Air2dayShow.findByShowId";
@@ -136,4 +138,7 @@ public class Utils
 	/** Images named queries**/
 	public static String IMAGE_FIND_BY_ID = "Image.findById";
 	
+	public static Logger getLogger() {
+		return logger;
+	}
 }

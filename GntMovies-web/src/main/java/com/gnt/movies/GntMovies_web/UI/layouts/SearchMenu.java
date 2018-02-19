@@ -44,7 +44,7 @@ public class SearchMenu extends HorizontalLayout {
 	private boolean checkIfIsFieldChanged() {
 		return menuView.getGridFormLayout().getUserFormLayout().getUserForm().isFieldChanged() ||
 				menuView.getGridFormLayout().getMovieFormLayout().getMovieForm().isFieldChanged() ||
-				menuView.getGridFormLayout().getShowFormLayout().getShowForm.isFieldChanged;
+				menuView.getGridFormLayout().getShowFormLayout().getShowForm().isFieldChanged();
 	}
 	
 	private void showDiscardChangesWindow(MenuSelection selectedItem) {

@@ -1,5 +1,7 @@
 package com.gnt.movies.dao;
 
+import java.util.List;
+
 import com.gnt.movies.entities.Show;
 
 public interface ShowDao {
@@ -9,4 +11,5 @@ public interface ShowDao {
 	Show findShowById(DataProviderHolder dataProviderHolder, Integer id);
 	Show findShowByName(DataProviderHolder dataProviderHolder, String name);
 	Show findShowByIdTmdb(DataProviderHolder dataProviderHolder, Integer idTmdb);
+	List<Show> findAllShows(DataProviderHolder dataProviderHolder);
 }

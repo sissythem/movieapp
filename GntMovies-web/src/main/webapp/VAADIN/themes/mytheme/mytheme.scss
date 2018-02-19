@@ -29,10 +29,80 @@
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
 
-@import "../valo/valo.scss";
+$mat-background-color: #fafafa; // #fafafa for a light and #303030 for a dark theme
+$v-focus-color: #00BCD4; // (You can find colors at materialpalette.com) $v-focus-color is supposed to be your accent color
+// Note: " ... Using colors from the Material Design palette is optional. ... "
+@import "../material/material.scss"; 
+@import "addons.scss";
 
 @mixin mytheme {
-  @include valo;
+  @include material;
+	@include addons;
+	
+  	.v-label-apptitle {
+  		margin-top: 10px;
+  		margin-bottom: 10px;
+	    font-size: 18px;
+	    color: #E0E0E0;
+	    line-height: normal;
+   	}
+   	
+   	.loginformtitle {
+	    font-size: 24px;
+	    color: black;
+	    line-height: normal;
+   	}
+	  	
+  	:not(.v-upload) > * > .v-button.v-button-loginbutton{
+	    background-color: black !important;   
+	    font-size: 12pt;
+	    font-weight: bold;
+	    color: white;
+	    border-color: black;
+	    border-radius: 0px;
+	    border-width: 4px;
+	    background-image: none;
+	}
 
-  // Insert your own theme rules here
+	
+	.loginimage {
+      	background: url("images/bg.jpg") repeat;
+	}
+	
+	.menuimage {
+		background: url("images/bg3.jpg") no-repeat;
+		background-size: cover;
+	}
+	
+	.menuitem {
+		padding: 15px;
+		font-size: 16px;
+	    color: #E0E0E0;
+	    line-height: normal;
+	}
+	
+	:not(.v-upload) > * > .v-button.v-button-updatebtn {
+    	background-color: #4b4b65 !important;
+    	color: white !important;
+	}
+
+	.v-grid tr.v-selected {
+    	background-color: #4b4b65;
+    	font-color: #fff;
+	}
+	
+	.windowtext {
+		color: #6C6C6C;
+		font-size: 18px;
+	}
+	
+    .v-slot-searchfield .v-has-caption .v-caption-searchfield{
+    	height: 45px;
+    	position: absolute;
+    }
+    
+    .selectedstyle {
+    	color: inherit !important;
+   		background: #dfdfdf !important;
+    }
 }

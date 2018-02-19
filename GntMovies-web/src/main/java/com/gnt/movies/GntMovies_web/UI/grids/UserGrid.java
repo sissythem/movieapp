@@ -54,7 +54,6 @@ public class UserGrid extends Grid<User> {
 		userForm.getUsernametf().setValue(selectedUser.getUsername());
 		userForm.getEmailtf().setValue(selectedUser.getEmail());
 		userForm.getAgetf().setValue(selectedUser.getAge().toString());
-		userForm.getBirthdatetf().setValue(selectedUser.getBirthdate().toString());
 		gridFormPanel.getHsplit().setSecondComponent(gridFormPanel.getUserFormLayout());
 	}
 
