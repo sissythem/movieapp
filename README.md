@@ -423,4 +423,59 @@ Under the rest package, there are the rest services implementations where the cl
 
 ## Vaadin Project
 
+In the EAR section, we have described how we have created the Vaadin Project. After having created the project, it is necessary to add below dependencies:
+
+```
+<!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-cdi -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-cdi</artifactId>
+			<version>2.0.0</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+```
+
+In addition, we have to delete the servlet from MyUI.java so as to be able to inject our beans to the UI. In order to do this we add the @CDIUI annotation and
+also below web.xml:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<display-name>gntMovies-ui</display-name>
+	<module-name>gntMovies</module-name>
+	<context-param>
+		<description>Vaadin production mode</description>
+		<param-name>productionMode</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>myApplication_servlet</servlet-name>
+		<servlet-class>com.vaadin.cdi.server.VaadinCDIServlet</servlet-class>
+		<init-param>
+			<param-name>UI</param-name>
+			<param-value>com.gnt.movies.GntMovies_web.MyUI</param-value>
+		</init-param>
+		<async-supported>true</async-supported>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>myApplication_servlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+</web-app>
+
+```
+
+The web.xml is under the folder src/main/webapp/WEBINF. 
 ## Android Project
