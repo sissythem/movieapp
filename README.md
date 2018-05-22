@@ -423,7 +423,7 @@ Under the rest package, there are the rest services implementations where the cl
 
 ## Vaadin Project
 
-In the EAR section, we have described how we have created the Vaadin Project. After having created the project, it is necessary to add below dependencies:
+In the EAR section, we have described how we have created the Vaadin project. In order to be able to inject our beans to the UI, we have added below dependencies to the pom.xml file:
 
 ```
 <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-cdi -->
@@ -437,12 +437,19 @@ In the EAR section, we have described how we have created the Vaadin Project. Af
 			<artifactId>cdi-api</artifactId>
 			<version>1.2</version>
 		</dependency>
-
 ```
 
-In addition, we have to delete the servlet from MyUI.java so as to be able to inject our beans to the UI. In order to do this we add the @CDIUI annotation and
-also below web.xml:
+Additionally, we have delete from MyUI.java the method related to WebServlet and we have added a WEB-INF folder in src/main/webapp directory. In WEB_INF folder, two files are included: 
 
+* beans.xml
+```
+<?xml version="1.0"?>
+<beans bean-discovery-mode="all" version="2.0"
+ xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_2_0.xsd"/>
+
+```
+* web.xml
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -474,8 +481,58 @@ also below web.xml:
 	</session-config>
 
 </web-app>
-
 ```
 
-The web.xml is under the folder src/main/webapp/WEBINF. 
+Now we can inject our beans in MyUI.java, by adding the annotation @CDIUI:
+
+```
+@Theme("mytheme")
+@CDIUI("")
+public class MyUI extends UI {
+	private static final long serialVersionUID = 1L;
+
+	@Inject private UserBean userBean;
+	@Inject private MovieBean movieBean;
+	@Inject private UpcomingMovieBean upcomingMovieBean;
+	@Inject private NowPlayingMovieBean nowPlayingMovieBean;
+	@Inject private ShowBean showBean;
+	
+	@Override
+    protected void init(VaadinRequest vaadinRequest) {
+        
+        Responsive.makeResponsive(this);
+        setLocale(vaadinRequest.getLocale());
+        getPage().setTitle("MovieDB");
+        
+        
+        setContent(new MainView());
+    }
+
+	public static MyUI get(){
+		return (MyUI)UI.getCurrent();
+	}	
+	
+	public UserBean getUserBean() {
+		return userBean;
+	}
+
+	public MovieBean getMovieBean() {
+		return movieBean;
+	}
+
+	public UpcomingMovieBean getUpcomingMovieBean() {
+		return upcomingMovieBean;
+	}
+
+	public NowPlayingMovieBean getNowPlayingMovieBean() {
+		return nowPlayingMovieBean;
+	}
+
+	public ShowBean getShowBean() {
+		return showBean;
+	}
+
+}
+```
+
 ## Android Project
